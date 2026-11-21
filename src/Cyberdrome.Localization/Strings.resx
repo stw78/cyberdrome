@@ -3075,4 +3075,13 @@ Do you also want to remove my data?
   <data name="Screen_VideoFps0" xml:space="preserve">
     <value>{0} frames/s (video stream)</value>
   </data>
+  <data name="Ui_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Ui_BackTip" xml:space="preserve">
+    <value>Back (right-click or the mouse back button on the screen, or Backspace)</value>
+  </data>
+  <data name="Ui_HomeTip" xml:space="preserve">
+    <value>Home (middle-click on the screen)</value>
+  </data>
 </root>

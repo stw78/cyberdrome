@@ -127,3 +127,21 @@ public sealed partial class MainViewModel
         OnPropertyChanged(nameof(HasAndroidObdAddress));
     }
 }
+
+/// <summary>Tillbaka och Hem i Android (knappar, högerklick, musens bakåtknapp, Backspace).</summary>
+public sealed partial class MainViewModel
+{
+    [CommunityToolkit.Mvvm.Input.RelayCommand]
+    private Task AndroidBack() => AndroidKeyAsync(Cyberdrome.Vm.Skins.SkinButton.Keys.Back);
+
+    [CommunityToolkit.Mvvm.Input.RelayCommand]
+    private Task AndroidHome() => AndroidKeyAsync(Cyberdrome.Vm.Skins.SkinButton.Keys.Home);
+
+    /// <summary>Skickar en Android-tangent (t.ex. KEYCODE_BACK = 4) om Android kör.</summary>
+    public async Task AndroidKeyAsync(int keyCode)
+    {
+        if (_android is not IScreenControl s || !AndroidRunning) return;
+        try { await s.KeyEventAsync(keyCode); }
+        catch (Exception ex) { AndroidLogLine(L.T("Main_ErrorPrefix") + ex.Message); }
+    }
+}

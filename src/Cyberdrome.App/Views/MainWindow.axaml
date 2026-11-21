@@ -201,9 +201,18 @@
                   <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding SelectedThemeOption}" Width="185" ToolTip.Tip="{l:T Ui_ThemeInAndroid}" />
                   <ComboBox ItemsSource="{Binding SkinOptions}" SelectedItem="{Binding SelectedSkinOption}" Width="185" ToolTip.Tip="{l:T Ui_Skin}" />
                 </WrapPanel>
-                <Button Grid.Column="1" Classes="icon" VerticalAlignment="Top" Margin="12,0,0,0" Click="ToggleFullscreenClick" ToolTip.Tip="{l:T Ui_FullscreenTip}">
-                  <l:LineIcon Data="{StaticResource Icon.maximize-2}" />
-                </Button>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Top" Margin="12,0,0,0">
+                  <!-- Tillbaka och Hem i Android (även högerklick/musens bakåtknapp och Backspace på skärmen) -->
+                  <Button Classes="icon" Command="{Binding AndroidBackCommand}" IsEnabled="{Binding AndroidRunning}" ToolTip.Tip="{l:T Ui_BackTip}">
+                    <l:LineIcon Data="{StaticResource Icon.arrow-left}" />
+                  </Button>
+                  <Button Classes="icon" Command="{Binding AndroidHomeCommand}" IsEnabled="{Binding AndroidRunning}" ToolTip.Tip="{l:T Ui_HomeTip}">
+                    <l:LineIcon Data="{StaticResource Icon.house}" />
+                  </Button>
+                  <Button Classes="icon" Click="ToggleFullscreenClick" ToolTip.Tip="{l:T Ui_FullscreenTip}">
+                    <l:LineIcon Data="{StaticResource Icon.maximize-2}" />
+                  </Button>
+                </StackPanel>
               </Grid>
 
               <!-- Under skärmen: OBD-adresser och (när Android är igång) appar och rattknappar -->
@@ -289,14 +298,21 @@
                     </Border>
                   </Grid>
                 </views:SkinHost>
-                <Button x:Name="ExitFullscreenButton" IsVisible="False" Click="ToggleFullscreenClick"
-                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,14,0" Padding="14,8" CornerRadius="999"
-                        Background="#CC1C1C1E" ToolTip.Tip="Esc / F11">
-                  <StackPanel Orientation="Horizontal" Spacing="8">
-                    <l:LineIcon Data="{StaticResource Icon.minimize-2}" Foreground="White" Size="16" />
-                    <TextBlock Text="{l:T Ui_ExitFullscreen}" Foreground="White" />
-                  </StackPanel>
-                </Button>
+                <StackPanel x:Name="ExitFullscreenButton" IsVisible="False" Orientation="Horizontal" Spacing="8"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,14,0">
+                  <Button Command="{Binding AndroidBackCommand}" Padding="12,8" CornerRadius="999" Background="#CC1C1C1E" ToolTip.Tip="{l:T Ui_BackTip}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <l:LineIcon Data="{StaticResource Icon.arrow-left}" Foreground="White" Size="16" />
+                      <TextBlock Text="{l:T Ui_Back}" Foreground="White" />
+                    </StackPanel>
+                  </Button>
+                  <Button Click="ToggleFullscreenClick" Padding="14,8" CornerRadius="999" Background="#CC1C1C1E" ToolTip.Tip="Esc / F11">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <l:LineIcon Data="{StaticResource Icon.minimize-2}" Foreground="White" Size="16" />
+                      <TextBlock Text="{l:T Ui_ExitFullscreen}" Foreground="White" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
               </Grid>
             </DockPanel>
           </Border>
@@ -616,7 +632,10 @@
                     <TextBlock Classes="small" Text="{Binding AndroidSwitchText}" VerticalAlignment="Center" MinWidth="58" />
                   </StackPanel>
                 </Border>
-                                <Button Classes="plain" Command="{Binding OpenAndroidScreenCommand}" IsEnabled="{Binding AndroidRunning}">
+                                <Button Classes="plain" Command="{Binding AndroidBackCommand}" IsEnabled="{Binding AndroidRunning}" ToolTip.Tip="{l:T Ui_BackTip}">
+                  <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.arrow-left}" Size="16" /><TextBlock Text="{l:T Ui_Back}" /></StackPanel>
+                </Button>
+                <Button Classes="plain" Command="{Binding OpenAndroidScreenCommand}" IsEnabled="{Binding AndroidRunning}">
                   <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.monitor}" Size="16" /><TextBlock Text="{l:T Ui_ShowTheScreen}" /></StackPanel>
                 </Button>
                 <Button Classes="plain" Click="PickApk" IsEnabled="{Binding AndroidRunning}">

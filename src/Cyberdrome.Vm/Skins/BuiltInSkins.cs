@@ -27,9 +27,10 @@ public static class BuiltInSkins
             ScreenPreset = "10in-1560x700", Orientation = ScreenOrientation.Landscape,
             Buttons =
             [
-                B(L.T("BuiltInSkins_VolumeDown"), 560, 790, 110, 60, SkinButton.Keys.VolumeDown, "−"),
-                B(L.T("BuiltInSkins_VolumeUp"), 930, 790, 110, 60, SkinButton.Keys.VolumeUp, "+"),
-                B("Hem", 700, 790, 200, 60, SkinButton.Keys.Home, "⌂"),
+                B(L.T("BuiltInSkins_VolumeDown"), 540, 790, 90, 60, SkinButton.Keys.VolumeDown, "−"),
+                B("Tillbaka", 640, 790, 100, 60, SkinButton.Keys.Back, "↩"),
+                B("Hem", 750, 790, 130, 60, SkinButton.Keys.Home, "⌂"),
+                B(L.T("BuiltInSkins_VolumeUp"), 890, 790, 90, 60, SkinButton.Keys.VolumeUp, "+"),
             ],
         },
         // Fristående 10" skärm med kromram och knapprad under.
@@ -41,9 +42,10 @@ public static class BuiltInSkins
             ScreenPreset = "10in-1280x800", Orientation = ScreenOrientation.Landscape,
             Buttons =
             [
-                B(L.T("BuiltInSkins_VolumeDown"), 600, 775, 100, 50, SkinButton.Keys.VolumeDown, "−"),
-                B("Hem", 720, 775, 160, 50, SkinButton.Keys.Home, "⌂"),
-                B(L.T("BuiltInSkins_VolumeUp"), 900, 775, 100, 50, SkinButton.Keys.VolumeUp, "+"),
+                B(L.T("BuiltInSkins_VolumeDown"), 590, 775, 90, 50, SkinButton.Keys.VolumeDown, "−"),
+                B("Tillbaka", 690, 775, 100, 50, SkinButton.Keys.Back, "↩"),
+                B("Hem", 800, 775, 100, 50, SkinButton.Keys.Home, "⌂"),
+                B(L.T("BuiltInSkins_VolumeUp"), 910, 775, 90, 50, SkinButton.Keys.VolumeUp, "+"),
             ],
         },
         // Bred skärm, lätt vinklad mot föraren, rad med snabbknappar och volymvred under.
@@ -73,6 +75,7 @@ public static class BuiltInSkins
             ScreenPreset = "9in-1024x768", Orientation = ScreenOrientation.Portrait,
             Buttons =
             [
+                B("Tillbaka", 355, 935, 90, 50, SkinButton.Keys.Back, "↩"),
                 B("Hem", 455, 935, 90, 50, SkinButton.Keys.Home, "⌂"),
                 B(L.T("ScreenControl_Previous"), 300, 1080, 100, 70, SkinButton.Keys.Previous, "⏮"),
                 B("Spela/paus", 450, 1060, 100, 100, SkinButton.Keys.PlayPause, "⏯"),
@@ -108,6 +111,7 @@ public static class BuiltInSkins
             ScreenPreset = "8in-800x480", Orientation = ScreenOrientation.Landscape,
             Buttons =
             [
+                B("Tillbaka", 290, 760, 120, 70, SkinButton.Keys.Back, "↩"),
                 B(L.T("ScreenControl_Previous"), 430, 760, 120, 70, SkinButton.Keys.Previous, "⏮"),
                 B("Spela/paus", 570, 760, 120, 70, SkinButton.Keys.PlayPause, "⏯"),
                 B(L.T("ScreenControl_Next"), 710, 760, 120, 70, SkinButton.Keys.Next, "⏭"),

@@ -23,6 +23,16 @@ public sealed class WebScreenHost : NativeControlHost
     /// <summary>WebView2 kunde inte startas (då används skärmdumpar).</summary>
     public event Action<string>? Failed;
 
+    /// <summary>Sidan bad om en Android-tangent (högerklick/bakåtknapp = Tillbaka, mittenklick = Hem).</summary>
+    public event Action<int>? KeyRequested;
+
+    /// <summary>Högerklick, musens bakåtknapp och mittenklick på videon skickas till programmet.</summary>
+    public const string MouseKeysScript =
+        "(()=>{const send=k=>{try{chrome.webview.postMessage(k)}catch(e){}};" +
+        "addEventListener('contextmenu',e=>{e.preventDefault();send('back')},true);" +
+        "addEventListener('mouseup',e=>{if(e.button===3){e.preventDefault();send('back')}else if(e.button===1){e.preventDefault();send('home')}},true);" +
+        "addEventListener('keydown',e=>{if(e.key==='Backspace'){e.preventDefault();send('back')}},true);})();";
+
     /// <summary>Uppmätt bildtakt i videoströmmen (bilder/s), en gång per sekund.</summary>
     public event Action<double>? Fps;
 
@@ -94,6 +104,13 @@ public sealed class WebScreenHost : NativeControlHost
             await web.AddScriptToExecuteOnDocumentCreatedAsync(
                 "(()=>{const s=document.createElement('style');s.textContent=" + System.Text.Json.JsonSerializer.Serialize(OnlyDisplayCss) +
                 ";const add=()=>document.head?document.head.appendChild(s):setTimeout(add,10);add();})();" + FitVideoScript);
+            await web.AddScriptToExecuteOnDocumentCreatedAsync(MouseKeysScript);
+            web.WebMessageReceived += (_, e) =>
+            {
+                var m = e.TryGetWebMessageAsString();
+                if (m == "back") KeyRequested?.Invoke(Cyberdrome.Vm.Skins.SkinButton.Keys.Back);
+                else if (m == "home") KeyRequested?.Invoke(Cyberdrome.Vm.Skins.SkinButton.Keys.Home);
+            };
             _controller.DefaultBackgroundColor = System.Drawing.Color.Black;
             UpdateBounds();
             if (Url is { } url) web.Navigate(url);

@@ -322,3 +322,16 @@ public class SkinFillTests
         Assert.DoesNotContain("obd", CyberdromeLauncher.BroadcastBuiltIn("vw-golf8"));
     }
 }
+
+public class BackButtonTests
+{
+    [Fact]
+    public void EverySkinHasABackButton()
+    {
+        foreach (var s in Cyberdrome.Vm.Skins.BuiltInSkins.All)
+        {
+            Assert.Contains(s.Buttons, b => b.KeyCode == Cyberdrome.Vm.Skins.SkinButton.Keys.Back);
+            Assert.Empty(s.Validate()); // knapparna ryms i skalet och täcker inte skärmen
+        }
+    }
+}

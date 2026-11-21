@@ -20,6 +20,7 @@ public partial class MainWindow : Window
         SkinFrame.ButtonPressed += b => _ = (DataContext as MainViewModel)?.SkinButtonAsync(b);
         // Bildströmmen skriver ny bild i samma bitmapp: rita bara om Android-bilden, inget annat i fönstret.
         DataContextChanged += (_, _) => { if (DataContext is MainViewModel m) m.FrameUpdated += () => AndroidScreen.InvalidateVisual(); };
+        WebScreen.KeyRequested += key => Avalonia.Threading.Dispatcher.UIThread.Post(() => _ = (DataContext as MainViewModel)?.AndroidKeyAsync(key));
         WebScreen.Failed += why => Avalonia.Threading.Dispatcher.UIThread.Post(() => (DataContext as MainViewModel)?.WebScreenFailed(why));
         WebScreen.Fps += fps => { if (DataContext is MainViewModel m) m.ScreenFpsText = L.F("Screen_VideoFps0", Math.Round(fps)); };
         Opened += OnOpenedCheckEula;
@@ -254,6 +255,14 @@ public partial class MainWindow : Window
 
     private async void ScreenPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        // Högerklick eller musens bakåtknapp = Tillbaka, mittenklick = Hem (som på en bilradio med knappar).
+        var props = e.GetCurrentPoint(AndroidScreen).Properties;
+        if (DataContext is MainViewModel kvm && (props.IsRightButtonPressed || props.IsXButton1Pressed || props.IsMiddleButtonPressed))
+        {
+            e.Handled = true;
+            await kvm.AndroidKeyAsync(props.IsMiddleButtonPressed ? Cyberdrome.Vm.Skins.SkinButton.Keys.Home : Cyberdrome.Vm.Skins.SkinButton.Keys.Back);
+            return;
+        }
         _pressAt = ToDevice(e.GetPosition(AndroidScreen));
         _pressTime = DateTime.UtcNow;
         e.Pointer.Capture(AndroidScreen);
@@ -332,6 +341,14 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.F11) { SetFullscreen(!_fullscreen); e.Handled = true; return; }
         if (e.Key == Key.Escape && _fullscreen) { SetFullscreen(false); e.Handled = true; return; }
+        // Backspace = Tillbaka i Android när man inte skriver i ett textfält.
+        if (e.Key == Key.Back && DataContext is MainViewModel bvm && bvm.IsOverview && bvm.AndroidRunning
+            && FocusManager?.GetFocusedElement() is not TextBox)
+        {
+            e.Handled = true;
+            _ = bvm.AndroidKeyAsync(Cyberdrome.Vm.Skins.SkinButton.Keys.Back);
+            return;
+        }
         base.OnKeyDown(e);
     }
 

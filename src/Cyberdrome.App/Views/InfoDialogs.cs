@@ -36,14 +36,14 @@ public static class InfoDialogs
         string.Join("\n", md.Replace("\r", "").Split('\n').Select(l =>
             l.StartsWith("## ") ? "\n" + l[3..].ToUpperInvariant() : l.StartsWith("# ") ? l[2..].ToUpperInvariant() : l)).Replace("**", "");
 
-    private static readonly IBrush Accent = new SolidColorBrush(Color.Parse("#2563EB"));
-    private static readonly IBrush Muted = new SolidColorBrush(Color.Parse("#475569"));
-    private static readonly IBrush Warn = new SolidColorBrush(Color.Parse("#FEF3C7"));
-    private static readonly IBrush Soft = new SolidColorBrush(Color.Parse("#EEF2FF"));
+    private static readonly IBrush Accent = new SolidColorBrush(Color.Parse("#0A66FF"));
+    private static readonly IBrush Muted = new SolidColorBrush(Color.Parse("#6E6E73"));
+    private static readonly IBrush Warn = new SolidColorBrush(Color.Parse("#FFF4E5"));
+    private static readonly IBrush Soft = new SolidColorBrush(Color.Parse("#EAF2FF"));
 
     private static Window NewWindow(string title, double width, double height) => new()
     {
-        Title = title, Width = width, Height = height, MinWidth = 520, MinHeight = 420, Background = Brushes.White,
+        Title = title, Width = width, Height = height, MinWidth = 520, MinHeight = 420, Background = new SolidColorBrush(Color.Parse("#F5F6F8")),
         WindowStartupLocation = WindowStartupLocation.CenterOwner,
         Icon = new WindowIcon(Avalonia.Platform.AssetLoader.Open(new Uri("avares://Cyberdrome/Assets/cyberdrome.ico"))),
     };
@@ -80,12 +80,12 @@ public static class InfoDialogs
         var btn = new Button
         {
             Content = Donation.Available ? L.T("InfoDialogs_DonateViaPayPal") : L.T("InfoDialogs_PayPalLinkComingSoon"),
-            IsEnabled = Donation.Available, Padding = new Thickness(14, 6), Background = Accent, Foreground = Brushes.White,
+            IsEnabled = Donation.Available, Padding = new Thickness(18, 8), CornerRadius = new CornerRadius(999), Background = Accent, Foreground = Brushes.White,
         };
         btn.Click += (_, _) => OpenUrl(Donation.Url);
         return new Border
         {
-            Background = Soft, CornerRadius = new CornerRadius(8), Padding = new Thickness(12),
+            Background = Soft, CornerRadius = new CornerRadius(12), Padding = new Thickness(12),
             Child = new StackPanel { Spacing = 6, Children =
             {
                 Text(L.T("InfoDialogs_SupportTheDevelopment"), 14, FontWeight.SemiBold),
@@ -98,8 +98,8 @@ public static class InfoDialogs
     public static async Task ShowAboutAsync(Window owner)
     {
         var win = NewWindow(L.T("InfoDialogs_AboutCyberdrome"), 720, 760);
-        var licenseBtn = new Button { Content = L.T("InfoDialogs_Licence"), Padding = new Thickness(14, 6) };
-        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
+        var licenseBtn = new Button { Content = L.T("InfoDialogs_Licence"), Padding = new Thickness(18, 8), CornerRadius = new CornerRadius(999) };
+        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(18, 8), CornerRadius = new CornerRadius(999), IsDefault = true, IsCancel = true };
         close.Click += (_, _) => win.Close();
         licenseBtn.Click += async (_, _) => await ShowLicenseAsync(win);
         var features = new StackPanel { Spacing = 3 };
@@ -114,7 +114,7 @@ public static class InfoDialogs
                     new Image { Source = new Avalonia.Media.Imaging.Bitmap(Avalonia.Platform.AssetLoader.Open(new Uri("avares://Cyberdrome/Assets/cyberdrome-256.png"))), Width = 56, Height = 56 },
                     new StackPanel { VerticalAlignment = VerticalAlignment.Center, Children =
                     {
-                        Text("Cyberdrome", 26, FontWeight.Bold),
+                        Text("Cyberdrome Cockpit", 26, FontWeight.Bold),
                         Text("Jouko Broström", 16, FontWeight.SemiBold),
                     } },
                 } },
@@ -124,7 +124,7 @@ public static class InfoDialogs
                 Text(L.T("InfoDialogs_WhatTheProgramCanDo"), 13, FontWeight.SemiBold),
                 features,
                 DonationBox(),
-                new Border { Background = Warn, CornerRadius = new CornerRadius(8), Padding = new Thickness(10), Child = Text(Disclaimer, 12) },
+                new Border { Background = Warn, CornerRadius = new CornerRadius(12), Padding = new Thickness(10), Child = Text(Disclaimer, 12) },
                 Text(L.T("About_GplNotice"), 12, null, Muted),
                 new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, HorizontalAlignment = HorizontalAlignment.Right, Children = { licenseBtn, close } },
             },
@@ -146,7 +146,7 @@ public static class InfoDialogs
                 new TabItem { Header = "Ansvarsfriskrivning", Content = Mono(PlainMarkdown(ReadText("DISCLAIMER.md"))) },
             },
         };
-        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
+        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(18, 8), CornerRadius = new CornerRadius(999), IsDefault = true, IsCancel = true };
         close.Click += (_, _) => win.Close();
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 0, 0), Children = { close } };
         var head = Text(L.F("InfoDialogs_CyberdromeJoukoBrostrMVersion0", AppVersion), 13, FontWeight.Medium);
@@ -164,7 +164,7 @@ public static class InfoDialogs
     public static async Task ShowDisclaimerAsync(Window owner)
     {
         var win = NewWindow(L.T("InfoDialogs_WelcomeToCyberdrome"), 760, 620);
-        var ok = new Button { Content = L.T("InfoDialogs_IUnderstand"), Padding = new Thickness(14, 6), Background = Accent, Foreground = Brushes.White, IsDefault = true };
+        var ok = new Button { Content = L.T("InfoDialogs_IUnderstand"), Padding = new Thickness(18, 8), CornerRadius = new CornerRadius(999), Background = Accent, Foreground = Brushes.White, IsDefault = true };
         ok.Click += (_, _) => win.Close();
         var head = new StackPanel { Spacing = 4, Children =
         {

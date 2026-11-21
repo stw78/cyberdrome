@@ -38,6 +38,15 @@ public sealed class AppSettings
     /// <summary>Mapp med uppdateringar (Velopack-paket). Tom = &lt;arbetsmapp&gt;\release\uppdateringar (se WorkFolder).</summary>
     public string? UpdateFolder { get; set; }
 
+    /// <summary>Hämta uppdateringar från UpdateFolder i stället för GitHub Releases (Avancerat). Standard: av.</summary>
+    public bool UseLocalUpdateFolder { get; set; }
+
+    /// <summary>Ta med förhandsversioner från GitHub. Standard: av.</summary>
+    public bool IncludePrereleases { get; set; }
+
+    /// <summary>När uppdateringar senast kontrollerades (UTC), för att kontrollera högst en gång per dygn.</summary>
+    public DateTime? LastUpdateCheckUtc { get; set; }
+
     /// <summary>Språk: "system" (standard), "sv" eller "en".</summary>
     public string Language { get; set; } = "system";
 

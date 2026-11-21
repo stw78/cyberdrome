@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/logo-128.png" width="128" alt="Cyberdrome"></p>
 
-# Cyberdrome Simulator
+# Cyberdrome Cockpit
 
 [English](README.md) · **Svenska**
 
@@ -38,9 +38,11 @@ Standardsvaret är **Nej**: egna bilmodeller, teman, skal, körningar, testfall,
 Android-appar (Cyberdrome Launcher och Cyberdrome Radio i `apps\`). Följande hämtas av användaren när programmet körs och
 följer inte med: Android-emulatorn och Google-avbildningar, AndrOBD, Organic Maps, kartrutor, vPIC-, Wikidata- och OBDb-data.
 
-**Uppdateringar:** Inställningar → Uppdateringar söker i en lokal mapp, som standard
-`Skrivbord\Projekt\release\uppdateringar` om mappen `Skrivbord\Projekt` finns, annars `Dokument\Cyberdrome\release\uppdateringar`. Ingen server används. "Installera uppdatering" hämtar, stänger programmet,
-installerar och startar igen. Dina data påverkas inte.
+**Uppdateringar:** programmet kontrollerar [GitHub Releases](https://github.com/stw78/cyberdrome/releases) vid start
+(högst en gång per dygn) och under Inställningar → Uppdateringar. Den nya versionen och nyheterna visas; "Installera
+uppdatering" hämtar med förlopp, stänger programmet, installerar och startar igen. Dina data påverkas inte. Inget konto
+eller nyckel behövs. Under **Avancerat** kan du ta med förhandsversioner eller använda en lokal mapp i stället (för att
+testa egna byggen).
 
 **Bygga en release:** `powershell -ExecutionPolicy Bypass -File build-release.ps1 -Version 1.0.0`. Skriptet:
 - kör testerna och genererar `legal\THIRD-PARTY-NOTICES.txt` från NuGet-paketen (`tools\gen-notices.ps1`),

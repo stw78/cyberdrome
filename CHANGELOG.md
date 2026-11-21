@@ -1,0 +1,54 @@
+# Changelog / Ändringslogg
+
+Each version has an English and a Swedish part. The release job on GitHub uses the section for the tagged version as
+release notes (`tools/changelog-section.ps1`). / Varje version har en engelsk och en svensk del. Releasejobbet på GitHub
+använder avsnittet för den taggade versionen som releaseanteckningar.
+
+## 1.1.0
+
+**English**
+
+- New name: **Cyberdrome Cockpit** (was Cyberdrome Simulator). Existing installations update in place; your data stays.
+- New, simpler design on every page: grouped side menu with icons, page titles, soft cards, segmented controls,
+  iOS-style switches and one consistent icon set (Lucide).
+- Overview: the car skin always scales to fit, the toolbar wraps instead of being cut off, and a new **Fullscreen**
+  button (F11, Esc to leave) shows only the car screen with its skin. Taps still land on the right Android pixel.
+- Settings fits on one screen: the three Android modes are tiles with status, and the page scrolls on small windows.
+- WSL2 + Cuttlefish: "Install Android" no longer does nothing. The check now finds the new Cuttlefish packages (`cvd`),
+  the Android build target was updated, and every stop shows the reason and the next step (WSL, Virtual Machine
+  Platform, restart, KVM/nested virtualisation).
+- Updates now come from **GitHub Releases**: checked at start at most once a day and with "Check for updates", with
+  release notes and a progress bar. Pre-releases and a local test folder are under Advanced.
+- This build is **not signed** with a trusted certificate yet, so Windows SmartScreen warns. Choose **More info → Run
+  anyway**. Trusted signing via SignPath Foundation is planned.
+
+**Svenska**
+
+- Nytt namn: **Cyberdrome Cockpit** (tidigare Cyberdrome Simulator). Befintliga installationer uppdateras på plats;
+  dina data finns kvar.
+- Ny, enklare design på alla sidor: grupperad sidomeny med ikoner, sidrubriker, mjuka kort, segmentknappar,
+  iOS-liknande brytare och en enda ikonfamilj (Lucide).
+- Översikt: bilens skal skalas alltid så att det ryms, verktygsraden radbryts i stället för att skäras av, och en ny
+  **Fullskärm**-knapp (F11, Esc för att lämna) visar bara bilskärmen med skalet. Tryck hamnar fortfarande rätt i Android.
+- Inställningar ryms på en skärm: de tre Android-lägena är rutor med status, och sidan går att rulla i små fönster.
+- WSL2 + Cuttlefish: "Installera Android" gör inte längre ingenting. Kontrollen hittar nu de nya Cuttlefish-paketen
+  (`cvd`), Android-byggmålet är uppdaterat, och varje stopp visar orsaken och nästa steg (WSL, Plattform för virtuella
+  datorer, omstart, KVM/nästlad virtualisering).
+- Uppdateringar hämtas nu från **GitHub Releases**: kontrolleras vid start högst en gång per dygn och med "Sök efter
+  uppdateringar", med nyheter och förloppsstapel. Förhandsversioner och en lokal testmapp finns under Avancerat.
+- Den här versionen är **inte signerad** med ett betrott certifikat än, så Windows SmartScreen varnar. Välj **Mer
+  information → Kör ändå**. Betrodd signering via SignPath Foundation är planerad.
+
+## 1.0.1
+
+**English** – Bug fixes for the installer and updates from a local folder.
+
+**Svenska** – Buggrättningar för installationen och uppdateringar från en lokal mapp.
+
+## 1.0.0
+
+**English** – First public release: Android head unit simulator with a virtual OBD-II port, car models, drives, map,
+test cases, real OBD adapter (read-only by default), English and Swedish.
+
+**Svenska** – Första publika versionen: simulator för Android-bilstereo med virtuell OBD-II-port, bilmodeller,
+körningar, karta, testfall, riktig OBD-adapter (läsläge som standard), svenska och engelska.

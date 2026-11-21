@@ -271,7 +271,7 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _obdClients = "";
     [ObservableProperty] private string _obdLastAnswer = "";
 
-    public string ObdAddress => string.Join("  eller  ", LocalAddresses().Select(a => $"{a}:{ObdTcpServer.DefaultPort}"));
+    public string ObdAddress => string.Join("  " + L.T("Ui_Or") + "  ", LocalAddresses().Select(a => $"{a}:{ObdTcpServer.DefaultPort}"));
 
     [RelayCommand]
     private void StartObd()
@@ -523,10 +523,24 @@ public sealed partial class MainViewModel : ObservableObject
 
     private async Task RunAndroid(Func<Task> work)
     {
-        if (AndroidBusy) return;
+        if (AndroidBusy)
+        {
+            // Inget tyst "ingenting händer": säg att något redan pågår och visa var.
+            AndroidLogLine(L.T("Main_AndroidStepAlreadyRunning"));
+            AndroidStatus = L.T("Main_AndroidStepAlreadyRunning");
+            PageIndex = 3;
+            return;
+        }
         AndroidBusy = true;
         try { await work(); }
-        catch (Exception ex) { AndroidLogLine(L.T("Main_ErrorPrefix") + ex.Message); }
+        catch (Exception ex)
+        {
+            AndroidLogLine(L.T("Main_ErrorPrefix") + ex);
+            InstallProgressVisible = true;
+            InstallProgressIndeterminate = false;
+            InstallProgressText = L.F("Main_AndroidError0", ex.Message);
+            AndroidStatus = InstallProgressText;
+        }
         finally
         {
             AndroidBusy = false;
@@ -626,6 +640,15 @@ public sealed partial class MainViewModel : ObservableObject
                 {
                     ApplyProgress(new InstallProgress(100, L.T("Main_AndroidIsInstalledButCouldNot"), true));
                 }
+            }
+            else
+            {
+                // Installationen stannade (t.ex. KVM saknas): visa orsaken och nästa steg i stället för att tiga.
+                AndroidStatus = _android.Describe(state);
+                await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+                var failHint = L.F("AndroidVm_StepFailedSeeLog", "").Trim();
+                if (state != AndroidState.RebootNeeded && !InstallProgressText.EndsWith(failHint))
+                    ApplyProgress(new InstallProgress(0, L.F("AndroidVm_InstallStopped", _android.Describe(state))));
             }
         }
         finally
@@ -783,7 +806,7 @@ public sealed partial class MainViewModel : ObservableObject
     private static HttpClient CreateHttp()
     {
         var h = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
-        h.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeSimulator/0.4");
+        h.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeCockpit/0.4");
         return h;
     }
 
@@ -991,6 +1014,7 @@ public sealed partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(ModeFast));
         OnPropertyChanged(nameof(ModeNoRestart));
         OnPropertyChanged(nameof(ModeGoogle));
+        RaiseModeStatus();
         OnPropertyChanged(nameof(AndroidModeText));
         OnPropertyChanged(nameof(AndroidObdAddress));
         OnPropertyChanged(nameof(HasAndroidObdAddress));

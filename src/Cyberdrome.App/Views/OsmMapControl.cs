@@ -160,7 +160,7 @@ public sealed class OsmMapControl : Control
     {
         var h = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
         // OpenStreetMaps regler kräver att programmet identifierar sig.
-        h.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeSimulator/0.8 (utvecklingsverktyg)");
+        h.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeCockpit/0.8 (utvecklingsverktyg)");
         return h;
     }
 

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Jouko Broström
 
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -31,6 +32,9 @@ public partial class MainWindow : Window
         };
     }
 
+    /// <summary>Skärmbildsläge (--shots): inga dialoger.</summary>
+    public bool ShotMode { get; set; }
+
     // ----- Om / Licens -----
 
     private async void AboutClick(object? sender, RoutedEventArgs e) => await InfoDialogs.ShowAboutAsync(this);
@@ -40,6 +44,7 @@ public partial class MainWindow : Window
     /// <summary>Första starten: ansvarsfriskrivningen (GPL – ingen garanti, simulator, riktiga bilar på egen risk).</summary>
     private async void OnOpenedCheckEula(object? sender, EventArgs e)
     {
+        if (ShotMode) return;
         if (DataContext is not MainViewModel vm || vm.DisclaimerShown) return;
         await InfoDialogs.ShowDisclaimerAsync(this);
         vm.MarkDisclaimerShown();
@@ -290,5 +295,73 @@ public partial class MainWindow : Window
     private void OpenFeatures(object? sender, RoutedEventArgs e)
     {
         if (DataContext is MainViewModel vm) vm.PageIndex = 1;
+    }
+
+    // ----- Fullskärm: bara bilskärmen med skal, utan ram (F11 växlar, Esc lämnar) -----
+
+    private bool _fullscreen;
+    private WindowState _stateBeforeFullscreen = WindowState.Normal;
+
+    private void ToggleFullscreenClick(object? sender, RoutedEventArgs e) => SetFullscreen(!_fullscreen);
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (e.Key == Key.F11) { SetFullscreen(!_fullscreen); e.Handled = true; return; }
+        if (e.Key == Key.Escape && _fullscreen) { SetFullscreen(false); e.Handled = true; return; }
+        base.OnKeyDown(e);
+    }
+
+    /// <summary>
+    /// Döljer allt utom skärmen med skalet och visar fönstret över hela bildskärmen. Samma SkinHost och samma
+    /// Android-bild används, så tryck räknas om exakt som vanligt (SkinLayout + ScreenMapping).
+    /// </summary>
+    public void SetFullscreen(bool on)
+    {
+        if (on == _fullscreen) return;
+        if (on && DataContext is MainViewModel vm) vm.PageIndex = 0;
+        _fullscreen = on;
+        TopBar.IsVisible = StatusBar.IsVisible = SideBar.IsVisible = !on;
+        OverviewTitle.IsVisible = OverviewHeader.IsVisible = OverviewFooter.IsVisible = CarPanel.IsVisible = !on;
+        OverviewGrid.ColumnDefinitions[1].Width = on ? new GridLength(0) : new GridLength(340);
+        OverviewGrid.ColumnSpacing = on ? 0 : 20;
+        ContentGrid.Margin = on ? new Thickness(0) : new Thickness(28, 22, 28, 22);
+        if (on)
+        {
+            OverviewCard.Padding = new Thickness(0);
+            OverviewCard.CornerRadius = new CornerRadius(0);
+            OverviewCard.Background = Avalonia.Media.Brushes.Black;
+            _stateBeforeFullscreen = WindowState;
+            WindowState = WindowState.FullScreen;
+        }
+        else
+        {
+            OverviewCard.ClearValue(Border.PaddingProperty);
+            OverviewCard.ClearValue(Border.CornerRadiusProperty);
+            OverviewCard.ClearValue(Border.BackgroundProperty);
+            WindowState = _stateBeforeFullscreen;
+        }
+        ExitFullscreenButton.IsVisible = on;
+        Focus();
+    }
+
+    // ----- Skärmbilder av alla sidor (för dokumentation): Cyberdrome.exe --shots=<mapp> [--lang=sv|en] [--size=1600x1000] -----
+
+    /// <summary>Tar en PNG per sida och avslutar. Används för att dokumentera designen; påverkar inte vanlig körning.</summary>
+    public async Task TakePageShotsAsync(string folder, string? onlyPages = null)
+    {
+        if (DataContext is not MainViewModel vm) return;
+        Directory.CreateDirectory(folder);
+        var names = new[] { "01-oversikt", "02-dolda-funktioner", "03-obd-logg", "04-android", "05-korningar", "06-karta", "07-testfall", "08-bilmodeller", "09-obd-kalla", "10-bildatabas", "11-installningar" };
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (onlyPages is not null && !onlyPages.Split(',').Contains(i.ToString())) continue;
+            vm.PageIndex = i;
+            await Task.Delay(1200);
+            var scale = RenderScaling;
+            var size = new PixelSize((int)(Bounds.Width * scale), (int)(Bounds.Height * scale));
+            using var rtb = new Avalonia.Media.Imaging.RenderTargetBitmap(size, new Vector(96 * scale, 96 * scale));
+            rtb.Render(this);
+            rtb.Save(Path.Combine(folder, names[i] + ".png"));
+        }
     }
 }

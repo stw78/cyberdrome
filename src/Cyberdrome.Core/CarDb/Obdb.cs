@@ -30,7 +30,7 @@ public sealed class ObdbClient
     {
         Folder = folder ?? DefaultFolder;
         _http = http ?? new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeSimulator/0.2");
+        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeCockpit/0.2");
     }
 
     /// <summary>Märken med bindestreck i namnet (resten av arkivnamnet är modellen).</summary>

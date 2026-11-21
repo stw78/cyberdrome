@@ -17,6 +17,12 @@ public static class Conv
     /// <summary>Översatt format: ConverterParameter = nyckel med {0}, t.ex. "Fmt_Selected" → "Vald: {0}".</summary>
     public static readonly IValueConverter Format = new FormatConverter();
 
+    private static readonly Avalonia.Media.IBrush DotOn = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#34C759"));
+    private static readonly Avalonia.Media.IBrush DotOff = new Avalonia.Media.SolidColorBrush(Avalonia.Media.Color.Parse("#AEAEB2"));
+
+    /// <summary>Grön punkt när något är igång, grå annars (statusraden).</summary>
+    public static readonly IValueConverter DotBrush = new FuncValueConverter<bool, Avalonia.Media.IBrush>(b => b ? DotOn : DotOff);
+
     private sealed class FormatConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>

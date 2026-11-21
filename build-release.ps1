@@ -1,24 +1,28 @@
 ﻿# SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Jouko Broström
-# Bygger en release av Cyberdrome Simulator:
+# Bygger en release av Cyberdrome Cockpit:
 #   tester -> licenslista -> fristående publicering (win-x64) -> Velopack-paket (Setup.exe, uppdateringar)
 # Resultat:
 #   ..\release\<version>\        Setup.exe, MSI, portabel zip, licenstexter
 #   ..\release\uppdateringar\    alla versioner (Velopack-flöde som programmet söker uppdateringar i)
 # Användning:  powershell -ExecutionPolicy Bypass -File build-release.ps1 [-Version 1.0.1] [-SkipTests] [-NoMsi] [-Sign none|test|certificate|azure]
-# Inget laddas upp någonstans.
+# Skriptet laddar inte upp något; GitHub Actions (release.yml) laddar upp till GitHub Releases vid en tagg v*.
 # Kodsignering styrs av signing.json bredvid skriptet (se signing.example.json och README: Kodsignering).
 # signing.json innehåller bara tumavtryck och sökvägar - aldrig lösenord eller nycklar.
 param(
-    [string]$Version = "1.0.0",
+    [string]$Version = "1.1.0",
     [switch]$SkipTests,
     [switch]$NoMsi,
-    [ValidateSet("", "none", "test", "certificate", "azure")][string]$Sign = ""
+    [ValidateSet("", "none", "test", "certificate", "azure")][string]$Sign = "",
+    # Var releasen hamnar (standard: mappen release bredvid kod\). GitHub Actions anger en mapp i arbetskatalogen.
+    [string]$OutRoot = "",
+    # Releaseanteckningar (Markdown) som bäddas in i paketet; visas i programmet och på GitHub-releasen.
+    [string]$ReleaseNotes = ""
 )
 $ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
 $app = Join-Path $root "src\Cyberdrome.App\Cyberdrome.App.csproj"
-$releaseRoot = Join-Path (Split-Path $root -Parent) "release"   # mappen bredvid kod\
+$releaseRoot = if ($OutRoot) { $OutRoot } else { Join-Path (Split-Path $root -Parent) "release" }   # standard: bredvid kod\
 $feed = Join-Path $releaseRoot "uppdateringar"
 $outDir = Join-Path $releaseRoot $Version
 $publish = Join-Path $root "publish\$Version"
@@ -117,13 +121,14 @@ New-Item -ItemType Directory -Force $feed, $outDir | Out-Null
 # Installationsfiler skrivs om per version (MSI byggs bara när den inte är avstängd).
 Get-ChildItem $feed -File | Where-Object { $_.Name -like "*Setup*" -or $_.Name -like "*Portable*" -or $_.Name -like "*.msi" } | Remove-Item -Force
 $vpkArgs = @("pack", "-u", $packId, "-v", $Version, "-p", $publish, "-e", "Cyberdrome.exe",
-    "--packTitle", "Cyberdrome Simulator", "--packAuthors", "Jouko Broström",
+    "--packTitle", "Cyberdrome Cockpit", "--packAuthors", "Jouko Broström",
     "--icon", (Join-Path $root "src\Cyberdrome.App\Assets\cyberdrome.ico"),
     "--shortcuts", "Desktop,StartMenuRoot", "-r", "win-x64", "-o", $feed)
 # MSI-guiden visar GPL-licensen (vpk vill ha .md eller .rtf).
 $licenseMd = Join-Path $env:TEMP "cyberdrome-LICENSE.md"
 Copy-Item (Join-Path $root "LICENSE") $licenseMd -Force
 if (-not $NoMsi) { $vpkArgs += @("--msi", "--instLicense", $licenseMd) }
+if ($ReleaseNotes) { $vpkArgs += @("--releaseNotes", (Resolve-Path $ReleaseNotes).Path) }
 $vpkArgs += $signArgs
 & vpk @vpkArgs
 if ($LASTEXITCODE -ne 0) { throw "vpk pack misslyckades" }

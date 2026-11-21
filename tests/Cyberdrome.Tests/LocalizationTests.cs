@@ -75,7 +75,7 @@ public class LocalizationTests
     {
         var xaml = File.ReadAllText(Path.Combine(Root, "src", "Cyberdrome.App", "Views", "MainWindow.axaml"));
         // Text/Content/Watermark/Header/ToolTip/Title med bokstäver ska vara översatta ({l:T …}) eller bindningar.
-        var allowed = new HashSet<string> { "Cyberdrome Simulator", "km/h", "rpm", "DID", "dpi", "KEYCODE_MEDIA_PREVIOUS", "KEYCODE_MEDIA_NEXT", "KEYCODE_VOLUME_MUTE" };
+        var allowed = new HashSet<string> { "Cyberdrome Simulator", "Cyberdrome Cockpit", "OBD", "Android", "Esc / F11", "km/h", "rpm", "DID", "dpi", "KEYCODE_MEDIA_PREVIOUS", "KEYCODE_MEDIA_NEXT", "KEYCODE_VOLUME_MUTE" };
         var hard = Regex.Matches(xaml, @"\b(Text|Content|OnContent|OffContent|Watermark|ToolTip\.Tip|Header|Title)=""([^""{][^""]*)""")
             .Select(m => m.Groups[2].Value).Where(v => Regex.IsMatch(v, @"[A-Za-zÅÄÖåäö]{2,}") && !allowed.Contains(v)).ToList();
         Assert.Empty(hard);

@@ -61,11 +61,22 @@ public sealed class AndroidVm : IAndroidBackend
         void Report(double? pct, string text, bool done = false) => progress?.Report(new InstallProgress(pct, text, done));
 
         Report(null, L.T("AndroidVm_CheckingWhatNeedsToBeInstalled"));
+        // Fel ska aldrig vara tysta: allt som stoppar installationen loggas OCH visas i förloppsrutan.
+        AndroidState Fail(AndroidState s, string why)
+        {
+            log(why);
+            Report(0, L.F("AndroidVm_StepFailedSeeLog", why));
+            return s;
+        }
         var state = await GetStateAsync(ct);
         log(L.F("AndroidVm_Mode0", state));
 
         if (state == AndroidState.WslMissing)
         {
+            var st = await ProcessRunner.RunAsync(Wsl, ["--status"], ct: ct);
+            var detail = string.Join(" ", st.Output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Take(4));
+            if (detail.Length > 0) log(L.F("AndroidVm_WslStatusDetail", detail));
+            log(L.T("AndroidVm_WslNotWorkingHelp"));
             if (confirm is not null && !await confirm(RestartExplanation))
             {
                 log(L.T("AndroidVm_CancelledNothingWasChanged"));
@@ -75,8 +86,8 @@ public sealed class AndroidVm : IAndroidBackend
             Report(null, L.T("AndroidVm_TurningOnWSL2AnswerYesTo"));
             log(L.T("AndroidVm_TurningOnWSL2WindowsAsksFor"));
             int code = await ProcessRunner.RunElevatedAsync(Wsl, "--install --no-distribution");
-            if (code == -2) { log(L.T("AndroidVm_YouSaidNoToTheAdministrator")); return state; }
-            if (code != 0) { log(L.F("AndroidVm_WSL2CouldNotBeTurnedOn", code)); return state; }
+            if (code == -2) return Fail(state, L.T("AndroidVm_YouSaidNoToTheAdministrator"));
+            if (code != 0) return Fail(state, L.F("AndroidVm_WSL2CouldNotBeTurnedOn", code));
             log(L.T("AndroidVm_WSL2IsTurnedOnRestartThe"));
             Report(PctDistroStart, L.T("AndroidVm_WSL2IsTurnedOnRestartThe2"));
             _rebootNeeded = true;
@@ -90,7 +101,7 @@ public sealed class AndroidVm : IAndroidBackend
             log(L.F("AndroidVm_CreatingTheLinuxEnvironment0", Settings.DistroName));
             var r = await ProcessRunner.RunAsync(Wsl,
                 ["--install", Settings.BaseDistro, "--name", Settings.DistroName, "--no-launch"], onLine: log, ct: ct);
-            if (!r.Ok) { log(L.T("AndroidVm_CouldNotCreateTheLinuxEnvironment")); return state; }
+            if (!r.Ok) return Fail(state, L.T("AndroidVm_CouldNotCreateTheLinuxEnvironment"));
             state = AndroidState.ToolsMissing;
         }
 
@@ -103,17 +114,16 @@ public sealed class AndroidVm : IAndroidBackend
                 if (ProgressParser.ParseStep(line) is { } s)
                     Report(PctToolsStart + s.Fraction * (PctDownloadStart - PctToolsStart), L.F("AndroidVm_Step2Of30", s.Text));
             }), ct: ct);
-            if (!r.Ok) { log(L.T("AndroidVm_InstallingTheToolsFailed")); return state; }
+            if (!r.Ok) return Fail(state, L.T("AndroidVm_InstallingTheToolsFailed"));
             // Starta om Linux-miljön så att systemd och grupper gäller.
             await ProcessRunner.RunAsync(Wsl, ["--terminate", Settings.DistroName], ct: ct);
             state = await GetStateAsync(ct);
+            // Tidigare fastnade vi här tyst: verktygen fanns men kontrollen letade efter fel program.
+            if (state == AndroidState.ToolsMissing) return Fail(state, L.T("AndroidVm_ToolsStillMissing"));
         }
 
         if (state == AndroidState.NoKvm)
-        {
-            log(L.T("AndroidVm_VirtualisationKVMIsMissingInsideWSL"));
-            return state;
-        }
+            return Fail(state, L.T("AndroidVm_VirtualisationKVMIsMissingInsideWSL") + " " + L.T("AndroidVm_NoKvmHelp"));
 
         if (state == AndroidState.ImageMissing)
         {
@@ -139,7 +149,7 @@ public sealed class AndroidVm : IAndroidBackend
                 Report(PctDownloadStart + f * (100 - PctDownloadStart),
                     L.F("AndroidVm_Step3Of3DownloadingAndroid", ProgressParser.FormatMb(bytes), ProgressParser.FormatMb(expected), f * 100, spd));
             }), env: new() { ["BUILD"] = Settings.AndroidBuild }, ct: ct);
-            if (!r.Ok) { log(L.T("AndroidVm_TheAndroidDownloadFailed")); return state; }
+            if (!r.Ok) return Fail(state, L.T("AndroidVm_TheAndroidDownloadFailed"));
             // Kom ihåg verklig storlek så att stapeln stämmer bättre nästa gång.
             if (finalBytes > 0)
             {
@@ -150,6 +160,8 @@ public sealed class AndroidVm : IAndroidBackend
             state = AndroidState.Stopped;
         }
 
+        if (state is not (AndroidState.Stopped or AndroidState.Running))
+            return Fail(state, L.F("AndroidVm_InstallStopped", DescribeState(state)));
         Report(100, L.T("AndroidVm_DoneAndroidIsDownloadedAndInstalled"), done: true);
         log(L.T("AndroidVm_AndroidIsInstalled"));
         return state;
@@ -217,11 +229,11 @@ public sealed class AndroidVm : IAndroidBackend
     public static string DescribeState(AndroidState s) => s switch
     {
         AndroidState.NotWindows => L.T("AndroidVm_TheAndroidPartOnlyWorksOn"),
-        AndroidState.WslMissing => L.T("AndroidVm_WSL2IsNotTurnedOnPress"),
+        AndroidState.WslMissing => L.T("AndroidVm_WSL2IsNotTurnedOnPress") + " " + L.T("AndroidVm_WslNotWorkingHelp"),
         AndroidState.RebootNeeded => L.T("AndroidVm_RestartTheComputerAndThenPress"),
         AndroidState.DistroMissing => L.T("AndroidVm_AndroidIsNotInstalledYet"),
         AndroidState.ToolsMissing => L.T("AndroidVm_AndroidIsPartlyInstalledPressInstall"),
-        AndroidState.NoKvm => L.T("AndroidVm_VirtualisationIsMissingInWSLCheck"),
+        AndroidState.NoKvm => L.T("AndroidVm_NoKvmHelp"),
         AndroidState.ImageMissing => L.T("AndroidVm_TheAndroidImageIsNotDownloaded"),
         AndroidState.Stopped => L.T("AndroidVm_AndroidIsInstalledAndStopped"),
         AndroidState.Running => L.T("AndroidVm_AndroidIsRunning"),

@@ -27,7 +27,7 @@ public sealed class WikidataClient
     public WikidataClient(HttpClient? http = null)
     {
         _http = http ?? new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
-        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeSimulator/0.2");
+        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeCockpit/0.2");
     }
 
     /// <summary>Wikidata-id för en biltillverkare: kända id först, annars sökning ("… car manufacturer").</summary>

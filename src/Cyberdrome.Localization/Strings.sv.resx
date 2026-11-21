@@ -746,13 +746,13 @@ Ignorerat (stöds inte av simulatorn): </value>
     <value>Vald: {0}</value>
   </data>
   <data name="Fmt_StatusCarModel" xml:space="preserve">
-    <value>● Bilmodell: {0}</value>
+    <value>Bilmodell: {0}</value>
   </data>
   <data name="GeoRoute_TheRouteNeedsAtLeastOne" xml:space="preserve">
     <value>Rutten behöver minst en punkt.</value>
   </data>
   <data name="InfoDialogs_AboutCyberdrome" xml:space="preserve">
-    <value>Om Cyberdrome</value>
+    <value>Om Cyberdrome Cockpit</value>
   </data>
   <data name="InfoDialogs_AndroidAutomotiveInsideTheProgramNo" xml:space="preserve">
     <value>Android Automotive i programmet (utan omstart), egna teman och skal per bilmodell</value>
@@ -764,10 +764,10 @@ Ignorerat (stöds inte av simulatorn): </value>
     <value>Stäng</value>
   </data>
   <data name="InfoDialogs_CyberdromeIsFreeSoftwareGPL3" xml:space="preserve">
-    <value>Cyberdrome är fri programvara (GPL-3.0) – utan garanti</value>
+    <value>Cyberdrome Cockpit är fri programvara (GPL-3.0) – utan garanti</value>
   </data>
   <data name="InfoDialogs_CyberdromeJoukoBrostrMVersion0" xml:space="preserve">
-    <value>Cyberdrome · Jouko Broström · version {0} · GPL-3.0-or-later</value>
+    <value>Cyberdrome Cockpit · Jouko Broström · version {0} · GPL-3.0-or-later</value>
   </data>
   <data name="InfoDialogs_DonateViaPayPal" xml:space="preserve">
     <value>Donera via PayPal</value>
@@ -806,7 +806,7 @@ Ignorerat (stöds inte av simulatorn): </value>
     <value>Virtuell OBD-port (ELM327) via Wi-Fi, Bluetooth och Bluetooth LE, med UDS och säkerhetsnyckel</value>
   </data>
   <data name="InfoDialogs_WelcomeToCyberdrome" xml:space="preserve">
-    <value>Välkommen till Cyberdrome</value>
+    <value>Välkommen till Cyberdrome Cockpit</value>
   </data>
   <data name="InfoDialogs_WhatTheProgramCanDo" xml:space="preserve">
     <value>Det här kan programmet:</value>
@@ -1516,7 +1516,7 @@ Data: {2}
 </value>
   </data>
   <data name="Program_CyberdromeSimulatorIsBeingUninstalledDo" xml:space="preserve">
-    <value>Cyberdrome Simulator avinstalleras.
+    <value>Cyberdrome Cockpit avinstalleras.
 
 Vill du även ta bort mina data?
 </value>
@@ -2146,7 +2146,7 @@ Vill du även ta bort mina data?
     <value>&lt;/table&gt;&lt;h2&gt;Steg&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Tid&lt;/th&gt;&lt;th&gt;Steg&lt;/th&gt;&lt;th&gt;Utfört&lt;/th&gt;&lt;/tr&gt;</value>
   </data>
   <data name="TestEvaluator_TablePClassMutedCyberdromeSimulator" xml:space="preserve">
-    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Simulator – testrapport&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
+    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Cockpit – testrapport&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
   </data>
   <data name="TestEvaluator_TheAppNeverAskedFor0" xml:space="preserve">
     <value>Appen frågade aldrig efter {0}.</value>
@@ -2894,5 +2894,149 @@ Vill du även ta bort mina data?
   </data>
   <data name="WriteFilter_UnknownService0x0X2Counted" xml:space="preserve">
     <value>okänd tjänst 0x{0:X2} (räknas som skrivning)</value>
+  </data>
+  <data name="AndroidVm_ToolsStillMissing" xml:space="preserve">
+    <value>Cuttlefish-verktygen installerades men hittas inte i Linux-miljön (varken 'cvd' eller 'launch_cvd'). Tryck Kontrollera igen. Om felet finns kvar: ta bort miljön med wsl --unregister Cyberdrome-Android och tryck Installera Android igen.</value>
+  </data>
+  <data name="AndroidVm_NoKvmHelp" xml:space="preserve">
+    <value>Nästlad virtualisering (KVM) saknas inne i WSL2, så Cuttlefish kan inte köras på den här datorn just nu. Kontrollera: 1) virtualisering (Intel VT-x / AMD-V) är på i BIOS/UEFI, 2) Windows-funktionen Plattform för virtuella datorer är på, 3) filen %UserProfile%.wslconfig har nestedVirtualization=true under [wsl2], kör sedan wsl --shutdown. Eller välj Android-läget Utan omstart under Inställningar – det fungerar utan KVM i WSL.</value>
+  </data>
+  <data name="AndroidVm_WslStatusDetail" xml:space="preserve">
+    <value>WSL svarar: {0}</value>
+  </data>
+  <data name="AndroidVm_WslNotWorkingHelp" xml:space="preserve">
+    <value>WSL2 fungerar inte på den här datorn än. Vanliga orsaker: WSL är inte installerat, Windows-funktionen Plattform för virtuella datorer är avstängd, virtualisering är avstängd i BIOS/UEFI, eller Windows har inte startats om efter att det slogs på. Tryck Installera Android för att slå på WSL2 (Windows frågar efter administratörsbehörighet och en omstart).</value>
+  </data>
+  <data name="AndroidVm_InstallStopped" xml:space="preserve">
+    <value>Installationen stannade: {0}</value>
+  </data>
+  <data name="AndroidVm_StepFailedSeeLog" xml:space="preserve">
+    <value>{0} Se loggen på sidan Android för detaljer.</value>
+  </data>
+  <data name="Main_AndroidStepAlreadyRunning" xml:space="preserve">
+    <value>Ett Android-steg pågår redan. Vänta tills det är klart – förloppet visas på sidan Android.</value>
+  </data>
+  <data name="Main_AndroidError0" xml:space="preserve">
+    <value>Något gick fel: {0}</value>
+  </data>
+  <data name="Ui_Fullscreen" xml:space="preserve">
+    <value>Fullskärm</value>
+  </data>
+  <data name="Ui_FullscreenTip" xml:space="preserve">
+    <value>Visa bara bilskärmen med skalet över hela bildskärmen (F11). Esc avslutar.</value>
+  </data>
+  <data name="Ui_ExitFullscreen" xml:space="preserve">
+    <value>Lämna fullskärm (Esc)</value>
+  </data>
+  <data name="Nav_GroupCar" xml:space="preserve">
+    <value>BILEN</value>
+  </data>
+  <data name="Nav_GroupTest" xml:space="preserve">
+    <value>TESTA</value>
+  </data>
+  <data name="Nav_GroupData" xml:space="preserve">
+    <value>BILAR OCH DATA</value>
+  </data>
+  <data name="Nav_GroupSystem" xml:space="preserve">
+    <value>SYSTEM</value>
+  </data>
+  <data name="Lead_Overview" xml:space="preserve">
+    <value>Bilens skärm och bilens värden i realtid – det som Android och OBD-appar ser.</value>
+  </data>
+  <data name="Lead_Android" xml:space="preserve">
+    <value>Installera, starta och stoppa Android i den virtuella bilen, och följ vad som händer i loggen.</value>
+  </data>
+  <data name="Lead_Map" xml:space="preserve">
+    <value>Sätt bilens position och kör en rutt; GPS-positionen skickas till Android.</value>
+  </data>
+  <data name="Lead_Settings" xml:space="preserve">
+    <value>Hur Android körs, skärmen, utseendet per bilmodell, språk och uppdateringar.</value>
+  </data>
+  <data name="Ui_UnitRpm" xml:space="preserve">
+    <value>varv/min</value>
+  </data>
+  <data name="Ui_QuickAdd" xml:space="preserve">
+    <value>Snabbval – vanliga felkoder</value>
+  </data>
+  <data name="Settings_ModeQuick" xml:space="preserve">
+    <value>Snabbstart</value>
+  </data>
+  <data name="Settings_ModeQuickDesc" xml:space="preserve">
+    <value>Googles emulator i Windows. Ingen omstart behövs.</value>
+  </data>
+  <data name="Settings_ModeGoogle" xml:space="preserve">
+    <value>Med Google-appar</value>
+  </data>
+  <data name="Settings_ModeGoogleDesc" xml:space="preserve">
+    <value>Play Store och Google Maps, bara för utveckling.</value>
+  </data>
+  <data name="Settings_ModeFast" xml:space="preserve">
+    <value>WSL2 + Cuttlefish</value>
+  </data>
+  <data name="Settings_ModeFastDesc" xml:space="preserve">
+    <value>Riktig AOSP i WSL2. Kräver virtualisering (KVM).</value>
+  </data>
+  <data name="Settings_ModeSizeQuick" xml:space="preserve">
+    <value>Cirka 3 GB nedladdning</value>
+  </data>
+  <data name="Settings_ModeSizeGoogle" xml:space="preserve">
+    <value>Cirka 4 GB nedladdning</value>
+  </data>
+  <data name="Settings_ModeSizeFast" xml:space="preserve">
+    <value>Cirka 6 GB, kräver WSL2 och KVM</value>
+  </data>
+  <data name="Settings_ModeInstalled" xml:space="preserve">
+    <value>Installerat</value>
+  </data>
+  <data name="Settings_ModeRunning" xml:space="preserve">
+    <value>Igång</value>
+  </data>
+  <data name="Settings_ModeNotInstalled" xml:space="preserve">
+    <value>Inte installerat än</value>
+  </data>
+  <data name="Settings_ModeProblem" xml:space="preserve">
+    <value>Kan inte köras på datorn än</value>
+  </data>
+  <data name="Settings_ModeRebootNeeded" xml:space="preserve">
+    <value>Starta om Windows för att fortsätta</value>
+  </data>
+  <data name="Settings_ShowHow" xml:space="preserve">
+    <value>Visa hur</value>
+  </data>
+  <data name="Settings_Advanced" xml:space="preserve">
+    <value>Avancerat</value>
+  </data>
+  <data name="Settings_IncludePrereleases" xml:space="preserve">
+    <value>Ta med förhandsversioner</value>
+  </data>
+  <data name="Settings_UseLocalFolder" xml:space="preserve">
+    <value>Hämta uppdateringar från en lokal mapp (för test)</value>
+  </data>
+  <data name="Release_SourceFolder0" xml:space="preserve">
+    <value>Källa: mappen {0}</value>
+  </data>
+  <data name="Release_SourceGitHub0" xml:space="preserve">
+    <value>Källa: GitHub Releases ({0}). Kontrolleras automatiskt högst en gång per dygn.</value>
+  </data>
+  <data name="Release_Checking" xml:space="preserve">
+    <value>Söker efter uppdateringar …</value>
+  </data>
+  <data name="Release_GitHubRateLimit" xml:space="preserve">
+    <value>GitHub begränsar just nu hur ofta uppdateringar kan kontrolleras. Försök igen om en timme.</value>
+  </data>
+  <data name="Release_NoReleasesFound" xml:space="preserve">
+    <value>Inga releaser hittades på GitHub än.</value>
+  </data>
+  <data name="Release_NoInternet" xml:space="preserve">
+    <value>Kunde inte nå GitHub. Kontrollera internetanslutningen och försök igen.</value>
+  </data>
+  <data name="Release_WhatsNew" xml:space="preserve">
+    <value>Nyheter</value>
+  </data>
+  <data name="Release_UpdateBadge0" xml:space="preserve">
+    <value>Uppdatering {0}</value>
+  </data>
+  <data name="Ui_Or" xml:space="preserve">
+    <value>eller</value>
   </data>
 </root>

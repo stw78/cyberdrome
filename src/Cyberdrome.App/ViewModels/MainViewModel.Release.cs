@@ -6,12 +6,20 @@ using CommunityToolkit.Mvvm.Input;
 using Cyberdrome.App.Views;
 using Velopack;
 using Velopack.Sources;
+using Cyberdrome.Core.Updates;
 
 namespace Cyberdrome.App.ViewModels;
 
-/// <summary>Version, ansvarsfriskrivning vid första starten och uppdateringar (Velopack, från en lokal mapp – ingen server).</summary>
+/// <summary>
+/// Version, ansvarsfriskrivning vid första starten och uppdateringar (Velopack).
+/// Uppdateringar hämtas från GitHub Releases (publikt repo, ingen nyckel i programmet).
+/// En lokal mapp kan väljas under Avancerat för att testa egna byggen.
+/// </summary>
 public sealed partial class MainViewModel
 {
+    /// <summary>Repot som releaser hämtas från.</summary>
+    public const string GitHubRepoUrl = "https://github.com/stw78/cyberdrome";
+
     public string VersionText => "Version " + InfoDialogs.AppVersion;
 
     public bool DisclaimerShown => _appSettings.EulaAccepted == InfoDialogs.DisclaimerVersion;
@@ -28,38 +36,116 @@ public sealed partial class MainViewModel
     [ObservableProperty] private string _updateFolder = "";
     [ObservableProperty] private string _updateStatus = "";
     [ObservableProperty] private bool _updateBusy;
+    [ObservableProperty] private double _updateProgress;
+    [ObservableProperty] private bool _updateDownloading;
+    /// <summary>Versionen som finns att hämta (tom = ingen känd uppdatering).</summary>
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(UpdateAvailable))] private string _updateVersion = "";
+    /// <summary>Releaseanteckningar för den nya versionen (Markdown som text).</summary>
+    [ObservableProperty] private string _updateNotes = "";
     private UpdateInfo? _pendingUpdate;
     private UpdateManager? _updates;
+
+    public bool UpdateAvailable => UpdateVersion.Length > 0;
+
+    /// <summary>Hämta uppdateringar från en lokal mapp i stället för GitHub (Avancerat, för test).</summary>
+    public bool UseLocalUpdateFolder
+    {
+        get => _appSettings.UseLocalUpdateFolder;
+        set
+        {
+            if (value == _appSettings.UseLocalUpdateFolder) return;
+            _appSettings.UseLocalUpdateFolder = value;
+            _appSettings.Save();
+            ResetUpdateSource();
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(UpdateSourceText));
+        }
+    }
+
+    /// <summary>Ta med förhandsversioner (pre-release på GitHub). Standard: av.</summary>
+    public bool IncludePrereleases
+    {
+        get => _appSettings.IncludePrereleases;
+        set
+        {
+            if (value == _appSettings.IncludePrereleases) return;
+            _appSettings.IncludePrereleases = value;
+            _appSettings.Save();
+            ResetUpdateSource();
+            OnPropertyChanged();
+        }
+    }
+
+    public string UpdateSourceText => UseLocalUpdateFolder
+        ? L.F("Release_SourceFolder0", UpdateFolder)
+        : L.F("Release_SourceGitHub0", GitHubRepoUrl.Replace("https://", ""));
 
     /// <summary>Sätts av fönstret: stänger programmet (vanlig avstängning) så att uppdateringen kan installeras.</summary>
     public Action? CloseForUpdate { get; set; }
 
-    private void InitUpdates() => UpdateFolder = string.IsNullOrWhiteSpace(_appSettings.UpdateFolder) ? DefaultUpdateFolder : _appSettings.UpdateFolder!;
+    private void InitUpdates()
+    {
+        UpdateFolder = string.IsNullOrWhiteSpace(_appSettings.UpdateFolder) ? DefaultUpdateFolder : _appSettings.UpdateFolder!;
+        // Automatisk kontroll vid start, högst en gång per dygn, en stund efter att fönstret visats.
+        if (UpdatePolicy.ShouldAutoCheck(_appSettings.LastUpdateCheckUtc, DateTime.UtcNow))
+            _ = Task.Delay(TimeSpan.FromSeconds(8)).ContinueWith(_ =>
+                Avalonia.Threading.Dispatcher.UIThread.Post(() => _ = CheckUpdatesCore(automatic: true)));
+    }
 
     partial void OnUpdateFolderChanged(string value)
     {
-        _updates = null;
-        _pendingUpdate = null;
+        ResetUpdateSource();
         _appSettings.UpdateFolder = value == DefaultUpdateFolder ? null : value;
         _appSettings.Save();
+        OnPropertyChanged(nameof(UpdateSourceText));
     }
 
-    private UpdateManager Updates => _updates ??= new UpdateManager(new SimpleFileSource(new DirectoryInfo(UpdateFolder)));
+    private void ResetUpdateSource()
+    {
+        _updates = null;
+        _pendingUpdate = null;
+        UpdateVersion = "";
+        UpdateNotes = "";
+    }
+
+    private UpdateManager Updates => _updates ??= new UpdateManager(UseLocalUpdateFolder
+        ? new SimpleFileSource(new DirectoryInfo(UpdateFolder))
+        : new GithubSource(GitHubRepoUrl, accessToken: null, prerelease: IncludePrereleases));
 
     [RelayCommand]
-    private async Task CheckUpdates()
+    private Task CheckUpdates() => CheckUpdatesCore(automatic: false);
+
+    private async Task CheckUpdatesCore(bool automatic)
     {
+        if (UpdateBusy) return;
         UpdateBusy = true;
         try
         {
-            if (!Updates.IsInstalled) { UpdateStatus = L.T("Release_UpdatesWorkInTheInstalledVersion"); return; }
-            if (!Directory.Exists(UpdateFolder)) { UpdateStatus = L.F("Release_TheFolderDoesNotExist0", UpdateFolder); return; }
+            if (!Updates.IsInstalled) { if (!automatic) UpdateStatus = L.T("Release_UpdatesWorkInTheInstalledVersion"); return; }
+            if (UseLocalUpdateFolder && !Directory.Exists(UpdateFolder)) { UpdateStatus = L.F("Release_TheFolderDoesNotExist0", UpdateFolder); return; }
+            if (!automatic) UpdateStatus = L.T("Release_Checking");
             _pendingUpdate = await Updates.CheckForUpdatesAsync();
-            UpdateStatus = _pendingUpdate is null
-                ? L.F("Release_YouHaveTheLatestVersion0", InfoDialogs.AppVersion)
-                : L.F("Release_ANewVersionIsAvailable0", _pendingUpdate.TargetFullRelease.Version);
+            _appSettings.LastUpdateCheckUtc = DateTime.UtcNow;
+            _appSettings.Save();
+            if (_pendingUpdate is null)
+            {
+                UpdateVersion = "";
+                UpdateNotes = "";
+                UpdateStatus = L.F("Release_YouHaveTheLatestVersion0", InfoDialogs.AppVersion);
+            }
+            else
+            {
+                var target = _pendingUpdate.TargetFullRelease;
+                UpdateVersion = target.Version.ToString();
+                UpdateNotes = UpdatePolicy.CleanNotes(target.NotesMarkdown);
+                UpdateStatus = L.F("Release_ANewVersionIsAvailable0", UpdateVersion);
+            }
         }
-        catch (Exception ex) { UpdateStatus = L.T("Release_CouldNotCheckForUpdates") + ex.Message; }
+        catch (Exception ex)
+        {
+            // Vid automatisk kontroll stör vi inte med fel (t.ex. ingen internet); visas när man trycker själv.
+            UpdateStatus = UpdatePolicy.FriendlyError(ex.Message);
+        }
         finally { UpdateBusy = false; }
     }
 
@@ -68,16 +154,27 @@ public sealed partial class MainViewModel
     {
         if (_pendingUpdate is null) { await CheckUpdates(); if (_pendingUpdate is null) return; }
         UpdateBusy = true;
+        UpdateDownloading = true;
         try
         {
             UpdateStatus = L.T("Release_DownloadingTheUpdate");
-            await Updates.DownloadUpdatesAsync(_pendingUpdate, p => Avalonia.Threading.Dispatcher.UIThread.Post(() => UpdateStatus = L.F("Release_DownloadingTheUpdate0", p)));
+            UpdateProgress = 0;
+            await Updates.DownloadUpdatesAsync(_pendingUpdate, p => Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            {
+                UpdateProgress = p;
+                UpdateStatus = L.F("Release_DownloadingTheUpdate0", p);
+            }));
             UpdateStatus = L.T("Release_InstallingAndRestarting");
             // Väntar tills programmet har avslutats normalt (servrar och emulator stängs), installerar och startar igen.
             Updates.WaitExitThenApplyUpdates(_pendingUpdate, silent: false, restart: true);
             CloseForUpdate?.Invoke();
         }
-        catch (Exception ex) { UpdateStatus = L.T("Release_TheUpdateFailed") + ex.Message; UpdateBusy = false; }
+        catch (Exception ex)
+        {
+            UpdateStatus = L.T("Release_TheUpdateFailed") + UpdatePolicy.FriendlyError(ex.Message);
+            UpdateBusy = false;
+            UpdateDownloading = false;
+        }
     }
 }
 

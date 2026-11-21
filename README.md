@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/logo-128.png" width="128" alt="Cyberdrome"></p>
 
-# Cyberdrome Simulator
+# Cyberdrome Cockpit
 
 **English** · [Svenska](README.sv.md)
 
@@ -46,9 +46,10 @@ The following are downloaded by the user at runtime and are not included:
 - map tiles,
 - vPIC, Wikidata and OBDb data.
 
-**Updates:** Settings → Updates checks a local folder. By default this is `Desktop\Projekt\release\uppdateringar` if
-`Desktop\Projekt` exists, otherwise `Documents\Cyberdrome\release\uppdateringar`. No server is used. "Install update"
-downloads, closes the program, installs and starts it again. Your data is not affected.
+**Updates:** the program checks [GitHub Releases](https://github.com/stw78/cyberdrome/releases) at start (at most once a
+day) and under Settings → Updates. It shows the new version and its release notes; "Install update" downloads with
+progress, closes the program, installs and starts it again. Your data is not affected. No account or key is needed.
+Under **Advanced** you can include pre-releases, or use a local folder instead (for testing your own builds).
 
 **Building a release:** `powershell -ExecutionPolicy Bypass -File build-release.ps1 -Version 1.0.0`. The script:
 - runs the tests and generates `legal\THIRD-PARTY-NOTICES.txt` from the NuGet packages (`tools\gen-notices.ps1`),

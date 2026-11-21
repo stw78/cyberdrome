@@ -746,13 +746,13 @@ Ignored (not supported by the simulator):</value>
     <value>Selected: {0}</value>
   </data>
   <data name="Fmt_StatusCarModel" xml:space="preserve">
-    <value>● Car model: {0}</value>
+    <value>Car model: {0}</value>
   </data>
   <data name="GeoRoute_TheRouteNeedsAtLeastOne" xml:space="preserve">
     <value>The route needs at least one point.</value>
   </data>
   <data name="InfoDialogs_AboutCyberdrome" xml:space="preserve">
-    <value>About Cyberdrome</value>
+    <value>About Cyberdrome Cockpit</value>
   </data>
   <data name="InfoDialogs_AndroidAutomotiveInsideTheProgramNo" xml:space="preserve">
     <value>Android Automotive inside the program (no restart), own themes and skins per car model</value>
@@ -764,10 +764,10 @@ Ignored (not supported by the simulator):</value>
     <value>Close</value>
   </data>
   <data name="InfoDialogs_CyberdromeIsFreeSoftwareGPL3" xml:space="preserve">
-    <value>Cyberdrome is free software (GPL-3.0) – without warranty</value>
+    <value>Cyberdrome Cockpit is free software (GPL-3.0) – without warranty</value>
   </data>
   <data name="InfoDialogs_CyberdromeJoukoBrostrMVersion0" xml:space="preserve">
-    <value>Cyberdrome · Jouko Broström · version {0} · GPL-3.0-or-later</value>
+    <value>Cyberdrome Cockpit · Jouko Broström · version {0} · GPL-3.0-or-later</value>
   </data>
   <data name="InfoDialogs_DonateViaPayPal" xml:space="preserve">
     <value>Donate via PayPal</value>
@@ -806,7 +806,7 @@ Ignored (not supported by the simulator):</value>
     <value>Virtual OBD port (ELM327) over Wi-Fi, Bluetooth and Bluetooth LE, with UDS and security key</value>
   </data>
   <data name="InfoDialogs_WelcomeToCyberdrome" xml:space="preserve">
-    <value>Welcome to Cyberdrome</value>
+    <value>Welcome to Cyberdrome Cockpit</value>
   </data>
   <data name="InfoDialogs_WhatTheProgramCanDo" xml:space="preserve">
     <value>What the program can do:</value>
@@ -1516,7 +1516,7 @@ Data: {2}
 </value>
   </data>
   <data name="Program_CyberdromeSimulatorIsBeingUninstalledDo" xml:space="preserve">
-    <value>Cyberdrome Simulator is being uninstalled.
+    <value>Cyberdrome Cockpit is being uninstalled.
 
 Do you also want to remove my data?
 </value>
@@ -2146,7 +2146,7 @@ Do you also want to remove my data?
     <value>&lt;/table&gt;&lt;h2&gt;Steps&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Time&lt;/th&gt;&lt;th&gt;Step&lt;/th&gt;&lt;th&gt;Done&lt;/th&gt;&lt;/tr&gt;</value>
   </data>
   <data name="TestEvaluator_TablePClassMutedCyberdromeSimulator" xml:space="preserve">
-    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Simulator – test report&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
+    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Cockpit – test report&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
   </data>
   <data name="TestEvaluator_TheAppNeverAskedFor0" xml:space="preserve">
     <value>The app never asked for {0}.</value>
@@ -2894,5 +2894,149 @@ Do you also want to remove my data?
   </data>
   <data name="WriteFilter_UnknownService0x0X2Counted" xml:space="preserve">
     <value>unknown service 0x{0:X2} (counted as a write)</value>
+  </data>
+  <data name="AndroidVm_ToolsStillMissing" xml:space="preserve">
+    <value>The Cuttlefish tools were installed but cannot be found in the Linux environment (no 'cvd' or 'launch_cvd'). Press Check again. If it remains, remove the environment with: wsl --unregister Cyberdrome-Android, and press Install Android again.</value>
+  </data>
+  <data name="AndroidVm_NoKvmHelp" xml:space="preserve">
+    <value>Nested virtualisation (KVM) is missing inside WSL2, so Cuttlefish cannot run on this PC right now. Check: 1) virtualisation (Intel VT-x / AMD-V) is on in BIOS/UEFI, 2) the Windows feature Virtual Machine Platform is on, 3) the file %UserProfile%.wslconfig has nestedVirtualization=true under [wsl2], then run wsl --shutdown. Or choose the Android mode Without restart in Settings – it works without KVM in WSL.</value>
+  </data>
+  <data name="AndroidVm_WslStatusDetail" xml:space="preserve">
+    <value>WSL says: {0}</value>
+  </data>
+  <data name="AndroidVm_WslNotWorkingHelp" xml:space="preserve">
+    <value>WSL2 does not work on this PC yet. Common causes: WSL is not installed, the Windows feature Virtual Machine Platform is off, virtualisation is off in BIOS/UEFI, or Windows has not been restarted after turning it on. Press Install Android to turn WSL2 on (Windows asks for administrator rights and a restart).</value>
+  </data>
+  <data name="AndroidVm_InstallStopped" xml:space="preserve">
+    <value>The installation stopped: {0}</value>
+  </data>
+  <data name="AndroidVm_StepFailedSeeLog" xml:space="preserve">
+    <value>{0} See the log on the Android page for details.</value>
+  </data>
+  <data name="Main_AndroidStepAlreadyRunning" xml:space="preserve">
+    <value>An Android step is already running. Wait until it is finished – progress is shown on the Android page.</value>
+  </data>
+  <data name="Main_AndroidError0" xml:space="preserve">
+    <value>Something went wrong: {0}</value>
+  </data>
+  <data name="Ui_Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Ui_FullscreenTip" xml:space="preserve">
+    <value>Show only the car screen with its skin, over the whole display (F11). Esc exits.</value>
+  </data>
+  <data name="Ui_ExitFullscreen" xml:space="preserve">
+    <value>Exit fullscreen (Esc)</value>
+  </data>
+  <data name="Nav_GroupCar" xml:space="preserve">
+    <value>THE CAR</value>
+  </data>
+  <data name="Nav_GroupTest" xml:space="preserve">
+    <value>TEST</value>
+  </data>
+  <data name="Nav_GroupData" xml:space="preserve">
+    <value>CARS AND DATA</value>
+  </data>
+  <data name="Nav_GroupSystem" xml:space="preserve">
+    <value>SYSTEM</value>
+  </data>
+  <data name="Lead_Overview" xml:space="preserve">
+    <value>The car's screen and the car's values in real time – what Android and OBD apps see.</value>
+  </data>
+  <data name="Lead_Android" xml:space="preserve">
+    <value>Install, start and stop Android in the virtual car, and follow what happens in the log.</value>
+  </data>
+  <data name="Lead_Map" xml:space="preserve">
+    <value>Set the car's position and drive a route; the GPS position is sent to Android.</value>
+  </data>
+  <data name="Lead_Settings" xml:space="preserve">
+    <value>How Android runs, the screen, the look per car model, language and updates.</value>
+  </data>
+  <data name="Ui_UnitRpm" xml:space="preserve">
+    <value>rpm</value>
+  </data>
+  <data name="Ui_QuickAdd" xml:space="preserve">
+    <value>Quick add – common trouble codes</value>
+  </data>
+  <data name="Settings_ModeQuick" xml:space="preserve">
+    <value>Quick start</value>
+  </data>
+  <data name="Settings_ModeQuickDesc" xml:space="preserve">
+    <value>Google's emulator in Windows. No restart needed.</value>
+  </data>
+  <data name="Settings_ModeGoogle" xml:space="preserve">
+    <value>With Google apps</value>
+  </data>
+  <data name="Settings_ModeGoogleDesc" xml:space="preserve">
+    <value>Play Store and Google Maps, for development only.</value>
+  </data>
+  <data name="Settings_ModeFast" xml:space="preserve">
+    <value>WSL2 + Cuttlefish</value>
+  </data>
+  <data name="Settings_ModeFastDesc" xml:space="preserve">
+    <value>Real AOSP in WSL2. Needs virtualisation (KVM).</value>
+  </data>
+  <data name="Settings_ModeSizeQuick" xml:space="preserve">
+    <value>About 3 GB download</value>
+  </data>
+  <data name="Settings_ModeSizeGoogle" xml:space="preserve">
+    <value>About 4 GB download</value>
+  </data>
+  <data name="Settings_ModeSizeFast" xml:space="preserve">
+    <value>About 6 GB, needs WSL2 and KVM</value>
+  </data>
+  <data name="Settings_ModeInstalled" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Settings_ModeRunning" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="Settings_ModeNotInstalled" xml:space="preserve">
+    <value>Not installed yet</value>
+  </data>
+  <data name="Settings_ModeProblem" xml:space="preserve">
+    <value>Cannot run on this PC yet</value>
+  </data>
+  <data name="Settings_ModeRebootNeeded" xml:space="preserve">
+    <value>Restart Windows to continue</value>
+  </data>
+  <data name="Settings_ShowHow" xml:space="preserve">
+    <value>Show how</value>
+  </data>
+  <data name="Settings_Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Settings_IncludePrereleases" xml:space="preserve">
+    <value>Include pre-releases</value>
+  </data>
+  <data name="Settings_UseLocalFolder" xml:space="preserve">
+    <value>Get updates from a local folder (for testing)</value>
+  </data>
+  <data name="Release_SourceFolder0" xml:space="preserve">
+    <value>Source: the folder {0}</value>
+  </data>
+  <data name="Release_SourceGitHub0" xml:space="preserve">
+    <value>Source: GitHub Releases ({0}). Checked automatically at most once a day.</value>
+  </data>
+  <data name="Release_Checking" xml:space="preserve">
+    <value>Checking for updates …</value>
+  </data>
+  <data name="Release_GitHubRateLimit" xml:space="preserve">
+    <value>GitHub is limiting how often updates can be checked right now. Try again in an hour.</value>
+  </data>
+  <data name="Release_NoReleasesFound" xml:space="preserve">
+    <value>No releases were found on GitHub yet.</value>
+  </data>
+  <data name="Release_NoInternet" xml:space="preserve">
+    <value>Could not reach GitHub. Check the internet connection and try again.</value>
+  </data>
+  <data name="Release_WhatsNew" xml:space="preserve">
+    <value>What's new</value>
+  </data>
+  <data name="Release_UpdateBadge0" xml:space="preserve">
+    <value>Update {0}</value>
+  </data>
+  <data name="Ui_Or" xml:space="preserve">
+    <value>or</value>
   </data>
 </root>

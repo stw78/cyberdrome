@@ -19,7 +19,7 @@ public sealed class VpicClient
     public VpicClient(HttpClient? http = null)
     {
         _http = http ?? new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeSimulator/0.2");
+        if (_http.DefaultRequestHeaders.UserAgent.Count == 0) _http.DefaultRequestHeaders.UserAgent.ParseAdd("CyberdromeCockpit/0.2");
     }
 
     private async Task<JsonElement[]> GetResultsAsync(string path, CancellationToken ct)

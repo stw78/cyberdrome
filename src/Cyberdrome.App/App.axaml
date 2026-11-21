@@ -1,33 +1,134 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <!-- Copyright (C) 2026 Jouko Broström -->
+<!-- Cyberdrome Cockpit – tidlös, enkel design: ljusa ytor, mjuka kort, rundade fält, en enda ikonfamilj (Lucide). -->
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Cyberdrome.App"
              x:Class="Cyberdrome.App.App"
              RequestedThemeVariant="Light">
   <Application.Resources>
-    <SolidColorBrush x:Key="Accent">#2563EB</SolidColorBrush>
-    <SolidColorBrush x:Key="AccentSoft">#EAF1FE</SolidColorBrush>
-    <SolidColorBrush x:Key="Ok">#16A34A</SolidColorBrush>
-    <SolidColorBrush x:Key="OkSoft">#E8F7EE</SolidColorBrush>
-    <SolidColorBrush x:Key="Warn">#B45309</SolidColorBrush>
-    <SolidColorBrush x:Key="WarnSoft">#FEF3E2</SolidColorBrush>
-    <SolidColorBrush x:Key="Page">#F4F6FA</SolidColorBrush>
-    <SolidColorBrush x:Key="Card">#FFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="Line">#E3E7EF</SolidColorBrush>
-    <SolidColorBrush x:Key="Muted">#64748B</SolidColorBrush>
-    <SolidColorBrush x:Key="Ink">#0F172A</SolidColorBrush>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://Cyberdrome/Assets/Icons.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <!-- Färger -->
+      <Color x:Key="SystemAccentColor">#0A66FF</Color>
+      <SolidColorBrush x:Key="Accent">#0A66FF</SolidColorBrush>
+      <SolidColorBrush x:Key="AccentHover">#0052D6</SolidColorBrush>
+      <SolidColorBrush x:Key="AccentSoft">#EAF2FF</SolidColorBrush>
+      <SolidColorBrush x:Key="Ok">#1E8E4A</SolidColorBrush>
+      <SolidColorBrush x:Key="OkDot">#34C759</SolidColorBrush>
+      <SolidColorBrush x:Key="OkSoft">#E8F7EE</SolidColorBrush>
+      <SolidColorBrush x:Key="Warn">#B86E00</SolidColorBrush>
+      <SolidColorBrush x:Key="WarnDot">#FF9F0A</SolidColorBrush>
+      <SolidColorBrush x:Key="WarnSoft">#FFF4E5</SolidColorBrush>
+      <SolidColorBrush x:Key="Error">#FF453A</SolidColorBrush>
+      <SolidColorBrush x:Key="ErrorSoft">#FFECEB</SolidColorBrush>
+      <SolidColorBrush x:Key="Purple">#5E5CE6</SolidColorBrush>
+      <SolidColorBrush x:Key="Pink">#FF375F</SolidColorBrush>
+      <SolidColorBrush x:Key="Page">#F5F6F8</SolidColorBrush>
+      <SolidColorBrush x:Key="Side">#FBFBFD</SolidColorBrush>
+      <SolidColorBrush x:Key="Card">#FFFFFF</SolidColorBrush>
+      <SolidColorBrush x:Key="Fill">#F2F2F7</SolidColorBrush>
+      <SolidColorBrush x:Key="FillHover">#E8E8ED</SolidColorBrush>
+      <SolidColorBrush x:Key="Tile">#F7F8FA</SolidColorBrush>
+      <SolidColorBrush x:Key="Line">#E5E5EA</SolidColorBrush>
+      <SolidColorBrush x:Key="Muted">#6E6E73</SolidColorBrush>
+      <SolidColorBrush x:Key="Ink">#1C1C1E</SolidColorBrush>
+      <SolidColorBrush x:Key="Mono">#3A3A3C</SolidColorBrush>
+      <BoxShadows x:Key="CardShadow">0 1 2 0 #0A000000, 0 8 24 0 #0A000000</BoxShadows>
+      <BoxShadows x:Key="SegShadow">0 1 3 0 #1F000000</BoxShadows>
+      <FontFamily x:Key="MonoFont">Cascadia Mono,Consolas,Menlo,monospace</FontFamily>
+      <!-- Fluent: rundade fält utan ram, grå fyllning -->
+      <CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+      <CornerRadius x:Key="OverlayCornerRadius">12</CornerRadius>
+      <SolidColorBrush x:Key="TextControlBackground">#F2F2F7</SolidColorBrush>
+      <SolidColorBrush x:Key="TextControlBackgroundPointerOver">#ECECF1</SolidColorBrush>
+      <SolidColorBrush x:Key="TextControlBackgroundFocused">#FFFFFF</SolidColorBrush>
+      <SolidColorBrush x:Key="TextControlBorderBrush">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="TextControlBorderBrushPointerOver">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBackground">#F2F2F7</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver">#ECECF1</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBackgroundPressed">#E5E5EA</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBorderBrush">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ComboBoxBorderBrushPressed">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchFillOn">#34C759</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchFillOnPointerOver">#30B652</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchFillOnPressed">#2AA249</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchFillOff">#E5E5EA</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchFillOffPointerOver">#DCDCE1</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchStrokeOff">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchStrokeOffPointerOver">Transparent</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchKnobFillOff">#FFFFFF</SolidColorBrush>
+      <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPointerOver">#FFFFFF</SolidColorBrush>
+    </ResourceDictionary>
   </Application.Resources>
   <Application.Styles>
     <FluentTheme />
+
+    <Style Selector="Window">
+      <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+
+    <!-- Kort -->
     <Style Selector="Border.card">
       <Setter Property="Background" Value="{StaticResource Card}" />
-      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
-      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Padding" Value="22" />
+      <Setter Property="BoxShadow" Value="{StaticResource CardShadow}" />
+    </Style>
+    <Style Selector="Border.tile">
+      <Setter Property="Background" Value="{StaticResource Tile}" />
       <Setter Property="CornerRadius" Value="14" />
-      <Setter Property="Padding" Value="20" />
+      <Setter Property="Padding" Value="14,12" />
+    </Style>
+    <Style Selector="Border.note">
+      <Setter Property="Background" Value="{StaticResource AccentSoft}" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Padding" Value="14,10" />
+    </Style>
+    <Style Selector="Border.warnbox">
+      <Setter Property="Background" Value="{StaticResource WarnSoft}" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Padding" Value="14,12" />
+    </Style>
+    <Style Selector="Border.divider">
+      <Setter Property="Height" Value="1" />
+      <Setter Property="Background" Value="{StaticResource Line}" />
+      <Setter Property="Margin" Value="0,4" />
+    </Style>
+    <Style Selector="Border.row">
+      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="Padding" Value="0,12" />
+    </Style>
+    <Style Selector="Border.mono">
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="12,8" />
+    </Style>
+
+    <!-- Text -->
+    <Style Selector="TextBlock.title">
+      <Setter Property="FontSize" Value="28" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="TextBlock.lead">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="Foreground" Value="{StaticResource Muted}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Margin" Value="0,2,0,0" />
     </Style>
     <Style Selector="TextBlock.h2">
       <Setter Property="FontSize" Value="17" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="TextBlock.h3">
+      <Setter Property="FontSize" Value="14" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Foreground" Value="{StaticResource Ink}" />
     </Style>
@@ -36,17 +137,43 @@
       <Setter Property="FontSize" Value="13" />
       <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
+    <Style Selector="TextBlock.small">
+      <Setter Property="Foreground" Value="{StaticResource Muted}" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.group">
+      <Setter Property="Foreground" Value="#8E8E93" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="LetterSpacing" Value="0.6" />
+      <Setter Property="Margin" Value="12,16,0,6" />
+    </Style>
+    <Style Selector="TextBlock.big">
+      <Setter Property="FontSize" Value="24" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="SelectableTextBlock.code, TextBlock.code">
+      <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Foreground" Value="{StaticResource Mono}" />
+    </Style>
+
+    <!-- Statuspiller och punkter -->
     <Style Selector="Border.pill">
-      <Setter Property="CornerRadius" Value="10" />
-      <Setter Property="Padding" Value="10,3" />
+      <Setter Property="CornerRadius" Value="999" />
+      <Setter Property="Padding" Value="12,6" />
       <Setter Property="Background" Value="{StaticResource OkSoft}" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style Selector="Border.pill TextBlock">
       <Setter Property="Foreground" Value="{StaticResource Ok}" />
-      <Setter Property="FontSize" Value="12" />
+      <Setter Property="FontSize" Value="13" />
       <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="Border.pill Ellipse">
+      <Setter Property="Fill" Value="{StaticResource OkDot}" />
     </Style>
     <Style Selector="Border.pill.off">
       <Setter Property="Background" Value="{StaticResource WarnSoft}" />
@@ -54,36 +181,201 @@
     <Style Selector="Border.pill.off TextBlock">
       <Setter Property="Foreground" Value="{StaticResource Warn}" />
     </Style>
+    <Style Selector="Border.pill.off Ellipse">
+      <Setter Property="Fill" Value="{StaticResource WarnDot}" />
+    </Style>
+    <Style Selector="Ellipse.dot">
+      <Setter Property="Width" Value="8" />
+      <Setter Property="Height" Value="8" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Knappar -->
+    <Style Selector="Button">
+      <Setter Property="CornerRadius" Value="10" />
+    </Style>
     <Style Selector="Button.primary">
       <Setter Property="Background" Value="{StaticResource Accent}" />
       <Setter Property="Foreground" Value="White" />
-      <Setter Property="CornerRadius" Value="10" />
-      <Setter Property="Padding" Value="16,9" />
-      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="CornerRadius" Value="999" />
+      <Setter Property="Padding" Value="18,9" />
+      <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
-    <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="#1D4ED8" />
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter, Button.primary:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource AccentHover}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.primary:disabled /template/ ContentPresenter">
+      <Setter Property="Background" Value="#B9D2FF" />
       <Setter Property="Foreground" Value="White" />
     </Style>
     <Style Selector="Button.plain">
-      <Setter Property="Background" Value="White" />
-      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="999" />
       <Setter Property="Padding" Value="14,8" />
+      <Setter Property="FontWeight" Value="Medium" />
     </Style>
-    <Style Selector="ListBox.nav">
+    <Style Selector="Button.plain:pointerover /template/ ContentPresenter, Button.plain:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource FillHover}" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="Button.icon">
+      <Setter Property="Width" Value="36" />
+      <Setter Property="Height" Value="36" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.icon:pointerover /template/ ContentPresenter, Button.icon:pressed /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource FillHover}" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="Button.link">
       <Setter Property="Background" Value="Transparent" />
-    </Style>
-    <Style Selector="ListBox.nav ListBoxItem">
-      <Setter Property="CornerRadius" Value="10" />
-      <Setter Property="Padding" Value="14,11" />
-      <Setter Property="Margin" Value="0,2" />
-      <Setter Property="FontSize" Value="15" />
-    </Style>
-    <Style Selector="ListBox.nav ListBoxItem:selected /template/ ContentPresenter">
-      <Setter Property="Background" Value="{StaticResource AccentSoft}" />
       <Setter Property="Foreground" Value="{StaticResource Accent}" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{StaticResource AccentHover}" />
+    </Style>
+
+    <!-- Segmentkontroll: grå skena, vit vald del -->
+    <Style Selector="Border.seg">
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="3" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style Selector="RadioButton.seg">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="bg" CornerRadius="8" Padding="{TemplateBinding Padding}" Background="Transparent" MinWidth="{TemplateBinding MinWidth}">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Foreground="{TemplateBinding Foreground}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+      <Setter Property="Padding" Value="14,6" />
+      <Setter Property="MinWidth" Value="40" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Foreground" Value="{StaticResource Muted}" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="RadioButton.seg:checked">
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="RadioButton.seg:checked /template/ Border#bg">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BoxShadow" Value="{StaticResource SegShadow}" />
+    </Style>
+    <Style Selector="RadioButton.seg:disabled">
+      <Setter Property="Opacity" Value="0.5" />
+    </Style>
+
+    <!-- Snabbvalschips (felkoder) -->
+    <Style Selector="ToggleButton.chip">
+      <Setter Property="CornerRadius" Value="999" />
+      <Setter Property="Padding" Value="10,5" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton.chip:checked /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource ErrorSoft}" />
+      <Setter Property="Foreground" Value="#D70015" />
+    </Style>
+
+    <!-- Valbara rutor (Android-läge) -->
+    <Style Selector="RadioButton.tile">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="bg" CornerRadius="16" Padding="16" Background="{StaticResource Tile}" BorderThickness="2" BorderBrush="Transparent">
+            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="RadioButton.tile:pointerover /template/ Border#bg">
+      <Setter Property="Background" Value="#F0F2F5" />
+    </Style>
+    <Style Selector="RadioButton.tile:checked /template/ Border#bg">
+      <Setter Property="Background" Value="{StaticResource AccentSoft}" />
+      <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+    </Style>
+    <Style Selector="RadioButton.tile:disabled">
+      <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
+    <!-- Sidomeny: fylld blå pill för vald sida -->
+    <Style Selector="RadioButton.nav">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="bg" CornerRadius="10" Padding="12,9" Background="Transparent" Margin="0,1">
+            <ContentPresenter Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="RadioButton.nav l|LineIcon">
+      <Setter Property="Foreground" Value="{StaticResource Accent}" />
+    </Style>
+    <Style Selector="RadioButton.nav:pointerover /template/ Border#bg">
+      <Setter Property="Background" Value="#EFEFF4" />
+    </Style>
+    <Style Selector="RadioButton.nav:checked /template/ Border#bg">
+      <Setter Property="Background" Value="{StaticResource Accent}" />
+    </Style>
+    <Style Selector="RadioButton.nav:checked">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="RadioButton.nav:checked l|LineIcon">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- Tunna färgade reglage i "Bilen just nu" -->
+    <Style Selector="Slider.thin">
+      <Setter Property="Margin" Value="0,2,0,-6" />
+      <Setter Property="MinHeight" Value="24" />
+    </Style>
+
+    <!-- Listor med monospace-loggar -->
+    <Style Selector="ListBox.log">
+      <Setter Property="Background" Value="{StaticResource Tile}" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Padding" Value="6" />
+    </Style>
+    <Style Selector="ListBox.log ListBoxItem">
+      <Setter Property="Padding" Value="8,3" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+
+    <Style Selector="CheckBox">
+      <Setter Property="CornerRadius" Value="6" />
+    </Style>
+    <Style Selector="Expander">
+      <Setter Property="CornerRadius" Value="12" />
     </Style>
   </Application.Styles>
 </Application>

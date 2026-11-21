@@ -6,7 +6,6 @@ name: build
 on:
   push:
     branches: [main]
-    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -50,19 +49,20 @@ jobs:
         id: ver
         shell: pwsh
         run: |
-          $v = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}".TrimStart("v") } else { "1.0.0" }
+          $v = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version
           "version=$v" >> $env:GITHUB_OUTPUT
 
       - name: Paketera (osignerat)
         shell: pwsh
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File build-release.ps1 -Version ${{ steps.ver.outputs.version }} -SkipTests -Sign none
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File build-release.ps1 -Version ${{ steps.ver.outputs.version }} -SkipTests -Sign none -OutRoot "$PWD/out"
 
       - name: Ladda upp paketen
         id: upload
         uses: actions/upload-artifact@v4
         with:
           name: cyberdrome-${{ steps.ver.outputs.version }}
-          path: release/${{ steps.ver.outputs.version }}/
+          path: out/${{ steps.ver.outputs.version }}/
+          if-no-files-found: error
 
       # ---- Signering (SignPath Foundation, gratis för öppen källkod) ----
       # Aktiveras när projektet är godkänt hos SignPath. Byt ut organization-id/project-slug och lägg

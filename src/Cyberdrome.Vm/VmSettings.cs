@@ -43,7 +43,10 @@ public sealed class VmSettings
     /// Vilket Android-bygge som hämtas (gren/mål). Under utveckling används ett färdigt
     /// Cuttlefish-bygge. I säljversionen byts detta mot vår egen AOSP-avbild.
     /// </summary>
-    public string AndroidBuild { get; set; } = "aosp-android-latest-release/aosp_cf_x86_64_only_auto-userdebug";
+    public string AndroidBuild { get; set; } = "aosp-android-latest-release/aosp_cf_x86_64_auto-userdebug";
+
+    /// <summary>Byggmål som Android Build API inte längre känner till (400 Bad Request) och som byts ut vid inläsning.</summary>
+    public static readonly string[] RetiredBuilds = ["aosp-android-latest-release/aosp_cf_x86_64_only_auto-userdebug"];
 
     /// <summary>
     /// Ungefär hur stor nedladdningen är (MB), för förloppsstapeln. Uppskattning första gången;
@@ -147,7 +150,12 @@ public sealed class VmSettings
 
     public string ToJson() => JsonSerializer.Serialize(this, JsonOptions);
 
-    public static VmSettings FromJson(string json) => JsonSerializer.Deserialize<VmSettings>(json, JsonOptions) ?? new();
+    public static VmSettings FromJson(string json)
+    {
+        var s = JsonSerializer.Deserialize<VmSettings>(json, JsonOptions) ?? new();
+        if (RetiredBuilds.Contains(s.AndroidBuild)) s.AndroidBuild = new VmSettings().AndroidBuild;
+        return s;
+    }
 
     public static VmSettings Load()
     {

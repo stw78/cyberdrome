@@ -102,7 +102,7 @@ $grad = New-Object System.Drawing.Drawing2D.LinearGradientBrush((New-Object Syst
 $g.FillRectangle($grad, 0, 0, 1280, 640)
 $logo = New-LogoBitmap 360
 $g.DrawImage($logo, 110, 140, 360, 360); $logo.Dispose()
-$g.DrawString("Cyberdrome", (New-Object System.Drawing.Font("Segoe UI", 86, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)), [System.Drawing.Brushes]::White, 520, 190)
+$g.DrawString("Cyberdrome Cockpit", (New-Object System.Drawing.Font("Segoe UI", 70, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)), [System.Drawing.Brushes]::White, 520, 190)
 $g.DrawString("Android head unit and virtual OBD simulator", (New-Object System.Drawing.Font("Segoe UI", 34, [System.Drawing.FontStyle]::Regular, [System.Drawing.GraphicsUnit]::Pixel)), (New-Object System.Drawing.SolidBrush (C "#BFEFFF")), 526, 310)
 $g.DrawString("Open source, GPL-3.0", (New-Object System.Drawing.Font("Segoe UI", 30, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)), (New-Object System.Drawing.SolidBrush (C "#FF7A45")), 526, 372)
 $g.Dispose()

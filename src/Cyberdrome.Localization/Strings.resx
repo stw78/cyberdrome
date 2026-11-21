@@ -3042,4 +3042,22 @@ Do you also want to remove my data?
   <data name="Settings_AutoCheckUpdates" xml:space="preserve">
     <value>Check automatically at start (at most once a day)</value>
   </data>
+  <data name="Android_Starting" xml:space="preserve">
+    <value>Starting…</value>
+  </data>
+  <data name="Android_Stopping" xml:space="preserve">
+    <value>Shutting down…</value>
+  </data>
+  <data name="Android_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Android_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Main_AndroidCouldNotStart0" xml:space="preserve">
+    <value>Android could not start: {0}</value>
+  </data>
+  <data name="Ui_ShowLog" xml:space="preserve">
+    <value>Show log</value>
+  </data>
 </root>

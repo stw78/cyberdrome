@@ -50,7 +50,7 @@ public sealed partial class MainViewModel
         OnPropertyChanged(nameof(ModeStatusFast));
     }
 
-    partial void OnAndroidStateChanged(AndroidState value) => RaiseModeStatus();
+    partial void OnAndroidStateChanged(AndroidState value) { RaiseModeStatus(); RaiseAndroidSwitch(); }
 
     /// <summary>
     /// Det valda läget visar sitt verkliga tillstånd (installerat, igång, problem); de andra visar ungefärlig nedladdning.
@@ -73,5 +73,57 @@ public sealed partial class MainViewModel
             AndroidState.RebootNeeded => new(L.T("Settings_ModeRebootNeeded"), ModeStatus.Orange, true),
             _ => new(L.T("Settings_ModeNotInstalled"), ModeStatus.Orange, false),
         };
+    }
+}
+
+/// <summary>Vad Android håller på med just nu (för på/av-brytaren).</summary>
+public enum AndroidPhase { None, Starting, Stopping }
+
+/// <summary>På/av-brytaren för Android (Översikt, toppfältet och sidan Android).</summary>
+public sealed partial class MainViewModel
+{
+    [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+    [CommunityToolkit.Mvvm.ComponentModel.NotifyPropertyChangedFor(nameof(AndroidOn), nameof(AndroidSwitchText), nameof(AndroidSwitchEnabled), nameof(AndroidSwitching))]
+    private AndroidPhase _androidPhase;
+
+    /// <summary>Senaste starten misslyckades: visa länken "Visa logg".</summary>
+    [CommunityToolkit.Mvvm.ComponentModel.ObservableProperty]
+    private bool _androidStartFailed;
+
+    /// <summary>Android är installerat (brytaren visas i stället för "Installera Android").</summary>
+    public bool AndroidInstalled => AndroidState is AndroidState.Stopped or AndroidState.Running;
+
+    /// <summary>Brytarens läge: på när Android kör eller håller på att starta.</summary>
+    public bool AndroidOn
+    {
+        get => AndroidPhase switch { AndroidPhase.Starting => true, AndroidPhase.Stopping => false, _ => AndroidRunning };
+        set
+        {
+            if (value == AndroidOn || AndroidBusy) return;
+            if (value) _ = StartAndroid(); else _ = StopAndroid();
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>Brytaren är låst medan Android startar eller stängs (tills det bootat eller misslyckats).</summary>
+    public bool AndroidSwitchEnabled => AndroidInstalled && AndroidPhase == AndroidPhase.None && !AndroidBusy;
+
+    public bool AndroidSwitching => AndroidPhase != AndroidPhase.None;
+
+    public string AndroidSwitchText => AndroidPhase switch
+    {
+        AndroidPhase.Starting => L.T("Android_Starting"),
+        AndroidPhase.Stopping => L.T("Android_Stopping"),
+        _ => AndroidRunning ? L.T("Android_On") : L.T("Android_Off"),
+    };
+
+    private void RaiseAndroidSwitch()
+    {
+        OnPropertyChanged(nameof(AndroidInstalled));
+        OnPropertyChanged(nameof(AndroidOn));
+        OnPropertyChanged(nameof(AndroidSwitchText));
+        OnPropertyChanged(nameof(AndroidSwitchEnabled));
+        OnPropertyChanged(nameof(AndroidObdAddress));
+        OnPropertyChanged(nameof(HasAndroidObdAddress));
     }
 }

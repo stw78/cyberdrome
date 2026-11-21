@@ -136,3 +136,43 @@ public class FitAndFixTests
         Assert.EndsWith(" …", UpdatePolicy.CleanNotes(new string('x', 2000)));
     }
 }
+
+/// <summary>WSL2 + Cuttlefish: start utan sandlåda, tidsgräns, skärmstorlek och OBD-adress från Android.</summary>
+public class WslStartTests
+{
+    [Fact]
+    public void StartScriptWorksInWsl2AndExplainsFailures()
+    {
+        var s = AndroidVm.ReadScript("start.sh");
+        Assert.Contains("--enable_sandbox=false", s);          // crosvm-sandlådan kraschar i WSL2
+        Assert.Contains("--gpu_mode=guest_swiftshader", s);
+        Assert.Contains("timeout \"${BOOT_TIMEOUT:-300}\"", s); // väntar aldrig för evigt
+        Assert.Contains("cvd stop", s);                        // städar en tidigare halvstartad instans
+        Assert.Contains("FEL: Android startade inte inom", s);
+        Assert.Contains("Caused by", s);                       // visar orsaken ur Cuttlefish-loggen
+        Assert.Contains("adb connect", s);
+        Assert.Contains("cvd stop", AndroidVm.ReadScript("stop.sh"));
+        Assert.Contains("gw=", AndroidVm.ReadScript("status.sh"));
+    }
+
+    [Fact]
+    public void StartEnvironmentUsesTheChosenScreenAndATimeout()
+    {
+        var vs = new VmSettings { ScreenPresetId = "10in-1560x700", ScreenOrientation = ScreenOrientation.Landscape, Cpus = 4, MemoryMb = 8192, BootTimeoutSeconds = 10 };
+        var env = AndroidVm.StartEnv(vs);
+        Assert.Equal("1560", env["X_RES"]);
+        Assert.Equal("700", env["Y_RES"]);
+        Assert.Equal("4", env["CPUS"]);
+        Assert.Equal("8192", env["MEM"]);
+        Assert.Equal("60", env["BOOT_TIMEOUT"]); // minst en minut
+        Assert.Equal(vs.AdbPort.ToString(), env["ADB_PORT"]);
+    }
+
+    [Fact]
+    public void TheReasonForAFailedStartIsShown()
+    {
+        var output = ">> Startar Android\nFEL: Android startade inte inom 300 sekunder.\nFEL: Android kunde inte starta (kod 124). Det viktigaste ur Cuttlefish-loggen:\n  Caused by: x\n";
+        Assert.Equal("Android kunde inte starta (kod 124). Det viktigaste ur Cuttlefish-loggen:", AndroidVm.StartFailureReason(output));
+        Assert.Null(AndroidVm.StartFailureReason(">> Android startat\n"));
+    }
+}

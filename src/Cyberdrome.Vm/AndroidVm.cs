@@ -9,7 +9,7 @@ namespace Cyberdrome.Vm;
 /// Sköter Android Automotive i en virtuell maskin: Cuttlefish i en egen WSL2-distribution.
 /// Allt körs via wsl.exe, så inga ändringar görs i användarens andra Linux-miljöer.
 /// </summary>
-public sealed class AndroidVm : IAndroidBackend
+public sealed class AndroidVm : IAndroidBackend, IScreenControl
 {
     private const string Wsl = "wsl.exe";
     private bool _rebootNeeded;
@@ -18,7 +18,9 @@ public sealed class AndroidVm : IAndroidBackend
 
     public VmSettings Settings { get; }
     public AndroidMode Mode => AndroidMode.Fast;
-    public string? ObdHostFromAndroid => null;
+    /// <summary>Windows sett från WSL2 (standardgatewayen); Android i Cuttlefish når OBD-porten där. Läses av status.sh.</summary>
+    public string? ObdHostFromAndroid => _obdHost;
+    private string? _obdHost;
 
     public async Task<AndroidState> GetStateAsync(CancellationToken ct = default)
     {
@@ -38,6 +40,7 @@ public sealed class AndroidVm : IAndroidBackend
         var kv = s.Output.Split('\n').Select(l => l.Trim().Split('=', 2)).Where(p => p.Length == 2)
             .ToDictionary(p => p[0], p => p[1]);
         string V(string k) => kv.GetValueOrDefault(k, "no");
+        _obdHost = kv.GetValueOrDefault("gw") is { Length: > 0 } gw && System.Net.IPAddress.TryParse(gw, out _) ? gw : null;
 
         if (V("tools") != "yes") return AndroidState.ToolsMissing;
         if (V("kvm") != "yes") return AndroidState.NoKvm;
@@ -175,11 +178,102 @@ public sealed class AndroidVm : IAndroidBackend
     };
 
     public Task<ProcessResult> StartAsync(Action<string> log, IProgress<InstallProgress>? progress = null, CancellationToken ct = default) =>
-        RunScriptAsync("start.sh", root: false, log: log, ct: ct, env: new()
+        RunScriptAsync("start.sh", root: false, log: log, ct: ct, env: StartEnv(Settings));
+
+    /// <summary>Raden "FEL: …" från startskriptet (den sista), utan "FEL:", eller null.</summary>
+    public static string? StartFailureReason(string output) =>
+        output.Split('\n').Select(l => l.Trim()).LastOrDefault(l => l.StartsWith("FEL:", StringComparison.Ordinal)) is { } line
+            ? line[4..].Trim()
+            : null;
+
+    /// <summary>Miljövariabler till start.sh: kärnor, minne, skärmstorlek (förvalet i Inställningar) och tidsgräns.</summary>
+    public static Dictionary<string, string> StartEnv(VmSettings s)
+    {
+        var (w, h, dpi) = s.EffectiveScreen();
+        return new()
         {
-            ["CPUS"] = Settings.Cpus.ToString(),
-            ["MEM"] = Settings.MemoryMb.ToString(),
-        });
+            ["CPUS"] = s.Cpus.ToString(),
+            ["MEM"] = s.MemoryMb.ToString(),
+            ["X_RES"] = w.ToString(),
+            ["Y_RES"] = h.ToString(),
+            ["DPI"] = dpi.ToString(),
+            ["ADB_PORT"] = s.AdbPort.ToString(),
+            ["BOOT_TIMEOUT"] = Math.Max(60, s.BootTimeoutSeconds).ToString(),
+        };
+    }
+
+    // ---------------- Skärmen i programfönstret (adb i Linux-miljön) ----------------
+
+    private const string CvdAdb = "/home/cvd/cf/bin/adb";
+    private string Serial => $"127.0.0.1:{Settings.AdbPort}";
+    private bool _adbConnected;
+    private string? _displayId;
+
+    private List<string> AdbArgs(params string[] args)
+    {
+        var a = new List<string> { "-d", Settings.DistroName, "-u", "cvd", "--", CvdAdb, "-s", Serial };
+        a.AddRange(args);
+        return a;
+    }
+
+    private async Task EnsureAdbAsync(CancellationToken ct)
+    {
+        if (_adbConnected) return;
+        var r = await ProcessRunner.RunAsync(Wsl, ["-d", Settings.DistroName, "-u", "cvd", "--", CvdAdb, "connect", Serial], ct: ct);
+        _adbConnected = r.Ok && !r.Output.Contains("failed", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task<ProcessResult> ShellAsync(CancellationToken ct, params string[] args)
+    {
+        await EnsureAdbAsync(ct);
+        return await ProcessRunner.RunAsync(Wsl, AdbArgs(["shell", .. args]), ct: ct);
+    }
+
+    public async Task<byte[]?> CaptureScreenAsync(CancellationToken ct = default)
+    {
+        await EnsureAdbAsync(ct);
+        // Bilen har flera skärmar (huvudskärm, instrumentkluster): välj huvudskärmen (den första fysiska).
+        if (_displayId is null)
+        {
+            var d = await ShellAsync(ct, "dumpsys", "SurfaceFlinger", "--display-id");
+            var m = System.Text.RegularExpressions.Regex.Match(d.Output, @"Display (\d+)");
+            _displayId = m.Success ? m.Groups[1].Value : "";
+        }
+        var args = _displayId.Length > 0 ? AdbArgs("exec-out", "screencap", "-p", "-d", _displayId) : AdbArgs("exec-out", "screencap", "-p");
+        var png = await ProcessRunner.RunBinaryAsync(Wsl, args, ct);
+        if (png is null || png.Length < 8 || png[0] != 0x89 || png[1] != (byte)'P')
+        {
+            _adbConnected = false; // Android kan ha startats om – anslut och leta skärm igen nästa gång
+            _displayId = null;
+            return null;
+        }
+        return png;
+    }
+
+    public Task TapAsync(int x, int y, CancellationToken ct = default) =>
+        ShellAsync(ct, "input", "tap", x.ToString(), y.ToString());
+
+    public Task SwipeAsync(int x1, int y1, int x2, int y2, int durationMs, CancellationToken ct = default) =>
+        ShellAsync(ct, "input", "swipe", x1.ToString(), y1.ToString(), x2.ToString(), y2.ToString(), durationMs.ToString());
+
+    public Task KeyEventAsync(int keyCode, CancellationToken ct = default) =>
+        ShellAsync(ct, "input", "keyevent", keyCode.ToString());
+
+    public async Task<string?> RestartForegroundAppAsync(Action<string> log, CancellationToken ct = default)
+    {
+        var dump = await ShellAsync(ct, "dumpsys", "activity", "activities");
+        var component = ActivityParser.TopComponent(dump.Output);
+        if (component is null) { log(L.T("EmulatorVm_NoAppFoundInTheForeground")); return null; }
+        var pkg = component.Split('/')[0];
+        log(L.F("EmulatorVm_Restarting0", pkg));
+        await ShellAsync(ct, "am", "force-stop", pkg);
+        var r = await ShellAsync(ct, "am", "start", "-n", component);
+        log(r.Ok ? L.F("EmulatorVm_0HasBeenRestarted", pkg) : L.F("EmulatorVm_CouldNotStart0Again", pkg));
+        return pkg;
+    }
+
+    public async Task<bool> LaunchAppAsync(string packageName, CancellationToken ct = default) =>
+        (await ShellAsync(ct, "monkey", "-p", packageName, "-c", "android.intent.category.LAUNCHER", "1")).Ok;
 
     public Task<ProcessResult> StopAsync(Action<string> log, CancellationToken ct = default) =>
         RunScriptAsync("stop.sh", root: false, log: log, ct: ct);

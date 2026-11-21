@@ -3042,4 +3042,22 @@ Vill du även ta bort mina data?
   <data name="Settings_AutoCheckUpdates" xml:space="preserve">
     <value>Sök automatiskt vid start (högst en gång per dygn)</value>
   </data>
+  <data name="Android_Starting" xml:space="preserve">
+    <value>Startar…</value>
+  </data>
+  <data name="Android_Stopping" xml:space="preserve">
+    <value>Stänger…</value>
+  </data>
+  <data name="Android_On" xml:space="preserve">
+    <value>På</value>
+  </data>
+  <data name="Android_Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="Main_AndroidCouldNotStart0" xml:space="preserve">
+    <value>Android kunde inte starta: {0}</value>
+  </data>
+  <data name="Ui_ShowLog" xml:space="preserve">
+    <value>Visa logg</value>
+  </data>
 </root>

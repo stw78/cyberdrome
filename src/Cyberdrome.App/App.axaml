@@ -249,6 +249,15 @@
       <Setter Property="Foreground" Value="{StaticResource AccentHover}" />
     </Style>
 
+    <!-- Android på/av-brytare (toppfält, Översikt, sidan Android) -->
+    <Style Selector="Border.androidswitch">
+      <Setter Property="Background" Value="{StaticResource Fill}" />
+      <Setter Property="CornerRadius" Value="999" />
+      <Setter Property="Padding" Value="14,2,12,2" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
     <!-- Segmentkontroll: grå skena, vit vald del -->
     <Style Selector="Border.seg">
       <Setter Property="Background" Value="{StaticResource Fill}" />

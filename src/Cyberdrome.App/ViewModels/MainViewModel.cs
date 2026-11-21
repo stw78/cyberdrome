@@ -670,17 +670,32 @@ public sealed partial class MainViewModel : ObservableObject
     {
         AndroidStatus = L.T("Main_StartingAndroid");
         InstallDone = false;
-        var r = await _android.StartAsync(AndroidLogLine, new Progress<InstallProgress>(ApplyProgress));
-        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
-        if (r.Ok) { OpenAndroidScreen(); InstallProgressVisible = false; }
-        else ApplyProgress(new InstallProgress(0, L.T("Main_AndroidCouldNotBeStartedSee")));
+        AndroidStartFailed = false;
+        AndroidPhase = AndroidPhase.Starting;
+        try
+        {
+            var r = await _android.StartAsync(AndroidLogLine, new Progress<InstallProgress>(ApplyProgress));
+            await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
+            if (r.Ok) { OpenAndroidScreen(); InstallProgressVisible = false; }
+            else
+            {
+                // Visa orsaken (raden "FEL: …" från startskriptet) i stället för bara "se loggen".
+                var why = AndroidVm.StartFailureReason(r.Output);
+                AndroidStartFailed = true;
+                ApplyProgress(new InstallProgress(0, why is null ? L.T("Main_AndroidCouldNotBeStartedSee") : L.F("Main_AndroidCouldNotStart0", why)));
+                AndroidStatus = InstallProgressText;
+            }
+        }
+        finally { AndroidPhase = AndroidPhase.None; }
     });
 
     [RelayCommand]
     private Task StopAndroid() => RunAndroid(async () =>
     {
         AndroidStatus = L.T("Main_ShuttingDownAndroid");
-        await _android.StopAsync(AndroidLogLine);
+        AndroidPhase = AndroidPhase.Stopping;
+        try { await _android.StopAsync(AndroidLogLine); }
+        finally { AndroidPhase = AndroidPhase.None; }
     });
 
     /// <summary>
@@ -997,7 +1012,7 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Byte av läge går inte medan något installeras eller startas.</summary>
     public bool CanChangeMode => !AndroidBusy;
 
-    partial void OnAndroidBusyChanged(bool value) => OnPropertyChanged(nameof(CanChangeMode));
+    partial void OnAndroidBusyChanged(bool value) { OnPropertyChanged(nameof(CanChangeMode)); RaiseAndroidSwitch(); }
 
     private void SetMode(AndroidMode mode)
     {

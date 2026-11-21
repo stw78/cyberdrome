@@ -6,3 +6,5 @@ has_tool() { command -v cvd || command -v launch_cvd || [ -x /usr/lib/cuttlefish
 echo "tools=$(has_tool >/dev/null 2>&1 && id cvd >/dev/null 2>&1 && echo yes || echo no)"
 echo "image=$([ -f $CF/.cyberdrome-ready ] && echo yes || echo no)"
 echo "running=$(pgrep -f run_cvd >/dev/null 2>&1 && echo yes || echo no)"
+# Windows sett från Linux-miljön (WSL2 i NAT-läge): standardgatewayen. Android i Cuttlefish når OBD-porten där.
+echo "gw=$(ip route 2>/dev/null | awk '/^default/ {print $3; exit}')"

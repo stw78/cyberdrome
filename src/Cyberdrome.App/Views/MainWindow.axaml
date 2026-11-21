@@ -65,12 +65,16 @@
           <Button Classes="icon" Click="LicenseClick" ToolTip.Tip="{l:T Ui_Licence}">
             <l:LineIcon Data="{StaticResource Icon.file-text}" />
           </Button>
-          <Button Classes="primary" Command="{Binding StartAndroidCommand}" IsVisible="{Binding AndroidReady}">
+          <!-- Android på/av (när Android är installerat) -->
+          <Border Classes="androidswitch" IsVisible="{Binding AndroidInstalled}">
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <l:LineIcon Data="{StaticResource Icon.play}" Foreground="White" Size="16" />
-              <TextBlock Text="{l:T Ui_StartAndroid}" />
+              <l:LineIcon Data="{StaticResource Icon.smartphone}" Foreground="{StaticResource Accent}" Size="16" VerticalAlignment="Center" />
+              <TextBlock Text="Android" FontWeight="SemiBold" VerticalAlignment="Center" />
+              <ToggleSwitch IsChecked="{Binding AndroidOn}" IsEnabled="{Binding AndroidSwitchEnabled}" OnContent="" OffContent="" MinWidth="0" ToolTip.Tip="{Binding AndroidStatus}" />
+              <ProgressBar IsIndeterminate="True" Width="28" Height="4" MinWidth="0" VerticalAlignment="Center" IsVisible="{Binding AndroidSwitching}" />
+              <TextBlock Classes="small" Text="{Binding AndroidSwitchText}" VerticalAlignment="Center" MinWidth="58" />
             </StackPanel>
-          </Button>
+          </Border>
           <Button Classes="primary" Command="{Binding InstallAndroidCommand}" IsVisible="{Binding AndroidCanInstall}">
             <StackPanel Orientation="Horizontal" Spacing="8">
               <l:LineIcon Data="{StaticResource Icon.download}" Foreground="White" Size="16" />
@@ -172,6 +176,18 @@
               <!-- Verktygsrad: skärm, orientering, tema, skal – radbryts i stället för att skäras av; fullskärm till höger -->
               <Grid x:Name="OverviewHeader" DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,14">
                 <WrapPanel Orientation="Horizontal" ItemSpacing="10" LineSpacing="8">
+                  <!-- Android på/av: första platsen i verktygsraden, tydligt synlig -->
+                  <Border Classes="androidswitch" IsVisible="{Binding AndroidInstalled}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="Android" FontWeight="SemiBold" VerticalAlignment="Center" />
+                      <ToggleSwitch IsChecked="{Binding AndroidOn}" IsEnabled="{Binding AndroidSwitchEnabled}" OnContent="" OffContent="" MinWidth="0" ToolTip.Tip="{Binding AndroidStatus}" />
+                      <ProgressBar IsIndeterminate="True" Width="28" Height="4" MinWidth="0" VerticalAlignment="Center" IsVisible="{Binding AndroidSwitching}" />
+                      <TextBlock Classes="small" Text="{Binding AndroidSwitchText}" VerticalAlignment="Center" MinWidth="58" />
+                    </StackPanel>
+                  </Border>
+                  <Button Classes="primary" Command="{Binding InstallAndroidCommand}" IsVisible="{Binding AndroidCanInstall}">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.download}" Foreground="White" Size="16" /><TextBlock Text="{l:T Ui_InstallAndroid}" /></StackPanel>
+                  </Button>
                   <StackPanel Orientation="Horizontal" Spacing="8">
                     <l:LineIcon Data="{StaticResource Icon.monitor}" Foreground="{StaticResource Muted}" VerticalAlignment="Center" />
                     <ComboBox ItemsSource="{Binding ScreenPresetList}" SelectedItem="{Binding SelectedScreenPreset}" Width="205" ToolTip.Tip="{l:T Ui_Screen}" />
@@ -259,6 +275,7 @@
                             <TextBlock Classes="small" TextAlignment="Center" Text="{Binding InstallProgressText}" />
                           </StackPanel>
                           <Button Classes="primary" HorizontalAlignment="Center" Content="{l:T Ui_ShowTheAndroidScreen}" Command="{Binding OpenAndroidScreenCommand}" IsVisible="{Binding AndroidRunning}" />
+                          <Button Classes="link" HorizontalAlignment="Center" Content="{l:T Ui_ShowLog}" Command="{Binding GoToPageCommand}" CommandParameter="3" IsVisible="{Binding AndroidStartFailed}" />
                           <TextBlock Classes="small" TextAlignment="Center" Text="{l:T Ui_YouCanAlreadyTestOBDConnect}" />
                           <Border Classes="mono" HorizontalAlignment="Center" Background="White">
                             <SelectableTextBlock Classes="code" Text="{Binding ObdAddress}" TextWrapping="Wrap" TextAlignment="Center" />
@@ -586,13 +603,16 @@
                 <Button Classes="primary" Command="{Binding InstallAndroidCommand}" IsEnabled="{Binding AndroidCanInstall}">
                   <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.download}" Foreground="White" Size="16" /><TextBlock Text="{l:T Ui_InstallAndroid}" /></StackPanel>
                 </Button>
-                <Button Classes="plain" Command="{Binding StartAndroidCommand}" IsEnabled="{Binding AndroidReady}">
-                  <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.play}" Size="16" /><TextBlock Text="{l:T Ui_Start}" /></StackPanel>
-                </Button>
-                <Button Classes="plain" Command="{Binding StopAndroidCommand}" IsEnabled="{Binding AndroidRunning}">
-                  <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.square}" Size="16" /><TextBlock Text="{l:T Ui_Stop}" /></StackPanel>
-                </Button>
-                <Button Classes="plain" Command="{Binding OpenAndroidScreenCommand}" IsEnabled="{Binding AndroidRunning}">
+                <!-- Android på/av: första platsen i verktygsraden, tydligt synlig -->
+                <Border Classes="androidswitch" IsVisible="{Binding AndroidInstalled}">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="Android" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <ToggleSwitch IsChecked="{Binding AndroidOn}" IsEnabled="{Binding AndroidSwitchEnabled}" OnContent="" OffContent="" MinWidth="0" ToolTip.Tip="{Binding AndroidStatus}" />
+                    <ProgressBar IsIndeterminate="True" Width="28" Height="4" MinWidth="0" VerticalAlignment="Center" IsVisible="{Binding AndroidSwitching}" />
+                    <TextBlock Classes="small" Text="{Binding AndroidSwitchText}" VerticalAlignment="Center" MinWidth="58" />
+                  </StackPanel>
+                </Border>
+                                <Button Classes="plain" Command="{Binding OpenAndroidScreenCommand}" IsEnabled="{Binding AndroidRunning}">
                   <StackPanel Orientation="Horizontal" Spacing="8"><l:LineIcon Data="{StaticResource Icon.monitor}" Size="16" /><TextBlock Text="{l:T Ui_ShowTheScreen}" /></StackPanel>
                 </Button>
                 <Button Classes="plain" Click="PickApk" IsEnabled="{Binding AndroidRunning}">

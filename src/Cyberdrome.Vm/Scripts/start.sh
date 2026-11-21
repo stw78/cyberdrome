@@ -20,7 +20,8 @@ HOME=$CF cvd stop >/dev/null 2>&1 || HOME=$CF ./bin/stop_cvd >/dev/null 2>&1 || 
 # Grafik: gfxstream ritar med datorns grafikkort via WSL2:s /dev/dxg och Mesa D3D12 (GALLIUM_DRIVER=d3d12).
 #   Går det inte används guest_swiftshader (mjukvara, långsamt men fungerar alltid).
 EXTRA=""
-[ -n "${X_RES:-}" ] && EXTRA="$EXTRA --x_res=$X_RES --y_res=$Y_RES --dpi=$DPI"
+# Skärmstorleken från Inställningar (bilens bilder ignorerar --x_res/--y_res; --display0 fungerar).
+[ -n "${X_RES:-}" ] && EXTRA="$EXTRA --display0=width=$X_RES,height=$Y_RES,dpi=$DPI"
 MODES="guest_swiftshader"
 if [ -e /dev/dxg ] && [ "${GPU:-host}" != "software" ]; then MODES="gfxstream guest_swiftshader"; fi
 code=1

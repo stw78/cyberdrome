@@ -147,6 +147,7 @@ public class WslStartTests
         Assert.Contains("--enable_sandbox=false", s);          // crosvm-sandlådan kraschar i WSL2
         Assert.Contains("gfxstream guest_swiftshader", s);        // grafikkortet via /dev/dxg, mjukvara som reserv
         Assert.Contains("GALLIUM_DRIVER=d3d12", s);
+        Assert.Contains("--display0=width=$X_RES,height=$Y_RES,dpi=$DPI", s); // skärmstorleken följer Inställningar
         Assert.Contains("timeout \"${BOOT_TIMEOUT:-300}\"", s); // väntar aldrig för evigt
         Assert.Contains("cvd stop", s);                        // städar en tidigare halvstartad instans
         Assert.Contains("FEL: Android startade inte inom", s);

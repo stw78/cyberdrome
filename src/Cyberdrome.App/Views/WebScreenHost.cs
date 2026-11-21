@@ -38,10 +38,22 @@ public sealed class WebScreenHost : NativeControlHost
         "#control-panel-default-buttons,#control-panel-custom-buttons,.display-control-buttons,#error-message-div,#loader,.device-display-info{display:none!important}" +
         "html,body{margin:0!important;background:#000!important;overflow:hidden!important}" +
         ".device-display:not(:first-child){display:none!important}" +
-        "#device-connection,#controls-and-displays{height:100vh!important;margin:0!important;padding:0!important}" +
-        "#device-displays{margin:0!important;padding:0!important;height:100vh!important;justify-content:center;align-items:center}" +
-        ".device-display,.device-video-container{max-height:100vh!important}" +
-        ".device-display-video{max-height:100vh!important;max-width:100vw!important;object-fit:contain}";
+        "#device-connection,#controls-and-displays,#device-display-column,#device-displays,.device-display,.device-video-container" +
+        "{width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;" +
+        "display:flex!important;align-items:center!important;justify-content:center!important;flex-grow:0!important}" +
+        ".device-display:not(:first-child){display:none!important}";
+
+    /// <summary>
+    /// Skalar videon så att den fyller ytan med rätt bildförhållande och centreras. Elementet får exakt videons
+    /// proportioner (ingen object-fit med kanter), eftersom Cuttlefish räknar om tryck med videoWidth / offsetWidth.
+    /// </summary>
+    public const string FitVideoScript =
+        "(()=>{const fit=()=>{const v=document.querySelector('.device-display-video');if(!v||!v.videoWidth)return;" +
+        "const s=Math.min(innerWidth/v.videoWidth,innerHeight/v.videoHeight);" +
+        "const w=Math.floor(v.videoWidth*s)+'px',h=Math.floor(v.videoHeight*s)+'px';" +
+        "if(v.style.width===w&&v.style.height===h)return;" +
+        "for(const[k,x]of[['width',w],['height',h],['max-width','none'],['max-height','none'],['transform','none']])v.style.setProperty(k,x,'important');};" +
+        "addEventListener('resize',fit);setInterval(fit,300);})();";
 
     protected override IPlatformHandle CreateNativeControlCore(IPlatformHandle parent)
     {
@@ -81,7 +93,7 @@ public sealed class WebScreenHost : NativeControlHost
             if (Environment.GetEnvironmentVariable("CYBERDROME_WEBVIEW_NOCSS") is null)
             await web.AddScriptToExecuteOnDocumentCreatedAsync(
                 "(()=>{const s=document.createElement('style');s.textContent=" + System.Text.Json.JsonSerializer.Serialize(OnlyDisplayCss) +
-                ";const add=()=>document.head?document.head.appendChild(s):setTimeout(add,10);add();})();");
+                ";const add=()=>document.head?document.head.appendChild(s):setTimeout(add,10);add();})();" + FitVideoScript);
             _controller.DefaultBackgroundColor = System.Drawing.Color.Black;
             UpdateBounds();
             if (Url is { } url) web.Navigate(url);

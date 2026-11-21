@@ -1732,7 +1732,7 @@ Do you also want to remove my data?
     <value>10.4" Tesla style 1920×1200</value>
   </data>
   <data name="Screen_TheScreenSizeAppliesToThe" xml:space="preserve">
-    <value>The screen size applies to the No restart mode (the emulator).</value>
+    <value>Saved. In WSL2 + Cuttlefish the new screen size applies the next time Android starts – turn Android off and on.</value>
   </data>
   <data name="SecurityAccessConfig_TheSeedMustBe4Bytes" xml:space="preserve">
     <value>The seed must be 4 bytes.</value>

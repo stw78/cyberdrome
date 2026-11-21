@@ -1732,7 +1732,7 @@ Vill du även ta bort mina data?
     <value>10,4" Tesla-stil 1920×1200</value>
   </data>
   <data name="Screen_TheScreenSizeAppliesToThe" xml:space="preserve">
-    <value>Skärmstorlek gäller läget Utan omstart (emulatorn).</value>
+    <value>Sparat. I WSL2 + Cuttlefish gäller den nya skärmstorleken från nästa start av Android – slå Android av och på.</value>
   </data>
   <data name="SecurityAccessConfig_TheSeedMustBe4Bytes" xml:space="preserve">
     <value>Seed ska vara 4 byte.</value>

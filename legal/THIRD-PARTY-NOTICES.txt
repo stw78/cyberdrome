@@ -1,5 +1,5 @@
 ﻿TREDJEPARTSKOMPONENTER OCH DATAKÄLLOR – Cyberdrome Simulator 1.0.0
-Cyberdrome © 2026 Jouko Broström. Programmet använder följande komponenter med öppen källkod.
+Cyberdrome © 2026 Jouko Broström – fri programvara under GPL-3.0-or-later (se LICENSE). Programmet använder följande komponenter med öppen källkod.
 Varje komponent omfattas av sin egen licens (se nedan). Listan genereras av build-release.ps1 från paketens metadata.
 
 == Programkomponenter (NuGet) ==

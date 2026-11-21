@@ -55,25 +55,59 @@ function New-LogoBitmap([int]$size, [bool]$background = $true, [float]$scale = 1
     return $bmp
 }
 
+# En ikonbild som 32-bitars DIB (BITMAPINFOHEADER + BGRA nerifrån och upp + 1-bits AND-mask), som i klassiska .ico-filer.
+function ConvertTo-IconDib([System.Drawing.Bitmap]$bmp) {
+    $s = $bmp.Width
+    $ms = New-Object System.IO.MemoryStream
+    $bw = New-Object System.IO.BinaryWriter $ms
+    $bw.Write([uint32]40); $bw.Write([int32]$s); $bw.Write([int32]($s * 2)); $bw.Write([uint16]1); $bw.Write([uint16]32)
+    $bw.Write([uint32]0); $bw.Write([uint32]($s * $s * 4)); $bw.Write([int32]0); $bw.Write([int32]0); $bw.Write([uint32]0); $bw.Write([uint32]0)
+    for ($y = $s - 1; $y -ge 0; $y--) {
+        for ($x = 0; $x -lt $s; $x++) { $c = $bmp.GetPixel($x, $y); $bw.Write([byte]$c.B); $bw.Write([byte]$c.G); $bw.Write([byte]$c.R); $bw.Write([byte]$c.A) }
+    }
+    $maskRow = [int]([Math]::Ceiling($s / 32.0) * 4)
+    for ($y = $s - 1; $y -ge 0; $y--) {
+        $row = New-Object byte[] $maskRow
+        for ($x = 0; $x -lt $s; $x++) { if ($bmp.GetPixel($x, $y).A -eq 0) { $row[[int][Math]::Floor($x / 8)] = $row[[int][Math]::Floor($x / 8)] -bor (0x80 -shr ($x % 8)) } }
+        $bw.Write($row)
+    }
+    $bw.Flush()
+    return ,$ms.ToArray()
+}
+
 # PNG i alla storlekar
 $sizes = 16, 24, 32, 48, 64, 128, 256, 512
 $pngBytes = @{}
+$dibBytes = @{}
 foreach ($s in $sizes) {
     $b = New-LogoBitmap $s
     $file = Join-Path $assets "logo-$s.png"; $b.Save($file, [System.Drawing.Imaging.ImageFormat]::Png)
-    $ms = New-Object System.IO.MemoryStream; $b.Save($ms, [System.Drawing.Imaging.ImageFormat]::Png); $pngBytes[$s] = $ms.ToArray(); $b.Dispose()
+    $ms = New-Object System.IO.MemoryStream; $b.Save($ms, [System.Drawing.Imaging.ImageFormat]::Png); $pngBytes[$s] = $ms.ToArray()
+    if ($s -lt 256) { $dibBytes[$s] = ConvertTo-IconDib $b }
+    $b.Dispose()
 }
 
-# .ico (16–256) för programmet, fönstret, genvägar och installationen
+# .ico (16–256) för programmet, fönstret, genvägar, Start-menyn och installationen.
+# Små storlekar sparas som vanliga 32-bitars bitmappar (DIB): Start-menyn och genvägar visar annars ofta
+# Windows standardikon när alla storlekar är PNG. Bara 256 px sparas som PNG (standard för stora ikoner).
 $appAssets = Join-Path $root "src\Cyberdrome.App\Assets"
-$icoSizes = 16, 24, 32, 48, 64, 128, 256
-$fs = [System.IO.File]::Create((Join-Path $appAssets "cyberdrome.ico"))
-$w = New-Object System.IO.BinaryWriter $fs
-$w.Write([uint16]0); $w.Write([uint16]1); $w.Write([uint16]$icoSizes.Count)
-$offset = 6 + 16 * $icoSizes.Count
-foreach ($s in $icoSizes) { $b = if ($s -ge 256) { 0 } else { $s }; $w.Write([byte]$b); $w.Write([byte]$b); $w.Write([byte]0); $w.Write([byte]0); $w.Write([uint16]1); $w.Write([uint16]32); $w.Write([uint32]$pngBytes[$s].Length); $w.Write([uint32]$offset); $offset += $pngBytes[$s].Length }
-foreach ($s in $icoSizes) { $w.Write($pngBytes[$s]) }
-$w.Close()
+$icoSizes = 16, 20, 24, 32, 40, 48, 64, 128, 256
+foreach ($s in $icoSizes) { if (-not $dibBytes.ContainsKey($s) -and $s -lt 256) { $b = New-LogoBitmap $s; $dibBytes[$s] = ConvertTo-IconDib $b; $b.Dispose() } }
+function Get-IconData([int]$s) { if ($s -ge 256) { return ,$pngBytes[256] } else { return ,$dibBytes[$s] } }
+foreach ($icoPath in (Join-Path $appAssets "cyberdrome.ico"), (Join-Path $assets "cyberdrome.ico")) {
+    $fs = [System.IO.File]::Create($icoPath)
+    $w = New-Object System.IO.BinaryWriter $fs
+    $w.Write([uint16]0); $w.Write([uint16]1); $w.Write([uint16]$icoSizes.Count)
+    $offset = 6 + 16 * $icoSizes.Count
+    foreach ($s in $icoSizes) {
+        $data = Get-IconData $s
+        $b = if ($s -ge 256) { 0 } else { $s }
+        $w.Write([byte]$b); $w.Write([byte]$b); $w.Write([byte]0); $w.Write([byte]0); $w.Write([uint16]1); $w.Write([uint16]32)
+        $w.Write([uint32]$data.Length); $w.Write([uint32]$offset); $offset += $data.Length
+    }
+    foreach ($s in $icoSizes) { $w.Write((Get-IconData $s)) }
+    $w.Close()
+}
 [IO.File]::WriteAllBytes((Join-Path $appAssets "cyberdrome-256.png"), $pngBytes[256])
 
 # Android: adaptiv ikon (förgrund = mätaren inom säker zon, bakgrund #1E6BFF) + vanlig ikon för äldre Android.

@@ -113,7 +113,7 @@ public sealed class ThemeStore
     public string Folder { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "teman");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "teman");
 
     public IReadOnlyList<LauncherTheme> LoadAll()
     {

@@ -486,7 +486,7 @@ public sealed partial class MainViewModel : ObservableObject
 
     /// <summary>OBD-trafiken som textfil: %LocalAppData%\Cyberdrome\obd-logg.txt</summary>
     public static string ObdLogFile => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome", "obd-logg.txt");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "obd-logg.txt");
 
     [RelayCommand]
     private void ClearLog() => Log.Clear();

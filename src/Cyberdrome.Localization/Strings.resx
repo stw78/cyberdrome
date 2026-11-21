@@ -3102,4 +3102,25 @@ Do you also want to remove my data?
   <data name="EmulatorVm_NoKvmLinux" xml:space="preserve">
     <value>Hardware virtualisation (KVM) cannot be used. Check that virtualisation is on in BIOS/UEFI, that /dev/kvm exists, and that your user is in the kvm group: sudo usermod -aG kvm $USER (then log out and in).</value>
   </data>
+  <data name="Settings_ModeQuickDesc_Linux" xml:space="preserve">
+    <value>Google's emulator with KVM. Starts in seconds.</value>
+  </data>
+  <data name="Settings_ModeFast_Linux" xml:space="preserve">
+    <value>Cuttlefish (native)</value>
+  </data>
+  <data name="Settings_ModeFastDesc_Linux" xml:space="preserve">
+    <value>Real AOSP directly on Linux with KVM – coming in a later version.</value>
+  </data>
+  <data name="Settings_ModeSizeFast_Linux" xml:space="preserve">
+    <value>Coming later on Linux</value>
+  </data>
+  <data name="Ui_RequiresARestartOfTheComputer_Linux" xml:space="preserve">
+    <value>Cuttlefish runs directly on Linux (no WSL needed). Support in Cyberdrome Cockpit comes in a later version.</value>
+  </data>
+  <data name="Ui_RunsGoogleSAndroidAutomotiveEmulator_Linux" xml:space="preserve">
+    <value>Runs Google's Android Automotive emulator with KVM. Needs /dev/kvm and membership in the kvm group.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidPartOnlyWorksOn_Linux" xml:space="preserve">
+    <value>The Cuttlefish mode comes in a later Linux version. Choose Quick start or With Google apps under Settings.</value>
+  </data>
 </root>

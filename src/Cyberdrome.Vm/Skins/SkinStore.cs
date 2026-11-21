@@ -13,7 +13,7 @@ public sealed class SkinStore
     public string Folder { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "skal");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "skal");
 
     /// <summary>Läser alla giltiga egna skal (trasiga hoppas över).</summary>
     public IReadOnlyList<Skin> LoadAll()

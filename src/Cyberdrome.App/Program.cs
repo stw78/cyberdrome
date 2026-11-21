@@ -40,8 +40,8 @@ internal static class Program
         if (!OperatingSystem.IsWindows()) return;
         const uint MB_YESNO = 0x4, MB_ICONQUESTION = 0x20, MB_DEFBUTTON2 = 0x100, MB_TOPMOST = 0x40000;
         const int IDYES = 6;
-        var roaming = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome");
-        var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome");
+        var roaming = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome");
+        var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome");
         int answer = MessageBoxW(IntPtr.Zero,
             L.T("Program_CyberdromeSimulatorIsBeingUninstalledDo") +
             L.F("Program_01OwnCarModelsThemes", roaming, local) +

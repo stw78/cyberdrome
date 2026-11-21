@@ -232,7 +232,7 @@ public static class TestEvaluator
     }
 
     public static string ReportFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "testresultat");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "testresultat");
 
     /// <summary>Sparar rapporten som HTML och JSON. Returnerar sökvägen till HTML-filen.</summary>
     public static string SaveReport(TestResult r, string? folder = null)

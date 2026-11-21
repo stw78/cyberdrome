@@ -11,7 +11,7 @@ public sealed class DriveStore
     public string Folder { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "korningar");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "korningar");
 
     /// <summary>Gör ett namn till ett giltigt filnamn (behåller å, ä, ö).</summary>
     public static string SafeFileName(string name)

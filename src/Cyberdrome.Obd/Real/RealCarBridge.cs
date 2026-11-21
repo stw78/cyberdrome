@@ -32,7 +32,7 @@ public sealed class RealCarBridge : IObdBridge
     }
 
     public static string DefaultBackupFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "backup");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "backup");
 
     public string BackupFolder { get; }
 

@@ -56,7 +56,9 @@ public static class L
     }
 
     /// <summary>Text för nyckeln. Saknas den visas nyckeln (lätt att upptäcka).</summary>
-    public static string T(string key) => Rm.GetString(key, _culture) ?? key;
+    /// <remarks>På Linux används "nyckel_Linux" om den finns (texter som nämner Windows, WSL m.m.).</remarks>
+    public static string T(string key) =>
+        (OperatingSystem.IsLinux() ? Rm.GetString(key + "_Linux", _culture) : null) ?? Rm.GetString(key, _culture) ?? key;
 
     /// <summary>Text med värden: "{0} km/h". Formateras enligt valt språk.</summary>
     public static string F(string key, params object?[] args) =>

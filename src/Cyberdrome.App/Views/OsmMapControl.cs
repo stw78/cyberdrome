@@ -165,7 +165,7 @@ public sealed class OsmMapControl : Control
     }
 
     public static string CacheFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome", "tiles");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "tiles");
 
     private Bitmap? GetTile(int z, int x, int y)
     {

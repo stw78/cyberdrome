@@ -10,7 +10,7 @@ public sealed class TestStore
     public string Folder { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "testfall");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "testfall");
 
     /// <summary>Inbyggda + egna testfall (trasiga egna hoppas över).</summary>
     public IReadOnlyList<TestCase> LoadAll()

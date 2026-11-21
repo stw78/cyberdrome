@@ -86,7 +86,7 @@ public sealed class WebScreenHost : NativeControlHost
     {
         try
         {
-            var data = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome", "webview");
+            var data = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "webview");
             var env = await CoreWebView2Environment.CreateAsync(null, data,
                 new CoreWebView2EnvironmentOptions("--autoplay-policy=no-user-gesture-required"));
             _controller = await env.CreateCoreWebView2ControllerAsync(_hwnd);

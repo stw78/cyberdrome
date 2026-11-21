@@ -23,7 +23,7 @@ public sealed record VinInfo(string Vin, string Make, string Model, int? Year, s
 public sealed class CarModelDb : IDisposable
 {
     public static string DefaultPath => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "bildatabas.db");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "bildatabas.db");
 
     private readonly SqliteConnection _db;
     private readonly object _lock = new();

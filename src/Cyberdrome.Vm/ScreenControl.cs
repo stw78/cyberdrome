@@ -122,7 +122,7 @@ public static class WorkFolder
         {
             var projekt = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projekt");
             return Directory.Exists(projekt) ? projekt
-                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Cyberdrome");
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.Create), "Cyberdrome");
         }
     }
 }

@@ -24,7 +24,7 @@ public static class CyberdromeRadio
         var dir = new DirectoryInfo(startDir);
         while (dir is not null)
         {
-            var candidate = Path.Combine(dir.FullName, RelativeProjectDir);
+            var candidate = Path.Combine(dir.FullName, RelativeProjectDir.Replace('\\', Path.DirectorySeparatorChar));
             if (File.Exists(Path.Combine(candidate, "build.ps1"))) return candidate;
             dir = dir.Parent;
         }
@@ -52,7 +52,7 @@ public sealed record SampleApp(string PackageName, string DisplayName, string Re
         var dir = new DirectoryInfo(startDir);
         while (dir is not null)
         {
-            var candidate = Path.Combine(dir.FullName, RelativeProjectDir);
+            var candidate = Path.Combine(dir.FullName, RelativeProjectDir.Replace('\\', Path.DirectorySeparatorChar));
             if (File.Exists(Path.Combine(candidate, "build.ps1"))) return candidate;
             dir = dir.Parent;
         }

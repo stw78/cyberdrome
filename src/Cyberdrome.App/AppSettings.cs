@@ -54,7 +54,7 @@ public sealed class AppSettings
     public string Language { get; set; } = "system";
 
     public static string FilePath => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "app.json");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "app.json");
 
     public static AppSettings Load()
     {

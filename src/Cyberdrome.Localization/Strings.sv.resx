@@ -3102,4 +3102,25 @@ Vill du även ta bort mina data?
   <data name="EmulatorVm_NoKvmLinux" xml:space="preserve">
     <value>Hårdvaruvirtualisering (KVM) kan inte användas. Kontrollera att virtualisering är på i BIOS/UEFI, att /dev/kvm finns och att din användare är med i gruppen kvm: sudo usermod -aG kvm $USER (logga sedan ut och in).</value>
   </data>
+  <data name="Settings_ModeQuickDesc_Linux" xml:space="preserve">
+    <value>Googles emulator med KVM. Startar på några sekunder.</value>
+  </data>
+  <data name="Settings_ModeFast_Linux" xml:space="preserve">
+    <value>Cuttlefish (direkt)</value>
+  </data>
+  <data name="Settings_ModeFastDesc_Linux" xml:space="preserve">
+    <value>Riktig AOSP direkt på Linux med KVM – kommer i en senare version.</value>
+  </data>
+  <data name="Settings_ModeSizeFast_Linux" xml:space="preserve">
+    <value>Kommer senare på Linux</value>
+  </data>
+  <data name="Ui_RequiresARestartOfTheComputer_Linux" xml:space="preserve">
+    <value>Cuttlefish körs direkt på Linux (ingen WSL behövs). Stödet i Cyberdrome Cockpit kommer i en senare version.</value>
+  </data>
+  <data name="Ui_RunsGoogleSAndroidAutomotiveEmulator_Linux" xml:space="preserve">
+    <value>Kör Googles Android Automotive-emulator med KVM. Kräver /dev/kvm och att du är med i gruppen kvm.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidPartOnlyWorksOn_Linux" xml:space="preserve">
+    <value>Cuttlefish-läget kommer i en senare Linux-version. Välj Snabbstart eller Med Google-appar under Inställningar.</value>
+  </data>
 </root>

@@ -20,7 +20,7 @@ public class TestAppTests
     {
         var p = AndrObd.CachePath(20710);
         Assert.EndsWith(Path.Combine("Cyberdrome", "apps", "com.fr3ts0n.ecu.gui.androbd_20710.apk"), p);
-        Assert.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), p);
+        Assert.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), p);
     }
 
     [Fact]

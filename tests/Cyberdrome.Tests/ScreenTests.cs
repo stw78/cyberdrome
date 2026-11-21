@@ -53,7 +53,7 @@ public class ScreenTests
         Assert.Equal(Path.Combine(WorkFolder.Root, "skarmbilder"), ScreenshotNaming.DefaultFolder);
         var desktop = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projekt");
         var expectedRoot = Directory.Exists(desktop) ? desktop
-            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Cyberdrome");
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.Create), "Cyberdrome");
         Assert.Equal(expectedRoot, WorkFolder.Root);
     }
 

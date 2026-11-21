@@ -169,7 +169,7 @@ public sealed class VmSettings
     // ================= Spara / läsa =================
 
     public static string FilePath => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "android.json");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "android.json");
 
     public string ToJson() => JsonSerializer.Serialize(this, JsonOptions);
 

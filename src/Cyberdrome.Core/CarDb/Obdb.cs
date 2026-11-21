@@ -24,7 +24,7 @@ public sealed class ObdbClient
     public string Folder { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "obdb");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "obdb");
 
     public ObdbClient(string? folder = null, HttpClient? http = null)
     {

@@ -89,7 +89,7 @@ public sealed class ProfileStore
     public IReadOnlySet<string> BuiltInIds { get; }
 
     public static string DefaultFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "bilar");
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "bilar");
 
     public bool IsBuiltIn(string id) => BuiltInIds.Contains(id);
 

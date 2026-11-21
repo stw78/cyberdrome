@@ -28,7 +28,7 @@ public sealed class FdroidApp
     public string ApkUrl(long versionCode) => $"https://f-droid.org/repo/{PackageName}_{versionCode}.apk";
 
     public static string CacheFolder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome", "apps");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create), "Cyberdrome", "apps");
 
     public string CachePath(long versionCode) => Path.Combine(CacheFolder, $"{PackageName}_{versionCode}.apk");
 

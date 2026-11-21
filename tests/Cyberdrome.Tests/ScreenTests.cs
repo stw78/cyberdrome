@@ -47,8 +47,15 @@ public class ScreenTests
     }
 
     [Fact]
-    public void DefaultScreenshotFolderIsProjektSkarmbilder() =>
-        Assert.EndsWith(Path.Combine("Projekt", "skarmbilder"), ScreenshotNaming.DefaultFolder);
+    public void DefaultScreenshotFolderIsWorkFolderSkarmbilder()
+    {
+        // Skrivbordet\Projekt finns bara på utvecklarens dator; på byggservrar blir det Dokument\Cyberdrome.
+        Assert.Equal(Path.Combine(WorkFolder.Root, "skarmbilder"), ScreenshotNaming.DefaultFolder);
+        var desktop = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projekt");
+        var expectedRoot = Directory.Exists(desktop) ? desktop
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Cyberdrome");
+        Assert.Equal(expectedRoot, WorkFolder.Root);
+    }
 
     [Fact]
     public void MapsClicksThroughLetterbox()

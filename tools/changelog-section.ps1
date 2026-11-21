@@ -12,5 +12,6 @@ $end = $lines.Length
 for ($i = $start + 1; $i -lt $lines.Length; $i++) { if ($lines[$i] -match '^## ') { $end = $i; break } }
 $body = ($lines[($start + 1)..($end - 1)] -join "`n").Trim()
 if (-not $body) { throw "Avsnittet '## $Version' i CHANGELOG.md ar tomt." }
-[IO.File]::WriteAllText($Out, "## Cyberdrome Cockpit $Version`n`n$body`n", (New-Object Text.UTF8Encoding($false)))
+$footer = "`n---`nCode signing policy and privacy policy: https://github.com/stw78/cyberdrome#code-signing-policy"
+[IO.File]::WriteAllText($Out, "## Cyberdrome Cockpit $Version`n`n$body`n$footer`n", (New-Object Text.UTF8Encoding($false)))
 Write-Host "Releaseanteckningar for $Version -> $Out"

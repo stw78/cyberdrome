@@ -14,7 +14,7 @@ namespace Cyberdrome.App.Views;
 public static class InfoDialogs
 {
     /// <summary>Ansvarsfriskrivningens version. Ändras den visas den igen vid nästa start.</summary>
-    public const string DisclaimerVersion = "1.0-gpl";
+    public const string DisclaimerVersion = "1.1-gpl-privacy";
 
     public static string AppVersion
     {

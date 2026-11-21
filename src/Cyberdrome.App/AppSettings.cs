@@ -41,6 +41,9 @@ public sealed class AppSettings
     /// <summary>Hämta uppdateringar från UpdateFolder i stället för GitHub Releases (Avancerat). Standard: av.</summary>
     public bool UseLocalUpdateFolder { get; set; }
 
+    /// <summary>Sök efter uppdateringar automatiskt vid start (högst en gång per dygn). Standard: på. Kan stängas av (se PRIVACY.md).</summary>
+    public bool AutoCheckUpdates { get; set; } = true;
+
     /// <summary>Ta med förhandsversioner från GitHub. Standard: av.</summary>
     public bool IncludePrereleases { get; set; }
 

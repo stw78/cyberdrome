@@ -62,6 +62,19 @@ public sealed partial class MainViewModel
         }
     }
 
+    /// <summary>Automatisk kontroll vid start (Avancerat). Av = programmet kontaktar GitHub bara när du trycker själv.</summary>
+    public bool AutoCheckUpdates
+    {
+        get => _appSettings.AutoCheckUpdates;
+        set
+        {
+            if (value == _appSettings.AutoCheckUpdates) return;
+            _appSettings.AutoCheckUpdates = value;
+            _appSettings.Save();
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary>Ta med förhandsversioner (pre-release på GitHub). Standard: av.</summary>
     public bool IncludePrereleases
     {
@@ -87,7 +100,7 @@ public sealed partial class MainViewModel
     {
         UpdateFolder = string.IsNullOrWhiteSpace(_appSettings.UpdateFolder) ? DefaultUpdateFolder : _appSettings.UpdateFolder!;
         // Automatisk kontroll vid start, högst en gång per dygn, en stund efter att fönstret visats.
-        if (UpdatePolicy.ShouldAutoCheck(_appSettings.LastUpdateCheckUtc, DateTime.UtcNow))
+        if (_appSettings.AutoCheckUpdates && UpdatePolicy.ShouldAutoCheck(_appSettings.LastUpdateCheckUtc, DateTime.UtcNow))
             _ = Task.Delay(TimeSpan.FromSeconds(8)).ContinueWith(_ =>
                 Avalonia.Threading.Dispatcher.UIThread.Post(() => _ = CheckUpdatesCore(automatic: true)));
     }

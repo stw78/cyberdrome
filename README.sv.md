@@ -436,3 +436,31 @@ Inställningar (t.ex. vilket Android-bygge som hämtas, antal CPU och minne) fin
 Googles färdiga Cuttlefish-bygge hämtas av användaren och sprids inte med Cyberdrome.
 
 Om Windows **Smart App Control** är på blockeras nybyggda filer. Stäng av den på utvecklingsdatorn.
+
+## Code signing policy
+
+Gratis kodsignering från [SignPath.io](https://about.signpath.io), certifikat från [SignPath Foundation](https://signpath.org).
+(Free code signing provided by SignPath.io, certificate by SignPath Foundation.)
+
+- Committers och granskare (committers and reviewers): [stw78](https://github.com/stw78)
+- Godkännare (approvers): [stw78](https://github.com/stw78)
+
+Varje release byggs från det här repot av GitHub Actions (`.github/workflows/release.yml`), och varje signering
+godkänns för hand. Alla signerade filer har produktnamnet "Cyberdrome Cockpit" och releasens version.
+
+## Integritetspolicy (Privacy policy)
+
+Programmet skickar ingen information till andra system i nätverket om inte användaren, eller den som installerar eller
+kör programmet, uttryckligen ber om det.
+
+**Nätverksåtkomst** – bara när du använder funktionen (detaljer i [PRIVACY.md](PRIVACY.md)):
+
+- **GitHub Releases** – uppdateringskontroll vid start, högst en gång per dygn, och när du trycker "Sök efter
+  uppdateringar". Kan stängas av under Inställningar → Uppdateringar → Avancerat.
+- **OpenStreetMap**-kartrutor – på sidan Karta (eller din egen kartserver).
+- **NHTSA vPIC**, **OBDb på GitHub** och **Wikidata** – på sidan Bildatabas när du söker, hämtar eller avkodar ett VIN.
+- **F-Droid** – bara om du installerar de valfria testapparna AndrOBD eller Organic Maps.
+- **Google** – Android-emulatorn och Android-avbildningar när du installerar Android (eller Android Build API och
+  Ubuntu för WSL2 + Cuttlefish).
+
+Ingen telemetri, ingen statistik och inget konto.

@@ -116,6 +116,18 @@ $forbidden = Get-ChildItem $publish -Recurse -File | Where-Object { $_.Extension
 if ($forbidden) { throw "Otillatna filer i paketet: $($forbidden.Name -join ', ')" }
 Write-Host "Appar: $($apps -join ', ')"
 
+Step "Kontrollerar produktnamn och version i vara egna filer"
+# SignPath kraver fasta metadata: produktnamn = projektets namn och samma produktversion i varje bygge.
+$own = Get-ChildItem $publish -File | Where-Object { $_.Name -like "Cyberdrome*.dll" -or $_.Name -eq "Cyberdrome.exe" }
+foreach ($f in $own) {
+    $vi = [Diagnostics.FileVersionInfo]::GetVersionInfo($f.FullName)
+    $pv = ($vi.ProductVersion -split '\+')[0]
+    if ($vi.ProductName -ne "Cyberdrome Cockpit" -or $pv -ne $Version) {
+        throw "$($f.Name): produktnamn '$($vi.ProductName)' och version '$pv' (ska vara 'Cyberdrome Cockpit' och '$Version')."
+    }
+}
+Write-Host "$($own.Count) filer: Cyberdrome Cockpit $Version"
+
 Step "Velopack-paket"
 New-Item -ItemType Directory -Force $feed, $outDir | Out-Null
 # Installationsfiler skrivs om per version (MSI byggs bara när den inte är avstängd).

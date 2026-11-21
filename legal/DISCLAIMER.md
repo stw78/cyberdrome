@@ -17,6 +17,10 @@ Cyberdrome © 2026 Jouko Broström. Fri programvara under **GNU General Public L
   hämtas av dig från Google och följer Googles villkor. Avbildningar med Google Play är bara för utveckling och test.
   Kartor (© OpenStreetMap-bidragsgivare), bildatabasens data (NHTSA vPIC, Wikidata, OBDb) och appar från F-Droid hämtas
   också av dig och följer respektive källas villkor. Inget av detta ingår i Cyberdrome.
+- **Integritet.** Programmet skickar ingen information till andra system om du inte själv ber om det. Det har ingen
+  telemetri. Uppdateringskontrollen mot GitHub (högst en gång per dygn) kan stängas av under Inställningar →
+  Uppdateringar → Avancerat. Kartor, bildatabas och Android-nedladdningar kontaktar sina källor bara när du använder
+  dem. Se PRIVACY.md.
 - **Inga logotyper.** Teman och skal är inspirerade av bilmärken men ritade från grunden. Inga tillverkares logotyper,
   typsnitt eller grafik ingår.
 
@@ -34,5 +38,8 @@ Cyberdrome © 2026 Jouko Broström. Fri programvara under **GNU General Public L
   downloaded by you from Google under Google's terms. Play images are for development and testing only. Maps
   (© OpenStreetMap contributors), car database data (NHTSA vPIC, Wikidata, OBDb) and F-Droid apps are also downloaded
   by you under their own terms. None of it is part of Cyberdrome.
+- **Privacy.** The program does not send information to other systems unless you ask for it. There is no telemetry.
+  The GitHub update check (at most once a day) can be turned off under Settings → Updates → Advanced. Maps, the car
+  database and Android downloads contact their sources only when you use them. See PRIVACY.md.
 - **No logos.** Themes and skins are inspired by car brands but drawn from scratch. No manufacturer logos, fonts or
   graphics are included.

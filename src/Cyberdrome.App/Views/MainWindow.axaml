@@ -1226,6 +1226,7 @@
                   </Border>
                   <Expander Header="{l:T Settings_Advanced}" HorizontalAlignment="Stretch">
                     <StackPanel Spacing="8">
+                      <CheckBox Content="{l:T Settings_AutoCheckUpdates}" IsChecked="{Binding AutoCheckUpdates}" />
                       <CheckBox Content="{l:T Settings_IncludePrereleases}" IsChecked="{Binding IncludePrereleases}" />
                       <CheckBox Content="{l:T Settings_UseLocalFolder}" IsChecked="{Binding UseLocalUpdateFolder}" />
                       <TextBox Text="{Binding UpdateFolder}" IsEnabled="{Binding UseLocalUpdateFolder}" ToolTip.Tip="{l:T Ui_FolderWithUpdatePackagesVelopackNo}" />

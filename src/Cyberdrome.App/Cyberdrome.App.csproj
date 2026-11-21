@@ -33,6 +33,7 @@
     <!-- Licenstexter och våra egna Android-appar följer med programmet (inga tredjepartsappar eller Google-avbildningar). -->
     <None Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\legal\DISCLAIMER.md" Link="DISCLAIMER.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\PRIVACY.md" Link="PRIVACY.md" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\legal\THIRD-PARTY-NOTICES.txt" Link="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk" Link="apps\CyberdromeLauncher.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk')" />
     <None Include="..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk" Link="apps\CyberdromeRadio.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk')" />

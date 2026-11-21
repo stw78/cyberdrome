@@ -530,3 +530,30 @@ Settings (e.g. which Android build to fetch, number of CPUs and memory) are in `
 Google's ready-made Cuttlefish build is downloaded by the user and is not redistributed with Cyberdrome.
 
 If Windows **Smart App Control** is on, newly built files are blocked. Turn it off on the development computer.
+
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+
+- Committers and reviewers: [stw78](https://github.com/stw78)
+- Approvers: [stw78](https://github.com/stw78)
+
+Every release is built from this repository by GitHub Actions (`.github/workflows/release.yml`) and each signing request
+is approved by hand. All signed binaries carry the product name "Cyberdrome Cockpit" and the release version.
+
+## Privacy policy
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or
+the person installing or operating it.
+
+**Network access** – only when you use the feature (details in [PRIVACY.md](PRIVACY.md)):
+
+- **GitHub Releases** – update check at start, at most once a day, and when you press "Check for updates". It can be
+  turned off under Settings → Updates → Advanced.
+- **OpenStreetMap** tiles – on the Map page (or your own tile server).
+- **NHTSA vPIC**, **OBDb on GitHub** and **Wikidata** – on the Car database page when you search, fetch or decode a VIN.
+- **F-Droid** – only if you install the optional test apps AndrOBD or Organic Maps.
+- **Google** – Android emulator and system images when you install Android (or the Android Build API and Ubuntu archives
+  for WSL2 + Cuttlefish).
+
+There is no telemetry, analytics or account.

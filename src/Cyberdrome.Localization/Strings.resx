@@ -3039,4 +3039,7 @@ Do you also want to remove my data?
   <data name="Ui_Or" xml:space="preserve">
     <value>or</value>
   </data>
+  <data name="Settings_AutoCheckUpdates" xml:space="preserve">
+    <value>Check automatically at start (at most once a day)</value>
+  </data>
 </root>

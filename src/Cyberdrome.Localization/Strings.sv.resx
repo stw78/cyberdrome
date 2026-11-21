@@ -3039,4 +3039,7 @@ Vill du även ta bort mina data?
   <data name="Ui_Or" xml:space="preserve">
     <value>eller</value>
   </data>
+  <data name="Settings_AutoCheckUpdates" xml:space="preserve">
+    <value>Sök automatiskt vid start (högst en gång per dygn)</value>
+  </data>
 </root>

@@ -4,6 +4,30 @@ Each version has an English and a Swedish part. The release job on GitHub uses t
 release notes (`tools/changelog-section.ps1`). / Varje version har en engelsk och en svensk del. Releasejobbet på GitHub
 använder avsnittet för den taggade versionen som releaseanteckningar.
 
+## 1.1.1
+
+**English**
+
+- WSL2 + Cuttlefish: Android now actually starts (about 30 seconds). Cuttlefish's crosvm sandbox does not work in WSL2,
+  so Android is started without it, half-started instances are cleaned up first, and a start that takes too long is
+  stopped with the reason from the log and a **Show log** link – it never waits forever.
+- The Android screen is shown inside the program in the WSL2 mode too, and apps in Android reach the virtual OBD port.
+- New **Android on/off switch** (Off, Starting…, On, Shutting down…) first on Overview, in the top bar and on the
+  Android page. It replaces the Start and Stop buttons.
+- The program icon now shows in the Windows Start menu and on shortcuts (the icon file now has bitmap sizes).
+- No build warnings; a text mix-up between "Passed"/"PASSED" in test results is fixed.
+
+**Svenska**
+
+- WSL2 + Cuttlefish: Android startar nu på riktigt (cirka 30 sekunder). Cuttlefish-sandlådan för crosvm fungerar inte
+  i WSL2, så Android startas utan den, halvstartade instanser städas bort först, och en start som tar för lång tid
+  avbryts med orsaken ur loggen och länken **Visa logg** – den väntar aldrig för evigt.
+- Android-skärmen visas inne i programmet även i WSL2-läget, och appar i Android når den virtuella OBD-porten.
+- Ny **på/av-brytare för Android** (Av, Startar…, På, Stänger…) först på Översikt, i toppfältet och på sidan Android.
+  Den ersätter knapparna Starta och Stoppa.
+- Programikonen syns nu i Windows Start-meny och på genvägar (ikonfilen har nu bitmappsstorlekar).
+- Inga byggvarningar; en sammanblandning av texterna "Godkänd"/"GODKÄND" i testresultaten är rättad.
+
 ## 1.1.0
 
 **English**

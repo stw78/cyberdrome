@@ -10,7 +10,7 @@
 # Kodsignering styrs av signing.json bredvid skriptet (se signing.example.json och README: Kodsignering).
 # signing.json innehåller bara tumavtryck och sökvägar - aldrig lösenord eller nycklar.
 param(
-    [string]$Version = "1.1.0",
+    [string]$Version = "1.1.1",
     [switch]$SkipTests,
     [switch]$NoMsi,
     [ValidateSet("", "none", "test", "certificate", "azure")][string]$Sign = "",

@@ -4,6 +4,30 @@ Each version has an English and a Swedish part. The release job on GitHub uses t
 release notes (`tools/changelog-section.ps1`). / Varje version har en engelsk och en svensk del. Releasejobbet på GitHub
 använder avsnittet för den taggade versionen som releaseanteckningar.
 
+## 1.1.2
+
+**English**
+
+- Much faster Android: the emulator now uses the computer's graphics card (`-gpu host`) instead of software rendering,
+  with software as an automatic fallback if the card cannot be used.
+- Android gets half of the computer's threads (2–8 cores) instead of always 4.
+- The Android screen in the program updates about 15 times per second instead of about 3 (screenshots taken by the
+  emulator itself, ~25 ms instead of ~230 ms), and taps respond in ~35 ms instead of ~100 ms.
+- Shorter animations in Android (0.5×) so menus feel quicker, and no emulator sound.
+- WSL2 + Cuttlefish: the screen is fetched with Windows' own adb instead of starting wsl.exe for every frame.
+- The graphics card and cores apply the next time Android starts: turn Android off and on with the switch.
+
+**Svenska**
+
+- Mycket snabbare Android: emulatorn använder nu datorns grafikkort (`-gpu host`) i stället för mjukvarugrafik, med
+  mjukvara som automatisk reserv om grafikkortet inte går att använda.
+- Android får hälften av datorns trådar (2–8 kärnor) i stället för alltid 4.
+- Android-skärmen i programmet uppdateras cirka 15 gånger per sekund i stället för cirka 3 (bilden tas av emulatorn
+  själv, ~25 ms i stället för ~230 ms), och tryck svarar på ~35 ms i stället för ~100 ms.
+- Kortare animationer i Android (0,5×) så att menyer känns kvickare, och inget emulatorljud.
+- WSL2 + Cuttlefish: skärmen hämtas med Windows egen adb i stället för att starta wsl.exe för varje bild.
+- Grafikkortet och kärnorna gäller från nästa gång Android startar: slå Android av och på med brytaren.
+
 ## 1.1.1
 
 **English**

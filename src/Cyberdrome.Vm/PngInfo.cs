@@ -28,6 +28,18 @@ public static partial class PngInfo
         return over ?? physical;
     }
 
+    /// <summary>Både fysisk storlek och override ur "wm size" (override null om den saknas).</summary>
+    public static ((int W, int H)? Physical, (int W, int H)? Override) ParseWmSizes(string output)
+    {
+        (int, int)? physical = null, over = null;
+        foreach (Match m in WmLine().Matches(output))
+        {
+            var v = (int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value));
+            if (m.Groups[1].Value.StartsWith("Override", StringComparison.OrdinalIgnoreCase)) over = v; else physical = v;
+        }
+        return (physical, over);
+    }
+
     [GeneratedRegex(@"(Physical|Override) size:\s*(\d+)x(\d+)")]
     private static partial Regex WmLine();
 }

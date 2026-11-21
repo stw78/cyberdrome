@@ -12,7 +12,7 @@ namespace Cyberdrome.Vm;
 /// Använder Windows Hypervisor Platform (WHPX) som redan finns, så ingen omstart behövs.
 /// OBS: Googles emulatoravbilder får inte följa med i den sålda produkten – bara för utveckling.
 /// </summary>
-public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScreenStream
+public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScreenStream, ILauncherHost
 {
     private bool _accelOk;
     private string? _serial;     // t.ex. emulator-5554, sparas mellan anropen
@@ -30,6 +30,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
 
     public string SystemImage => GoogleApps ? Settings.GoogleSystemImage : Settings.SystemImage;
     public string AvdName => GoogleApps ? Settings.GoogleAvdName : Settings.AvdName;
+    public string LauncherKey => AvdName;
     public string DeviceProfile => GoogleApps ? Settings.GoogleDeviceProfile : Settings.DeviceProfile;
     public string SystemImageDir => Path.Combine([Settings.SdkRoot, .. SystemImage.Split(';')]);
 
@@ -253,7 +254,18 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
         _grpc?.Dispose();
         var g = new EmulatorGrpc(ep.Port, ep.Token);
         _grpc = g;
-        try { await g.StreamAsync(onFrame, ct); return true; }
+        // Har skärmstorleken ändrats under körningen ritar Android i en mindre yta mitt i den fysiska skärmen:
+        // skicka bara den ytan (inga svarta kanter i skalet). Kontrolleras igen var 3:e sekund.
+        using var cropCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        _ = Task.Run(async () =>
+        {
+            while (!cropCts.IsCancellationRequested)
+            {
+                await UpdateCropAsync(cropCts.Token);
+                try { await Task.Delay(3000, cropCts.Token); } catch { break; }
+            }
+        });
+        try { await g.StreamAsync(f => onFrame(_crop is { } c && c.X + c.W <= f.Width && c.Y + c.H <= f.Height ? f with { Crop = c } : f), ct); return true; }
         catch (OperationCanceledException) { return true; }
         catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.Cancelled) { return true; }
         catch { if (_grpc == g) _grpc = null; g.Dispose(); return false; }
@@ -265,9 +277,26 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
     /// <summary>Senaste felet från pekaren via gRPC (för felsökning och tester).</summary>
     public string? LastPointerError => _lastPointerError;
 
+    private CropRect? _crop;
+
+    private async Task UpdateCropAsync(CancellationToken ct)
+    {
+        try
+        {
+            var serial = await SerialAsync(ct);
+            if (serial is null) return;
+            var r = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "wm", "size"], ct: ct);
+            var (physical, over) = PngInfo.ParseWmSizes(r.Output);
+            if (physical is { } p) _crop = CropRect.ForOverride(p, over);
+        }
+        catch { /* nästa gång */ }
+    }
+
     public async Task<bool> PointerAsync(int x, int y, bool down, CancellationToken ct = default)
     {
         if (_grpc is not { } g) return false;
+        // Programmet räknar i den visade (beskurna) bilden; emulatorn vill ha den fysiska skärmens bildpunkter.
+        if (_crop is { } c) { x += c.X; y += c.Y; }
         await _pointerOrder.WaitAsync(ct); // ned, flytta och upp måste komma fram i rätt ordning
         try { await g.MouseAsync(x, y, down, ct); return true; }
         catch (Exception ex) { _lastPointerError = ex.Message; return false; }

@@ -46,9 +46,10 @@ public sealed partial class MainViewModel
         Interlocked.Exchange(ref _framePosted, 0);
         var f = Interlocked.Exchange(ref _pendingFrame, null);
         if (f is null || _screenCts is null) return;
-        if (ScreenFrame is not WriteableBitmap wb || wb.PixelSize.Width != f.Width || wb.PixelSize.Height != f.Height)
+        var c = f.Crop ?? new CropRect(0, 0, f.Width, f.Height);
+        if (ScreenFrame is not WriteableBitmap wb || wb.PixelSize.Width != c.W || wb.PixelSize.Height != c.H)
         {
-            wb = new WriteableBitmap(new PixelSize(f.Width, f.Height), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Opaque);
+            wb = new WriteableBitmap(new PixelSize(c.W, c.H), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Opaque);
             CopyInto(wb, f);
             SetFrame(wb);
         }
@@ -63,13 +64,14 @@ public sealed partial class MainViewModel
     private static unsafe void CopyInto(WriteableBitmap wb, RawFrame f)
     {
         using var fb = wb.Lock();
-        int row = f.Width * 4;
+        var c = f.Crop ?? new CropRect(0, 0, f.Width, f.Height);
+        int srcRow = f.Width * 4, row = c.W * 4;
         var src = f.Rgba.Span;
-        if (fb.RowBytes == row)
-            src[..(row * f.Height)].CopyTo(new Span<byte>((void*)fb.Address, row * f.Height));
+        if (c.X == 0 && c.W == f.Width && fb.RowBytes == row)
+            src.Slice(c.Y * srcRow, row * c.H).CopyTo(new Span<byte>((void*)fb.Address, row * c.H));
         else
-            for (int y = 0; y < f.Height; y++)
-                src.Slice(y * row, row).CopyTo(new Span<byte>((void*)(fb.Address + y * fb.RowBytes), row));
+            for (int y = 0; y < c.H; y++)
+                src.Slice((c.Y + y) * srcRow + c.X * 4, row).CopyTo(new Span<byte>((void*)(fb.Address + y * fb.RowBytes), row));
     }
 
     private void CountFrame()

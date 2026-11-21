@@ -35,8 +35,12 @@ public final class ThemeReceiver extends BroadcastReceiver {
         } else if (id != null) {
             e.putString("id", id).remove("json");
         }
+        // OBD-adressen sett inifrån Android (10.0.2.2 i emulatorn, WSL2-gatewayen i Cuttlefish).
+        String obd = intent.getStringExtra("obd");
+        if (obd != null) e.putString("obd", obd);
         e.apply();
         setResultData("OK");
+        if (obd != null) HomeActivity.obdChanged(obd);
         HomeActivity.themeChanged();
     }
 

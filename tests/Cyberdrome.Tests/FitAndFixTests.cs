@@ -296,3 +296,29 @@ public class WslVideoTests
     [Fact]
     public void SetupInstallsGpuSupport() => Assert.Contains("mesa-vulkan-drivers", AndroidVm.ReadScript("setup.sh"));
 }
+
+/// <summary>Inga svarta kanter: bildströmmen beskärs till ytan Android ritar i; Launcher får rätt OBD-adress.</summary>
+public class SkinFillTests
+{
+    [Fact]
+    public void CropMatchesTheLogicalScreenInsideThePhysicalOne()
+    {
+        // Emulatorn startad som 1280x800, sedan bytt till 1560x700 under körningen (wm size override).
+        Assert.Equal(new CropRect(0, 113, 1280, 574), CropRect.ForOverride((1280, 800), (1560, 700)));
+        Assert.Equal(new CropRect(140, 0, 1000, 800), CropRect.ForOverride((1280, 800), (800, 640)));
+        Assert.Null(CropRect.ForOverride((1560, 700), (1560, 700)));
+        Assert.Null(CropRect.ForOverride((1560, 700), null));
+        var (p, o) = PngInfo.ParseWmSizes("Physical size: 1280x800\nOverride size: 1560x700\n");
+        Assert.Equal((1280, 800), p);
+        Assert.Equal((1560, 700), o);
+        Assert.Null(PngInfo.ParseWmSizes("Physical size: 1280x800\n").Override);
+    }
+
+    [Fact]
+    public void LauncherGetsTheObdAddressSeenFromAndroid()
+    {
+        var a = CyberdromeLauncher.BroadcastBuiltIn("vw-golf8", "172.25.160.1:35000");
+        Assert.Equal("172.25.160.1:35000", a[Array.IndexOf(a, "obd") + 1]);
+        Assert.DoesNotContain("obd", CyberdromeLauncher.BroadcastBuiltIn("vw-golf8"));
+    }
+}

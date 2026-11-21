@@ -100,10 +100,15 @@ public static class CyberdromeLauncher
     public static readonly SampleApp App = new(PackageName, "Cyberdrome Launcher", @"android\CyberdromeLauncher", "CyberdromeLauncher.apk");
 
     /// <summary>Argument till "adb shell am broadcast" för ett inbyggt tema.</summary>
-    public static string[] BroadcastBuiltIn(string themeId) =>
-        ["am", "broadcast", "--user", "current", "-n", ThemeReceiver, "-a", ThemeAction, "--es", "id", themeId];
+    public static string[] BroadcastBuiltIn(string themeId, string? obd = null) =>
+        [.. Base, "--es", "id", themeId, .. Obd(obd)];
 
     /// <summary>Argument till "adb shell am broadcast" för ett eget tema (JSON som base64 – inga specialtecken).</summary>
-    public static string[] BroadcastCustom(Themes.LauncherTheme theme) =>
-        ["am", "broadcast", "--user", "current", "-n", ThemeReceiver, "-a", ThemeAction, "--es", "json64", theme.ToBase64()];
+    public static string[] BroadcastCustom(Themes.LauncherTheme theme, string? obd = null) =>
+        [.. Base, "--es", "json64", theme.ToBase64(), .. Obd(obd)];
+
+    private static readonly string[] Base = ["am", "broadcast", "--user", "current", "-n", ThemeReceiver, "-a", ThemeAction];
+
+    /// <summary>OBD-adressen sett inifrån Android ("värd:port"): 10.0.2.2 i emulatorn, WSL2-gatewayen i Cuttlefish.</summary>
+    private static string[] Obd(string? hostPort) => string.IsNullOrEmpty(hostPort) ? [] : ["--es", "obd", hostPort];
 }

@@ -59,6 +59,13 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
     private String obdStatus = "OBD ansluter …";
 
     /** Anropas av ThemeReceiver när Cyberdrome byter tema. */
+    static void obdChanged(String hostPort) {
+        MAIN.post(() -> {
+            HomeActivity a = instance.get();
+            if (a != null && !a.isFinishing()) a.obd.setAddress(hostPort);
+        });
+    }
+
     static void themeChanged() {
         MAIN.post(() -> {
             HomeActivity a = instance.get();
@@ -73,6 +80,8 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
         obdStatus = S.d("OBD ansluter …");
         instance = new WeakReference<>(this);
         obd = new ObdClient(this);
+        String obdAddress = getSharedPreferences(ThemeReceiver.PREFS, MODE_PRIVATE).getString("obd", null);
+        if (obdAddress != null) obd.setAddress(obdAddress);
         obd.start();
         rebuild();
         MAIN.postDelayed(clockTick, 1000);

@@ -8,7 +8,25 @@ using Grpc.Net.Client;
 namespace Cyberdrome.Vm;
 
 /// <summary>En skärmbild som rå RGBA (4 byte per bildpunkt, rad för rad).</summary>
-public sealed record RawFrame(int Width, int Height, ReadOnlyMemory<byte> Rgba);
+/// <remarks>Crop: den del av bilden som Android ritar i (när skärmstorleken ändrats under körning ritar Android
+/// i en mindre yta mitt i den fysiska skärmen). Null = hela bilden.</remarks>
+public sealed record RawFrame(int Width, int Height, ReadOnlyMemory<byte> Rgba, CropRect? Crop = null);
+
+/// <summary>Ett utsnitt i bildpunkter.</summary>
+public readonly record struct CropRect(int X, int Y, int W, int H)
+{
+    /// <summary>
+    /// Ytan Android ritar i när den logiska storleken (wm size override) skiljer sig från den fysiska skärmen:
+    /// skalas för att rymmas och centreras. Null när storlekarna är lika (ingen beskärning behövs).
+    /// </summary>
+    public static CropRect? ForOverride((int W, int H) physical, (int W, int H)? logical)
+    {
+        if (logical is not { } l || l == physical || l.W <= 0 || l.H <= 0) return null;
+        double s = Math.Min((double)physical.W / l.W, (double)physical.H / l.H);
+        int w = (int)Math.Round(l.W * s), h = (int)Math.Round(l.H * s);
+        return new CropRect((physical.W - w) / 2, (physical.H - h) / 2, w, h);
+    }
+}
 
 /// <summary>
 /// Android-läge som kan strömma skärmen kontinuerligt och ta emot tryck direkt (i stället för skärmdumpar och adb).

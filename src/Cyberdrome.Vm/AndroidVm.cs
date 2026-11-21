@@ -9,7 +9,7 @@ namespace Cyberdrome.Vm;
 /// Sköter Android Automotive i en virtuell maskin: Cuttlefish i en egen WSL2-distribution.
 /// Allt körs via wsl.exe, så inga ändringar görs i användarens andra Linux-miljöer.
 /// </summary>
-public sealed class AndroidVm : IAndroidBackend, IScreenControl
+public sealed class AndroidVm : IAndroidBackend, IScreenControl, ILauncherHost
 {
     private const string Wsl = "wsl.exe";
     private bool _rebootNeeded;
@@ -332,6 +332,27 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
         return pkg;
     }
 
+    // ---------------- Cyberdrome Launcher (bilens tema) ----------------
+
+    public string LauncherKey => "cuttlefish:" + Settings.DistroName;
+
+    public async Task<ProcessResult> RunShellAsync(string[] args, CancellationToken ct = default) => await ShellAsync(ct, args);
+
+    public async Task<bool> IsInstalledAsync(string packageName, CancellationToken ct = default)
+    {
+        var r = await ShellAsync(ct, "pm", "path", packageName);
+        return r.Ok && r.Output.Contains("package:");
+    }
+
+    public async Task<bool> SetHomeAsync(string component, CancellationToken ct = default)
+    {
+        var r = await ShellAsync(ct, "cmd", "package", "set-home-activity", "--user", "current", component);
+        await ShellAsync(ct, "input", "keyevent", "KEYCODE_HOME");
+        return r.Ok;
+    }
+
+    public Task<bool> ResetHomeAsync(CancellationToken ct = default) => SetHomeAsync("com.android.car.carlauncher/.CarLauncher", ct);
+
     public async Task<bool> LaunchAppAsync(string packageName, CancellationToken ct = default) =>
         (await ShellAsync(ct, "monkey", "-p", packageName, "-c", "android.intent.category.LAUNCHER", "1")).Ok;
 
@@ -350,6 +371,13 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
     /// <summary>Installerar en APK-fil i Android.</summary>
     public async Task<ProcessResult> InstallApkAsync(string windowsPath, Action<string> log, CancellationToken ct = default)
     {
+        // Snabbast: Windows egen adb direkt mot 127.0.0.1 (ingen kopiering via wsl.exe).
+        await EnsureAdbAsync(ct);
+        if (WindowsAdb)
+        {
+            var w = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", Serial, "install", "-r", "-g", windowsPath], onLine: log, ct: ct);
+            if (w.Ok && w.Output.Contains("Success", StringComparison.OrdinalIgnoreCase)) return w;
+        }
         var conv = await ProcessRunner.RunAsync(Wsl, ["-d", Settings.DistroName, "-u", "cvd", "--", "wslpath", "-a", windowsPath], ct: ct);
         if (!conv.Ok) return conv;
         return await RunScriptAsync("install-apk.sh", root: false, log: log, ct: ct, env: new()

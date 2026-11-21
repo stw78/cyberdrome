@@ -128,7 +128,7 @@ public sealed partial class MainViewModel
             }
             await ApplyScreenAsync();
 
-            if (_android is not EmulatorVm emu || !AndroidRunning)
+            if (_android is not ILauncherHost emu || !AndroidRunning)
             {
                 LookStatus = L.T("Look_TheThemeIsUsedWhenAndroid");
                 return;
@@ -143,8 +143,8 @@ public sealed partial class MainViewModel
 
             if (!await EnsureLauncherAsync(emu)) return;
             var args = builtIn.Id is not null || custom is null
-                ? CyberdromeLauncher.BroadcastBuiltIn(themeId)
-                : CyberdromeLauncher.BroadcastCustom(custom);
+                ? CyberdromeLauncher.BroadcastBuiltIn(themeId, AndroidObdAddress)
+                : CyberdromeLauncher.BroadcastCustom(custom, AndroidObdAddress);
             var r = await emu.RunShellAsync(args);
             await emu.SetHomeAsync(CyberdromeLauncher.HomeActivity);
             LookStatus = r.Ok && r.Output.Contains("\"OK\"")
@@ -156,25 +156,25 @@ public sealed partial class MainViewModel
     }
 
     /// <summary>Installerar (och bygger vid behov) Cyberdrome Launcher.</summary>
-    private async Task<bool> EnsureLauncherAsync(EmulatorVm emu)
+    private async Task<bool> EnsureLauncherAsync(ILauncherHost emu)
     {
         var app = CyberdromeLauncher.App;
         var project = app.FindProjectDir(AppContext.BaseDirectory);
         bool installed = await emu.IsInstalledAsync(app.PackageName);
         bool rebuild = project is not null && app.NeedsBuild(project);
         long stamp = project is not null && File.Exists(app.ApkPath(project)) ? File.GetLastWriteTimeUtc(app.ApkPath(project)).Ticks : 0;
-        bool current = _appSettings.InstalledLauncher.GetValueOrDefault(emu.AvdName) == stamp;
+        bool current = _appSettings.InstalledLauncher.GetValueOrDefault(emu.LauncherKey) == stamp;
         if (project is null)
         {
             // Installerad version: färdigbyggd APK i programmappen (apps\).
             var bundled = SampleApp.Bundled(app.ApkName);
             if (bundled is null) { LookStatus = L.T("Look_CyberdromeLauncherNotFoundAppsOr"); return false; }
             long bstamp = File.GetLastWriteTimeUtc(bundled).Ticks;
-            if (installed && _appSettings.InstalledLauncher.GetValueOrDefault(emu.AvdName) == bstamp) return true;
+            if (installed && _appSettings.InstalledLauncher.GetValueOrDefault(emu.LauncherKey) == bstamp) return true;
             LookStatus = L.T("Look_InstallingCyberdromeLauncher");
             var br = await emu.InstallApkAsync(bundled, AndroidLogLine);
             if (!br.Ok) { LookStatus = L.T("Look_CouldNotInstallCyberdromeLauncher"); return false; }
-            _appSettings.InstalledLauncher[emu.AvdName] = bstamp;
+            _appSettings.InstalledLauncher[emu.LauncherKey] = bstamp;
             _appSettings.Save();
             return true;
         }
@@ -192,7 +192,7 @@ public sealed partial class MainViewModel
         LookStatus = L.T("Look_InstallingCyberdromeLauncher");
         var r = await emu.InstallApkAsync(apk, AndroidLogLine);
         if (!r.Ok) { LookStatus = L.T("Look_CouldNotInstallCyberdromeLauncher"); return false; }
-        _appSettings.InstalledLauncher[emu.AvdName] = File.GetLastWriteTimeUtc(apk).Ticks;
+        _appSettings.InstalledLauncher[emu.LauncherKey] = File.GetLastWriteTimeUtc(apk).Ticks;
         _appSettings.Save();
         return true;
     }

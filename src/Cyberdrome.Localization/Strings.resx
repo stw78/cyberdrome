@@ -914,7 +914,7 @@ Ignored (not supported by the simulator):</value>
     <value>The image could not be read.</value>
   </data>
   <data name="Look_TheThemeIsUsedWhenAndroid" xml:space="preserve">
-    <value>The theme is used when Android runs (No restart or Google apps mode).</value>
+    <value>The theme is applied when Android is running.</value>
   </data>
   <data name="Look_ThemeImported" xml:space="preserve">
     <value>Theme imported:</value>

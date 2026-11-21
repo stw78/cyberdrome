@@ -38,12 +38,12 @@ public static class OdxImporter
                 using var s = e.Open();
                 docs.Add(XDocument.Load(s));
             }
-            if (docs.Count == 0) throw new InvalidDataException("PDX-filen innehåller ingen .odx-fil.");
+            if (docs.Count == 0) throw new InvalidDataException(L.T("OdxImporter_ThePDXFileContainsNoOdx"));
         }
         else
         {
             try { docs.Add(XDocument.Load(path)); }
-            catch (System.Xml.XmlException ex) { throw new InvalidDataException("Filen är ingen giltig ODX/XML: " + ex.Message); }
+            catch (System.Xml.XmlException ex) { throw new InvalidDataException(L.T("OdxImporter_TheFileIsNotValidODX") + ex.Message); }
         }
         return Import(docs, Path.GetFileNameWithoutExtension(path));
     }
@@ -64,10 +64,10 @@ public static class OdxImporter
 
         foreach (var doc in docs)
         {
-            var root = doc.Root ?? throw new InvalidDataException("Tom ODX-fil.");
-            if (root.Name.LocalName != "ODX") throw new InvalidDataException("Filen är inte ODX (rotelementet heter inte ODX).");
+            var root = doc.Root ?? throw new InvalidDataException(L.T("OdxImporter_EmptyODXFile"));
+            if (root.Name.LocalName != "ODX") throw new InvalidDataException(L.T("OdxImporter_TheFileIsNotODXThe"));
             var ver = root.Attribute("MODEL-VERSION")?.Value;
-            if (ver is not null && !ver.StartsWith("2.", StringComparison.Ordinal)) notes.Add($"ODX-version {ver} – bara 2.x är provad.");
+            if (ver is not null && !ver.StartsWith("2.", StringComparison.Ordinal)) notes.Add(L.F("OdxImporter_ODXVersion0Only2X", ver));
 
             // Våra egna tilläggsdata (SDG "Cyberdrome") gör export → import förlustfri.
             foreach (var sdg in Desc(root, "SDG").Where(s => Text(Child(s, "SDG-CAPTION"), "SHORT-NAME") == "Cyberdrome"))
@@ -77,15 +77,15 @@ public static class OdxImporter
             void Skip(string element, string what)
             {
                 int n = Desc(root, element).Count();
-                if (n > 0) ignored.Add($"{what} ({n} st)");
+                if (n > 0) ignored.Add(L.F("Odx_Count01", what, n));
             }
-            Skip("FLASH", "Flashdata (FLASH)");
-            Skip("SINGLE-ECU-JOB", "Diagnosjobb (SINGLE-ECU-JOB)");
-            Skip("MULTIPLE-ECU-JOB", "Jobb över flera styrdon (MULTIPLE-ECU-JOB)");
-            Skip("FUNCTIONAL-GROUP", "Funktionsgrupper (FUNCTIONAL-GROUP)");
-            Skip("COMPARAM-SPEC", "Kommunikationsspecifikation (COMPARAM-SPEC)");
-            Skip("VEHICLE-INFO-SPEC", "Fordonsinformation (VEHICLE-INFO-SPEC)");
-            Skip("PROTOCOL", "Protokollager (PROTOCOL)");
+            Skip("FLASH", L.T("Odx_Flash"));
+            Skip("SINGLE-ECU-JOB", L.T("Odx_SingleJob"));
+            Skip("MULTIPLE-ECU-JOB", L.T("OdxImporter_JobsAcrossSeveralControlUnitsMULTIPLE"));
+            Skip("FUNCTIONAL-GROUP", L.T("Odx_FunctionalGroup"));
+            Skip("COMPARAM-SPEC", L.T("Odx_ComparamSpec"));
+            Skip("VEHICLE-INFO-SPEC", L.T("Odx_VehicleInfo"));
+            Skip("PROTOCOL", L.T("Odx_Protocol"));
 
             var layers = Desc(root, "BASE-VARIANT").Concat(Desc(root, "ECU-VARIANT")).ToList();
             foreach (var layer in layers)
@@ -96,11 +96,11 @@ public static class OdxImporter
                 var (req, resp) = CanIds(layer);
                 if (req is null)
                 {
-                    if (layer.Name.LocalName == "ECU-VARIANT") { ignored.Add($"ECU-variant {shortName} utan egna CAN-id (ärver bas)"); continue; }
-                    notes.Add($"{shortName}: CAN-id saknas – 7E0/7E8 används.");
+                    if (layer.Name.LocalName == "ECU-VARIANT") { ignored.Add(L.F("OdxImporter_ECUVariant0WithoutItsOwn", shortName)); continue; }
+                    notes.Add(L.F("OdxImporter_0CANIdMissing7E07E8", shortName));
                     req = 0x7E0; resp = 0x7E8;
                 }
-                if (p.Ecus.Any(e => e.RequestIdValue == req)) { notes.Add($"{shortName}: samma CAN-id som ett annat styrdon – hoppades över."); continue; }
+                if (p.Ecus.Any(e => e.RequestIdValue == req)) { notes.Add(L.F("OdxImporter_0SameCANIdAsAnother", shortName)); continue; }
 
                 var ecu = new EcuProfile
                 {
@@ -119,19 +119,19 @@ public static class OdxImporter
                 }
 
                 int sec = Desc(layer, "DIAG-SERVICE").Count(s => ServiceId(layer, s) == 0x27);
-                if (sec > 0) ignored.Add($"{shortName}: säkerhetsåtkomst 0x27 ({sec} tjänster) – Cyberdrome använder egen påhittad formel");
+                if (sec > 0) ignored.Add(L.F("OdxImporter_0SecurityAccess0x271Services", shortName, sec));
                 int other = Desc(layer, "DIAG-SERVICE").Count(s => ServiceId(layer, s) is not (0x22 or 0x2E or 0x27 or 0x10 or 0x3E or 0x19 or 0x14));
-                if (other > 0) ignored.Add($"{shortName}: övriga diagnostjänster ({other} st)");
+                if (other > 0) ignored.Add(L.F("OdxImporter_0OtherDiagnosticServices1", shortName, other));
             }
         }
 
         // Kodningsvärden från Cyberdromes SDG (ODX har bara längden).
         foreach (var e in p.Ecus)
             if (codings.TryGetValue(e.Key, out var c) && c.Length == e.Coding.Length) e.Coding = c;
-        if (p.Ecus.Count == 0) throw new InvalidDataException("Hittade inga styrdon (BASE-VARIANT/ECU-VARIANT med CAN-id) i ODX-filen.");
+        if (p.Ecus.Count == 0) throw new InvalidDataException(L.T("OdxImporter_NoControlUnitsBASEVARIANTECU"));
         if (dtcTexts.Count > 0) p.DtcDescriptions = dtcTexts;
         p.Id = ProfileStore.SafeId(p.Id.Length > 0 ? p.Id : p.Make + "-" + p.Model);
-        if (p.Vin == PlaceholderVin) notes.Add("VIN saknas i ODX – platshållaren CDX00000000000001 används (ändra i redigeraren).");
+        if (p.Vin == PlaceholderVin) notes.Add(L.T("OdxImporter_VINMissingInODXThePlaceholder"));
         return new OdxImportResult(p, ignored, notes);
     }
 
@@ -210,7 +210,7 @@ public static class OdxImporter
         var read = candidates.FirstOrDefault(c => Coded(c.Req, "SERVICE-ID") == 0x22 &&
             ((Text(c.Service, "SHORT-NAME") ?? "") + (Text(c.Service, "LONG-NAME") ?? "")).Contains("od", StringComparison.OrdinalIgnoreCase));
         var chosen = write.Req is not null ? write : read;
-        if (chosen.Req is null) { notes.Add($"{ecu.Key}: ingen kodningstjänst (22/2E) – 4 byte nollor används."); ecu.Coding = "00000000"; return; }
+        if (chosen.Req is null) { notes.Add(L.F("OdxImporter_0NoCodingService222E", ecu.Key)); ecu.Coding = "00000000"; return; }
 
         var did = Coded(chosen.Req, "ID") ?? Coded(chosen.Req, "DATA-ID");
         if (did is { } d) ecu.CodingDid = d.ToString("X4");
@@ -224,7 +224,7 @@ public static class OdxImporter
         int bytes = bits > 0 ? (bits + 7) / 8 : 4;
         if (bytes > ProfileLoader.MaxCodingBytes)
         {
-            ignored.Add($"{ecu.Key}: kodning {bytes} byte – bara de första {ProfileLoader.MaxCodingBytes} används");
+            ignored.Add(L.F("OdxImporter_0Coding1BytesOnlyThe", ecu.Key, bytes, ProfileLoader.MaxCodingBytes));
             bytes = ProfileLoader.MaxCodingBytes;
         }
         ecu.Coding = new string('0', bytes * 2);

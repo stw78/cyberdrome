@@ -1,0 +1,2898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_Description" xml:space="preserve">
+    <value>Cyberdrome simulates an Android car radio with a virtual OBD port, so you can develop and test media, radio and OBD apps without a real car. It runs Android Automotive, emulates car models with their own themes, trouble codes, coding and GPS, and can also connect to a real OBD adapter.</value>
+  </data>
+  <data name="About_Disclaimer" xml:space="preserve">
+    <value>Cyberdrome comes without any warranty. It is a simulator for development and testing – not for use while driving. The car models' values, trouble codes and codings are made-up examples. Writing to real cars is at your own risk (the program is read-only by default). Android images with Google services are downloaded by you from Google and may only be used for development and testing. No manufacturer logos, fonts or security algorithms are included.</value>
+  </data>
+  <data name="About_DonationText" xml:space="preserve">
+    <value>Cyberdrome is free and open source. Development is funded by donations – every contribution helps with new car models, features and tests against real cars.</value>
+  </data>
+  <data name="About_GplNotice" xml:space="preserve">
+    <value>Cyberdrome © 2026 Jouko Broström. This program is free software: you can redistribute and modify it under the GNU General Public License version 3 or (at your option) any later version. It is distributed WITHOUT ANY WARRANTY. The program uses open source (including Avalonia, CommunityToolkit.Mvvm, Velopack, SQLite, SkiaSharp and .NET). Downloaded data: © OpenStreetMap contributors (ODbL), OBDb (CC BY-SA 4.0), Wikidata (CC0) and NHTSA vPIC. Everything is listed under Licence.</value>
+  </data>
+  <data name="AndrObd_Help" xml:space="preserve">
+    <value>How to connect AndrOBD to the virtual car: open AndrOBD → menu (⋮) → Settings → Connection type: Network (WiFi). Enter IP address 10.0.2.2 and port 35000. Go back and press Connect. Then choose e.g. OBD Data – speed and engine speed follow the sliders in Cyberdrome. AndrOBD is GPLv3 and is downloaded from F-Droid; it is not included with Cyberdrome.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsInstalled" xml:space="preserve">
+    <value>Android is installed.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsInstalledAndStopped" xml:space="preserve">
+    <value>Android is installed and stopped.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsNotInstalledYet" xml:space="preserve">
+    <value>Android is not installed yet.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsPartlyInstalledPressInstall" xml:space="preserve">
+    <value>Android is partly installed. Press Install Android to continue.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsRunning" xml:space="preserve">
+    <value>Android is running.</value>
+  </data>
+  <data name="AndroidVm_CancelledNothingWasChanged" xml:space="preserve">
+    <value>Cancelled. Nothing was changed.</value>
+  </data>
+  <data name="AndroidVm_CancelledNothingWasChanged2" xml:space="preserve">
+    <value>Cancelled – nothing was changed.</value>
+  </data>
+  <data name="AndroidVm_CheckingWhatNeedsToBeInstalled" xml:space="preserve">
+    <value>Checking what needs to be installed …</value>
+  </data>
+  <data name="AndroidVm_CouldNotCreateTheLinuxEnvironment" xml:space="preserve">
+    <value>Could not create the Linux environment.</value>
+  </data>
+  <data name="AndroidVm_CouldNotOpenTheScreen" xml:space="preserve">
+    <value>Could not open the screen:</value>
+  </data>
+  <data name="AndroidVm_CreatingTheLinuxEnvironment0" xml:space="preserve">
+    <value>Creating the Linux environment {0} …</value>
+  </data>
+  <data name="AndroidVm_DoneAndroidIsDownloadedAndInstalled" xml:space="preserve">
+    <value>Done! Android is downloaded and installed.</value>
+  </data>
+  <data name="AndroidVm_InstallingTheCuttlefishTools" xml:space="preserve">
+    <value>Installing the Cuttlefish tools …</value>
+  </data>
+  <data name="AndroidVm_InstallingTheToolsFailed" xml:space="preserve">
+    <value>Installing the tools failed.</value>
+  </data>
+  <data name="AndroidVm_Mode0" xml:space="preserve">
+    <value>Mode: {0}</value>
+  </data>
+  <data name="AndroidVm_RestartTheComputerAndThenPress" xml:space="preserve">
+    <value>Restart the computer and then press Install Android again.</value>
+  </data>
+  <data name="AndroidVm_Step1Of3DownloadingAnd" xml:space="preserve">
+    <value>Step 1 of 3: Downloading and creating the Linux environment ({0}) …</value>
+  </data>
+  <data name="AndroidVm_Step2Of30" xml:space="preserve">
+    <value>Step 2 of 3: {0} …</value>
+  </data>
+  <data name="AndroidVm_Step2Of3InstallingThe" xml:space="preserve">
+    <value>Step 2 of 3: Installing the Cuttlefish tools …</value>
+  </data>
+  <data name="AndroidVm_Step3Of3DownloadingAndroid" xml:space="preserve">
+    <value>Step 3 of 3: Downloading Android: {0} of about {1} ({2:0} %){3}</value>
+  </data>
+  <data name="AndroidVm_Step3Of3StartingThe" xml:space="preserve">
+    <value>Step 3 of 3: Starting the Android download …</value>
+  </data>
+  <data name="AndroidVm_TheAndroidDownloadFailed" xml:space="preserve">
+    <value>The Android download failed.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidImageIsNotDownloaded" xml:space="preserve">
+    <value>The Android image is not downloaded. Press Install Android to continue.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidPartOnlyWorksOn" xml:space="preserve">
+    <value>The Android part only works on Windows in this version.</value>
+  </data>
+  <data name="AndroidVm_TurningOnWSL2AnswerYesTo" xml:space="preserve">
+    <value>Turning on WSL2 (answer Yes to Windows' administrator prompt) …</value>
+  </data>
+  <data name="AndroidVm_TurningOnWSL2WindowsAsksFor" xml:space="preserve">
+    <value>Turning on WSL2 (Windows asks for administrator permission) …</value>
+  </data>
+  <data name="AndroidVm_UnknownStatePressCheckAgain" xml:space="preserve">
+    <value>Unknown state. Press Check again.</value>
+  </data>
+  <data name="AndroidVm_VirtualisationIsMissingInWSLCheck" xml:space="preserve">
+    <value>Virtualisation is missing in WSL. Check that virtualisation is turned on in the BIOS.</value>
+  </data>
+  <data name="AndroidVm_VirtualisationKVMIsMissingInsideWSL" xml:space="preserve">
+    <value>Virtualisation (KVM) is missing inside WSL. Android cannot run fast without it.</value>
+  </data>
+  <data name="AndroidVm_WSL2CouldNotBeTurnedOn" xml:space="preserve">
+    <value>WSL2 could not be turned on (error code {0}).</value>
+  </data>
+  <data name="AndroidVm_WSL2IsNotTurnedOnPress" xml:space="preserve">
+    <value>WSL2 is not turned on. Press Install Android and the program turns it on.</value>
+  </data>
+  <data name="AndroidVm_WSL2IsTurnedOnRestartThe" xml:space="preserve">
+    <value>WSL2 is turned on. Restart the computer and then press Install Android again.</value>
+  </data>
+  <data name="AndroidVm_WSL2IsTurnedOnRestartThe2" xml:space="preserve">
+    <value>WSL2 is turned on. Restart the computer and press Install Android again.</value>
+  </data>
+  <data name="AndroidVm_YouSaidNoToTheAdministrator" xml:space="preserve">
+    <value>You said no to the administrator prompt. Nothing was changed.</value>
+  </data>
+  <data name="Android_RestartExplanation" xml:space="preserve">
+    <value>To run Android fast, the Windows feature Virtual Machine Platform (WSL2) must be turned on. Windows asks for administrator permission, and then the computer needs to restart once. After the restart, press Install Android again and the installation continues.</value>
+  </data>
+  <data name="AutoResume_CouldNotSetUpAutomaticStart" xml:space="preserve">
+    <value>Could not set up automatic start after restart:</value>
+  </data>
+  <data name="BilDatabas_0ManufacturerSignalsIn1Requests" xml:space="preserve">
+    <value>{0} manufacturer signals in {1} requests from {2}.</value>
+  </data>
+  <data name="BilDatabas_0RequestsApplyToOtherModel" xml:space="preserve">
+    <value>{0} requests apply to other model years.</value>
+  </data>
+  <data name="BilDatabas_0RequestsOfAnotherTypeWere" xml:space="preserve">
+    <value>{0} requests of another type were skipped.</value>
+  </data>
+  <data name="BilDatabas_0RequestsWithExtendedAddressingWere" xml:space="preserve">
+    <value>{0} requests with extended addressing were skipped (not simulated).</value>
+  </data>
+  <data name="BilDatabas_LocalCarDatabase" xml:space="preserve">
+    <value>Local car database (</value>
+  </data>
+  <data name="BilDatabas_ModelYear0IsOlderThan" xml:space="preserve">
+    <value>⚠ Model year {0} is older than OBD-II (US 1996, EU petrol 2001, EU diesel 2004) – the car probably has no OBD-II port. The model is saved as 1996 and simulates OBD-II anyway.</value>
+  </data>
+  <data name="BilDatabas_NoBuiltIn0TheBase" xml:space="preserve">
+    <value>No built-in {0} – the base (screen, engine control unit) comes from {1}.</value>
+  </data>
+  <data name="BilDatabas_OBDIIAppliesInTheUS" xml:space="preserve">
+    <value>⚠ OBD-II applies in the US from 1996, EU petrol cars from 2001 and EU diesels from 2004. A European car of this model year may lack OBD-II.</value>
+  </data>
+  <data name="BilDatabas_OBDbDoesNotHaveTheModel" xml:space="preserve">
+    <value>OBDb does not have the model – only standard PIDs.</value>
+  </data>
+  <data name="BilDatabas_OBDbHasTheRepository0But" xml:space="preserve">
+    <value>OBDb has the repository {0} but it has no signals yet – only standard PIDs.</value>
+  </data>
+  <data name="BilDatabas_TheModelHasNoSignalsOf" xml:space="preserve">
+    <value>The model has no signals of its own in OBDb – the brand's common signals ({0}) are used.</value>
+  </data>
+  <data name="BilDatabas_VPIC01" xml:space="preserve">
+    <value>vPIC: {0} {1} …</value>
+  </data>
+  <data name="BleObdServer_ConnectedViaBluetoothLE" xml:space="preserve">
+    <value>Connected via Bluetooth LE</value>
+  </data>
+  <data name="BleObdServer_CouldNotCreateTheBluetoothLE" xml:space="preserve">
+    <value>Could not create the Bluetooth LE service: </value>
+  </data>
+  <data name="BleObdServer_CouldNotCreateTheBluetoothLE2" xml:space="preserve">
+    <value>Could not create the Bluetooth LE characteristics.</value>
+  </data>
+  <data name="BleObdServer_OBDCommands" xml:space="preserve">
+    <value>OBD commands</value>
+  </data>
+  <data name="BleObdServer_OBDReplies" xml:space="preserve">
+    <value>OBD replies</value>
+  </data>
+  <data name="BleObdServer_TheComputerHasNoBluetoothAdapter" xml:space="preserve">
+    <value>The computer has no Bluetooth adapter.</value>
+  </data>
+  <data name="BleObdServer_TheComputerSBluetoothCannotAct" xml:space="preserve">
+    <value>The computer's Bluetooth cannot act as a Bluetooth LE device (peripheral).</value>
+  </data>
+  <data name="Ble_PropWrite" xml:space="preserve">
+    <value>write</value>
+  </data>
+  <data name="Ble_PropWriteNoResponse" xml:space="preserve">
+    <value>write-without-response</value>
+  </data>
+  <data name="BluetoothObdServer_BluetoothIsTurnedOffInWindows" xml:space="preserve">
+    <value>Bluetooth is turned off in Windows. Turn it on in Settings → Bluetooth.</value>
+  </data>
+  <data name="BluetoothObdServer_ConnectedViaBluetooth" xml:space="preserve">
+    <value>Connected via Bluetooth</value>
+  </data>
+  <data name="BluetoothObdServer_TheBluetoothConnectionWasClosed" xml:space="preserve">
+    <value>The Bluetooth connection was closed</value>
+  </data>
+  <data name="BluetoothObdServer_TheComputerSBluetoothDoesNot" xml:space="preserve">
+    <value>The computer's Bluetooth does not support classic Bluetooth (SPP).</value>
+  </data>
+  <data name="BluetoothObdServer_UnknownDevice" xml:space="preserve">
+    <value>unknown device</value>
+  </data>
+  <data name="Bridge_Unknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="BuiltInSkins_3SeriesG20StyleWide10" xml:space="preserve">
+    <value>3 Series G20 style: wide 10.25" screen</value>
+  </data>
+  <data name="BuiltInSkins_FocusMk4StyleFreeStanding8" xml:space="preserve">
+    <value>Focus Mk4 style: free-standing 8" with button row</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingGlossyScreenWithA" xml:space="preserve">
+    <value>Free-standing glossy screen with a thin frame, touch slider below the screen, dark dashboard.</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingScreenRowOfPhysical" xml:space="preserve">
+    <value>Free-standing screen, row of physical audio buttons and volume knob below.</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingScreenWithChromeTrim" xml:space="preserve">
+    <value>Free-standing screen with chrome trim, touch slider and vents below.</value>
+  </data>
+  <data name="BuiltInSkins_Golf8StyleFreeStanding10" xml:space="preserve">
+    <value>Golf 8 style: free-standing 10" screen</value>
+  </data>
+  <data name="BuiltInSkins_MuteKnob" xml:space="preserve">
+    <value>Mute (knob)</value>
+  </data>
+  <data name="BuiltInSkins_Octavia4StyleFreeStanding10" xml:space="preserve">
+    <value>Octavia 4 style: free-standing 10" with chrome frame</value>
+  </data>
+  <data name="BuiltInSkins_PortraitScreenWithChromeFrameAnd" xml:space="preserve">
+    <value>Portrait screen with chrome frame and home button, vertical vents, volume knob below.</value>
+  </data>
+  <data name="BuiltInSkins_RAV4StyleScreenWithPhysicalButtons" xml:space="preserve">
+    <value>RAV4 style: screen with physical buttons and knobs</value>
+  </data>
+  <data name="BuiltInSkins_ScreenBuiltIntoTheCentreConsole" xml:space="preserve">
+    <value>Screen built into the centre console with buttons and knobs on both sides.</value>
+  </data>
+  <data name="BuiltInSkins_VolumeDown" xml:space="preserve">
+    <value>Volume down</value>
+  </data>
+  <data name="BuiltInSkins_VolumeUp" xml:space="preserve">
+    <value>Volume up</value>
+  </data>
+  <data name="BuiltInSkins_WideFreeStandingScreenRowOf" xml:space="preserve">
+    <value>Wide free-standing screen, row of shortcut buttons and volume knob below, dark dashboard.</value>
+  </data>
+  <data name="BuiltInSkins_XC60StylePortrait9Screen" xml:space="preserve">
+    <value>XC60 style: portrait 9" screen</value>
+  </data>
+  <data name="CarDb_01ModelYears2Sources" xml:space="preserve">
+    <value>{0} {1}  ·  model years {2}  ·  sources: {3}</value>
+  </data>
+  <data name="CarDb_0MakesDownloaded" xml:space="preserve">
+    <value>{0} makes downloaded.</value>
+  </data>
+  <data name="CarDb_0NewModelRowsFor1" xml:space="preserve">
+    <value>{0} new model rows for {1} from Wikidata.</value>
+  </data>
+  <data name="CarDb_0NewModelYearsFor1" xml:space="preserve">
+    <value>{0} new model/years for {1}.</value>
+  </data>
+  <data name="CarDb_0Results" xml:space="preserve">
+    <value>{0} results.</value>
+  </data>
+  <data name="CarDb_0VehiclesWithManufacturerSignalsIn" xml:space="preserve">
+    <value>{0} vehicles with manufacturer signals in OBDb.</value>
+  </data>
+  <data name="CarDb_AVINHas17Characters" xml:space="preserve">
+    <value>A VIN has 17 characters.</value>
+  </data>
+  <data name="CarDb_And0More" xml:space="preserve">
+    <value>
+  … and {0} more</value>
+  </data>
+  <data name="CarDb_CouldNotCreateTheCarModel" xml:space="preserve">
+    <value>Could not create the car model:</value>
+  </data>
+  <data name="CarDb_CouldNotGetTheOBDbSignals" xml:space="preserve">
+    <value>
+Could not get the OBDb signals:</value>
+  </data>
+  <data name="CarDb_CouldNotReadTheSignalFile" xml:space="preserve">
+    <value>Could not read the signal file:</value>
+  </data>
+  <data name="CarDb_Database0Makes1ModelYears" xml:space="preserve">
+    <value>Database: {0} makes, {1} model/years, {2} decoded VINs, {3} vehicles with manufacturer signals (OBDb).</value>
+  </data>
+  <data name="CarDb_DecodingVIN" xml:space="preserve">
+    <value>Decoding VIN …</value>
+  </data>
+  <data name="CarDb_EnterAMakeEGSaab" xml:space="preserve">
+    <value>Enter a make, e.g. Saab.</value>
+  </data>
+  <data name="CarDb_EnterAMakeEGToyota" xml:space="preserve">
+    <value>Enter a make, e.g. Toyota.</value>
+  </data>
+  <data name="CarDb_EnterMakeAndModelForThe" xml:space="preserve">
+    <value>Enter make and model for the standard OBD car.</value>
+  </data>
+  <data name="CarDb_EnterModelYearsEG2015" xml:space="preserve">
+    <value>Enter model years, e.g. 2015–2026.</value>
+  </data>
+  <data name="CarDb_EnterTheModelYearEG" xml:space="preserve">
+    <value>Enter the model year, e.g. 2005.</value>
+  </data>
+  <data name="CarDb_Getting012FromVPIC" xml:space="preserve">
+    <value>Getting {0} {1}–{2} from vPIC …</value>
+  </data>
+  <data name="CarDb_Getting0ModelsFromWikidata" xml:space="preserve">
+    <value>Getting {0} models from Wikidata …</value>
+  </data>
+  <data name="CarDb_GettingCarMakesFromNHTSAVPIC" xml:space="preserve">
+    <value>Getting car makes from NHTSA vPIC …</value>
+  </data>
+  <data name="CarDb_GettingManufacturerSignalsFromOBDb" xml:space="preserve">
+    <value>
+Getting manufacturer signals from OBDb …</value>
+  </data>
+  <data name="CarDb_GettingTheVehicleListFromOBDb" xml:space="preserve">
+    <value>Getting the vehicle list from OBDb …</value>
+  </data>
+  <data name="CarDb_Manufacturer0Body1Fuel2" xml:space="preserve">
+    <value>
+Manufacturer: {0}
+Body: {1}
+Fuel: {2}
+Engine: {3}
+Plant country: {4}</value>
+  </data>
+  <data name="CarDb_ManufacturerSignalsCanBeAddedLater" xml:space="preserve">
+    <value> Manufacturer signals can be added later on the Car models page: "Import PIDs (CSV)" (Torque/Car Scanner) or "Import signals (OBDb JSON)".</value>
+  </data>
+  <data name="CarDb_ManufacturerSignalsStar" xml:space="preserve">
+    <value>  ★ manufacturer signals</value>
+  </data>
+  <data name="CarDb_ModelUnknown" xml:space="preserve">
+    <value>model unknown</value>
+  </data>
+  <data name="CarDb_NewCarModelSelected0" xml:space="preserve">
+    <value>New car model selected: {0}.</value>
+  </data>
+  <data name="CarDb_NoResultsGetMakesModelsFrom" xml:space="preserve">
+    <value>No results. Get makes/models from vPIC or the list from OBDb first, or decode a VIN.</value>
+  </data>
+  <data name="CarDb_NoteFromVPIC0" xml:space="preserve">
+    <value>
+Note from vPIC: {0}</value>
+  </data>
+  <data name="CarDb_OBDb0SignalsIn1Requests" xml:space="preserve">
+    <value>
+OBDb: {0} signals in {1} requests ({2}):
+</value>
+  </data>
+  <data name="CarDb_OBDbHasNoManufacturerSignalsFor" xml:space="preserve">
+    <value>
+OBDb has no manufacturer signals for the model – the car model gets standard PIDs.</value>
+  </data>
+  <data name="CarDb_OBDbNoSignalFile" xml:space="preserve">
+    <value>
+OBDb: no signal file.</value>
+  </data>
+  <data name="CarDb_OBDbTheRepository0ExistsBut" xml:space="preserve">
+    <value>
+OBDb: the repository {0} exists but has no signals yet – the car model gets standard PIDs.</value>
+  </data>
+  <data name="CarDb_SignalsFrom0OBDbFormat" xml:space="preserve">
+    <value>Signals from {0} (OBDb format)</value>
+  </data>
+  <data name="CarDb_StandardOBDCarSelected0" xml:space="preserve">
+    <value>Standard OBD car selected: {0}.</value>
+  </data>
+  <data name="CarDb_TheCarDatabaseCouldNotBe" xml:space="preserve">
+    <value>The car database could not be opened:</value>
+  </data>
+  <data name="CarDb_TheFileContainsNoSignals" xml:space="preserve">
+    <value>The file contains no signals.</value>
+  </data>
+  <data name="CarDb_TheModelHasNoSignalsOf" xml:space="preserve">
+    <value>
+(The model has no signals of its own – the brand's common signals from the repository {0} are shown.)</value>
+  </data>
+  <data name="CarDb_TheModelYearFor01" xml:space="preserve">
+    <value>The model year for {0} {1} is unknown – enter it in the Year field and press Create car model again.</value>
+  </data>
+  <data name="CarDb_TheSimulatorNowAnswersThem" xml:space="preserve">
+    <value> The simulator now answers them.</value>
+  </data>
+  <data name="CarDb_TheVINCouldNotBeFully" xml:space="preserve">
+    <value>The VIN could not be fully decoded (vPIC mainly has cars sold in the US).</value>
+  </data>
+  <data name="CarDb_VINDecoded012" xml:space="preserve">
+    <value>VIN decoded: {0} {1} {2}.</value>
+  </data>
+  <data name="CarDb_WhatIsAlreadyInTheDatabase" xml:space="preserve">
+    <value> (what is already in the database works without internet).</value>
+  </data>
+  <data name="CarDb_Years01" xml:space="preserve">
+    <value>  (years {0}–{1})</value>
+  </data>
+  <data name="CarEditorViewModel_EditOwnCarModel" xml:space="preserve">
+    <value>Edit own car model</value>
+  </data>
+  <data name="CarEditorViewModel_NewCarModelCopy" xml:space="preserve">
+    <value>New car model (copy)</value>
+  </data>
+  <data name="CarEditorViewModel_NewControlUnit" xml:space="preserve">
+    <value>New control unit</value>
+  </data>
+  <data name="CarEditorViewModel_NewFeature" xml:space="preserve">
+    <value>New feature</value>
+  </data>
+  <data name="CarEditorViewModel_PossiblePIDs" xml:space="preserve">
+    <value>Possible PIDs:</value>
+  </data>
+  <data name="Cars_0CustomPIDsLoaded1The" xml:space="preserve">
+    <value>{0} custom PIDs loaded{1} – the simulator now answers them.</value>
+  </data>
+  <data name="Cars_0TroubleCodeTextsLoaded1" xml:space="preserve">
+    <value>{0} trouble code texts loaded{1}.</value>
+  </data>
+  <data name="Cars_BuiltInModelSavedInThe" xml:space="preserve">
+    <value> (built-in model – saved in the copy {0})</value>
+  </data>
+  <data name="Cars_CopyOf0ChangeItAnd" xml:space="preserve">
+    <value>Copy of {0}. Change it and press Save.</value>
+  </data>
+  <data name="Cars_CouldNotExport" xml:space="preserve">
+    <value>Could not export:</value>
+  </data>
+  <data name="Cars_CouldNotExportODX" xml:space="preserve">
+    <value>Could not export ODX:</value>
+  </data>
+  <data name="Cars_CouldNotExportThePIDList" xml:space="preserve">
+    <value>Could not export the PID list:</value>
+  </data>
+  <data name="Cars_CouldNotExportVSS" xml:space="preserve">
+    <value>Could not export VSS:</value>
+  </data>
+  <data name="Cars_CouldNotImport" xml:space="preserve">
+    <value>Could not import:</value>
+  </data>
+  <data name="Cars_CouldNotImportODX" xml:space="preserve">
+    <value>Could not import ODX:</value>
+  </data>
+  <data name="Cars_CouldNotReadThePIDList" xml:space="preserve">
+    <value>Could not read the PID list:</value>
+  </data>
+  <data name="Cars_CouldNotReadTroubleCodeTexts" xml:space="preserve">
+    <value>Could not read trouble code texts:</value>
+  </data>
+  <data name="Cars_CouldNotReadVSS" xml:space="preserve">
+    <value>Could not read VSS:</value>
+  </data>
+  <data name="Cars_ExportedAsODX220" xml:space="preserve">
+    <value>Exported as ODX 2.2: {0} (seed/key is never exported)</value>
+  </data>
+  <data name="Cars_IgnoredNotSupportedByTheSimulator" xml:space="preserve">
+    <value>
+Ignored (not supported by the simulator):</value>
+  </data>
+  <data name="Cars_ImportedFromODX01Control" xml:space="preserve">
+    <value>Imported from ODX: {0} ({1} control units, {2} trouble code texts).</value>
+  </data>
+  <data name="Cars_NoPIDsFoundFormatNameShortName" xml:space="preserve">
+    <value>No PIDs found. Format: Name,ShortName,ModeAndPID,Equation,Min,Max,Units,Header</value>
+  </data>
+  <data name="Cars_NoTroubleCodesFoundFormatP0300" xml:space="preserve">
+    <value>No trouble codes found. Format: P0300;Text</value>
+  </data>
+  <data name="Cars_OnlyYourOwnCarModelsCan" xml:space="preserve">
+    <value>Only your own car models can be deleted.</value>
+  </data>
+  <data name="Cars_PIDListExportedTorqueCarScanner" xml:space="preserve">
+    <value>PID list exported (Torque/Car Scanner format): {0}</value>
+  </data>
+  <data name="Cars_Skipped" xml:space="preserve">
+    <value> Skipped:</value>
+  </data>
+  <data name="Cars_TheBuiltInCarModelsAre" xml:space="preserve">
+    <value>The built-in car models are read-only – make a copy.</value>
+  </data>
+  <data name="Cars_TheIdBelongsToABuilt" xml:space="preserve">
+    <value>The id belongs to a built-in car model.</value>
+  </data>
+  <data name="Cars_UnknownNames" xml:space="preserve">
+    <value> Unknown names:</value>
+  </data>
+  <data name="Cars_VSSValuesLoadedIntoTheCar" xml:space="preserve">
+    <value>VSS values loaded into the car.</value>
+  </data>
+  <data name="Cars_ValuesExportedAsVSSJSON0" xml:space="preserve">
+    <value>Values exported as VSS JSON: {0}</value>
+  </data>
+  <data name="Confirm_WriteToCar" xml:space="preserve">
+    <value>Write to the car</value>
+  </data>
+  <data name="Conv_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Conv_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="Conv_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Conv_Working" xml:space="preserve">
+    <value>Working</value>
+  </data>
+  <data name="DriveStore_Drive" xml:space="preserve">
+    <value>Drive</value>
+  </data>
+  <data name="Drive_EmptyDrive" xml:space="preserve">
+    <value>Empty drive.</value>
+  </data>
+  <data name="Drive_TheDriveHasNoData" xml:space="preserve">
+    <value>The drive has no data.</value>
+  </data>
+  <data name="Drives_ChooseADriveInTheList" xml:space="preserve">
+    <value>Choose a drive in the list.</value>
+  </data>
+  <data name="Drives_Continue" xml:space="preserve">
+    <value>▶ Continue</value>
+  </data>
+  <data name="Drives_Deleted0TheExampleDrivesCome" xml:space="preserve">
+    <value>Deleted: {0}. (The example drives come back at the next start.)</value>
+  </data>
+  <data name="Drives_MyDrive" xml:space="preserve">
+    <value>My drive</value>
+  </data>
+  <data name="Drives_PlaybackOf0IsFinished" xml:space="preserve">
+    <value>Playback of {0} is finished.</value>
+  </data>
+  <data name="Drives_PlaybackStarted0" xml:space="preserve">
+    <value>Playback started: {0}</value>
+  </data>
+  <data name="Drives_PlaybackStopped" xml:space="preserve">
+    <value>Playback stopped</value>
+  </data>
+  <data name="Drives_Record" xml:space="preserve">
+    <value>⏺ Record</value>
+  </data>
+  <data name="Drives_Recording01Points" xml:space="preserve">
+    <value>Recording … {0} ({1} points)</value>
+  </data>
+  <data name="Drives_RecordingMoveTheSlidersOnOverview" xml:space="preserve">
+    <value>Recording … move the sliders on Overview.</value>
+  </data>
+  <data name="Drives_RenamedTo0" xml:space="preserve">
+    <value>Renamed to {0}.</value>
+  </data>
+  <data name="Drives_StopAndSave" xml:space="preserve">
+    <value>⏹ Stop and save</value>
+  </data>
+  <data name="Drives_StopThePlaybackFirst" xml:space="preserve">
+    <value>Stop the playback first.</value>
+  </data>
+  <data name="Drives_StopTheRecordingFirst" xml:space="preserve">
+    <value>Stop the recording first.</value>
+  </data>
+  <data name="Drives_TheNameIsEmptyUnchangedOr" xml:space="preserve">
+    <value>The name is empty, unchanged or already exists.</value>
+  </data>
+  <data name="DtcToggleViewModel_CatalystEfficiencyBelowThreshold" xml:space="preserve">
+    <value>catalyst efficiency below threshold</value>
+  </data>
+  <data name="DtcToggleViewModel_LostCommunicationWithEngineControlUnit" xml:space="preserve">
+    <value>lost communication with engine control unit</value>
+  </data>
+  <data name="DtcToggleViewModel_MisfireCylinder1" xml:space="preserve">
+    <value>misfire cylinder 1</value>
+  </data>
+  <data name="DtcToggleViewModel_RandomMisfire" xml:space="preserve">
+    <value>random misfire</value>
+  </data>
+  <data name="DtcToggleViewModel_SystemTooLeanBank1" xml:space="preserve">
+    <value>system too lean, bank 1</value>
+  </data>
+  <data name="DtcToggleViewModel_SystemVoltageLow" xml:space="preserve">
+    <value>system voltage low</value>
+  </data>
+  <data name="DtcToggleViewModel_ThermostatTemperatureTooLow" xml:space="preserve">
+    <value>thermostat, temperature too low</value>
+  </data>
+  <data name="DtcToggleViewModel_WheelSpeedSensorFrontLeft" xml:space="preserve">
+    <value>wheel speed sensor front left</value>
+  </data>
+  <data name="Elm327Emulator_0ExpectedKey1Send27" xml:space="preserve">
+    <value>{0}: expected key: {1}  (send 27 02 {2})</value>
+  </data>
+  <data name="Elm327Emulator_0TooManyWrongKeysLocked" xml:space="preserve">
+    <value>{0}: too many wrong keys – locked for {1:0} seconds.</value>
+  </data>
+  <data name="Elm327Emulator_0UnlockedWithTheCorrectKey" xml:space="preserve">
+    <value>{0}: unlocked with the correct key.</value>
+  </data>
+  <data name="ElmConnection_NoReplyTimeout" xml:space="preserve">
+    <value>(no reply – timeout)</value>
+  </data>
+  <data name="ElmConnection_ReplyWithoutELMPrompt0Hex" xml:space="preserve">
+    <value>(reply without ELM prompt: "{0}", hex {1})</value>
+  </data>
+  <data name="ElmConnection_TheAdapterClosedTheConnection" xml:space="preserve">
+    <value>The adapter closed the connection.</value>
+  </data>
+  <data name="ElmConnection_TheAdapterDidNotReplyTo" xml:space="preserve">
+    <value>The adapter did not reply to {0}.</value>
+  </data>
+  <data name="ElmConnection_TheAdapterIsNotConnected" xml:space="preserve">
+    <value>The adapter is not connected.</value>
+  </data>
+  <data name="EmulatorVm_0HasBeenRestarted" xml:space="preserve">
+    <value>{0} has been restarted.</value>
+  </data>
+  <data name="EmulatorVm_AndroidAutomotiveIsDownloaded" xml:space="preserve">
+    <value>Android Automotive is downloaded.</value>
+  </data>
+  <data name="EmulatorVm_AndroidDidNotStartWithinThe" xml:space="preserve">
+    <value>Android did not start within the time limit. The emulator may still be on its way – press Check again.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsAlreadyRunning" xml:space="preserve">
+    <value>Android is already running.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsDownloadedButTheVirtual" xml:space="preserve">
+    <value>Android is downloaded but the virtual car is missing. Press Install Android.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsNotDownloadedYetPress" xml:space="preserve">
+    <value>Android is not downloaded yet. Press Install Android (no restart needed).</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsNotRunning" xml:space="preserve">
+    <value>Android is not running.</value>
+  </data>
+  <data name="EmulatorVm_AndroidSDKSdkmanagerAndJavaWas" xml:space="preserve">
+    <value>Android SDK (sdkmanager and Java) was not found in {0}. Change SdkRoot in {1}.</value>
+  </data>
+  <data name="EmulatorVm_AndroidSDKWasNotFoundIn" xml:space="preserve">
+    <value>Android SDK was not found in {0}.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotChangeTheScreenSize" xml:space="preserve">
+    <value>Could not change the screen size.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotCreateTheVirtualCar" xml:space="preserve">
+    <value>Could not create the virtual car.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotInstallTheEmulator" xml:space="preserve">
+    <value>Could not install the emulator.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotStart0Again" xml:space="preserve">
+    <value>Could not start {0} again.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotStartTheEmulator" xml:space="preserve">
+    <value>Could not start the emulator:</value>
+  </data>
+  <data name="EmulatorVm_CreatingTheVirtualCar0" xml:space="preserve">
+    <value>Creating the virtual car {0} …</value>
+  </data>
+  <data name="EmulatorVm_Downloading0" xml:space="preserve">
+    <value>Downloading {0} …</value>
+  </data>
+  <data name="EmulatorVm_NoAppFoundInTheForeground" xml:space="preserve">
+    <value>No app found in the foreground.</value>
+  </data>
+  <data name="EmulatorVm_PressInstallAndroid" xml:space="preserve">
+    <value>Press Install Android.</value>
+  </data>
+  <data name="EmulatorVm_Restarting0" xml:space="preserve">
+    <value>Restarting {0} …</value>
+  </data>
+  <data name="EmulatorVm_Screen012Dpi" xml:space="preserve">
+    <value>Screen: {0}×{1}, {2} dpi.</value>
+  </data>
+  <data name="EmulatorVm_StartingAndroid0STheFirst" xml:space="preserve">
+    <value>Starting Android … ({0} s, the first start can take a couple of minutes)</value>
+  </data>
+  <data name="EmulatorVm_StartingTheAndroidEmulator" xml:space="preserve">
+    <value>Starting the Android emulator …</value>
+  </data>
+  <data name="EmulatorVm_Step1Of3DownloadingThe" xml:space="preserve">
+    <value>Step 1 of 3: Downloading the emulator …</value>
+  </data>
+  <data name="EmulatorVm_Step1Of3DownloadingThe2" xml:space="preserve">
+    <value>Step 1 of 3: Downloading the emulator … {0:0} %</value>
+  </data>
+  <data name="EmulatorVm_Step2Of3DownloadingAndroid" xml:space="preserve">
+    <value>Step 2 of 3: Downloading Android Automotive …</value>
+  </data>
+  <data name="EmulatorVm_Step2Of3DownloadingAndroid2" xml:space="preserve">
+    <value>Step 2 of 3: Downloading Android Automotive … {0:0} %</value>
+  </data>
+  <data name="EmulatorVm_Step3Of3CreatingThe" xml:space="preserve">
+    <value>Step 3 of 3: Creating the virtual car …</value>
+  </data>
+  <data name="EmulatorVm_TheEmulatorClosedImmediatelyCode0" xml:space="preserve">
+    <value>The emulator closed immediately (code {0}).</value>
+  </data>
+  <data name="EmulatorVm_TheEmulatorIsNotInstalledPress" xml:space="preserve">
+    <value>The emulator is not installed. Press Install Android.</value>
+  </data>
+  <data name="EmulatorVm_WindowsHypervisorPlatformCannotBeUsed" xml:space="preserve">
+    <value>Windows Hypervisor Platform cannot be used. Choose the Fast mode under Settings instead.</value>
+  </data>
+  <data name="EmulatorVm_WindowsHypervisorPlatformCannotBeUsed2" xml:space="preserve">
+    <value>Windows Hypervisor Platform cannot be used. Choose the Fast mode under Settings.</value>
+  </data>
+  <data name="ExampleDrives_ColdStartCoolant590C" xml:space="preserve">
+    <value>Cold start: coolant 5 → 90 °C, idle 1300 → 800 rpm</value>
+  </data>
+  <data name="ExampleDrives_OnRampTo110120Km" xml:space="preserve">
+    <value>On-ramp to 110–120 km/h and motorway</value>
+  </data>
+  <data name="ExampleDrives_StopAndGoInTown0" xml:space="preserve">
+    <value>Stop-and-go in town, 0–50 km/h</value>
+  </data>
+  <data name="Fmt_AndroidPairing" xml:space="preserve">
+    <value>Android: pair the phone with the computer "{0}" in the phone's Bluetooth settings. Then choose Bluetooth adapter in the OBD app and the computer "{0}" (service OBDII).</value>
+  </data>
+  <data name="Fmt_CarDbSources" xml:space="preserve">
+    <value>Sources: NHTSA vPIC (open data, US road safety agency) · Wikidata (CC0) · {0}</value>
+  </data>
+  <data name="Fmt_ObdAddressEmulator" xml:space="preserve">
+    <value>OBD address inside the emulator: {0}  ·  Google's emulator images must not be redistributed with Cyberdrome.</value>
+  </data>
+  <data name="Fmt_ObdForAndroidApps" xml:space="preserve">
+    <value>OBD for apps in Android: {0}</value>
+  </data>
+  <data name="Fmt_PlaybackRunning" xml:space="preserve">
+    <value>Playback running: {0} – the sliders follow the drive (stop it under Drives)</value>
+  </data>
+  <data name="Fmt_PlayingDrive" xml:space="preserve">
+    <value>Playing: {0}</value>
+  </data>
+  <data name="Fmt_Selected" xml:space="preserve">
+    <value>Selected: {0}</value>
+  </data>
+  <data name="Fmt_StatusCarModel" xml:space="preserve">
+    <value>● Car model: {0}</value>
+  </data>
+  <data name="GeoRoute_TheRouteNeedsAtLeastOne" xml:space="preserve">
+    <value>The route needs at least one point.</value>
+  </data>
+  <data name="InfoDialogs_AboutCyberdrome" xml:space="preserve">
+    <value>About Cyberdrome</value>
+  </data>
+  <data name="InfoDialogs_AndroidAutomotiveInsideTheProgramNo" xml:space="preserve">
+    <value>Android Automotive inside the program (no restart), own themes and skins per car model</value>
+  </data>
+  <data name="InfoDialogs_CarModelsOwnSharedCbsODX" xml:space="preserve">
+    <value>Car models: own, shared (.cbs), ODX/VSS/CSV and car database (vPIC, Wikidata, OBDb)</value>
+  </data>
+  <data name="InfoDialogs_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="InfoDialogs_CyberdromeIsFreeSoftwareGPL3" xml:space="preserve">
+    <value>Cyberdrome is free software (GPL-3.0) – without warranty</value>
+  </data>
+  <data name="InfoDialogs_CyberdromeJoukoBrostrMVersion0" xml:space="preserve">
+    <value>Cyberdrome · Jouko Broström · version {0} · GPL-3.0-or-later</value>
+  </data>
+  <data name="InfoDialogs_DonateViaPayPal" xml:space="preserve">
+    <value>Donate via PayPal</value>
+  </data>
+  <data name="InfoDialogs_DrivesAndMapWithGPSTo" xml:space="preserve">
+    <value>Drives and map with GPS to Android</value>
+  </data>
+  <data name="InfoDialogs_FileMissing0" xml:space="preserve">
+    <value>({0} is missing in the program folder)</value>
+  </data>
+  <data name="InfoDialogs_IUnderstand" xml:space="preserve">
+    <value>I understand</value>
+  </data>
+  <data name="InfoDialogs_Licence" xml:space="preserve">
+    <value>Licence …</value>
+  </data>
+  <data name="InfoDialogs_OpenSourceUnderGPL30" xml:space="preserve">
+    <value>Open source under GPL-3.0</value>
+  </data>
+  <data name="InfoDialogs_PayPalLinkComingSoon" xml:space="preserve">
+    <value>PayPal link coming soon</value>
+  </data>
+  <data name="InfoDialogs_ReadTheDisclaimerTheFullLicence" xml:space="preserve">
+    <value>Read the disclaimer. The full licence is under the Licence button.</value>
+  </data>
+  <data name="InfoDialogs_RealOBDAdapterReadOnlyBridge" xml:space="preserve">
+    <value>Real OBD adapter: read-only, bridge to Android and write protection</value>
+  </data>
+  <data name="InfoDialogs_SupportTheDevelopment" xml:space="preserve">
+    <value>Support the development</value>
+  </data>
+  <data name="InfoDialogs_TestCasesWithPassFailAnd" xml:space="preserve">
+    <value>Test cases with pass/fail and reports</value>
+  </data>
+  <data name="InfoDialogs_VirtualOBDPortELM327OverWi" xml:space="preserve">
+    <value>Virtual OBD port (ELM327) over Wi-Fi, Bluetooth and Bluetooth LE, with UDS and security key</value>
+  </data>
+  <data name="InfoDialogs_WelcomeToCyberdrome" xml:space="preserve">
+    <value>Welcome to Cyberdrome</value>
+  </data>
+  <data name="InfoDialogs_WhatTheProgramCanDo" xml:space="preserve">
+    <value>What the program can do:</value>
+  </data>
+  <data name="LauncherTheme_3SeriesG20StyleMenuOn" xml:space="preserve">
+    <value>3 Series G20 style (menu on the left, wide)</value>
+  </data>
+  <data name="LauncherTheme_ChooseAZipFileAFolder" xml:space="preserve">
+    <value>Choose a zip file, a folder or a theme.json.</value>
+  </data>
+  <data name="LauncherTheme_Colors0IsNotAColour" xml:space="preserve">
+    <value>colors.{0} is not a colour (#RRGGBB).</value>
+  </data>
+  <data name="LauncherTheme_CornerRadiusMustBe060" xml:space="preserve">
+    <value>cornerRadius must be 0–60.</value>
+  </data>
+  <data name="LauncherTheme_EmptyThemeJson" xml:space="preserve">
+    <value>Empty theme.json.</value>
+  </data>
+  <data name="LauncherTheme_FocusMk4StyleThreePanelsTab" xml:space="preserve">
+    <value>Focus Mk4 style (three panels + tab row)</value>
+  </data>
+  <data name="LauncherTheme_FontMustBeOneOf0" xml:space="preserve">
+    <value>font must be one of: {0}.</value>
+  </data>
+  <data name="LauncherTheme_Golf8StyleGridBlueAccent" xml:space="preserve">
+    <value>Golf 8 style (grid, blue accent)</value>
+  </data>
+  <data name="LauncherTheme_LayoutMustBeOneOf0" xml:space="preserve">
+    <value>layout must be one of: {0}.</value>
+  </data>
+  <data name="LauncherTheme_Octavia4StyleGridGreenAccent" xml:space="preserve">
+    <value>Octavia 4 style (grid, green accent)</value>
+  </data>
+  <data name="LauncherTheme_RAV4StyleSplitHomeScreen" xml:space="preserve">
+    <value>RAV4 style (split home screen)</value>
+  </data>
+  <data name="LauncherTheme_TabColorsMustBe6Colours" xml:space="preserve">
+    <value>tabColors must be 6 colours.</value>
+  </data>
+  <data name="LauncherTheme_TheFolderContainsNoThemeJson" xml:space="preserve">
+    <value>The folder contains no theme.json.</value>
+  </data>
+  <data name="LauncherTheme_TheThemeIsNotValid" xml:space="preserve">
+    <value>The theme is not valid:</value>
+  </data>
+  <data name="LauncherTheme_TheZipFileContainsNoTheme" xml:space="preserve">
+    <value>The zip file contains no theme.json.</value>
+  </data>
+  <data name="LauncherTheme_ThemeJsonCannotBeRead" xml:space="preserve">
+    <value>theme.json cannot be read:</value>
+  </data>
+  <data name="LauncherTheme_WallpaperMustBeOneOf0" xml:space="preserve">
+    <value>wallpaper must be one of: {0}.</value>
+  </data>
+  <data name="LauncherTheme_XC60StylePortraitStackedTiles" xml:space="preserve">
+    <value>XC60 style (portrait, stacked tiles)</value>
+  </data>
+  <data name="Look_AndroidSNormalHomeScreen" xml:space="preserve">
+    <value>Android's normal home screen.</value>
+  </data>
+  <data name="Look_BuildingCyberdromeLauncher" xml:space="preserve">
+    <value>Building Cyberdrome Launcher …</value>
+  </data>
+  <data name="Look_BuildingCyberdromeLauncherFailedSeeThe" xml:space="preserve">
+    <value>Building Cyberdrome Launcher failed – see the log on the Android page.</value>
+  </data>
+  <data name="Look_CouldNotChangeTheme" xml:space="preserve">
+    <value>Could not change theme:</value>
+  </data>
+  <data name="Look_CouldNotImportSkin" xml:space="preserve">
+    <value>Could not import skin:</value>
+  </data>
+  <data name="Look_CouldNotImportTheme" xml:space="preserve">
+    <value>Could not import theme:</value>
+  </data>
+  <data name="Look_CouldNotInstallCyberdromeLauncher" xml:space="preserve">
+    <value>Could not install Cyberdrome Launcher.</value>
+  </data>
+  <data name="Look_CyberdromeLauncherNotFoundAppsOr" xml:space="preserve">
+    <value>Cyberdrome Launcher not found (apps\ or android\CyberdromeLauncher).</value>
+  </data>
+  <data name="Look_InstallingCyberdromeLauncher" xml:space="preserve">
+    <value>Installing Cyberdrome Launcher …</value>
+  </data>
+  <data name="Look_NoSkin" xml:space="preserve">
+    <value>No skin</value>
+  </data>
+  <data name="Look_NoTransparentScreenAreaAtLeast" xml:space="preserve">
+    <value>No transparent screen area (at least 100×100) found in the middle of the image.</value>
+  </data>
+  <data name="Look_OffAndroidSNormalHomeScreen" xml:space="preserve">
+    <value>Off – Android's normal home screen</value>
+  </data>
+  <data name="Look_SkinImported" xml:space="preserve">
+    <value>Skin imported:</value>
+  </data>
+  <data name="Look_TheCarSOwnSkinDefault" xml:space="preserve">
+    <value>The car's own skin (default)</value>
+  </data>
+  <data name="Look_TheCarSOwnThemeDefault" xml:space="preserve">
+    <value>The car's own theme (default)</value>
+  </data>
+  <data name="Look_TheImageCouldNotBeRead" xml:space="preserve">
+    <value>The image could not be read.</value>
+  </data>
+  <data name="Look_TheThemeIsUsedWhenAndroid" xml:space="preserve">
+    <value>The theme is used when Android runs (No restart or Google apps mode).</value>
+  </data>
+  <data name="Look_ThemeImported" xml:space="preserve">
+    <value>Theme imported:</value>
+  </data>
+  <data name="Look_ThemePrefix" xml:space="preserve">
+    <value>Theme: </value>
+  </data>
+  <data name="MainWindow_ASAMODXOdxD" xml:space="preserve">
+    <value>ASAM ODX (.odx-d)</value>
+  </data>
+  <data name="MainWindow_ASAMODXPackagePdx" xml:space="preserve">
+    <value>ASAM ODX package (.pdx)</value>
+  </data>
+  <data name="MainWindow_BackupOfTheOriginalValue0" xml:space="preserve">
+    <value>Backup of the original value: {0}
+
+</value>
+  </data>
+  <data name="MainWindow_BatteryVoltage0" xml:space="preserve">
+    <value>Battery voltage: {0}
+</value>
+  </data>
+  <data name="MainWindow_ChooseAnAppAPKToInstall" xml:space="preserve">
+    <value>Choose an app (APK) to install</value>
+  </data>
+  <data name="MainWindow_ControlUnitCANId0Service" xml:space="preserve">
+    <value>Control unit (CAN id): {0}
+Service: {1}
+Data: {2}
+</value>
+  </data>
+  <data name="MainWindow_CyberdromeDrive" xml:space="preserve">
+    <value>Cyberdrome drive</value>
+  </data>
+  <data name="MainWindow_CyberdromeSystemCbs" xml:space="preserve">
+    <value>Cyberdrome System (.cbs)</value>
+  </data>
+  <data name="MainWindow_ExportAsASAMODXPdx" xml:space="preserve">
+    <value>Export as ASAM ODX (.pdx)</value>
+  </data>
+  <data name="MainWindow_ExportCarModel" xml:space="preserve">
+    <value>Export car model</value>
+  </data>
+  <data name="MainWindow_ExportDrive" xml:space="preserve">
+    <value>Export drive</value>
+  </data>
+  <data name="MainWindow_ExportPIDListTorqueCarScanner" xml:space="preserve">
+    <value>Export PID list (Torque/Car Scanner CSV)</value>
+  </data>
+  <data name="MainWindow_ExportTestCaseAsTemplate" xml:space="preserve">
+    <value>Export test case as template</value>
+  </data>
+  <data name="MainWindow_ExportValuesAsVSSJSON" xml:space="preserve">
+    <value>Export values as VSS JSON</value>
+  </data>
+  <data name="MainWindow_ImportCarModelCbsOrODX" xml:space="preserve">
+    <value>Import car model (.cbs or ODX/PDX)</value>
+  </data>
+  <data name="MainWindow_ImportCustomPIDsTorqueCarScanner" xml:space="preserve">
+    <value>Import custom PIDs (Torque/Car Scanner CSV)</value>
+  </data>
+  <data name="MainWindow_ImportDrive" xml:space="preserve">
+    <value>Import drive</value>
+  </data>
+  <data name="MainWindow_ImportManufacturerSignalsOBDbFormatSignalsets" xml:space="preserve">
+    <value>Import manufacturer signals (OBDb format, signalsets/v3 JSON)</value>
+  </data>
+  <data name="MainWindow_ImportTestCaseJSON" xml:space="preserve">
+    <value>Import test case (JSON)</value>
+  </data>
+  <data name="MainWindow_ImportTroubleCodeTextsCSVP0300" xml:space="preserve">
+    <value>Import trouble code texts (CSV: P0300;Text)</value>
+  </data>
+  <data name="MainWindow_ImportValuesVSSJSON" xml:space="preserve">
+    <value>Import values (VSS JSON)</value>
+  </data>
+  <data name="MainWindow_TheEngineShouldBeOffAnd" xml:space="preserve">
+    <value>The engine should be off and the ignition on. Wrong values can make the control unit stop working.</value>
+  </data>
+  <data name="MainWindow_UploadYourOwnSkinZipWith" xml:space="preserve">
+    <value>Upload your own skin (zip with skin.json, or PNG with a transparent screen area)</value>
+  </data>
+  <data name="MainWindow_UploadYourOwnThemeZipOr" xml:space="preserve">
+    <value>Upload your own theme (zip or theme.json)</value>
+  </data>
+  <data name="MainWindow_WriteToTheRealCar" xml:space="preserve">
+    <value>Write to the real car?</value>
+  </data>
+  <data name="Main_0AppsConnected" xml:space="preserve">
+    <value>{0} apps connected</value>
+  </data>
+  <data name="Main_0CanBeInstalledInThe" xml:space="preserve">
+    <value>{0} can be installed in the No restart mode (the emulator).</value>
+  </data>
+  <data name="Main_0CouldNotBeInstalledSee" xml:space="preserve">
+    <value>{0} could not be installed – see the log.</value>
+  </data>
+  <data name="Main_0IsInstalled" xml:space="preserve">
+    <value>{0} is installed.</value>
+  </data>
+  <data name="Main_0TurnedOn" xml:space="preserve">
+    <value>{0} turned on</value>
+  </data>
+  <data name="Main_1AppConnected" xml:space="preserve">
+    <value>1 app connected</value>
+  </data>
+  <data name="Main_ASecurityKeyUDS27Is" xml:space="preserve">
+    <value>A security key (UDS 27) is required for coding.</value>
+  </data>
+  <data name="Main_ASecurityKeyUDS27Is2" xml:space="preserve">
+    <value>A security key (UDS 27) is no longer required for coding.</value>
+  </data>
+  <data name="Main_AfterTheRestartCyberdromeOpensAutomatically" xml:space="preserve">
+    <value>After the restart Cyberdrome opens automatically and continues the installation.</value>
+  </data>
+  <data name="Main_AndroidCouldNotBeStartedSee" xml:space="preserve">
+    <value>Android could not be started – see the log below.</value>
+  </data>
+  <data name="Main_AndroidIsInstalledButCouldNot" xml:space="preserve">
+    <value>Android is installed but could not be started – see the log. Press Start to try again.</value>
+  </data>
+  <data name="Main_AndroidMode" xml:space="preserve">
+    <value>Android mode:</value>
+  </data>
+  <data name="Main_AndroidModeChangedTo" xml:space="preserve">
+    <value>Android mode changed to:</value>
+  </data>
+  <data name="Main_AndroidNotInstalled" xml:space="preserve">
+    <value>Android not installed</value>
+  </data>
+  <data name="Main_AndroidRunning" xml:space="preserve">
+    <value>Android running</value>
+  </data>
+  <data name="Main_AndroidStopped" xml:space="preserve">
+    <value>Android stopped</value>
+  </data>
+  <data name="Main_BluetoothCouldNotBeStarted" xml:space="preserve">
+    <value>Bluetooth could not be started: </value>
+  </data>
+  <data name="Main_BluetoothIsOff" xml:space="preserve">
+    <value>Bluetooth is off</value>
+  </data>
+  <data name="Main_BluetoothLECouldNotBeStarted" xml:space="preserve">
+    <value>Bluetooth LE could not be started: </value>
+  </data>
+  <data name="Main_BluetoothLEIsOff" xml:space="preserve">
+    <value>Bluetooth LE is off</value>
+  </data>
+  <data name="Main_BluetoothLEOBDIsOnlyAvailable" xml:space="preserve">
+    <value>Bluetooth LE OBD is only available on Windows in this version.</value>
+  </data>
+  <data name="Main_BluetoothOBDIsOnlyAvailableOn" xml:space="preserve">
+    <value>Bluetooth OBD is only available on Windows in this version.</value>
+  </data>
+  <data name="Main_BuildingCyberdromeRadio" xml:space="preserve">
+    <value>Building Cyberdrome Radio …</value>
+  </data>
+  <data name="Main_BuildingCyberdromeRadioFailedSeeThe" xml:space="preserve">
+    <value>Building Cyberdrome Radio failed – see the log.</value>
+  </data>
+  <data name="Main_CarModelChangedTo0" xml:space="preserve">
+    <value>Car model changed to {0}</value>
+  </data>
+  <data name="Main_CheckingAndroid" xml:space="preserve">
+    <value>Checking Android …</value>
+  </data>
+  <data name="Main_ConnectedPrefix" xml:space="preserve">
+    <value>Connected: </value>
+  </data>
+  <data name="Main_CouldNotGet0" xml:space="preserve">
+    <value>Could not get {0}:</value>
+  </data>
+  <data name="Main_CouldNotReadTheAndroidMode" xml:space="preserve">
+    <value>Could not read the Android mode:</value>
+  </data>
+  <data name="Main_CouldNotReadTheCarModels" xml:space="preserve">
+    <value>Could not read the car models:</value>
+  </data>
+  <data name="Main_CouldNotSave" xml:space="preserve">
+    <value>Could not save:</value>
+  </data>
+  <data name="Main_CouldNotStartOnPort0" xml:space="preserve">
+    <value>Could not start on port {0}: {1}</value>
+  </data>
+  <data name="Main_CouldNotTakeAScreenshot" xml:space="preserve">
+    <value>Could not take a screenshot.</value>
+  </data>
+  <data name="Main_CyberdromeRadioCouldNotBeInstalled" xml:space="preserve">
+    <value>Cyberdrome Radio could not be installed – see the log.</value>
+  </data>
+  <data name="Main_CyberdromeRadioNotFoundApps0" xml:space="preserve">
+    <value>Cyberdrome Radio not found (apps\{0}).</value>
+  </data>
+  <data name="Main_Done0IsInstalledAndStarted" xml:space="preserve">
+    <value>Done! {0} is installed and started.</value>
+  </data>
+  <data name="Main_DoneAndroidIsInstalledAndRunning" xml:space="preserve">
+    <value>Done! Android is installed and running.</value>
+  </data>
+  <data name="Main_DoneAndroidIsInstalledStartingAndroid" xml:space="preserve">
+    <value>Done! Android is installed – starting Android …</value>
+  </data>
+  <data name="Main_DoneCyberdromeRadioIsInstalledAnd" xml:space="preserve">
+    <value>Done! Cyberdrome Radio is installed and started.</value>
+  </data>
+  <data name="Main_DonePrefix" xml:space="preserve">
+    <value>Done! </value>
+  </data>
+  <data name="Main_Downloading0FromFDroid" xml:space="preserve">
+    <value>Downloading {0} from F-Droid …</value>
+  </data>
+  <data name="Main_Downloading0FromFDroid1" xml:space="preserve">
+    <value>Downloading {0} from F-Droid … {1:0} %</value>
+  </data>
+  <data name="Main_ErrorPrefix" xml:space="preserve">
+    <value>Error: </value>
+  </data>
+  <data name="Main_Installing0InAndroid" xml:space="preserve">
+    <value>Installing {0} in Android …</value>
+  </data>
+  <data name="Main_InstallingApp" xml:space="preserve">
+    <value>Installing app …</value>
+  </data>
+  <data name="Main_InstallingCyberdromeRadio" xml:space="preserve">
+    <value>Installing Cyberdrome Radio …</value>
+  </data>
+  <data name="Main_InstallingThisMayTakeAWhile" xml:space="preserve">
+    <value>Installing … (this may take a while, see the log below)</value>
+  </data>
+  <data name="Main_LastReply0SecondsAgo" xml:space="preserve">
+    <value>Last reply {0} seconds ago</value>
+  </data>
+  <data name="Main_NoAppConnectedYet" xml:space="preserve">
+    <value>No app connected yet</value>
+  </data>
+  <data name="Main_NoCarModelsFoundIn0" xml:space="preserve">
+    <value>No car models found in {0}.</value>
+  </data>
+  <data name="Main_NoTroubleCodes" xml:space="preserve">
+    <value>No trouble codes</value>
+  </data>
+  <data name="Main_PreparingTheInstallation" xml:space="preserve">
+    <value>Preparing the installation …</value>
+  </data>
+  <data name="Main_ReplySentJustNow" xml:space="preserve">
+    <value>Reply sent just now</value>
+  </data>
+  <data name="Main_Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="Main_Screen" xml:space="preserve">
+    <value>Screen:</value>
+  </data>
+  <data name="Main_ScreenshotSaved" xml:space="preserve">
+    <value>Screenshot saved:</value>
+  </data>
+  <data name="Main_ShuttingDownAndroid" xml:space="preserve">
+    <value>Shutting down Android …</value>
+  </data>
+  <data name="Main_StartAndroidFirst" xml:space="preserve">
+    <value>Start Android first.</value>
+  </data>
+  <data name="Main_StartAndroidNoRestartModeFirst" xml:space="preserve">
+    <value>Start Android (No restart mode) first.</value>
+  </data>
+  <data name="Main_StartingAndroid" xml:space="preserve">
+    <value>Starting Android …</value>
+  </data>
+  <data name="Main_StartingBluetooth" xml:space="preserve">
+    <value>Starting Bluetooth …</value>
+  </data>
+  <data name="Main_StartingBluetoothLE" xml:space="preserve">
+    <value>Starting Bluetooth LE …</value>
+  </data>
+  <data name="Main_TheAppCouldNotBeInstalled" xml:space="preserve">
+    <value>The app could not be installed.</value>
+  </data>
+  <data name="Main_TheAppIsInstalled" xml:space="preserve">
+    <value>The app is installed.</value>
+  </data>
+  <data name="Main_TheCarIsRunning" xml:space="preserve">
+    <value>The car is running</value>
+  </data>
+  <data name="Main_TheComputerHasRestartedContinuingThe" xml:space="preserve">
+    <value>The computer has restarted – continuing the Android installation.</value>
+  </data>
+  <data name="Main_TheIgnitionIsOff" xml:space="preserve">
+    <value>The ignition is off</value>
+  </data>
+  <data name="Main_TheInstallationWasCancelledOrFailed" xml:space="preserve">
+    <value>The installation was cancelled or failed – see the log below.</value>
+  </data>
+  <data name="Main_VirtualOBDAdapterIsOff" xml:space="preserve">
+    <value>Virtual OBD adapter is off</value>
+  </data>
+  <data name="Main_VirtualOBDAdapterIsOn" xml:space="preserve">
+    <value>Virtual OBD adapter is on</value>
+  </data>
+  <data name="Main_WSL2StillDoesnTWorkAfter" xml:space="preserve">
+    <value>WSL2 still doesn't work after the restart. Check that virtualisation is turned on in the BIOS and then press Install Android.</value>
+  </data>
+  <data name="Main_WaitingForAnIPhoneVisibleAs" xml:space="preserve">
+    <value>Waiting for an iPhone – visible as "{0}" (BLE service FFF0)</value>
+  </data>
+  <data name="Main_WaitingForPairingConnectionVisibleAs" xml:space="preserve">
+    <value>Waiting for pairing/connection – visible as "{0}", service OBDII</value>
+  </data>
+  <data name="Main_WaitingForTheFirstRequest" xml:space="preserve">
+    <value>Waiting for the first request</value>
+  </data>
+  <data name="Main_WindowsStoppedTheBluetoothLEAdvertising" xml:space="preserve">
+    <value>Windows stopped the Bluetooth LE advertising ({0}). Turn it off and on again.</value>
+  </data>
+  <data name="Map_0PointsPressDriveTheRoute" xml:space="preserve">
+    <value>{0} points – press Drive the route.</value>
+  </data>
+  <data name="Map_CarMovedTo" xml:space="preserve">
+    <value>Car moved to</value>
+  </data>
+  <data name="Map_ClickAddsARoutePoint" xml:space="preserve">
+    <value>Click adds a route point</value>
+  </data>
+  <data name="Map_ClickAtLeastOnePointFirst" xml:space="preserve">
+    <value>Click at least one point first (mode "Click adds a route point").</value>
+  </data>
+  <data name="Map_ClickMovesTheCar" xml:space="preserve">
+    <value>Click moves the car</value>
+  </data>
+  <data name="Map_ClickPointsInOrderAndThen" xml:space="preserve">
+    <value>Click points in order and then press Drive the route. The car follows the route at the speed from the slider (or the drive).</value>
+  </data>
+  <data name="Map_ClickTheMapToPutThe" xml:space="preserve">
+    <value>Click the map to put the car there. Drag to move the map, scroll to zoom.</value>
+  </data>
+  <data name="Map_CouldNotSendGPSToAndroid" xml:space="preserve">
+    <value>Could not send GPS to Android.</value>
+  </data>
+  <data name="Map_DrivingTheRoute000" xml:space="preserve">
+    <value>Driving the route: {0:0.0} km. The car moves at the speed on Overview.</value>
+  </data>
+  <data name="Map_GPSToAndroid010" xml:space="preserve">
+    <value>GPS to Android: {0}  ·  {1:0} km/h  ·  heading {2:0}°</value>
+  </data>
+  <data name="Map_RouteRemoved" xml:space="preserve">
+    <value>Route removed.</value>
+  </data>
+  <data name="Map_TheSpeedIs0RaiseThe" xml:space="preserve">
+    <value> The speed is 0 – raise the speed.</value>
+  </data>
+  <data name="Nav_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Nav_CarDatabase" xml:space="preserve">
+    <value>Car database</value>
+  </data>
+  <data name="Nav_CarModels" xml:space="preserve">
+    <value>Car models</value>
+  </data>
+  <data name="Nav_Drives" xml:space="preserve">
+    <value>Drives</value>
+  </data>
+  <data name="Nav_HiddenFeatures" xml:space="preserve">
+    <value>Hidden features</value>
+  </data>
+  <data name="Nav_Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="Nav_ObdLog" xml:space="preserve">
+    <value>OBD log</value>
+  </data>
+  <data name="Nav_ObdSource" xml:space="preserve">
+    <value>OBD source</value>
+  </data>
+  <data name="Nav_Overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Nav_TestCases" xml:space="preserve">
+    <value>Test cases</value>
+  </data>
+  <data name="ObdAdapter_NoReplyToATZ" xml:space="preserve">
+    <value>No reply to ATZ.</value>
+  </data>
+  <data name="ObdAdapter_Replied0InsteadOfAnELM327" xml:space="preserve">
+    <value>Replied "{0}" instead of an ELM327 version.</value>
+  </data>
+  <data name="ObdTcpServer_Unknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="Obdb_Attribution" xml:space="preserve">
+    <value>Data from OBDb (github.com/OBDb), CC BY-SA 4.0</value>
+  </data>
+  <data name="Obdb_Error0From1" xml:space="preserve">
+    <value>Error {0} from {1}.</value>
+  </data>
+  <data name="Obdb_GitHubSRequestLimitHasBeen" xml:space="preserve">
+    <value>GitHub's request limit has been reached. Try again after {0} (saved data works in the meantime).</value>
+  </data>
+  <data name="Obdb_InAWhile" xml:space="preserve">
+    <value>in a while</value>
+  </data>
+  <data name="Obdb_NoCommandsListNotAnOBDb" xml:space="preserve">
+    <value>No "commands" list – not an OBDb signal file.</value>
+  </data>
+  <data name="Obdb_NotFound404" xml:space="preserve">
+    <value>Not found (404):</value>
+  </data>
+  <data name="Obdb_OBDbGettingListPage0" xml:space="preserve">
+    <value>OBDb: getting list, page {0} …</value>
+  </data>
+  <data name="OdxImporter_0CANIdMissing7E07E8" xml:space="preserve">
+    <value>{0}: CAN id missing – 7E0/7E8 is used.</value>
+  </data>
+  <data name="OdxImporter_0Coding1BytesOnlyThe" xml:space="preserve">
+    <value>{0}: coding {1} bytes – only the first {2} are used</value>
+  </data>
+  <data name="OdxImporter_0NoCodingService222E" xml:space="preserve">
+    <value>{0}: no coding service (22/2E) – 4 bytes of zeros are used.</value>
+  </data>
+  <data name="OdxImporter_0OtherDiagnosticServices1" xml:space="preserve">
+    <value>{0}: other diagnostic services ({1})</value>
+  </data>
+  <data name="OdxImporter_0SameCANIdAsAnother" xml:space="preserve">
+    <value>{0}: same CAN id as another control unit – skipped.</value>
+  </data>
+  <data name="OdxImporter_0SecurityAccess0x271Services" xml:space="preserve">
+    <value>{0}: security access 0x27 ({1} services) – Cyberdrome uses its own made-up formula</value>
+  </data>
+  <data name="OdxImporter_ECUVariant0WithoutItsOwn" xml:space="preserve">
+    <value>ECU variant {0} without its own CAN ids (inherits base)</value>
+  </data>
+  <data name="OdxImporter_EmptyODXFile" xml:space="preserve">
+    <value>Empty ODX file.</value>
+  </data>
+  <data name="OdxImporter_JobsAcrossSeveralControlUnitsMULTIPLE" xml:space="preserve">
+    <value>Jobs across several control units (MULTIPLE-ECU-JOB)</value>
+  </data>
+  <data name="OdxImporter_NoControlUnitsBASEVARIANTECU" xml:space="preserve">
+    <value>No control units (BASE-VARIANT/ECU-VARIANT with CAN id) found in the ODX file.</value>
+  </data>
+  <data name="OdxImporter_ODXVersion0Only2X" xml:space="preserve">
+    <value>ODX version {0} – only 2.x has been tested.</value>
+  </data>
+  <data name="OdxImporter_TheFileIsNotODXThe" xml:space="preserve">
+    <value>The file is not ODX (the root element is not called ODX).</value>
+  </data>
+  <data name="OdxImporter_TheFileIsNotValidODX" xml:space="preserve">
+    <value>The file is not valid ODX/XML:</value>
+  </data>
+  <data name="OdxImporter_ThePDXFileContainsNoOdx" xml:space="preserve">
+    <value>The PDX file contains no .odx file.</value>
+  </data>
+  <data name="OdxImporter_VINMissingInODXThePlaceholder" xml:space="preserve">
+    <value>VIN missing in ODX – the placeholder CDX00000000000001 is used (change it in the editor).</value>
+  </data>
+  <data name="Odx_ComparamSpec" xml:space="preserve">
+    <value>Communication specification (COMPARAM-SPEC)</value>
+  </data>
+  <data name="Odx_Count01" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Odx_Flash" xml:space="preserve">
+    <value>Flash data (FLASH)</value>
+  </data>
+  <data name="Odx_FunctionalGroup" xml:space="preserve">
+    <value>Functional groups (FUNCTIONAL-GROUP)</value>
+  </data>
+  <data name="Odx_Protocol" xml:space="preserve">
+    <value>Protocol layers (PROTOCOL)</value>
+  </data>
+  <data name="Odx_SingleJob" xml:space="preserve">
+    <value>Diagnostic jobs (SINGLE-ECU-JOB)</value>
+  </data>
+  <data name="Odx_VehicleInfo" xml:space="preserve">
+    <value>Vehicle information (VEHICLE-INFO-SPEC)</value>
+  </data>
+  <data name="OrganicMaps_Help" xml:space="preserve">
+    <value>Organic Maps shows the car's position from Cyberdrome (GPS is sent from the Map page). The first time: allow location access. Map data for e.g. Stockholm is downloaded inside the app when you zoom in. Organic Maps is downloaded from F-Droid and is not included with Cyberdrome.</value>
+  </data>
+  <data name="ProfileLoader_0EmptyFile" xml:space="preserve">
+    <value>{0}: empty file.</value>
+  </data>
+  <data name="ProfileLoader_AControlUnitHasNoKey" xml:space="preserve">
+    <value>A control unit has no key.</value>
+  </data>
+  <data name="ProfileLoader_AtLeastOneECUIsNeeded" xml:space="preserve">
+    <value>At least one ECU is needed.</value>
+  </data>
+  <data name="ProfileLoader_CustomPID0InvalidHeader1" xml:space="preserve">
+    <value>Custom PID {0}: invalid header "{1}".</value>
+  </data>
+  <data name="ProfileLoader_CustomPID0InvalidRequest1" xml:space="preserve">
+    <value>Custom PID {0}: invalid request "{1}".</value>
+  </data>
+  <data name="ProfileLoader_ECU0AtMost1Bytes" xml:space="preserve">
+    <value>ECU {0}: at most {1} bytes of coding.</value>
+  </data>
+  <data name="ProfileLoader_ECU0CodingMustBeHex" xml:space="preserve">
+    <value>ECU {0}: coding must be hex with an even number of characters.</value>
+  </data>
+  <data name="ProfileLoader_ECU0InvalidCANId11" xml:space="preserve">
+    <value>ECU {0}: invalid CAN id (11 bit, e.g. 7E0).</value>
+  </data>
+  <data name="ProfileLoader_ECU0TheCodingDIDMust" xml:space="preserve">
+    <value>ECU {0}: the coding DID must be 4 hex characters.</value>
+  </data>
+  <data name="ProfileLoader_Feature0BitMustBe0" xml:space="preserve">
+    <value>Feature {0}: bit must be 0–7.</value>
+  </data>
+  <data name="ProfileLoader_Feature0Byte1DoesNot" xml:space="preserve">
+    <value>Feature {0}: byte {1} does not exist in the coding.</value>
+  </data>
+  <data name="ProfileLoader_Feature0ECU1DoesNot" xml:space="preserve">
+    <value>Feature {0}: ECU '{1}' does not exist.</value>
+  </data>
+  <data name="ProfileLoader_IdIsMissing" xml:space="preserve">
+    <value>Id is missing.</value>
+  </data>
+  <data name="ProfileLoader_MakeAndModelMustBeFilled" xml:space="preserve">
+    <value>Make and model must be filled in.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest01InvalidRequest" xml:space="preserve">
+    <value>Manufacturer request {0}/{1}: invalid request.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest01InvalidSignal" xml:space="preserve">
+    <value>Manufacturer request {0}/{1}: invalid signal position.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest0ControlUnit1" xml:space="preserve">
+    <value>Manufacturer request {0}: control unit {1} does not exist.</value>
+  </data>
+  <data name="ProfileLoader_PID0IsNotSupportedBy" xml:space="preserve">
+    <value>PID {0} is not supported by the simulator.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultEngineSpeedMustBe" xml:space="preserve">
+    <value>The default engine speed must be 0–8000.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultFuelLevelMustBe" xml:space="preserve">
+    <value>The default fuel level must be 0–100 %.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultSpeedMustBe0" xml:space="preserve">
+    <value>The default speed must be 0–250 km/h.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultTemperatureMustBe40" xml:space="preserve">
+    <value>The default temperature must be −40–130 °C.</value>
+  </data>
+  <data name="ProfileLoader_TheIdMayOnlyContainLetters" xml:space="preserve">
+    <value>The id may only contain letters, digits, - and _.</value>
+  </data>
+  <data name="ProfileLoader_TheModelYearMustBe1996" xml:space="preserve">
+    <value>The model year must be 1996–2100 (OBD-II).</value>
+  </data>
+  <data name="ProfileLoader_TheTroubleCode0HasThe" xml:space="preserve">
+    <value>The trouble code {0} has the wrong format (e.g. P0300).</value>
+  </data>
+  <data name="ProfileLoader_TheVINMayOnlyContainA" xml:space="preserve">
+    <value>The VIN may only contain A–Z (except I, O, Q) and 0–9.</value>
+  </data>
+  <data name="ProfileLoader_TheVINMustBe17Characters" xml:space="preserve">
+    <value>The VIN must be 17 characters.</value>
+  </data>
+  <data name="ProfileLoader_TroubleCodeTextInvalidTroubleCode" xml:space="preserve">
+    <value>Trouble code text: invalid trouble code "{0}".</value>
+  </data>
+  <data name="ProfileLoader_TwoControlUnitsHaveTheSame" xml:space="preserve">
+    <value>Two control units have the same key.</value>
+  </data>
+  <data name="ProfileLoader_TwoControlUnitsHaveTheSame2" xml:space="preserve">
+    <value>Two control units have the same request id (CAN).</value>
+  </data>
+  <data name="ProfileLoader_TwoHiddenFeaturesHaveTheSame" xml:space="preserve">
+    <value>Two hidden features have the same id.</value>
+  </data>
+  <data name="ProfileStore_0CannotBeRead1" xml:space="preserve">
+    <value>{0} cannot be read: {1}</value>
+  </data>
+  <data name="ProfileStore_0IsTooLarge" xml:space="preserve">
+    <value>{0} is too large.</value>
+  </data>
+  <data name="ProfileStore_InvalidPathInThePackage" xml:space="preserve">
+    <value>Invalid path in the package.</value>
+  </data>
+  <data name="ProfileStore_TheCarModelIsNotValid" xml:space="preserve">
+    <value>The car model is not valid:</value>
+  </data>
+  <data name="ProfileStore_TheFileIsMissing0" xml:space="preserve">
+    <value>The file is missing {0}.</value>
+  </data>
+  <data name="ProfileStore_TheFileIsNotACbs" xml:space="preserve">
+    <value>The file is not a .cbs file (not a zip).</value>
+  </data>
+  <data name="Program_01OwnCarModelsThemes" xml:space="preserve">
+    <value>  {0}
+  {1}
+
+(own car models, themes, skins, drives, test cases, backups, settings and logs)
+
+</value>
+  </data>
+  <data name="Program_CyberdromeSimulatorIsBeingUninstalledDo" xml:space="preserve">
+    <value>Cyberdrome Simulator is being uninstalled.
+
+Do you also want to remove my data?
+</value>
+  </data>
+  <data name="Program_NoDefaultYourDataIsKept" xml:space="preserve">
+    <value>No (default) = your data is kept if you install again.</value>
+  </data>
+  <data name="Program_RemoveMyData" xml:space="preserve">
+    <value>Remove my data?</value>
+  </data>
+  <data name="RealAdapterBluetooth_BLEWriteFailed" xml:space="preserve">
+    <value>BLE write failed: </value>
+  </data>
+  <data name="RealAdapterBluetooth_CouldNotReadTheBLEServices" xml:space="preserve">
+    <value>Could not read the BLE services: </value>
+  </data>
+  <data name="RealAdapterBluetooth_CouldNotTurnOnNotifications" xml:space="preserve">
+    <value>Could not turn on notifications: </value>
+  </data>
+  <data name="RealAdapterBluetooth_NoServiceWithBothNotifyAnd" xml:space="preserve">
+    <value>No service with both notify and write was found.</value>
+  </data>
+  <data name="RealAdapterBluetooth_Read" xml:space="preserve">
+    <value>read</value>
+  </data>
+  <data name="RealAdapterBluetooth_Service0" xml:space="preserve">
+    <value>Service {0}: </value>
+  </data>
+  <data name="RealAdapterBluetooth_Service0CharacteristicsCannotBeRead" xml:space="preserve">
+    <value>Service {0}: characteristics cannot be read ({1})</value>
+  </data>
+  <data name="RealAdapterBluetooth_TheBLEDeviceDoesNotAnswer" xml:space="preserve">
+    <value>The BLE device does not answer.</value>
+  </data>
+  <data name="RealAdapterBluetooth_TheBluetoothServiceWasNotFound" xml:space="preserve">
+    <value>The Bluetooth service was not found (is the adapter on and paired?).</value>
+  </data>
+  <data name="RealAdapterBluetooth_UnknownSPPDevice" xml:space="preserve">
+    <value>Unknown SPP device</value>
+  </data>
+  <data name="RealAdapterBluetooth_Using0Replies1Commands2" xml:space="preserve">
+    <value>Using {0}: replies {1}, commands {2}</value>
+  </data>
+  <data name="RealCarBridge_BlockedCouldNotBackUpThe" xml:space="preserve">
+    <value>🔒 Blocked: could not back up the original value:</value>
+  </data>
+  <data name="RealCarBridge_BlockedReadOnly0To1" xml:space="preserve">
+    <value>🔒 Blocked (read-only): {0} to {1:X3}. Turn on "Allow writing" to let it through.</value>
+  </data>
+  <data name="RealCarBridge_BlockedTheBatteryVoltageIs0" xml:space="preserve">
+    <value>🔒 Blocked: the battery voltage is {0} (at least {1:0.0} V is required for writing).</value>
+  </data>
+  <data name="RealCarBridge_DeniedByTheUser0To" xml:space="preserve">
+    <value>✋ Denied by the user: {0} to {1:X3}.</value>
+  </data>
+  <data name="RealCarBridge_SentToTheCar0To" xml:space="preserve">
+    <value>✍ Sent to the car: {0} to {1:X3} ({2}). Backup: {3}</value>
+  </data>
+  <data name="RealCarBridge_TheOriginalValueCouldNotBe" xml:space="preserve">
+    <value>the original value could not be read ({0}).</value>
+  </data>
+  <data name="RealCarScanner_AnsweredOn7DF" xml:space="preserve">
+    <value>answered on 7DF</value>
+  </data>
+  <data name="RealCarScanner_Protocol01" xml:space="preserve">
+    <value>Protocol: {0} – {1}</value>
+  </data>
+  <data name="RealCarScanner_ReadingCalibrationIds" xml:space="preserve">
+    <value>Reading calibration ids …</value>
+  </data>
+  <data name="RealCarScanner_ReadingSupportedPIDs" xml:space="preserve">
+    <value>Reading supported PIDs …</value>
+  </data>
+  <data name="RealCarScanner_ReadingTroubleCodes" xml:space="preserve">
+    <value>Reading trouble codes …</value>
+  </data>
+  <data name="RealCarScanner_ReadingVIN" xml:space="preserve">
+    <value>Reading VIN …</value>
+  </data>
+  <data name="RealCarScanner_ReadingValues" xml:space="preserve">
+    <value>Reading values …</value>
+  </data>
+  <data name="RealCarScanner_RealCar" xml:space="preserve">
+    <value>Real car</value>
+  </data>
+  <data name="RealCarScanner_SearchingForControlUnits" xml:space="preserve">
+    <value>Searching for control units …</value>
+  </data>
+  <data name="RealCarScanner_Transmission" xml:space="preserve">
+    <value>Transmission</value>
+  </data>
+  <data name="RealCarScanner_UnknownMake" xml:space="preserve">
+    <value>Unknown make</value>
+  </data>
+  <data name="RealCarScanner_Values" xml:space="preserve">
+    <value>Values:</value>
+  </data>
+  <data name="RealCarScanner_Voltage000V" xml:space="preserve">
+    <value>Voltage: {0:0.0} V</value>
+  </data>
+  <data name="Release_ANewVersionIsAvailable0" xml:space="preserve">
+    <value>A new version is available: {0}. Press "Install update".</value>
+  </data>
+  <data name="Release_CouldNotCheckForUpdates" xml:space="preserve">
+    <value>Could not check for updates:</value>
+  </data>
+  <data name="Release_DownloadingTheUpdate" xml:space="preserve">
+    <value>Downloading the update …</value>
+  </data>
+  <data name="Release_DownloadingTheUpdate0" xml:space="preserve">
+    <value>Downloading the update … {0} %</value>
+  </data>
+  <data name="Release_InstallingAndRestarting" xml:space="preserve">
+    <value>Installing and restarting …</value>
+  </data>
+  <data name="Release_TheFolderDoesNotExist0" xml:space="preserve">
+    <value>The folder does not exist: {0}</value>
+  </data>
+  <data name="Release_TheUpdateFailed" xml:space="preserve">
+    <value>The update failed:</value>
+  </data>
+  <data name="Release_UpdatesWorkInTheInstalledVersion" xml:space="preserve">
+    <value>Updates work in the installed version (not when the program runs from source code).</value>
+  </data>
+  <data name="Release_YouHaveTheLatestVersion0" xml:space="preserve">
+    <value>You have the latest version ({0}).</value>
+  </data>
+  <data name="Scan_CalibrationIds" xml:space="preserve">
+    <value>Calibration ids: </value>
+  </data>
+  <data name="Scan_Dtcs" xml:space="preserve">
+    <value>Trouble codes: </value>
+  </data>
+  <data name="Scan_Ecus0" xml:space="preserve">
+    <value>Control units ({0}):</value>
+  </data>
+  <data name="Scan_NoAnswer" xml:space="preserve">
+    <value>(no answer)</value>
+  </data>
+  <data name="Scan_None" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="Scan_Pids0" xml:space="preserve">
+    <value>PIDs ({0}): </value>
+  </data>
+  <data name="ScreenControl_Mute" xml:space="preserve">
+    <value>Mute</value>
+  </data>
+  <data name="ScreenControl_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ScreenControl_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="ScreenPresets_101BudgetCarRadio1024" xml:space="preserve">
+    <value>10.1" budget car radio 1024×600</value>
+  </data>
+  <data name="ScreenPresets_10WideCarScreen1560700" xml:space="preserve">
+    <value>10" wide car screen 1560×700</value>
+  </data>
+  <data name="ScreenPresets_123WideScreen1920720" xml:space="preserve">
+    <value>12.3" wide screen 1920×720</value>
+  </data>
+  <data name="ScreenPresets_7OlderCarRadio800480" xml:space="preserve">
+    <value>7" older car radio 800×480</value>
+  </data>
+  <data name="ScreenPresets_943Screen1024768" xml:space="preserve">
+    <value>9" 4:3 screen 1024×768 (e.g. portrait)</value>
+  </data>
+  <data name="Screen_10Tablet" xml:space="preserve">
+    <value>10.1" tablet/car radio 1280×800</value>
+  </data>
+  <data name="Screen_7Radio1024" xml:space="preserve">
+    <value>7" car radio 1024×600</value>
+  </data>
+  <data name="Screen_8Radio1280" xml:space="preserve">
+    <value>8" car radio 1280×720</value>
+  </data>
+  <data name="Screen_8Radio800" xml:space="preserve">
+    <value>8" car radio 800×480</value>
+  </data>
+  <data name="Screen_9Radio1280" xml:space="preserve">
+    <value>9" car radio 1280×720</value>
+  </data>
+  <data name="Screen_ChangingScreen" xml:space="preserve">
+    <value>Changing screen …</value>
+  </data>
+  <data name="Screen_CouldNotChangeTheScreenSee" xml:space="preserve">
+    <value>Could not change the screen – see the log on the Android page.</value>
+  </data>
+  <data name="Screen_Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Screen_InvalidSizeWidthHeight3204096" xml:space="preserve">
+    <value>Invalid size: width/height 320–4096 and dpi 80–640.</value>
+  </data>
+  <data name="Screen_LandscapeLower" xml:space="preserve">
+    <value>landscape</value>
+  </data>
+  <data name="Screen_PortraitLower" xml:space="preserve">
+    <value>portrait</value>
+  </data>
+  <data name="Screen_Saved0AppliesWhenAndroidStarts" xml:space="preserve">
+    <value>Saved: {0}. Applies when Android starts.</value>
+  </data>
+  <data name="Screen_Screen0" xml:space="preserve">
+    <value>Screen: {0}</value>
+  </data>
+  <data name="Screen_TeslaStyle1080" xml:space="preserve">
+    <value>10.4" Tesla style 1920×1080</value>
+  </data>
+  <data name="Screen_TeslaStyle1200" xml:space="preserve">
+    <value>10.4" Tesla style 1920×1200</value>
+  </data>
+  <data name="Screen_TheScreenSizeAppliesToThe" xml:space="preserve">
+    <value>The screen size applies to the No restart mode (the emulator).</value>
+  </data>
+  <data name="SecurityAccessConfig_TheSeedMustBe4Bytes" xml:space="preserve">
+    <value>The seed must be 4 bytes.</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageHelp" xml:space="preserve">
+    <value>The language of the program. Changes immediately; messages that are already shown keep their language.</value>
+  </data>
+  <data name="Settings_SystemLanguage" xml:space="preserve">
+    <value>System language</value>
+  </data>
+  <data name="SkinStore_ChooseAFolderOrAZip" xml:space="preserve">
+    <value>Choose a folder or a zip file with skin.json.</value>
+  </data>
+  <data name="SkinStore_SkinJsonIsMissing" xml:space="preserve">
+    <value>skin.json is missing.</value>
+  </data>
+  <data name="SkinStore_TheSkinIsNotValid" xml:space="preserve">
+    <value>The skin is not valid:</value>
+  </data>
+  <data name="SkinStore_TheZipFileContainsNoSkin" xml:space="preserve">
+    <value>The zip file contains no skin.json.</value>
+  </data>
+  <data name="Skin_EmptySkinJson" xml:space="preserve">
+    <value>Empty skin.json.</value>
+  </data>
+  <data name="Skin_ImageIsMissing" xml:space="preserve">
+    <value>image is missing.</value>
+  </data>
+  <data name="Skin_ScreenIsTooSmallAtLeast" xml:space="preserve">
+    <value>screen is too small (at least 100×100).</value>
+  </data>
+  <data name="Skin_ScreenMustBeCompletelyInsideThe" xml:space="preserve">
+    <value>screen must be completely inside the skin.</value>
+  </data>
+  <data name="Skin_TheButton0HasAnInvalid" xml:space="preserve">
+    <value>the button "{0}" has an invalid keyCode {1}.</value>
+  </data>
+  <data name="Skin_TheButton0IsOutsideThe" xml:space="preserve">
+    <value>the button "{0}" is outside the skin.</value>
+  </data>
+  <data name="Skin_TheImage0DoesNotExist" xml:space="preserve">
+    <value>the image {0} does not exist.</value>
+  </data>
+  <data name="Skin_UnknownScreenPreset0" xml:space="preserve">
+    <value>unknown screenPreset: {0}.</value>
+  </data>
+  <data name="Skin_WidthAndHeightMustBeGreater" xml:space="preserve">
+    <value>width and height must be greater than 0.</value>
+  </data>
+  <data name="Source_BluetoothIsOnlySupportedOnWindows" xml:space="preserve">
+    <value>Bluetooth is only supported on Windows.</value>
+  </data>
+  <data name="Source_BluetoothLE" xml:space="preserve">
+    <value>Bluetooth LE</value>
+  </data>
+  <data name="Source_BluetoothPaired" xml:space="preserve">
+    <value>Bluetooth (paired)</value>
+  </data>
+  <data name="Source_BridgeONAppsWiFiBluetooth" xml:space="preserve">
+    <value>🔌 Bridge ON: apps (Wi-Fi, Bluetooth, BLE) now talk to the real car through the adapter</value>
+  </data>
+  <data name="Source_ChooseACOMPort" xml:space="preserve">
+    <value>Choose a COM port.</value>
+  </data>
+  <data name="Source_ConnectingTo0" xml:space="preserve">
+    <value>Connecting to {0} …</value>
+  </data>
+  <data name="Source_CouldNotConnect" xml:space="preserve">
+    <value>Could not connect:</value>
+  </data>
+  <data name="Source_CouldNotConnect2" xml:space="preserve">
+    <value>❌ Could not connect:</value>
+  </data>
+  <data name="Source_DisconnectTheAdapterFirst" xml:space="preserve">
+    <value>Disconnect the adapter first.</value>
+  </data>
+  <data name="Source_ElmCompatible0" xml:space="preserve">
+    <value>✅ ELM327-compatible: {0}</value>
+  </data>
+  <data name="Source_Found0PairedAnd1BLE" xml:space="preserve">
+    <value>Found {0} paired and {1} BLE devices. Classic Bluetooth must be paired in Windows first (code often 1234 or 0000).</value>
+  </data>
+  <data name="Source_Identifying0" xml:space="preserve">
+    <value>🔎 Identifying {0} …</value>
+  </data>
+  <data name="Source_Identifying02" xml:space="preserve">
+    <value>Identifying {0} …</value>
+  </data>
+  <data name="Source_InvalidPort" xml:space="preserve">
+    <value>Invalid port.</value>
+  </data>
+  <data name="Source_NewCarModel01Control" xml:space="preserve">
+    <value>New car model: {0} ({1} control units, {2} PIDs). Change name/model on the Car models page.</value>
+  </data>
+  <data name="Source_NoAdapterConnectedTheSimulatorUses" xml:space="preserve">
+    <value>No adapter connected. The simulator uses the virtual car.</value>
+  </data>
+  <data name="Source_NoCOMPortsFoundConnectThe" xml:space="preserve">
+    <value>No COM ports found. Connect the USB adapter or pair the Bluetooth adapter in Windows.</value>
+  </data>
+  <data name="Source_NoCarAnswered0100IgnitionOn" xml:space="preserve">
+    <value> – no car answered 0100 (ignition on?).</value>
+  </data>
+  <data name="Source_NoValues" xml:space="preserve">
+    <value>no values</value>
+  </data>
+  <data name="Source_ReadOnly" xml:space="preserve">
+    <value> · read-only</value>
+  </data>
+  <data name="Source_ReadOnly2" xml:space="preserve">
+    <value> – read-only</value>
+  </data>
+  <data name="Source_ReadOnly3" xml:space="preserve">
+    <value>read-only</value>
+  </data>
+  <data name="Source_ReadTheCarFirst" xml:space="preserve">
+    <value>Read the car first.</value>
+  </data>
+  <data name="Source_ReadingRealCar" xml:space="preserve">
+    <value>Reading real car:</value>
+  </data>
+  <data name="Source_SearchForAndChooseABluetooth" xml:space="preserve">
+    <value>Search for and choose a Bluetooth adapter.</value>
+  </data>
+  <data name="Source_SearchingForBluetoothAdapters8S" xml:space="preserve">
+    <value>Searching for Bluetooth adapters (8 s) …</value>
+  </data>
+  <data name="Source_SourceVirtualCar" xml:space="preserve">
+    <value>🔌 Source: virtual car</value>
+  </data>
+  <data name="Source_TheAdapterIsDisconnectedTheSimulator" xml:space="preserve">
+    <value>The adapter is disconnected. The simulator uses the virtual car.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked" xml:space="preserve">
+    <value>The adapter is not supported (locked to the manufacturer's app or not ELM327-compatible).</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked2" xml:space="preserve">
+    <value>❌ The adapter is not supported (locked to the manufacturer's app): it does not answer ELM327 commands. Use an ELM327-compatible adapter, e.g. vLinker or OBDLink.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked3" xml:space="preserve">
+    <value>❌ The adapter is not supported (locked to the manufacturer's app): it answers, but not like an ELM327. Use an ELM327-compatible adapter, e.g. vLinker or OBDLink.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked4" xml:space="preserve">
+    <value>❌ The adapter is not supported (locked to the manufacturer's app):</value>
+  </data>
+  <data name="Source_TheBluetoothSearchFailed" xml:space="preserve">
+    <value>The Bluetooth search failed: </value>
+  </data>
+  <data name="Source_TheCarAnswersOBD" xml:space="preserve">
+    <value> – the car answers OBD.</value>
+  </data>
+  <data name="Source_TheReadingFailed" xml:space="preserve">
+    <value>The reading failed:</value>
+  </data>
+  <data name="Source_TheReadingIsFinishedOnlyRead" xml:space="preserve">
+    <value>The reading is finished (only read services were used).</value>
+  </data>
+  <data name="Source_ThisConnectionTypeIsNotSupported" xml:space="preserve">
+    <value>This connection type is not supported here.</value>
+  </data>
+  <data name="Source_Throttle" xml:space="preserve">
+    <value>throttle %</value>
+  </data>
+  <data name="Source_USBOrBluetoothViaCOMPort" xml:space="preserve">
+    <value>USB or Bluetooth via COM port</value>
+  </data>
+  <data name="Source_UseAnELM327CompatibleAdapterE" xml:space="preserve">
+    <value> Use an ELM327-compatible adapter, e.g. vLinker or OBDLink.</value>
+  </data>
+  <data name="Source_WRITINGALLOWED" xml:space="preserve">
+    <value> – WRITING ALLOWED</value>
+  </data>
+  <data name="Source_WRITINGALLOWED2" xml:space="preserve">
+    <value>WRITING ALLOWED</value>
+  </data>
+  <data name="Source_WritingAllowedForThisSessionEvery" xml:space="preserve">
+    <value>⚠ Writing allowed for this session. Every write must be confirmed and the original value is saved first.</value>
+  </data>
+  <data name="Standards_ActiveTroubleCodes" xml:space="preserve">
+    <value>Active trouble codes</value>
+  </data>
+  <data name="Standards_BatteryVoltage" xml:space="preserve">
+    <value>Battery voltage</value>
+  </data>
+  <data name="Standards_EngineCoolantTemperature" xml:space="preserve">
+    <value>Engine coolant temperature</value>
+  </data>
+  <data name="Standards_FuelLevel" xml:space="preserve">
+    <value>Fuel level</value>
+  </data>
+  <data name="Standards_IgnitionONOFF" xml:space="preserve">
+    <value>Ignition (ON/OFF)</value>
+  </data>
+  <data name="Standards_IntakeAirTemperature" xml:space="preserve">
+    <value>Intake air temperature</value>
+  </data>
+  <data name="Standards_InvalidModeAndPID01" xml:space="preserve">
+    <value>Invalid ModeAndPID "{0}" ({1})</value>
+  </data>
+  <data name="Standards_InvalidTroubleCode" xml:space="preserve">
+    <value>Invalid trouble code:</value>
+  </data>
+  <data name="Standards_MissingSeparator" xml:space="preserve">
+    <value>Missing separator:</value>
+  </data>
+  <data name="Standards_SelectedGear126P1R" xml:space="preserve">
+    <value>Selected gear (126 = P, -1 = R, 0 = N, 127 = D)</value>
+  </data>
+  <data name="Standards_TheVSSFileCannotBeRead" xml:space="preserve">
+    <value>The VSS file cannot be read:</value>
+  </data>
+  <data name="Standards_TheVSSFileMustBeA" xml:space="preserve">
+    <value>The VSS file must be a JSON object.</value>
+  </data>
+  <data name="Standards_ThrottlePosition" xml:space="preserve">
+    <value>Throttle position</value>
+  </data>
+  <data name="Standards_TooFewFields0" xml:space="preserve">
+    <value>Too few fields: {0}</value>
+  </data>
+  <data name="Standards_VehicleSpeed" xml:space="preserve">
+    <value>Vehicle speed</value>
+  </data>
+  <data name="Standards_WrongValue" xml:space="preserve">
+    <value> (wrong value)</value>
+  </data>
+  <data name="TestApps_01IsAlreadyDownloaded" xml:space="preserve">
+    <value>{0} ({1}) is already downloaded.</value>
+  </data>
+  <data name="TestApps_AskingFDroidForTheLatest" xml:space="preserve">
+    <value>Asking F-Droid for the latest {0} …</value>
+  </data>
+  <data name="TestApps_Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="TestApps_FDroidDidNotAnswer" xml:space="preserve">
+    <value>F-Droid did not answer.</value>
+  </data>
+  <data name="TestApps_FDroidGaveNoVersion" xml:space="preserve">
+    <value>F-Droid gave no version.</value>
+  </data>
+  <data name="TestApps_TheFileFromFDroidIs" xml:space="preserve">
+    <value>The file from F-Droid is not a valid APK ({0}).</value>
+  </data>
+  <data name="TestCase_AtLeastOneCheckIsNeeded" xml:space="preserve">
+    <value>at least one check is needed.</value>
+  </data>
+  <data name="TestCase_BasicPIDs" xml:space="preserve">
+    <value>Basic PIDs</value>
+  </data>
+  <data name="TestCase_Check0AfterStepDoesNotExist" xml:space="preserve">
+    <value>check "{0}": afterStep does not exist.</value>
+  </data>
+  <data name="TestCase_Check0CommandIsMissing" xml:space="preserve">
+    <value>check "{0}": command is missing.</value>
+  </data>
+  <data name="TestCase_Check0TextIsMissing" xml:space="preserve">
+    <value>check "{0}": text is missing.</value>
+  </data>
+  <data name="TestCase_Check0UnknownType1" xml:space="preserve">
+    <value>check "{0}": unknown type "{1}".</value>
+  </data>
+  <data name="TestCase_ClearTheTroubleCodesInThe" xml:space="preserve">
+    <value>Clear the trouble codes in the app (optional).</value>
+  </data>
+  <data name="TestCase_CodingViaUDS22" xml:space="preserve">
+    <value>Coding via UDS 22</value>
+  </data>
+  <data name="TestCase_CyberdromeTurnsOnP0300TheApp" xml:space="preserve">
+    <value>Cyberdrome turns on P0300. The app should read the trouble codes (mode 03) and see P0300. Feel free to clear them in the app (mode 04).</value>
+  </data>
+  <data name="TestCase_DurationSecondsMustBe13600" xml:space="preserve">
+    <value>durationSeconds must be 1–3600.</value>
+  </data>
+  <data name="TestCase_EmptyTestCase" xml:space="preserve">
+    <value>Empty test case.</value>
+  </data>
+  <data name="TestCase_EngineSpeed010CAtLeast" xml:space="preserve">
+    <value>Engine speed (01 0C) at least every other second</value>
+  </data>
+  <data name="TestCase_IdIsMissing" xml:space="preserve">
+    <value>id is missing.</value>
+  </data>
+  <data name="TestCase_KeepTheAppOpenAndConnected" xml:space="preserve">
+    <value>Keep the app open and connected to OBD (e.g. Cyberdrome Radio or the home screen).</value>
+  </data>
+  <data name="TestCase_NameIsMissing" xml:space="preserve">
+    <value>name is missing.</value>
+  </data>
+  <data name="TestCase_NoErrorReplies" xml:space="preserve">
+    <value>No error replies</value>
+  </data>
+  <data name="TestCase_NoErrorRepliesOrNODATA" xml:space="preserve">
+    <value>No error replies (? or NO DATA)</value>
+  </data>
+  <data name="TestCase_ReadTheCodingInTheApp" xml:space="preserve">
+    <value>Read the coding in the app (ATSH714, 220600).</value>
+  </data>
+  <data name="TestCase_Speed010DAtLeastEvery" xml:space="preserve">
+    <value>Speed (01 0D) at least every other second</value>
+  </data>
+  <data name="TestCase_Step0AtMustBeWithin" xml:space="preserve">
+    <value>step {0}: at must be within the test's time.</value>
+  </data>
+  <data name="TestCase_Step0DtcIsMissing" xml:space="preserve">
+    <value>step {0}: dtc is missing.</value>
+  </data>
+  <data name="TestCase_Step0UnknownAction1" xml:space="preserve">
+    <value>step {0}: unknown action "{1}".</value>
+  </data>
+  <data name="TestCase_TheAppClearedTroubleCodes04" xml:space="preserve">
+    <value>The app cleared trouble codes (04)</value>
+  </data>
+  <data name="TestCase_TheAppGot90KmH" xml:space="preserve">
+    <value>The app got 90 km/h after step 2</value>
+  </data>
+  <data name="TestCase_TheAppReadTroubleCodes03" xml:space="preserve">
+    <value>The app read trouble codes (03) after P0300 was turned on</value>
+  </data>
+  <data name="TestCase_TheAppSelectedAControlUnit" xml:space="preserve">
+    <value>The app selected a control unit with ATSH</value>
+  </data>
+  <data name="TestCase_TheAppShouldReadSpeedAnd" xml:space="preserve">
+    <value>The app should read speed and engine speed often (at least every other second) without error replies. The values change during the test.</value>
+  </data>
+  <data name="TestCase_TheAppShouldSelectTheInstrument" xml:space="preserve">
+    <value>The app should select the instrument cluster (ATSH714) and read the coding with 22 06 00 (and preferably the VIN with 22 F1 90).</value>
+  </data>
+  <data name="TestCase_TheCodingWasRead6206" xml:space="preserve">
+    <value>The coding was read (62 06 00 …)</value>
+  </data>
+  <data name="TestCase_TheReplyContainedP03000300" xml:space="preserve">
+    <value>The reply contained P0300 (03 00)</value>
+  </data>
+  <data name="TestCase_TheVINWasReadWith22" xml:space="preserve">
+    <value>The VIN was read with 22 F1 90</value>
+  </data>
+  <data name="TestCase_TroubleCodeP0300IsNowActive" xml:space="preserve">
+    <value>Trouble code P0300 is now active – read trouble codes in the app.</value>
+  </data>
+  <data name="TestCase_TroubleCodesReadAndClear" xml:space="preserve">
+    <value>Trouble codes: read and clear</value>
+  </data>
+  <data name="TestEvaluator_0Of1ChecksPassedP" xml:space="preserve">
+    <value> – {0} of {1} checks passed&lt;/p&gt;</value>
+  </data>
+  <data name="TestEvaluator_0Requests100S" xml:space="preserve">
+    <value>{0} requests ({1:0.0}/s), longest pause {2:0.0} s.</value>
+  </data>
+  <data name="TestEvaluator_0RequestsWithoutErrorReplies" xml:space="preserve">
+    <value>{0} requests without error replies.</value>
+  </data>
+  <data name="TestEvaluator_0TimesFirst1HHMm" xml:space="preserve">
+    <value>{0} times, first {1:HH:mm:ss}.</value>
+  </data>
+  <data name="TestEvaluator_ClearAllTroubleCodes" xml:space="preserve">
+    <value>Clear all trouble codes</value>
+  </data>
+  <data name="TestEvaluator_Coolant00C" xml:space="preserve">
+    <value>coolant {0:0} °C</value>
+  </data>
+  <data name="TestEvaluator_DoctypeHtmlHtmlHeadMetaCharset" xml:space="preserve">
+    <value>&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=utf-8&gt;&lt;title&gt;Test result –</value>
+  </data>
+  <data name="TestEvaluator_Fuel00" xml:space="preserve">
+    <value>fuel {0:0} %</value>
+  </data>
+  <data name="TestEvaluator_IgnitionOff" xml:space="preserve">
+    <value>ignition off</value>
+  </data>
+  <data name="TestEvaluator_IgnitionOn" xml:space="preserve">
+    <value>ignition on</value>
+  </data>
+  <data name="TestEvaluator_LongestPause000S" xml:space="preserve">
+    <value>Longest pause {0:0.0} s (at {1:HH:mm:ss}), max {2:0.0} s allowed. {3} requests.</value>
+  </data>
+  <data name="TestEvaluator_NoneOf0RepliesContained1" xml:space="preserve">
+    <value>None of {0} replies contained {1}.</value>
+  </data>
+  <data name="TestEvaluator_Only0Of1Times" xml:space="preserve">
+    <value>Only {0} of {1} times.</value>
+  </data>
+  <data name="TestEvaluator_PClassMuted0YyyyMM" xml:space="preserve">
+    <value>&lt;p class=muted&gt;{0:yyyy-MM-dd HH:mm:ss} – {1:HH:mm:ss} · {2} OBD requests · apps: {3}&lt;/p&gt;</value>
+  </data>
+  <data name="TestEvaluator_Set" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="TestEvaluator_SpanClassFailFAILEDSpan" xml:space="preserve">
+    <value>&lt;span class=fail&gt;FAILED&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassFailFailedSpan" xml:space="preserve">
+    <value>&lt;span class=fail&gt;✘ Failed&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassNdNotPerformedOptional" xml:space="preserve">
+    <value>&lt;span class=nd&gt;– Not performed (optional)&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassOkPASSEDSpan" xml:space="preserve">
+    <value>&lt;span class=ok&gt;PASSED&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassOkPassedSpan" xml:space="preserve">
+    <value>&lt;span class=ok&gt;✔ Passed&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_Step0WasNeverRun" xml:space="preserve">
+    <value>Step {0} was never run.</value>
+  </data>
+  <data name="TestEvaluator_TableH2StepsH2TableTr" xml:space="preserve">
+    <value>&lt;/table&gt;&lt;h2&gt;Steps&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Time&lt;/th&gt;&lt;th&gt;Step&lt;/th&gt;&lt;th&gt;Done&lt;/th&gt;&lt;/tr&gt;</value>
+  </data>
+  <data name="TestEvaluator_TablePClassMutedCyberdromeSimulator" xml:space="preserve">
+    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Simulator – test report&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
+  </data>
+  <data name="TestEvaluator_TheAppNeverAskedFor0" xml:space="preserve">
+    <value>The app never asked for {0}.</value>
+  </data>
+  <data name="TestEvaluator_TheAppNeverSent0" xml:space="preserve">
+    <value>The app never sent {0}.</value>
+  </data>
+  <data name="TestEvaluator_TheReplyContained01HH" xml:space="preserve">
+    <value>The reply contained {0} ({1:HH:mm:ss}).</value>
+  </data>
+  <data name="TestEvaluator_TurnOffTroubleCode0" xml:space="preserve">
+    <value>Turn off trouble code {0}</value>
+  </data>
+  <data name="TestEvaluator_TurnOnTroubleCode0" xml:space="preserve">
+    <value>Turn on trouble code {0}</value>
+  </data>
+  <data name="TestEvaluator_UnknownCheckType" xml:space="preserve">
+    <value>Unknown check type.</value>
+  </data>
+  <data name="TestStore_TheFileCannotBeRead" xml:space="preserve">
+    <value>The file cannot be read:</value>
+  </data>
+  <data name="TestStore_TheTestCaseIsNotValid" xml:space="preserve">
+    <value>The test case is not valid:</value>
+  </data>
+  <data name="Tests_0Of1ChecksPassed2" xml:space="preserve">
+    <value>: {0} of {1} checks passed · {2} OBD requests</value>
+  </data>
+  <data name="Tests_Cancelled" xml:space="preserve">
+    <value>Cancelled –</value>
+  </data>
+  <data name="Tests_CouldNotOpenTheReport" xml:space="preserve">
+    <value>Could not open the report:</value>
+  </data>
+  <data name="Tests_Drive0" xml:space="preserve">
+    <value> · drive "{0}"</value>
+  </data>
+  <data name="Tests_FAILED" xml:space="preserve">
+    <value>FAILED</value>
+  </data>
+  <data name="Tests_Failed" xml:space="preserve">
+    <value>✘ Failed</value>
+  </data>
+  <data name="Tests_From" xml:space="preserve">
+    <value> from</value>
+  </data>
+  <data name="Tests_KeepTheAppInAndroidOpen" xml:space="preserve">
+    <value>Keep the app in Android open and connected to OBD.</value>
+  </data>
+  <data name="Tests_NoAppAsked" xml:space="preserve">
+    <value> (no app asked)</value>
+  </data>
+  <data name="Tests_NotPerformedOptional" xml:space="preserve">
+    <value>– Not performed (optional)</value>
+  </data>
+  <data name="Tests_PASSED" xml:space="preserve">
+    <value>PASSED</value>
+  </data>
+  <data name="Tests_Passed" xml:space="preserve">
+    <value>✔ Passed</value>
+  </data>
+  <data name="Tests_TestCaseFinished01" xml:space="preserve">
+    <value>Test case finished: {0} – {1}</value>
+  </data>
+  <data name="Tests_TestCaseImported" xml:space="preserve">
+    <value>Test case imported:</value>
+  </data>
+  <data name="Tests_TestCaseStarted0" xml:space="preserve">
+    <value>Test case started: {0}</value>
+  </data>
+  <data name="Tests_TheReportCouldNotBeSaved" xml:space="preserve">
+    <value> · The report could not be saved:</value>
+  </data>
+  <data name="Tests_TheTestIsRunning00" xml:space="preserve">
+    <value>The test is running … ({0:0} s)</value>
+  </data>
+  <data name="Tests_TheTestIsRunning002" xml:space="preserve">
+    <value>The test is running … {0:0} s left · {1} OBD requests so far</value>
+  </data>
+  <data name="Ui_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Ui_Adapter" xml:space="preserve">
+    <value>Adapter</value>
+  </data>
+  <data name="Ui_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Ui_AddSignalsCarModels" xml:space="preserve">
+    <value>Add signals (Car models) …</value>
+  </data>
+  <data name="Ui_AllCarModelsAndCodingData" xml:space="preserve">
+    <value>All car models and coding data are made-up examples for testing.</value>
+  </data>
+  <data name="Ui_AllowWritingForThisSession" xml:space="preserve">
+    <value>Allow writing for this session</value>
+  </data>
+  <data name="Ui_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Ui_AndroidInTheCar" xml:space="preserve">
+    <value>Android in the car</value>
+  </data>
+  <data name="Ui_AndroidMode" xml:space="preserve">
+    <value>Android mode</value>
+  </data>
+  <data name="Ui_AndroidWithGoogleAppsPlayStore" xml:space="preserve">
+    <value>Android with Google apps (Play Store, Google Maps) – Google's emulator, for development</value>
+  </data>
+  <data name="Ui_AppearsAsAnOrdinaryWiFi" xml:space="preserve">
+    <value>Appears as an ordinary Wi-Fi OBD dongle (ELM327).</value>
+  </data>
+  <data name="Ui_Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Ui_ApplyAgain" xml:space="preserve">
+    <value>Apply again</value>
+  </data>
+  <data name="Ui_BluetoothLEIPhone" xml:space="preserve">
+    <value>Bluetooth LE (iPhone)</value>
+  </data>
+  <data name="Ui_BluetoothOBDII" xml:space="preserve">
+    <value>Bluetooth (OBDII)</value>
+  </data>
+  <data name="Ui_CanTFindTheModelCreate" xml:space="preserve">
+    <value>Can't find the model? Create a standard OBD car (OBD-II PIDs, VIN, trouble codes) – manufacturer signals can be added later.</value>
+  </data>
+  <data name="Ui_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Ui_Cancel2" xml:space="preserve">
+    <value>⏹ Cancel</value>
+  </data>
+  <data name="Ui_CarDatabase" xml:space="preserve">
+    <value>Car database</value>
+  </data>
+  <data name="Ui_CarModel" xml:space="preserve">
+    <value>Car model:</value>
+  </data>
+  <data name="Ui_CarModels" xml:space="preserve">
+    <value>Car models</value>
+  </data>
+  <data name="Ui_CheckAgain" xml:space="preserve">
+    <value>Check again</value>
+  </data>
+  <data name="Ui_CheckForUpdates" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="Ui_ChooseHowAndroidRunsItCannot" xml:space="preserve">
+    <value>Choose how Android runs. It cannot be changed while something is installing or starting.</value>
+  </data>
+  <data name="Ui_ChooseWhetherTheAppsInAndroid" xml:space="preserve">
+    <value>Choose whether the apps (in Android, or a phone via Wi-Fi/Bluetooth) talk to the virtual car or to a real car through an ELM327-compatible adapter (e.g. vLinker, OBDLink, Vgate). Read-only is the default: anything that could change something in the car is blocked.</value>
+  </data>
+  <data name="Ui_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Ui_Clear2" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Ui_ClearRoute" xml:space="preserve">
+    <value>Clear route</value>
+  </data>
+  <data name="Ui_ClearTheLog" xml:space="preserve">
+    <value>Clear the log</value>
+  </data>
+  <data name="Ui_CodingHex" xml:space="preserve">
+    <value>coding hex</value>
+  </data>
+  <data name="Ui_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Ui_ControlUnit" xml:space="preserve">
+    <value>+ Control unit</value>
+  </data>
+  <data name="Ui_ControlUnit2" xml:space="preserve">
+    <value>control unit</value>
+  </data>
+  <data name="Ui_ControlUnitsECU" xml:space="preserve">
+    <value>Control units (ECU)</value>
+  </data>
+  <data name="Ui_Coolant" xml:space="preserve">
+    <value>Coolant</value>
+  </data>
+  <data name="Ui_CreateCarModel" xml:space="preserve">
+    <value>Create car model</value>
+  </data>
+  <data name="Ui_CreateStandardOBDCar" xml:space="preserve">
+    <value>Create standard OBD car</value>
+  </data>
+  <data name="Ui_CreateVirtualCarFromRealCar" xml:space="preserve">
+    <value>Create virtual car from real car</value>
+  </data>
+  <data name="Ui_Dark" xml:space="preserve">
+    <value>Darkness</value>
+  </data>
+  <data name="Ui_DecodeVIN" xml:space="preserve">
+    <value>Decode VIN</value>
+  </data>
+  <data name="Ui_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Ui_Description" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="Ui_DragToChangeAndroidAndOBD" xml:space="preserve">
+    <value>Drag to change. Android and OBD see the same values.</value>
+  </data>
+  <data name="Ui_DriveTheRoute" xml:space="preserve">
+    <value>▶ Drive the route</value>
+  </data>
+  <data name="Ui_Drives" xml:space="preserve">
+    <value>Drives</value>
+  </data>
+  <data name="Ui_EG10in1280x800" xml:space="preserve">
+    <value>e.g. 10in-1280x800</value>
+  </data>
+  <data name="Ui_EGP0300U0100" xml:space="preserve">
+    <value>e.g. P0300, U0100</value>
+  </data>
+  <data name="Ui_EGP0301" xml:space="preserve">
+    <value>e.g. P0301</value>
+  </data>
+  <data name="Ui_EGVwGolf8" xml:space="preserve">
+    <value>e.g. vw-golf8</value>
+  </data>
+  <data name="Ui_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Ui_EmptyAll" xml:space="preserve">
+    <value>empty = all</value>
+  </data>
+  <data name="Ui_EngineSpeed" xml:space="preserve">
+    <value>Engine speed</value>
+  </data>
+  <data name="Ui_Export" xml:space="preserve">
+    <value>Export …</value>
+  </data>
+  <data name="Ui_ExportAsTemplate" xml:space="preserve">
+    <value>Export as template …</value>
+  </data>
+  <data name="Ui_ExportCarModel" xml:space="preserve">
+    <value>Export car model …</value>
+  </data>
+  <data name="Ui_ExportODXPdx" xml:space="preserve">
+    <value>Export ODX (.pdx) …</value>
+  </data>
+  <data name="Ui_ExportPIDsCSV" xml:space="preserve">
+    <value>Export PIDs (CSV) …</value>
+  </data>
+  <data name="Ui_ExportValuesVSS" xml:space="preserve">
+    <value>Export values (VSS) …</value>
+  </data>
+  <data name="Ui_ExportWithCurrentCoding" xml:space="preserve">
+    <value>Export with current coding</value>
+  </data>
+  <data name="Ui_FastWSL2CuttlefishRealAOSP" xml:space="preserve">
+    <value>Fast – WSL2 + Cuttlefish (real AOSP)</value>
+  </data>
+  <data name="Ui_Feature" xml:space="preserve">
+    <value>+ Feature</value>
+  </data>
+  <data name="Ui_FolderWithUpdatePackagesVelopackNo" xml:space="preserve">
+    <value>Folder with update packages (Velopack). No server is used.</value>
+  </data>
+  <data name="Ui_FollowTheCar" xml:space="preserve">
+    <value>Follow the car</value>
+  </data>
+  <data name="Ui_FreeMapAppApache20" xml:space="preserve">
+    <value>Free map app (Apache-2.0) from F-Droid, about 63 MB. Shows the GPS from Cyberdrome. Not included with Cyberdrome.</value>
+  </data>
+  <data name="Ui_FreeOBDAppGPLv3FromF" xml:space="preserve">
+    <value>Free OBD app (GPLv3) from F-Droid. Downloaded when you press – not included with Cyberdrome.</value>
+  </data>
+  <data name="Ui_Fuel" xml:space="preserve">
+    <value>Fuel</value>
+  </data>
+  <data name="Ui_Fuel2" xml:space="preserve">
+    <value>fuel %</value>
+  </data>
+  <data name="Ui_Gear" xml:space="preserve">
+    <value>Gear</value>
+  </data>
+  <data name="Ui_Generation" xml:space="preserve">
+    <value>Generation</value>
+  </data>
+  <data name="Ui_GetMakesVPIC" xml:space="preserve">
+    <value>Get makes (vPIC)</value>
+  </data>
+  <data name="Ui_GetModelsVPIC" xml:space="preserve">
+    <value>Get models (vPIC)</value>
+  </data>
+  <data name="Ui_GetModelsWikidata" xml:space="preserve">
+    <value>Get models (Wikidata)</value>
+  </data>
+  <data name="Ui_GetVehicleListOBDb" xml:space="preserve">
+    <value>Get vehicle list (OBDb)</value>
+  </data>
+  <data name="Ui_Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Ui_HiddenFeatures" xml:space="preserve">
+    <value>Hidden features</value>
+  </data>
+  <data name="Ui_HideVINSerialNumber" xml:space="preserve">
+    <value>Hide VIN serial number</value>
+  </data>
+  <data name="Ui_IPhoneNoPairingInTheIOS" xml:space="preserve">
+    <value>iPhone: no pairing in the iOS settings is needed. Open the OBD app (e.g. Car Scanner), choose adapter type Bluetooth LE / BLE, scan and pick the computer in the list.</value>
+  </data>
+  <data name="Ui_Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Ui_Id2" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="Ui_IdentifyAdapter" xml:space="preserve">
+    <value>Identify adapter</value>
+  </data>
+  <data name="Ui_Ignition" xml:space="preserve">
+    <value>Ignition</value>
+  </data>
+  <data name="Ui_Import" xml:space="preserve">
+    <value>Import …</value>
+  </data>
+  <data name="Ui_ImportCarModel" xml:space="preserve">
+    <value>Import car model …</value>
+  </data>
+  <data name="Ui_ImportPIDsCSV" xml:space="preserve">
+    <value>Import PIDs (CSV) …</value>
+  </data>
+  <data name="Ui_ImportSignalsOBDbJSON" xml:space="preserve">
+    <value>Import signals (OBDb JSON) …</value>
+  </data>
+  <data name="Ui_ImportTestCase" xml:space="preserve">
+    <value>Import test case …</value>
+  </data>
+  <data name="Ui_ImportValuesVSS" xml:space="preserve">
+    <value>Import values (VSS) …</value>
+  </data>
+  <data name="Ui_InstallAndroid" xml:space="preserve">
+    <value>Install Android</value>
+  </data>
+  <data name="Ui_InstallApp" xml:space="preserve">
+    <value>+ Install app</value>
+  </data>
+  <data name="Ui_InstallAppAPK" xml:space="preserve">
+    <value>Install app (APK)</value>
+  </data>
+  <data name="Ui_InstallCyberdromeRadio" xml:space="preserve">
+    <value>Install Cyberdrome Radio</value>
+  </data>
+  <data name="Ui_InstallMapAppInAndroidOrganic" xml:space="preserve">
+    <value>Install map app in Android (Organic Maps)</value>
+  </data>
+  <data name="Ui_InstallMapAppOrganicMaps" xml:space="preserve">
+    <value>Install map app (Organic Maps)</value>
+  </data>
+  <data name="Ui_InstallTestAppAndrOBD" xml:space="preserve">
+    <value>Install test app (AndrOBD)</value>
+  </data>
+  <data name="Ui_InstallUpdate" xml:space="preserve">
+    <value>Install update</value>
+  </data>
+  <data name="Ui_Key" xml:space="preserve">
+    <value>key</value>
+  </data>
+  <data name="Ui_Landscape" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="Ui_Licence" xml:space="preserve">
+    <value>Licence</value>
+  </data>
+  <data name="Ui_LikeTheModeAboveButWith" xml:space="preserve">
+    <value>Like the mode above but with Google's apps, e.g. Google Maps (which follows the GPS from Cyberdrome). Downloads Google's image (about 1.4 GB) and creates a separate virtual car – the normal one is not affected. Play Store requires a Google sign-in. Note: Google's apps and images are for development only under Google's licence and must not be redistributed with Cyberdrome.</value>
+  </data>
+  <data name="Ui_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="Ui_LookPerCarModel" xml:space="preserve">
+    <value>Look per car model</value>
+  </data>
+  <data name="Ui_Loop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="Ui_Make" xml:space="preserve">
+    <value>Make</value>
+  </data>
+  <data name="Ui_MakeYourOwnCarModelWith" xml:space="preserve">
+    <value>Make your own car model with standard PIDs, OBDb manufacturer signals (mode 21/22) and screen/theme from the closest built-in model.</value>
+  </data>
+  <data name="Ui_MapAndGPS" xml:space="preserve">
+    <value>Map and GPS</value>
+  </data>
+  <data name="Ui_MapDataOpenStreetMapContributorsODbLOpenStreetMap" xml:space="preserve">
+    <value>Map data © OpenStreetMap contributors (ODbL). OpenStreetMap's own tiles may only be used moderately for development – heavy use needs a commercial or self-hosted tile server.</value>
+  </data>
+  <data name="Ui_MapTiles" xml:space="preserve">
+    <value>Map tiles:</value>
+  </data>
+  <data name="Ui_Model" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Ui_ModelYear" xml:space="preserve">
+    <value>Model year</value>
+  </data>
+  <data name="Ui_Mute" xml:space="preserve">
+    <value>🔇 Mute</value>
+  </data>
+  <data name="Ui_Name" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="Ui_NameOfTheDrive" xml:space="preserve">
+    <value>Name of the drive</value>
+  </data>
+  <data name="Ui_NewCarModelFromCopy" xml:space="preserve">
+    <value>New car model from copy</value>
+  </data>
+  <data name="Ui_Next" xml:space="preserve">
+    <value>Next ⏭</value>
+  </data>
+  <data name="Ui_NoRestartGoogleSEmulatorFor" xml:space="preserve">
+    <value>No restart (Google's emulator, for development)</value>
+  </data>
+  <data name="Ui_OBDAddressForAppsInsideThe" xml:space="preserve">
+    <value>OBD address for apps inside the Android emulator:</value>
+  </data>
+  <data name="Ui_OBDLog" xml:space="preserve">
+    <value>OBD log</value>
+  </data>
+  <data name="Ui_OBDSource" xml:space="preserve">
+    <value>OBD source</value>
+  </data>
+  <data name="Ui_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Ui_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Ui_OnCodingWith2ERequires10" xml:space="preserve">
+    <value>On: coding with 2E requires 10 03 and unlocking with 27 01 / 27 02. The expected key is shown in the OBD log. The formula is made up and only applies to the simulated control units.</value>
+  </data>
+  <data name="Ui_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Ui_OpenTheReport" xml:space="preserve">
+    <value>Open the report</value>
+  </data>
+  <data name="Ui_OpenTheReportsFolder" xml:space="preserve">
+    <value>Open the reports folder</value>
+  </data>
+  <data name="Ui_OurExampleAppRadioSteeringWheel" xml:space="preserve">
+    <value>Our example app: radio, steering wheel buttons, live OBD and speed-dependent volume. Built from android\CyberdromeRadio.</value>
+  </data>
+  <data name="Ui_PIDsHex" xml:space="preserve">
+    <value>PIDs (hex)</value>
+  </data>
+  <data name="Ui_Play" xml:space="preserve">
+    <value>▶ Play</value>
+  </data>
+  <data name="Ui_Portrait" xml:space="preserve">
+    <value>Portrait</value>
+  </data>
+  <data name="Ui_Previous" xml:space="preserve">
+    <value>⏮ Previous</value>
+  </data>
+  <data name="Ui_QuickPicksCommonTroubleCodes" xml:space="preserve">
+    <value>Quick picks – common trouble codes:</value>
+  </data>
+  <data name="Ui_ReadRealCar" xml:space="preserve">
+    <value>Read real car</value>
+  </data>
+  <data name="Ui_RealAdapterBridgeAppsToThe" xml:space="preserve">
+    <value>Real adapter (bridge apps to the car)</value>
+  </data>
+  <data name="Ui_RecordWhileYouMoveTheSliders" xml:space="preserve">
+    <value>Record while you move the sliders, or play back a saved drive. During playback OBD (and Android) get exactly the same values every time.</value>
+  </data>
+  <data name="Ui_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Ui_Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Ui_Request" xml:space="preserve">
+    <value>request</value>
+  </data>
+  <data name="Ui_RequestFromTheAppReplyFrom" xml:space="preserve">
+    <value>→ request from the app   ← reply from the virtual car</value>
+  </data>
+  <data name="Ui_RequireSecurityKeyUDS27" xml:space="preserve">
+    <value>Require security key (UDS 27)</value>
+  </data>
+  <data name="Ui_RequiresARestartOfTheComputer" xml:space="preserve">
+    <value>Requires a restart of the computer the first time, if the Windows feature Virtual Machine Platform is not already turned on. Fast every time after that.</value>
+  </data>
+  <data name="Ui_ResetToFactory" xml:space="preserve">
+    <value>Reset to factory</value>
+  </data>
+  <data name="Ui_Response" xml:space="preserve">
+    <value>response</value>
+  </data>
+  <data name="Ui_RestartApp" xml:space="preserve">
+    <value>Restart app</value>
+  </data>
+  <data name="Ui_RunATestCaseWhileThe" xml:space="preserve">
+    <value>Run a test case while the app in Android (or a phone via Wi-Fi/Bluetooth) is connected to OBD. Cyberdrome changes the car's values and trouble codes step by step and then checks in the OBD traffic that the app did the right thing. The result is saved as a report (HTML and JSON).</value>
+  </data>
+  <data name="Ui_RunTheTest" xml:space="preserve">
+    <value>▶ Run the test</value>
+  </data>
+  <data name="Ui_RunsGoogleSAndroidAutomotiveEmulator" xml:space="preserve">
+    <value>Runs Google's Android Automotive emulator directly in Windows with Windows Hypervisor Platform. No restart is needed and it is fast. Apps in the emulator reach OBD at 10.0.2.2:35000. Note: Google's emulator images are downloaded by you and must not be redistributed with Cyberdrome.</value>
+  </data>
+  <data name="Ui_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Ui_ScanBluetooth" xml:space="preserve">
+    <value>Scan Bluetooth</value>
+  </data>
+  <data name="Ui_Screen" xml:space="preserve">
+    <value>Screen</value>
+  </data>
+  <data name="Ui_ScreenPreset" xml:space="preserve">
+    <value>Screen preset</value>
+  </data>
+  <data name="Ui_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Ui_SearchCarModelsAndDecodeVINs" xml:space="preserve">
+    <value>Search car models and decode VINs. The database is a local file (%AppData%\Cyberdrome\bildatabas.db) that you fill from open sources: NHTSA vPIC (makes, models per year, VIN – mostly cars sold in the US), Wikidata (model names, also for European cars) and OBDb (manufacturer signals per model). What has been downloaded works without internet.</value>
+  </data>
+  <data name="Ui_SearchEGToyotaRav4" xml:space="preserve">
+    <value>Search, e.g. toyota rav4</value>
+  </data>
+  <data name="Ui_SendGPSToAndroid" xml:space="preserve">
+    <value>Send GPS to Android</value>
+  </data>
+  <data name="Ui_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Ui_ShowLiveValues" xml:space="preserve">
+    <value>Show live values</value>
+  </data>
+  <data name="Ui_ShowTheAndroidScreen" xml:space="preserve">
+    <value>Show the Android screen</value>
+  </data>
+  <data name="Ui_ShowTheScreen" xml:space="preserve">
+    <value>Show the screen</value>
+  </data>
+  <data name="Ui_SizeAndResolutionOfTheCar" xml:space="preserve">
+    <value>Size and resolution of the car radio/tablet screen. Changed immediately in the emulator and saved until next start.</value>
+  </data>
+  <data name="Ui_Skin" xml:space="preserve">
+    <value>Skin:</value>
+  </data>
+  <data name="Ui_Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="Ui_StandardFormatsASAMODX22" xml:space="preserve">
+    <value>Standard formats: ASAM ODX 2.2 (.pdx/.odx-d, ISO 22901) for control units, coding and trouble codes · COVESA VSS (JSON) for the car's values · Torque/Car Scanner CSV for custom PIDs · trouble code texts as CSV (P0300;Text). Built-in models are never changed – importing CSV creates a copy.</value>
+  </data>
+  <data name="Ui_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Ui_StartAndroid" xml:space="preserve">
+    <value>Start Android</value>
+  </data>
+  <data name="Ui_StartValues" xml:space="preserve">
+    <value>Start values</value>
+  </data>
+  <data name="Ui_SteeringWheelButtons" xml:space="preserve">
+    <value>Steering wheel buttons:</value>
+  </data>
+  <data name="Ui_Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Ui_Stop2" xml:space="preserve">
+    <value>⏹ Stop</value>
+  </data>
+  <data name="Ui_TakeScreenshot" xml:space="preserve">
+    <value>Take screenshot</value>
+  </data>
+  <data name="Ui_TestCases" xml:space="preserve">
+    <value>Test cases</value>
+  </data>
+  <data name="Ui_TheCarRightNow" xml:space="preserve">
+    <value>The car right now</value>
+  </data>
+  <data name="Ui_TheCarSScreenIsShown" xml:space="preserve">
+    <value>The car's screen is shown here while Android is running. Click and drag directly on the screen.</value>
+  </data>
+  <data name="Ui_TheComputerNeedsToRestart" xml:space="preserve">
+    <value>The computer needs to restart</value>
+  </data>
+  <data name="Ui_TheFirstInstallationDownloadsSeveralGB" xml:space="preserve">
+    <value>The first installation downloads several GB and can take a while. The mode is chosen under Settings.</value>
+  </data>
+  <data name="Ui_TheSixBuiltInCarModels" xml:space="preserve">
+    <value>The six built-in car models are read-only. Make a copy to change name, VIN, PIDs, start values, control units, coding, hidden features, trouble codes, screen and theme. Share a car model as a .cbs file (with its own theme, skin and test cases). Shared files must not contain real manufacturers' seed/key algorithms.</value>
+  </data>
+  <data name="Ui_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Ui_Theme2" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="Ui_ThemeInAndroid" xml:space="preserve">
+    <value>Theme in Android:</value>
+  </data>
+  <data name="Ui_ThemeTheHomeScreenInsideAndroid" xml:space="preserve">
+    <value>Theme = the home screen inside Android (Cyberdrome Launcher). Skin = the frame/dashboard around the screen. The choices are saved per car model; the default is the car's own. Shapes and colours are inspired by each brand but drawn by us – no logos or brand graphics.</value>
+  </data>
+  <data name="Ui_TroubleCodeTextsCSV" xml:space="preserve">
+    <value>Trouble code texts (CSV) …</value>
+  </data>
+  <data name="Ui_TroubleCodes" xml:space="preserve">
+    <value>Trouble codes</value>
+  </data>
+  <data name="Ui_TroubleCodesAtStart" xml:space="preserve">
+    <value>Trouble codes at start</value>
+  </data>
+  <data name="Ui_TurnOnOrOffAnOBD" xml:space="preserve">
+    <value>Turn on or off. An OBD app that codes the car sees the same changes (UDS 22/2E).</value>
+  </data>
+  <data name="Ui_Updates" xml:space="preserve">
+    <value>Updates</value>
+  </data>
+  <data name="Ui_UploadYourOwnSkin" xml:space="preserve">
+    <value>Upload your own skin …</value>
+  </data>
+  <data name="Ui_UploadYourOwnTheme" xml:space="preserve">
+    <value>Upload your own theme …</value>
+  </data>
+  <data name="Ui_VIN17Characters" xml:space="preserve">
+    <value>VIN (17 characters)</value>
+  </data>
+  <data name="Ui_VirtualCar" xml:space="preserve">
+    <value>Virtual car</value>
+  </data>
+  <data name="Ui_VirtualOBD" xml:space="preserve">
+    <value>Virtual OBD</value>
+  </data>
+  <data name="Ui_WarningWritingCanChangeOrDamage" xml:space="preserve">
+    <value>Warning: writing can change or damage control units. Have the engine off, the ignition on and a stable battery voltage (at least 12.0 V – otherwise writing is blocked). Every write shows a confirmation with control unit, service and data, and the original value is saved first in %AppData%\Cyberdrome\backup. Cyberdrome never computes manufacturers' security keys (UDS 27) – the key must come from the app. Turned off when the adapter is disconnected.</value>
+  </data>
+  <data name="Ui_Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Ui_Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Ui_YouCanAlreadyTestOBDConnect" xml:space="preserve">
+    <value>You can already test OBD: connect an OBD app (e.g. on an Android phone on the same network) to the address below as a Wi-Fi dongle.</value>
+  </data>
+  <data name="VpicClient_NoReply" xml:space="preserve">
+    <value>No reply</value>
+  </data>
+  <data name="WikidataClient_NoCarManufacturer0FoundIn" xml:space="preserve">
+    <value>No car manufacturer "{0}" found in Wikidata.</value>
+  </data>
+  <data name="WriteFilter_EmptyRequest" xml:space="preserve">
+    <value>empty request</value>
+  </data>
+  <data name="WriteFilter_KWP1AReadECUIdentification" xml:space="preserve">
+    <value>KWP 1A read ECU identification</value>
+  </data>
+  <data name="WriteFilter_KWP21ReadDataLocalId" xml:space="preserve">
+    <value>KWP 21 read data (local id)</value>
+  </data>
+  <data name="WriteFilter_KWP3BWriteDataLocalId" xml:space="preserve">
+    <value>KWP 3B write data (local id)</value>
+  </data>
+  <data name="WriteFilter_OBD01CurrentValues" xml:space="preserve">
+    <value>OBD 01 current values</value>
+  </data>
+  <data name="WriteFilter_OBD02FreezeFrame" xml:space="preserve">
+    <value>OBD 02 freeze frame</value>
+  </data>
+  <data name="WriteFilter_OBD03ReadTroubleCodes" xml:space="preserve">
+    <value>OBD 03 read trouble codes</value>
+  </data>
+  <data name="WriteFilter_OBD04ClearTroubleCodes" xml:space="preserve">
+    <value>OBD 04 clear trouble codes</value>
+  </data>
+  <data name="WriteFilter_OBD05OxygenSensorTestRead" xml:space="preserve">
+    <value>OBD 05 oxygen sensor test (read)</value>
+  </data>
+  <data name="WriteFilter_OBD07PendingTroubleCodes" xml:space="preserve">
+    <value>OBD 07 pending trouble codes</value>
+  </data>
+  <data name="WriteFilter_OBD08ControlOnBoardSystem" xml:space="preserve">
+    <value>OBD 08 control on-board system</value>
+  </data>
+  <data name="WriteFilter_OBD0APermanentTroubleCodes" xml:space="preserve">
+    <value>OBD 0A permanent trouble codes</value>
+  </data>
+  <data name="WriteFilter_UDS10ChangeDiagnosticSession" xml:space="preserve">
+    <value>UDS 10 change diagnostic session</value>
+  </data>
+  <data name="WriteFilter_UDS11ResetControlUnit" xml:space="preserve">
+    <value>UDS 11 reset control unit</value>
+  </data>
+  <data name="WriteFilter_UDS14ClearTroubleCodes" xml:space="preserve">
+    <value>UDS 14 clear trouble codes</value>
+  </data>
+  <data name="WriteFilter_UDS19ReadDTCInformation" xml:space="preserve">
+    <value>UDS 19 read DTC information</value>
+  </data>
+  <data name="WriteFilter_UDS22ReadDataDID" xml:space="preserve">
+    <value>UDS 22 read data (DID)</value>
+  </data>
+  <data name="WriteFilter_UDS23ReadMemory" xml:space="preserve">
+    <value>UDS 23 read memory</value>
+  </data>
+  <data name="WriteFilter_UDS27SecurityAccess" xml:space="preserve">
+    <value>UDS 27 security access</value>
+  </data>
+  <data name="WriteFilter_UDS28CommunicationControl" xml:space="preserve">
+    <value>UDS 28 communication control</value>
+  </data>
+  <data name="WriteFilter_UDS2CDefineData" xml:space="preserve">
+    <value>UDS 2C define data</value>
+  </data>
+  <data name="WriteFilter_UDS2EWriteDataDID" xml:space="preserve">
+    <value>UDS 2E write data (DID)</value>
+  </data>
+  <data name="WriteFilter_UDS2FInputOutputControl" xml:space="preserve">
+    <value>UDS 2F input/output control</value>
+  </data>
+  <data name="WriteFilter_UDS36TransferData" xml:space="preserve">
+    <value>UDS 36 transfer data</value>
+  </data>
+  <data name="WriteFilter_UDS37RequestTransferExit" xml:space="preserve">
+    <value>UDS 37 request transfer exit</value>
+  </data>
+  <data name="WriteFilter_UDS3DWriteMemory" xml:space="preserve">
+    <value>UDS 3D write memory</value>
+  </data>
+  <data name="WriteFilter_UDS3ETesterPresent" xml:space="preserve">
+    <value>UDS 3E tester present</value>
+  </data>
+  <data name="WriteFilter_UDS85ControlDTCSetting" xml:space="preserve">
+    <value>UDS 85 control DTC setting</value>
+  </data>
+  <data name="WriteFilter_UnknownService0x0X2Counted" xml:space="preserve">
+    <value>unknown service 0x{0:X2} (counted as a write)</value>
+  </data>
+</root>

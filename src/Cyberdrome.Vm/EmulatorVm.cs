@@ -75,58 +75,58 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
     {
         void Report(double? pct, string text, bool done = false) => progress?.Report(new InstallProgress(pct, text, done));
 
-        Report(null, "Kontrollerar vad som behöver installeras …");
+        Report(null, L.T("AndroidVm_CheckingWhatNeedsToBeInstalled"));
         var state = await GetStateAsync(ct);
-        log($"Läge: {state}");
+        log(L.F("AndroidVm_Mode0", state));
 
         if (state == AndroidState.SdkMissing)
         {
-            log($"Android SDK (sdkmanager och Java) hittades inte i {Settings.SdkRoot}. Ändra SdkRoot i {VmSettings.FilePath}.");
+            log(L.F("EmulatorVm_AndroidSDKSdkmanagerAndJavaWas", Settings.SdkRoot, VmSettings.FilePath));
             return state;
         }
         if (state == AndroidState.NoAcceleration)
         {
-            log("Windows Hypervisor Platform går inte att använda. Välj läget Snabbt under Inställningar i stället.");
+            log(L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed"));
             return state;
         }
 
         if (state == AndroidState.ToolsMissing)
         {
-            Report(0, "Steg 1 av 3: Laddar ner emulatorn …");
+            Report(0, L.T("EmulatorVm_Step1Of3DownloadingThe"));
             var r = await SdkManagerAsync(["emulator", "platform-tools"], log, pct =>
-                Report(pct / 100 * PctToolsEnd, $"Steg 1 av 3: Laddar ner emulatorn … {pct:0} %"), ct);
-            if (!r.Ok) { log("Kunde inte installera emulatorn."); return state; }
+                Report(pct / 100 * PctToolsEnd, L.F("EmulatorVm_Step1Of3DownloadingThe2", pct)), ct);
+            if (!r.Ok) { log(L.T("EmulatorVm_CouldNotInstallTheEmulator")); return state; }
             state = await GetStateAsync(ct);
         }
 
         if (state == AndroidState.ImageMissing)
         {
-            Report(PctToolsEnd, "Steg 2 av 3: Laddar ner Android Automotive …");
-            log($"Laddar ner {SystemImage} …");
+            Report(PctToolsEnd, L.T("EmulatorVm_Step2Of3DownloadingAndroid"));
+            log(L.F("EmulatorVm_Downloading0", SystemImage));
             var r = await SdkManagerAsync([SystemImage], log, pct =>
                 Report(PctToolsEnd + pct / 100 * (PctImageEnd - PctToolsEnd),
-                    $"Steg 2 av 3: Laddar ner Android Automotive … {pct:0} %"), ct);
-            if (!r.Ok || !ImageInstalled) { log("Nedladdningen av Android misslyckades."); return AndroidState.ImageMissing; }
-            log("Android Automotive är nedladdat.");
+                    L.F("EmulatorVm_Step2Of3DownloadingAndroid2", pct)), ct);
+            if (!r.Ok || !ImageInstalled) { log(L.T("AndroidVm_TheAndroidDownloadFailed")); return AndroidState.ImageMissing; }
+            log(L.T("EmulatorVm_AndroidAutomotiveIsDownloaded"));
             state = AndroidState.AvdMissing;
         }
 
         if (state == AndroidState.AvdMissing)
         {
-            Report(PctImageEnd, "Steg 3 av 3: Skapar den virtuella bilen …");
-            log($"Skapar den virtuella bilen {AvdName} …");
+            Report(PctImageEnd, L.T("EmulatorVm_Step3Of3CreatingThe"));
+            log(L.F("EmulatorVm_CreatingTheVirtualCar0", AvdName));
             var r = await ProcessRunner.RunAsync(Settings.AvdManager,
                 ["create", "avd", "--force", "-n", AvdName, "-k", SystemImage, "-d", DeviceProfile],
                 stdin: "no\n", onLine: log, ct: ct, env: JavaEnv());
-            if (!r.Ok || !AvdExists) { log("Kunde inte skapa den virtuella bilen."); return AndroidState.AvdMissing; }
+            if (!r.Ok || !AvdExists) { log(L.T("EmulatorVm_CouldNotCreateTheVirtualCar")); return AndroidState.AvdMissing; }
             TuneAvd();
             state = AndroidState.Stopped;
         }
 
         if (state is AndroidState.Stopped or AndroidState.Running)
         {
-            Report(PctAvdEnd, "Klart! Android är nedladdat och installerat.", done: true);
-            log("Android är installerat.");
+            Report(PctAvdEnd, L.T("AndroidVm_DoneAndroidIsDownloadedAndInstalled"), done: true);
+            log(L.T("AndroidVm_AndroidIsInstalled"));
         }
         return state;
     }
@@ -205,13 +205,13 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
 
         if (await FindSerialAsync(ct) is not null)
         {
-            log("Android är redan igång.");
+            log(L.T("EmulatorVm_AndroidIsAlreadyRunning"));
             OpenScreen(log);
             return new ProcessResult(0, "");
         }
 
-        log("Startar Android-emulatorn …");
-        Report(null, "Startar Android …");
+        log(L.T("EmulatorVm_StartingTheAndroidEmulator"));
+        Report(null, L.T("Main_StartingAndroid"));
         _serial = null;
         // Arbetsmapp utanför programmappen: emulatorn lever kvar efter programmet och får inte låsa mappen (uppdatering).
         var psi = new ProcessStartInfo(Settings.EmulatorExe) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = ProcessRunner.NeutralDir(Settings.EmulatorExe) };
@@ -223,7 +223,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
         psi.Environment["ANDROID_SDK_ROOT"] = Settings.SdkRoot;
         Process? proc;
         try { proc = Process.Start(psi); }
-        catch (Exception ex) { log("Kunde inte starta emulatorn: " + ex.Message); return new ProcessResult(-1, ex.Message); }
+        catch (Exception ex) { log(L.T("EmulatorVm_CouldNotStartTheEmulator") + ex.Message); return new ProcessResult(-1, ex.Message); }
 
         // Vänta tills Android har startat klart.
         var started = DateTime.UtcNow;
@@ -233,7 +233,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
             ct.ThrowIfCancellationRequested();
             if (proc is { HasExited: true })
             {
-                log($"Emulatorn stängdes direkt (kod {proc.ExitCode}).");
+                log(L.F("EmulatorVm_TheEmulatorClosedImmediatelyCode0", proc.ExitCode));
                 return new ProcessResult(proc.ExitCode == 0 ? -1 : proc.ExitCode, "");
             }
             serial ??= await FindSerialAsync(ct);
@@ -242,32 +242,32 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
                 var b = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "getprop", "sys.boot_completed"], ct: ct);
                 if (b.Output.Trim() == "1")
                 {
-                    log("Android är igång.");
-                    Report(100, "Android är igång.", done: true);
+                    log(L.T("AndroidVm_AndroidIsRunning"));
+                    Report(100, L.T("AndroidVm_AndroidIsRunning"), done: true);
                     OpenScreen(log);
                     return new ProcessResult(0, "");
                 }
             }
             int secs = (int)(DateTime.UtcNow - started).TotalSeconds;
-            Report(null, $"Startar Android … ({secs} s, första starten kan ta ett par minuter)");
+            Report(null, L.F("EmulatorVm_StartingAndroid0STheFirst", secs));
             await Task.Delay(2000, ct);
         }
-        log("Android startade inte inom tidsgränsen. Emulatorn kan fortfarande vara på väg – tryck Kontrollera igen.");
+        log(L.T("EmulatorVm_AndroidDidNotStartWithinThe"));
         return new ProcessResult(-1, "timeout");
     }
 
     public async Task<ProcessResult> StopAsync(Action<string> log, CancellationToken ct = default)
     {
         var serial = await FindSerialAsync(ct);
-        if (serial is null) { log("Android är inte igång."); return new ProcessResult(0, ""); }
-        log("Stänger av Android …");
+        if (serial is null) { log(L.T("EmulatorVm_AndroidIsNotRunning")); return new ProcessResult(0, ""); }
+        log(L.T("Main_ShuttingDownAndroid"));
         return await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "emu", "kill"], onLine: log, ct: ct);
     }
 
     public async Task<ProcessResult> InstallApkAsync(string windowsPath, Action<string> log, CancellationToken ct = default)
     {
         var serial = await FindSerialAsync(ct);
-        if (serial is null) { log("Android är inte igång."); return new ProcessResult(-1, ""); }
+        if (serial is null) { log(L.T("EmulatorVm_AndroidIsNotRunning")); return new ProcessResult(-1, ""); }
         // -r: ersätt om den finns, -g: ge appen alla behörigheter direkt (smidigare vid test).
         return await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "install", "-r", "-g", windowsPath], onLine: log, ct: ct);
     }
@@ -331,7 +331,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
         // Lås rotationen så att Android inte vänder skärmen själv.
         await Sh("settings", "put", "system", "accelerometer_rotation", "0");
         await Sh("settings", "put", "system", "user_rotation", "0");
-        log(ok ? $"Skärm: {width}×{height}, {dpi} dpi." : "Kunde inte byta skärmstorlek.");
+        log(ok ? L.F("EmulatorVm_Screen012Dpi", width, height, dpi) : L.T("EmulatorVm_CouldNotChangeTheScreenSize"));
         return ok;
     }
 
@@ -362,7 +362,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
     public async Task<ProcessResult> RunShellAsync(string[] args, CancellationToken ct = default)
     {
         var serial = await SerialAsync(ct);
-        if (serial is null) return new ProcessResult(-1, "Android är inte igång.");
+        if (serial is null) return new ProcessResult(-1, L.T("EmulatorVm_AndroidIsNotRunning"));
         return await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", .. args], ct: ct);
     }
 
@@ -449,15 +449,15 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
     public async Task<string?> RestartForegroundAppAsync(Action<string> log, CancellationToken ct = default)
     {
         var serial = await SerialAsync(ct);
-        if (serial is null) { log("Android är inte igång."); return null; }
+        if (serial is null) { log(L.T("EmulatorVm_AndroidIsNotRunning")); return null; }
         var dump = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "dumpsys", "activity", "activities"], ct: ct);
         var component = ActivityParser.TopComponent(dump.Output);
-        if (component is null) { log("Hittade ingen app i förgrunden."); return null; }
+        if (component is null) { log(L.T("EmulatorVm_NoAppFoundInTheForeground")); return null; }
         var pkg = component.Split('/')[0];
-        log($"Startar om {pkg} …");
+        log(L.F("EmulatorVm_Restarting0", pkg));
         await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "am", "force-stop", pkg], ct: ct);
         var r = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "am", "start", "-n", component], ct: ct);
-        log(r.Ok ? $"{pkg} är omstartad." : $"Kunde inte starta {pkg} igen.");
+        log(r.Ok ? L.F("EmulatorVm_0HasBeenRestarted", pkg) : L.F("EmulatorVm_CouldNotStart0Again", pkg));
         return pkg;
     }
 
@@ -483,14 +483,14 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
 
     public string Describe(AndroidState s) => s switch
     {
-        AndroidState.NotWindows => "Android-delen fungerar bara på Windows i den här versionen.",
-        AndroidState.SdkMissing => $"Android SDK hittades inte i {Settings.SdkRoot}.",
-        AndroidState.ToolsMissing => "Emulatorn är inte installerad. Tryck Installera Android.",
-        AndroidState.NoAcceleration => "Windows Hypervisor Platform går inte att använda. Välj läget Snabbt under Inställningar.",
-        AndroidState.ImageMissing => "Android är inte nedladdat än. Tryck Installera Android (ingen omstart behövs).",
-        AndroidState.AvdMissing => "Android är nedladdat men den virtuella bilen saknas. Tryck Installera Android.",
-        AndroidState.Stopped => "Android är installerat och avstängt.",
-        AndroidState.Running => "Android är igång.",
-        _ => "Tryck Installera Android.",
+        AndroidState.NotWindows => L.T("AndroidVm_TheAndroidPartOnlyWorksOn"),
+        AndroidState.SdkMissing => L.F("EmulatorVm_AndroidSDKWasNotFoundIn", Settings.SdkRoot),
+        AndroidState.ToolsMissing => L.T("EmulatorVm_TheEmulatorIsNotInstalledPress"),
+        AndroidState.NoAcceleration => L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed2"),
+        AndroidState.ImageMissing => L.T("EmulatorVm_AndroidIsNotDownloadedYetPress"),
+        AndroidState.AvdMissing => L.T("EmulatorVm_AndroidIsDownloadedButTheVirtual"),
+        AndroidState.Stopped => L.T("AndroidVm_AndroidIsInstalledAndStopped"),
+        AndroidState.Running => L.T("AndroidVm_AndroidIsRunning"),
+        _ => L.T("EmulatorVm_PressInstallAndroid"),
     };
 }

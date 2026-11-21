@@ -41,9 +41,9 @@ public sealed partial class MainViewModel
         try
         {
             var (makes, models, vins, obdb) = CarDb.Stats();
-            CarDbStatus = $"Databasen: {makes} märken, {models} modell/år, {vins} avkodade VIN, {obdb} fordon med tillverkarsignaler (OBDb).";
+            CarDbStatus = L.F("CarDb_Database0Makes1ModelYears", makes, models, vins, obdb);
         }
-        catch (Exception ex) { CarDbStatus = "Bildatabasen kunde inte öppnas: " + ex.Message; }
+        catch (Exception ex) { CarDbStatus = L.T("CarDb_TheCarDatabaseCouldNotBe") + ex.Message; }
     }
 
     private async Task CarDbWork(string start, Func<IProgress<string>, Task<string>> work)
@@ -57,7 +57,7 @@ public sealed partial class MainViewModel
             UpdateCarDbStats();
             CarDbStatus = msg + "  " + CarDbStatus;
         }
-        catch (Exception ex) { CarDbStatus = "Fel: " + ex.Message + " (det som redan finns i databasen fungerar utan internet)."; }
+        catch (Exception ex) { CarDbStatus = "Fel: " + ex.Message + L.T("CarDb_WhatIsAlreadyInTheDatabase"); }
         finally { CarDbBusy = false; }
     }
 
@@ -67,42 +67,42 @@ public sealed partial class MainViewModel
         int? year = int.TryParse(CarDbYear, out var y) ? y : null;
         CarDbHits.Clear();
         foreach (var h in CarDb.Search(CarDbQuery, year)) CarDbHits.Add(h);
-        if (CarDbHits.Count == 0) CarDbDetails = "Inga träffar. Hämta märken/modeller från vPIC eller listan från OBDb först, eller avkoda ett VIN.";
+        if (CarDbHits.Count == 0) CarDbDetails = L.T("CarDb_NoResultsGetMakesModelsFrom");
         UpdateCarDbStats();
-        CarDbStatus = $"{CarDbHits.Count} träffar. " + CarDbStatus;
+        CarDbStatus = L.F("CarDb_0Results", CarDbHits.Count) + CarDbStatus;
     }
 
     [RelayCommand]
-    private Task FetchCarMakes() => CarDbWork("Hämtar bilmärken från NHTSA vPIC …", async _ => $"{await CarDb.RefreshMakesAsync()} märken hämtade.");
+    private Task FetchCarMakes() => CarDbWork(L.T("CarDb_GettingCarMakesFromNHTSAVPIC"), async _ => L.F("CarDb_0MakesDownloaded", await CarDb.RefreshMakesAsync()));
 
     [RelayCommand]
     private Task FetchCarModels()
     {
-        if (string.IsNullOrWhiteSpace(CarDbMake)) { CarDbStatus = "Skriv ett märke, t.ex. Toyota."; return Task.CompletedTask; }
-        if (!int.TryParse(CarDbFrom, out var from) || !int.TryParse(CarDbTo, out var to) || from > to || to - from > 40) { CarDbStatus = "Ange årsmodeller, t.ex. 2015–2026."; return Task.CompletedTask; }
+        if (string.IsNullOrWhiteSpace(CarDbMake)) { CarDbStatus = L.T("CarDb_EnterAMakeEGToyota"); return Task.CompletedTask; }
+        if (!int.TryParse(CarDbFrom, out var from) || !int.TryParse(CarDbTo, out var to) || from > to || to - from > 40) { CarDbStatus = L.T("CarDb_EnterModelYearsEG2015"); return Task.CompletedTask; }
         var make = CarDbMake.Trim();
-        return CarDbWork($"Hämtar {make} {from}–{to} från vPIC …", async p =>
+        return CarDbWork(L.F("CarDb_Getting012FromVPIC", make, from, to), async p =>
         {
             var n = await CarDb.FetchModelsAsync(make, from, to, p);
-            return $"{n} nya modell/år för {make}.";
+            return L.F("CarDb_0NewModelYearsFor1", n, make);
         });
     }
 
     [RelayCommand]
-    private Task FetchObdbList() => CarDbWork("Hämtar fordonslistan från OBDb …", async p => $"{await CarDb.RefreshObdbAsync(p)} fordon med tillverkarsignaler i OBDb.");
+    private Task FetchObdbList() => CarDbWork(L.T("CarDb_GettingTheVehicleListFromOBDb"), async p => L.F("CarDb_0VehiclesWithManufacturerSignalsIn", await CarDb.RefreshObdbAsync(p)));
 
     [RelayCommand]
     private Task DecodeVin()
     {
         var vin = CarDbVin.Trim().ToUpperInvariant();
-        if (vin.Length != 17) { CarDbStatus = "Ett VIN har 17 tecken."; return Task.CompletedTask; }
-        return CarDbWork("Avkodar VIN …", async _ =>
+        if (vin.Length != 17) { CarDbStatus = L.T("CarDb_AVINHas17Characters"); return Task.CompletedTask; }
+        return CarDbWork(L.T("CarDb_DecodingVIN"), async _ =>
         {
             var v = await CarDb.DecodeVinAsync(vin);
             _lastVin = v;
-            var text = $"VIN {v.Vin}: {(v.HasModel ? $"{v.Make} {v.Model} {v.Year}" : "modellen okänd")}" +
-                       $"\nTillverkare: {v.Manufacturer}\nKaross: {v.BodyClass}\nBränsle: {v.FuelType}\nMotor: {v.Engine}\nFabriksland: {v.PlantCountry}" +
-                       (v.ErrorText.Length > 0 ? $"\nAnmärkning från vPIC: {v.ErrorText}" : "");
+            var text = $"VIN {v.Vin}: {(v.HasModel ? $"{v.Make} {v.Model} {v.Year}" : L.T("CarDb_ModelUnknown"))}" +
+                       L.F("CarDb_Manufacturer0Body1Fuel2", v.Manufacturer, v.BodyClass, v.FuelType, v.Engine, v.PlantCountry) +
+                       (v.ErrorText.Length > 0 ? L.F("CarDb_NoteFromVPIC0", v.ErrorText) : "");
             Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
                 CarDbDetails = text;
@@ -114,7 +114,7 @@ public sealed partial class MainViewModel
                     SelectedCarDbHit = CarDbHits.FirstOrDefault();
                 }
             });
-            return v.HasModel ? $"VIN avkodat: {v.Make} {v.Model} {v.Year}." : "VIN:et kunde inte avkodas helt (vPIC har i första hand bilar sålda i USA).";
+            return v.HasModel ? L.F("CarDb_VINDecoded012", v.Make, v.Model, v.Year) : L.T("CarDb_TheVINCouldNotBeFully");
         });
     }
 
@@ -122,9 +122,9 @@ public sealed partial class MainViewModel
     {
         _hitSignals = null;
         if (value is null) return;
-        var head = $"{value.Make} {value.Model}  ·  årsmodeller {value.Years}  ·  källor: {value.SourceText}";
-        if (value.Obdb is null) { CarDbDetails = head + "\nOBDb har inga tillverkarsignaler för modellen – bilmodellen får standard-PID:ar."; return; }
-        CarDbDetails = head + "\nHämtar tillverkarsignaler från OBDb …";
+        var head = L.F("CarDb_01ModelYears2Sources", value.Make, value.Model, value.Years, value.SourceText);
+        if (value.Obdb is null) { CarDbDetails = head + L.T("CarDb_OBDbHasNoManufacturerSignalsFor"); return; }
+        CarDbDetails = head + L.T("CarDb_GettingManufacturerSignalsFromOBDb");
         _ = LoadSignalsAsync(value, head);
     }
 
@@ -135,15 +135,15 @@ public sealed partial class MainViewModel
             var set = await Task.Run(() => CarDb.GetSignalsAsync(hit.Make, hit.Model));
             if (!ReferenceEquals(SelectedCarDbHit, hit)) return;
             _hitSignals = set;
-            if (set is null) { CarDbDetails = head + "\nOBDb: ingen signalfil."; return; }
-            if (set.SignalCount == 0) { CarDbDetails = head + $"\nOBDb: arkivet {set.Repo} finns men innehåller inga signaler ännu – bilmodellen får standard-PID:ar."; return; }
-            if (!set.Repo.Contains('-')) head += $"\n(Modellen saknar egna signaler – märkets gemensamma signaler från arkivet {set.Repo} visas.)";
+            if (set is null) { CarDbDetails = head + L.T("CarDb_OBDbNoSignalFile"); return; }
+            if (set.SignalCount == 0) { CarDbDetails = head + L.F("CarDb_OBDbTheRepository0ExistsBut", set.Repo); return; }
+            if (!set.Repo.Contains('-')) head += L.F("CarDb_TheModelHasNoSignalsOf", set.Repo);
             var lines = set.Commands.Take(60).SelectMany(c => c.Signals.Select(s =>
-                $"  {c.Header}  {c.Service} {c.Pid,-6} {s.Name} [{s.Unit}]" + (c.FilterFrom is not null || c.FilterTo is not null ? $"  (år {c.FilterFrom}–{c.FilterTo})" : "")));
-            CarDbDetails = head + $"\nOBDb: {set.SignalCount} signaler i {set.Commands.Count} frågor ({ObdbClient.Attribution}):\n" + string.Join("\n", lines.Take(80)) +
-                           (set.SignalCount > 80 ? $"\n  … och {set.SignalCount - 80} till" : "");
+                $"  {c.Header}  {c.Service} {c.Pid,-6} {s.Name} [{s.Unit}]" + (c.FilterFrom is not null || c.FilterTo is not null ? L.F("CarDb_Years01", c.FilterFrom, c.FilterTo) : "")));
+            CarDbDetails = head + L.F("CarDb_OBDb0SignalsIn1Requests", set.SignalCount, set.Commands.Count, ObdbClient.Attribution) + string.Join("\n", lines.Take(80)) +
+                           (set.SignalCount > 80 ? L.F("CarDb_And0More", set.SignalCount - 80) : "");
         }
-        catch (Exception ex) { if (ReferenceEquals(SelectedCarDbHit, hit)) CarDbDetails = head + "\nKunde inte hämta OBDb-signalerna: " + ex.Message; }
+        catch (Exception ex) { if (ReferenceEquals(SelectedCarDbHit, hit)) CarDbDetails = head + L.T("CarDb_CouldNotGetTheOBDbSignals") + ex.Message; }
     }
 
     [RelayCommand]
@@ -155,7 +155,7 @@ public sealed partial class MainViewModel
             int year;
             if (int.TryParse(CarDbYear, out var y)) year = y;
             else if (hit.ToYear is { } t) year = t;
-            else { CarDbStatus = $"Årsmodellen för {hit.Make} {hit.Model} är okänd – skriv den i fältet År och tryck Skapa bilmodell igen."; return; }
+            else { CarDbStatus = L.F("CarDb_TheModelYearFor01", hit.Make, hit.Model); return; }
             var notes = new List<string>();
             var vin = _lastVin is { } v && CarModelDb.Key(v.Make, v.Model) == CarModelDb.Key(hit.Make, hit.Model) ? v : null;
             var builtIns = Profiles.Where(p => !p.IsOwn).ToList();
@@ -170,9 +170,9 @@ public sealed partial class MainViewModel
             _appSettings.Save();
             ReloadOwnProfiles(p.Id);
             ReloadLookOptions();
-            CarDbStatus = $"Ny bilmodell vald: {p.DisplayName}. " + string.Join(" ", notes);
+            CarDbStatus = L.F("CarDb_NewCarModelSelected0", p.DisplayName) + string.Join(" ", notes);
         }
-        catch (Exception ex) { CarDbStatus = "Kunde inte skapa bilmodellen: " + ex.Message; }
+        catch (Exception ex) { CarDbStatus = L.T("CarDb_CouldNotCreateTheCarModel") + ex.Message; }
     }
 }
 
@@ -181,12 +181,12 @@ public sealed partial class MainViewModel
     [RelayCommand]
     private Task FetchWikidata()
     {
-        if (string.IsNullOrWhiteSpace(CarDbMake)) { CarDbStatus = "Skriv ett märke, t.ex. Saab."; return Task.CompletedTask; }
+        if (string.IsNullOrWhiteSpace(CarDbMake)) { CarDbStatus = L.T("CarDb_EnterAMakeEGSaab"); return Task.CompletedTask; }
         var make = CarDbMake.Trim();
-        return CarDbWork($"Hämtar {make}-modeller från Wikidata …", async _ =>
+        return CarDbWork(L.F("CarDb_Getting0ModelsFromWikidata", make), async _ =>
         {
             var n = await CarDb.FetchWikidataAsync(make, force: true);
-            return $"{n} nya modellrader för {make} från Wikidata.";
+            return L.F("CarDb_0NewModelRowsFor1", n, make);
         });
     }
 }
@@ -205,8 +205,8 @@ public sealed partial class MainViewModel
         if (_profileStore is null) return;
         var make = StdMake.Trim();
         var model = StdModel.Trim();
-        if (make.Length == 0 || model.Length == 0) { CarDbStatus = "Skriv märke och modell för standard-OBD-bilen."; return; }
-        if (!int.TryParse(StdYear, out var year) || year is < 1950 or > 2100) { CarDbStatus = "Skriv årsmodell, t.ex. 2005."; return; }
+        if (make.Length == 0 || model.Length == 0) { CarDbStatus = L.T("CarDb_EnterMakeAndModelForThe"); return; }
+        if (!int.TryParse(StdYear, out var year) || year is < 1950 or > 2100) { CarDbStatus = L.T("CarDb_EnterTheModelYearEG"); return; }
         try
         {
             var notes = new List<string>();
@@ -220,10 +220,10 @@ public sealed partial class MainViewModel
             _appSettings.Save();
             ReloadOwnProfiles(p.Id);
             ReloadLookOptions();
-            CarDbStatus = $"Standard-OBD-bil vald: {p.DisplayName}. " + string.Join(" ", notes.Where(n => !n.StartsWith("OBDb saknar"))) +
-                          " Tillverkarsignaler kan läggas till senare på sidan Bilmodeller: \"Importera PID:ar (CSV)\" (Torque/Car Scanner) eller \"Importera signaler (OBDb-JSON)\".";
+            CarDbStatus = L.F("CarDb_StandardOBDCarSelected0", p.DisplayName) + string.Join(" ", notes.Where(n => n != L.T("BilDatabas_OBDbDoesNotHaveTheModel"))) +
+                          L.T("CarDb_ManufacturerSignalsCanBeAddedLater");
         }
-        catch (Exception ex) { CarDbStatus = "Kunde inte skapa bilmodellen: " + ex.Message; }
+        catch (Exception ex) { CarDbStatus = L.T("CarDb_CouldNotCreateTheCarModel") + ex.Message; }
     }
 
     [RelayCommand]
@@ -235,16 +235,16 @@ public sealed partial class MainViewModel
         try
         {
             var set = ObdbSignalSet.Parse(File.ReadAllText(path), Path.GetFileNameWithoutExtension(path));
-            if (set.SignalCount == 0) throw new InvalidDataException("Filen innehåller inga signaler.");
+            if (set.SignalCount == 0) throw new InvalidDataException(L.T("CarDb_TheFileContainsNoSignals"));
             var p = EditableProfile(out var note);
             if (p is null) return;
             var notes = new List<string>();
-            CarProfileFactory.ApplySignals(p, set, notes, attribution: p.Attribution ?? $"Signaler från {Path.GetFileName(path)} (OBDb-format)", source: Path.GetFileName(path));
+            CarProfileFactory.ApplySignals(p, set, notes, attribution: p.Attribution ?? L.F("CarDb_SignalsFrom0OBDbFormat", Path.GetFileName(path)), source: Path.GetFileName(path));
             var errors = ProfileLoader.Validate(p);
             if (errors.Count > 0) throw new InvalidDataException(string.Join(" ", errors.Take(5)));
             SaveEdited(p);
-            CarStatus = string.Join(" ", notes) + note + " Simulatorn svarar nu på dem.";
+            CarStatus = string.Join(" ", notes) + note + L.T("CarDb_TheSimulatorNowAnswersThem");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte läsa signalfilen: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("CarDb_CouldNotReadTheSignalFile") + ex.Message; }
     }
 }

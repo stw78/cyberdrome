@@ -42,10 +42,10 @@ public sealed partial class MainViewModel
     [NotifyPropertyChangedFor(nameof(CanRecord), nameof(ManualControl), nameof(RecordButtonText))]
     private bool _isRecording;
 
-    [ObservableProperty] private string _recordName = "Min körning";
+    [ObservableProperty] private string _recordName = L.T("Drives_MyDrive");
     [ObservableProperty] private string _recordStatus = "";
 
-    public string RecordButtonText => IsRecording ? "⏹ Stoppa och spara" : "⏺ Spela in";
+    public string RecordButtonText => IsRecording ? L.T("Drives_StopAndSave") : L.T("Drives_Record");
     public bool CanRecord => !IsPlayingDrive;
 
     [RelayCommand]
@@ -60,13 +60,13 @@ public sealed partial class MainViewModel
             IsRecording = true;
             _lastTick = DateTime.UtcNow;
             StartDriveTimer();
-            RecordStatus = "Spelar in … dra i reglagen på Översikt.";
+            RecordStatus = L.T("Drives_RecordingMoveTheSlidersOnOverview");
             return;
         }
 
         IsRecording = false;
         StopDriveTimerIfIdle();
-        var name = string.IsNullOrWhiteSpace(RecordName) ? "Min körning" : RecordName.Trim();
+        var name = string.IsNullOrWhiteSpace(RecordName) ? L.T("Drives_MyDrive") : RecordName.Trim();
         var baseName = name;
         for (int i = 2; _driveStore.Exists(name); i++) name = $"{baseName} ({i})";
         var drive = _recorder!.ToDrive(name);
@@ -77,7 +77,7 @@ public sealed partial class MainViewModel
             RecordStatus = $"Sparad: {name} ({DriveItemViewModel.FormatTime(drive.Duration)})";
             ReloadDrives(name);
         }
-        catch (Exception ex) { RecordStatus = "Kunde inte spara: " + ex.Message; }
+        catch (Exception ex) { RecordStatus = L.T("Main_CouldNotSave") + ex.Message; }
     }
 
     // ---------------- Uppspelning ----------------
@@ -100,7 +100,7 @@ public sealed partial class MainViewModel
     /// <summary>Reglagen på Översikt går att använda (inte under uppspelning).</summary>
     public bool ManualControl => !IsPlayingDrive;
 
-    public string PlayButtonText => !IsPlayingDrive ? "▶ Spela upp" : DrivePaused ? "▶ Fortsätt" : "⏸ Pausa";
+    public string PlayButtonText => !IsPlayingDrive ? L.T("Ui_Play") : DrivePaused ? L.T("Drives_Continue") : "⏸ Pausa";
 
     partial void OnDriveRateIndexChanged(int value) { if (_player is not null) _player.Rate = RateValues[Math.Clamp(value, 0, 2)]; }
     partial void OnDriveLoopChanged(bool value) { if (_player is not null) _player.Loop = value; }
@@ -124,8 +124,8 @@ public sealed partial class MainViewModel
             return;
         }
         item ??= SelectedDrive;
-        if (item is null) { DriveMessage = "Välj en körning i listan."; return; }
-        if (IsRecording) { DriveMessage = "Stoppa inspelningen först."; return; }
+        if (item is null) { DriveMessage = L.T("Drives_ChooseADriveInTheList"); return; }
+        if (IsRecording) { DriveMessage = L.T("Drives_StopTheRecordingFirst"); return; }
         StartPlayback(item.Drive);
     }
 
@@ -140,7 +140,7 @@ public sealed partial class MainViewModel
         _lastTick = DateTime.UtcNow;
         ApplySample(_player.Current);
         StartDriveTimer();
-        AddLog(new Cyberdrome.Obd.ObdTrafficEntry(DateTime.Now, "program", false, $"Uppspelning startad: {drive.Name}"));
+        AddLog(new Cyberdrome.Obd.ObdTrafficEntry(DateTime.Now, "program", false, L.F("Drives_PlaybackStarted0", drive.Name)));
     }
 
     [RelayCommand]
@@ -151,7 +151,7 @@ public sealed partial class MainViewModel
         DrivePaused = false;
         _player = null;
         StopDriveTimerIfIdle();
-        AddLog(new Cyberdrome.Obd.ObdTrafficEntry(DateTime.Now, "program", false, "Uppspelning stoppad"));
+        AddLog(new Cyberdrome.Obd.ObdTrafficEntry(DateTime.Now, "program", false, L.T("Drives_PlaybackStopped")));
     }
 
     /// <summary>Skriver ett prov till bilen och låter reglagen följa med.</summary>
@@ -202,7 +202,7 @@ public sealed partial class MainViewModel
         if (IsRecording && _recorder is not null)
         {
             _recorder.Capture(_car.State, dt);
-            RecordStatus = $"Spelar in … {DriveItemViewModel.FormatTime(_recorder.Elapsed)} ({_recorder.Count} punkter)";
+            RecordStatus = L.F("Drives_Recording01Points", DriveItemViewModel.FormatTime(_recorder.Elapsed), _recorder.Count);
         }
 
         if (IsPlayingDrive && _player is not null)
@@ -211,7 +211,7 @@ public sealed partial class MainViewModel
             ApplySample(s);
             if (_player.Finished)
             {
-                DriveMessage = $"Uppspelningen av {PlayingName} är klar.";
+                DriveMessage = L.F("Drives_PlaybackOf0IsFinished", PlayingName);
                 StopDrive();
             }
         }
@@ -223,15 +223,15 @@ public sealed partial class MainViewModel
     private void RenameDrive(DriveItemViewModel? item)
     {
         if (item is null) return;
-        if (IsPlayingDrive && _player?.Drive == item.Drive) { DriveMessage = "Stoppa uppspelningen först."; return; }
+        if (IsPlayingDrive && _player?.Drive == item.Drive) { DriveMessage = L.T("Drives_StopThePlaybackFirst"); return; }
         if (_driveStore.Rename(item.Drive, item.EditName))
         {
             item.NameChanged();
-            DriveMessage = $"Bytt namn till {item.Name}.";
+            DriveMessage = L.F("Drives_RenamedTo0", item.Name);
         }
         else
         {
-            DriveMessage = "Namnet är tomt, oförändrat eller finns redan.";
+            DriveMessage = L.T("Drives_TheNameIsEmptyUnchangedOr");
             item.EditName = item.Name;
         }
     }
@@ -243,13 +243,13 @@ public sealed partial class MainViewModel
         if (IsPlayingDrive && _player?.Drive == item.Drive) StopDrive();
         _driveStore.Delete(item.Name);
         Drives.Remove(item);
-        DriveMessage = $"Borttagen: {item.Name}. (Exempelkörningarna kommer tillbaka vid nästa start.)";
+        DriveMessage = L.F("Drives_Deleted0TheExampleDrivesCome", item.Name);
     }
 
     public void ExportDrive(DriveItemViewModel item, string path)
     {
         try { _driveStore.Export(item.Drive, path); DriveMessage = "Exporterad: " + path; }
-        catch (Exception ex) { DriveMessage = "Kunde inte exportera: " + ex.Message; }
+        catch (Exception ex) { DriveMessage = L.T("Cars_CouldNotExport") + ex.Message; }
     }
 
     public void ImportDrive(string path)
@@ -260,6 +260,6 @@ public sealed partial class MainViewModel
             ReloadDrives(d.Name);
             DriveMessage = "Importerad: " + d.Name;
         }
-        catch (Exception ex) { DriveMessage = "Kunde inte importera: " + ex.Message; }
+        catch (Exception ex) { DriveMessage = L.T("Cars_CouldNotImport") + ex.Message; }
     }
 }

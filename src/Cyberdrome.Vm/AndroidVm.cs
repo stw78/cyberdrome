@@ -49,10 +49,7 @@ public sealed class AndroidVm : IAndroidBackend
     private const double PctDistroStart = 5, PctToolsStart = 15, PctDownloadStart = 35;
 
     /// <summary>Texten som visas (med Fortsätt/Avbryt) innan WSL2 slås på.</summary>
-    public const string RestartExplanation =
-        "För att köra Android snabbt behöver Windows-funktionen Virtual Machine Platform (WSL2) slås på. " +
-        "Windows frågar om lov som administratör, och sedan behöver datorn startas om en gång. " +
-        "Efter omstarten trycker du Installera Android igen så fortsätter installationen.";
+    public static string RestartExplanation => L.T("Android_RestartExplanation");
 
     /// <summary>
     /// Kör alla installationssteg som behövs, från där vi är nu.
@@ -63,25 +60,25 @@ public sealed class AndroidVm : IAndroidBackend
     {
         void Report(double? pct, string text, bool done = false) => progress?.Report(new InstallProgress(pct, text, done));
 
-        Report(null, "Kontrollerar vad som behöver installeras …");
+        Report(null, L.T("AndroidVm_CheckingWhatNeedsToBeInstalled"));
         var state = await GetStateAsync(ct);
-        log($"Läge: {state}");
+        log(L.F("AndroidVm_Mode0", state));
 
         if (state == AndroidState.WslMissing)
         {
             if (confirm is not null && !await confirm(RestartExplanation))
             {
-                log("Avbrutet. Inget ändrades.");
-                Report(0, "Avbrutet – inget ändrades.");
+                log(L.T("AndroidVm_CancelledNothingWasChanged"));
+                Report(0, L.T("AndroidVm_CancelledNothingWasChanged2"));
                 return state;
             }
-            Report(null, "Slår på WSL2 (svara Ja på Windows administratörsfråga) …");
-            log("Slår på WSL2 (Windows frågar om lov som administratör) …");
+            Report(null, L.T("AndroidVm_TurningOnWSL2AnswerYesTo"));
+            log(L.T("AndroidVm_TurningOnWSL2WindowsAsksFor"));
             int code = await ProcessRunner.RunElevatedAsync(Wsl, "--install --no-distribution");
-            if (code == -2) { log("Du sa nej till administratörsfrågan. Inget ändrades."); return state; }
-            if (code != 0) { log($"Det gick inte att slå på WSL2 (felkod {code})."); return state; }
-            log("WSL2 är påslaget. Starta om datorn och tryck sedan på Installera Android igen.");
-            Report(PctDistroStart, "WSL2 är påslaget. Starta om datorn och tryck Installera Android igen.");
+            if (code == -2) { log(L.T("AndroidVm_YouSaidNoToTheAdministrator")); return state; }
+            if (code != 0) { log(L.F("AndroidVm_WSL2CouldNotBeTurnedOn", code)); return state; }
+            log(L.T("AndroidVm_WSL2IsTurnedOnRestartThe"));
+            Report(PctDistroStart, L.T("AndroidVm_WSL2IsTurnedOnRestartThe2"));
             _rebootNeeded = true;
             return AndroidState.RebootNeeded;
         }
@@ -89,24 +86,24 @@ public sealed class AndroidVm : IAndroidBackend
 
         if (state == AndroidState.DistroMissing)
         {
-            Report(null, $"Steg 1 av 3: Laddar ner och skapar Linux-miljön ({Settings.BaseDistro}) …");
-            log($"Skapar Linux-miljön {Settings.DistroName} …");
+            Report(null, L.F("AndroidVm_Step1Of3DownloadingAnd", Settings.BaseDistro));
+            log(L.F("AndroidVm_CreatingTheLinuxEnvironment0", Settings.DistroName));
             var r = await ProcessRunner.RunAsync(Wsl,
                 ["--install", Settings.BaseDistro, "--name", Settings.DistroName, "--no-launch"], onLine: log, ct: ct);
-            if (!r.Ok) { log("Kunde inte skapa Linux-miljön."); return state; }
+            if (!r.Ok) { log(L.T("AndroidVm_CouldNotCreateTheLinuxEnvironment")); return state; }
             state = AndroidState.ToolsMissing;
         }
 
         if (state == AndroidState.ToolsMissing)
         {
-            Report(PctToolsStart, "Steg 2 av 3: Installerar Cuttlefish-verktygen …");
-            log("Installerar Cuttlefish-verktygen …");
+            Report(PctToolsStart, L.T("AndroidVm_Step2Of3InstallingThe"));
+            log(L.T("AndroidVm_InstallingTheCuttlefishTools"));
             var r = await RunScriptAsync("setup.sh", root: true, log: Filter(log, line =>
             {
                 if (ProgressParser.ParseStep(line) is { } s)
-                    Report(PctToolsStart + s.Fraction * (PctDownloadStart - PctToolsStart), $"Steg 2 av 3: {s.Text} …");
+                    Report(PctToolsStart + s.Fraction * (PctDownloadStart - PctToolsStart), L.F("AndroidVm_Step2Of30", s.Text));
             }), ct: ct);
-            if (!r.Ok) { log("Installationen av verktygen misslyckades."); return state; }
+            if (!r.Ok) { log(L.T("AndroidVm_InstallingTheToolsFailed")); return state; }
             // Starta om Linux-miljön så att systemd och grupper gäller.
             await ProcessRunner.RunAsync(Wsl, ["--terminate", Settings.DistroName], ct: ct);
             state = await GetStateAsync(ct);
@@ -114,13 +111,13 @@ public sealed class AndroidVm : IAndroidBackend
 
         if (state == AndroidState.NoKvm)
         {
-            log("Virtualisering (KVM) saknas inne i WSL. Android kan inte köras snabbt utan den.");
+            log(L.T("AndroidVm_VirtualisationKVMIsMissingInsideWSL"));
             return state;
         }
 
         if (state == AndroidState.ImageMissing)
         {
-            Report(PctDownloadStart, "Steg 3 av 3: Startar nedladdningen av Android …");
+            Report(PctDownloadStart, L.T("AndroidVm_Step3Of3StartingThe"));
             long expected = Math.Max(1, Settings.ExpectedDownloadMb) * 1024 * 1024;
             long lastBytes = 0, finalBytes = 0;
             var lastTime = DateTime.UtcNow;
@@ -140,9 +137,9 @@ public sealed class AndroidVm : IAndroidBackend
                 double f = ProgressParser.DownloadFraction(bytes, expected);
                 string spd = speed > 0 ? $" – {ProgressParser.FormatMb((long)speed)}/s" : "";
                 Report(PctDownloadStart + f * (100 - PctDownloadStart),
-                    $"Steg 3 av 3: Laddar ner Android: {ProgressParser.FormatMb(bytes)} av ca {ProgressParser.FormatMb(expected)} ({f * 100:0} %){spd}");
+                    L.F("AndroidVm_Step3Of3DownloadingAndroid", ProgressParser.FormatMb(bytes), ProgressParser.FormatMb(expected), f * 100, spd));
             }), env: new() { ["BUILD"] = Settings.AndroidBuild }, ct: ct);
-            if (!r.Ok) { log("Nedladdningen av Android misslyckades."); return state; }
+            if (!r.Ok) { log(L.T("AndroidVm_TheAndroidDownloadFailed")); return state; }
             // Kom ihåg verklig storlek så att stapeln stämmer bättre nästa gång.
             if (finalBytes > 0)
             {
@@ -153,8 +150,8 @@ public sealed class AndroidVm : IAndroidBackend
             state = AndroidState.Stopped;
         }
 
-        Report(100, "Klart! Android är nedladdat och installerat.", done: true);
-        log("Android är installerat.");
+        Report(100, L.T("AndroidVm_DoneAndroidIsDownloadedAndInstalled"), done: true);
+        log(L.T("AndroidVm_AndroidIsInstalled"));
         return state;
     }
 
@@ -181,7 +178,7 @@ public sealed class AndroidVm : IAndroidBackend
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Settings.ScreenUrl) { UseShellExecute = true });
         }
-        catch (Exception ex) { log("Kunde inte öppna skärmen: " + ex.Message); }
+        catch (Exception ex) { log(L.T("AndroidVm_CouldNotOpenTheScreen") + ex.Message); }
     }
 
     /// <summary>Installerar en APK-fil i Android.</summary>
@@ -219,15 +216,15 @@ public sealed class AndroidVm : IAndroidBackend
 
     public static string DescribeState(AndroidState s) => s switch
     {
-        AndroidState.NotWindows => "Android-delen fungerar bara på Windows i den här versionen.",
-        AndroidState.WslMissing => "WSL2 är inte påslaget. Tryck Installera Android så slår programmet på det.",
-        AndroidState.RebootNeeded => "Starta om datorn och tryck sedan Installera Android igen.",
-        AndroidState.DistroMissing => "Android är inte installerat än.",
-        AndroidState.ToolsMissing => "Android är delvis installerat. Tryck Installera Android för att fortsätta.",
-        AndroidState.NoKvm => "Virtualisering saknas i WSL. Kontrollera att virtualisering är påslaget i BIOS.",
-        AndroidState.ImageMissing => "Android-avbilden är inte nedladdad. Tryck Installera Android för att fortsätta.",
-        AndroidState.Stopped => "Android är installerat och avstängt.",
-        AndroidState.Running => "Android är igång.",
-        _ => "Okänt läge. Tryck Kontrollera igen.",
+        AndroidState.NotWindows => L.T("AndroidVm_TheAndroidPartOnlyWorksOn"),
+        AndroidState.WslMissing => L.T("AndroidVm_WSL2IsNotTurnedOnPress"),
+        AndroidState.RebootNeeded => L.T("AndroidVm_RestartTheComputerAndThenPress"),
+        AndroidState.DistroMissing => L.T("AndroidVm_AndroidIsNotInstalledYet"),
+        AndroidState.ToolsMissing => L.T("AndroidVm_AndroidIsPartlyInstalledPressInstall"),
+        AndroidState.NoKvm => L.T("AndroidVm_VirtualisationIsMissingInWSLCheck"),
+        AndroidState.ImageMissing => L.T("AndroidVm_TheAndroidImageIsNotDownloaded"),
+        AndroidState.Stopped => L.T("AndroidVm_AndroidIsInstalledAndStopped"),
+        AndroidState.Running => L.T("AndroidVm_AndroidIsRunning"),
+        _ => L.T("AndroidVm_UnknownStatePressCheckAgain"),
     };
 }

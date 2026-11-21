@@ -13,7 +13,7 @@ namespace Cyberdrome.App.ViewModels;
 /// <summary>Sidan OBD-källa: virtuell bil eller riktig adapter (läsläge som standard).</summary>
 public sealed partial class MainViewModel
 {
-    public string[] AdapterKinds { get; } = ["USB eller Bluetooth via COM-port", "Bluetooth (parkopplad)", "Bluetooth LE", "Wi-Fi"];
+    public string[] AdapterKinds => [L.T("Source_USBOrBluetoothViaCOMPort"), L.T("Source_BluetoothPaired"), L.T("Source_BluetoothLE"), "Wi-Fi"];
     public string[] BaudRates { get; } = ["38400", "9600", "115200", "230400", "500000"];
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsComKind), nameof(IsBtKind), nameof(IsWifiKind))] private int _adapterKindIndex;
@@ -32,7 +32,7 @@ public sealed partial class MainViewModel
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CanUseAdapter))] private bool _adapterConnected;
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CanUseAdapter))] private bool _adapterBusy;
     public bool CanUseAdapter => AdapterConnected && !AdapterBusy;
-    [ObservableProperty] private string _adapterStatus = "Ingen adapter ansluten. Simulatorn använder den virtuella bilen.";
+    [ObservableProperty] private string _adapterStatus = L.T("Source_NoAdapterConnectedTheSimulatorUses");
     [ObservableProperty] private string _scanText = "";
     [ObservableProperty] private bool _hideVinSerial = true;
     [ObservableProperty] private bool _liveValues;
@@ -60,7 +60,7 @@ public sealed partial class MainViewModel
         ComPorts.Clear();
         foreach (var p in SerialAdapterTransport.PortNames()) ComPorts.Add(p);
         SelectedComPort ??= ComPorts.FirstOrDefault();
-        AdapterStatus = ComPorts.Count == 0 ? "Inga COM-portar hittades. Anslut USB-adaptern eller parkoppla Bluetooth-adaptern i Windows." : $"{ComPorts.Count} COM-portar.";
+        AdapterStatus = ComPorts.Count == 0 ? L.T("Source_NoCOMPortsFoundConnectThe") : $"{ComPorts.Count} COM-portar.";
     }
 
     [RelayCommand]
@@ -68,7 +68,7 @@ public sealed partial class MainViewModel
     {
 #if WINDOWS
         AdapterBusy = true;
-        AdapterStatus = "Söker Bluetooth-adaptrar (8 s) …";
+        AdapterStatus = L.T("Source_SearchingForBluetoothAdapters8S");
         try
         {
             BtDevices.Clear();
@@ -76,12 +76,12 @@ public sealed partial class MainViewModel
             var ble = await AdapterDiscovery.ScanBleAsync(TimeSpan.FromSeconds(8));
             foreach (var d in spp.Concat(ble)) BtDevices.Add(d);
             SelectedBtDevice = BtDevices.FirstOrDefault(d => AdapterDiscovery.LooksLikeObd(d.Name)) ?? BtDevices.FirstOrDefault();
-            AdapterStatus = $"Hittade {spp.Count} parkopplade och {ble.Count} BLE-enheter. Klassisk Bluetooth måste parkopplas i Windows först (kod ofta 1234 eller 0000).";
+            AdapterStatus = L.F("Source_Found0PairedAnd1BLE", spp.Count, ble.Count);
         }
-        catch (Exception ex) { AdapterStatus = "Bluetooth-sökningen misslyckades: " + ex.Message; }
+        catch (Exception ex) { AdapterStatus = L.T("Source_TheBluetoothSearchFailed") + ex.Message; }
         finally { AdapterBusy = false; }
 #else
-        AdapterStatus = "Bluetooth stöds bara på Windows.";
+        AdapterStatus = L.T("Source_BluetoothIsOnlySupportedOnWindows");
         await Task.CompletedTask;
 #endif
     }
@@ -91,18 +91,18 @@ public sealed partial class MainViewModel
         switch (AdapterKindIndex)
         {
             case 0:
-                if (SelectedComPort is null) { AdapterStatus = "Välj en COM-port."; return null; }
+                if (SelectedComPort is null) { AdapterStatus = L.T("Source_ChooseACOMPort"); return null; }
                 return new SerialAdapterTransport(SelectedComPort, int.Parse(SelectedBaud));
             case 3:
-                if (!int.TryParse(WifiPort, out var port)) { AdapterStatus = "Ogiltig port."; return null; }
+                if (!int.TryParse(WifiPort, out var port)) { AdapterStatus = L.T("Source_InvalidPort"); return null; }
                 return new TcpAdapterTransport(WifiHost.Trim(), port);
 #if WINDOWS
             case 1 or 2:
-                if (SelectedBtDevice is not { } d) { AdapterStatus = "Sök och välj en Bluetooth-adapter."; return null; }
+                if (SelectedBtDevice is not { } d) { AdapterStatus = L.T("Source_SearchForAndChooseABluetooth"); return null; }
                 return d.Kind == AdapterDeviceKind.Spp ? new RfcommAdapterTransport(d) : new BleAdapterTransport(d, log);
 #endif
         }
-        AdapterStatus = "Den här anslutningstypen stöds inte här.";
+        AdapterStatus = L.T("Source_ThisConnectionTypeIsNotSupported");
         return null;
     }
 
@@ -113,7 +113,7 @@ public sealed partial class MainViewModel
         var t = MakeTransport(s => AdapterLog(s));
         if (t is null) return;
         AdapterBusy = true;
-        AdapterStatus = $"Ansluter till {t.Name} …";
+        AdapterStatus = L.F("Source_ConnectingTo0", t.Name);
         var elm = new ElmConnection(t);
         elm.Traffic += (to, text) => AdapterLog(text, to);
         try
@@ -124,20 +124,20 @@ public sealed partial class MainViewModel
             _adapter = a;
             _bridge = new RealCarBridge(a, RealCarBridge.DefaultBackupFolder, req => ConfirmWrite?.Invoke(req) ?? Task.FromResult(false));
             AdapterConnected = true;
-            AdapterStatus = $"Ansluten: {t.Name} · {info.Version}{(info.StnVersion is { } s ? " (" + s + ")" : "")} · protokoll {info.Protocol} {info.ProtocolName}" +
-                            (info.Voltage is { } v ? $" · {v:0.0} V" : "") + " · läsläge";
+            AdapterStatus = L.T("Main_ConnectedPrefix") + $"{t.Name} · {info.Version}{(info.StnVersion is { } s ? " (" + s + ")" : "")} · protokoll {info.Protocol} {info.ProtocolName}" +
+                            (info.Voltage is { } v ? $" · {v:0.0} V" : "") + L.T("Source_ReadOnly");
             ApplySource();
         }
         catch (NotElmException ex)
         {
             await elm.DisposeAsync();
-            AdapterStatus = "Adaptern stöds inte (låst till tillverkarens app eller inte ELM327-kompatibel). " + ex.Message +
-                            " Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.";
+            AdapterStatus = L.T("Source_TheAdapterIsNotSupportedLocked") + ex.Message +
+                            L.T("Source_UseAnELM327CompatibleAdapterE");
         }
         catch (Exception ex)
         {
             await elm.DisposeAsync();
-            AdapterStatus = "Kunde inte ansluta: " + ex.Message;
+            AdapterStatus = L.T("Source_CouldNotConnect") + ex.Message;
         }
         finally { AdapterBusy = false; }
     }
@@ -152,7 +152,7 @@ public sealed partial class MainViewModel
         _adapter = null; _bridge = null;
         AdapterConnected = false;
         if (a is not null) await a.DisposeAsync();
-        AdapterStatus = "Adaptern är frånkopplad. Simulatorn använder den virtuella bilen.";
+        AdapterStatus = L.T("Source_TheAdapterIsDisconnectedTheSimulator");
     }
 
     partial void OnSourceIsRealChanged(bool value) => ApplySource();
@@ -162,15 +162,15 @@ public sealed partial class MainViewModel
         if (_car is null) return;
         _car.Bridge = SourceIsReal && _bridge is not null ? _bridge : null;
         AdapterLog(_car.Bridge is not null
-            ? "🔌 Vidarekoppling PÅ: appar (Wi-Fi, Bluetooth, BLE) pratar nu med den riktiga bilen via adaptern" + (AllowWrites ? " – SKRIVNING TILLÅTEN" : " – läsläge")
-            : "🔌 Källa: virtuell bil");
+            ? L.T("Source_BridgeONAppsWiFiBluetooth") + (AllowWrites ? L.T("Source_WRITINGALLOWED") : L.T("Source_ReadOnly2"))
+            : L.T("Source_SourceVirtualCar"));
     }
 
     partial void OnAllowWritesChanged(bool value)
     {
         if (_bridge is not null) _bridge.AllowWrites = value;
-        if (value) AdapterLog("⚠ Skrivning tillåten för den här sessionen. Varje skrivning måste bekräftas och originalvärdet sparas först.");
-        if (AdapterConnected) AdapterStatus = AdapterStatus.Replace(value ? "läsläge" : "SKRIVNING TILLÅTEN", value ? "SKRIVNING TILLÅTEN" : "läsläge");
+        if (value) AdapterLog(L.T("Source_WritingAllowedForThisSessionEvery"));
+        if (AdapterConnected) AdapterStatus = AdapterStatus.Replace(value ? L.T("Source_ReadOnly3") : L.T("Source_WRITINGALLOWED2"), value ? L.T("Source_WRITINGALLOWED2") : L.T("Source_ReadOnly3"));
     }
 
     [RelayCommand]
@@ -181,19 +181,19 @@ public sealed partial class MainViewModel
         ScanText = "";
         try
         {
-            var progress = new Progress<string>(s => AdapterStatus = "Läser riktig bil: " + s);
+            var progress = new Progress<string>(s => AdapterStatus = L.T("Source_ReadingRealCar") + s);
             _lastScan = await Task.Run(() => RealCarScanner.ScanAsync(_adapter, true, progress));
             ScanText = _lastScan.Summary();
-            AdapterStatus = "Avläsningen är klar (bara lästjänster användes).";
+            AdapterStatus = L.T("Source_TheReadingIsFinishedOnlyRead");
         }
-        catch (Exception ex) { AdapterStatus = "Avläsningen misslyckades: " + ex.Message; }
+        catch (Exception ex) { AdapterStatus = L.T("Source_TheReadingFailed") + ex.Message; }
         finally { AdapterBusy = false; }
     }
 
     [RelayCommand]
     private void CreateCarFromScan()
     {
-        if (_lastScan is null || _profileStore is null) { AdapterStatus = "Läs bilen först."; return; }
+        if (_lastScan is null || _profileStore is null) { AdapterStatus = L.T("Source_ReadTheCarFirst"); return; }
         try
         {
             var p = RealCarScanner.ToProfile(_lastScan, _profileStore, HideVinSerial);
@@ -201,9 +201,9 @@ public sealed partial class MainViewModel
             if (errors.Count > 0) throw new InvalidDataException(string.Join(" ", errors));
             _profileStore.Save(p);
             ReloadOwnProfiles(p.Id);
-            AdapterStatus = $"Ny bilmodell: {p.DisplayName} ({p.Ecus.Count} styrdon, {p.SupportedPids?.Count ?? 0} PID:ar). Ändra namn/modell på sidan Bilmodeller.";
+            AdapterStatus = L.F("Source_NewCarModel01Control", p.DisplayName, p.Ecus.Count, p.SupportedPids?.Count ?? 0);
         }
-        catch (Exception ex) { AdapterStatus = "Kunde inte skapa bilmodellen: " + ex.Message; }
+        catch (Exception ex) { AdapterStatus = L.T("CarDb_CouldNotCreateTheCarModel") + ex.Message; }
     }
 
     partial void OnLiveValuesChanged(bool value)
@@ -216,7 +216,7 @@ public sealed partial class MainViewModel
         _ = Task.Run(async () =>
         {
             byte[] pids = [0x0D, 0x0C, 0x05, 0x2F, 0x11, 0x42];
-            string[] names = ["km/h", "rpm", "kylv. °C", "bränsle %", "gasspjäll %", "V"];
+            string[] names = ["km/h", "rpm", "kylv. °C", L.T("Ui_Fuel2"), L.T("Source_Throttle"), "V"];
             while (!cts.IsCancellationRequested)
             {
                 var parts = new List<string>();
@@ -231,7 +231,7 @@ public sealed partial class MainViewModel
                     catch (OperationCanceledException) { return; }
                     catch (Exception ex) { parts.Add("fel: " + ex.Message); break; }
                 }
-                var text = parts.Count > 0 ? string.Join("   ", parts) : "inga värden";
+                var text = parts.Count > 0 ? string.Join("   ", parts) : L.T("Source_NoValues");
                 Dispatcher.UIThread.Post(() => { if (!cts.IsCancellationRequested) LiveText = text; });
                 try { await Task.Delay(1000, cts.Token); } catch { return; }
             }
@@ -245,12 +245,12 @@ public sealed partial class MainViewModel
     [RelayCommand]
     private async Task IdentifyAdapter()
     {
-        if (AdapterConnected) { AdapterStatus = "Koppla från adaptern först."; return; }
+        if (AdapterConnected) { AdapterStatus = L.T("Source_DisconnectTheAdapterFirst"); return; }
         var t = MakeTransport(s => AdapterLog("🔎 " + s));
         if (t is null) return;
         AdapterBusy = true;
-        AdapterLog($"🔎 Identifierar {t.Name} …");
-        AdapterStatus = $"Identifierar {t.Name} …";
+        AdapterLog(L.F("Source_Identifying0", t.Name));
+        AdapterStatus = L.F("Source_Identifying02", t.Name);
         var elm = new ElmConnection(t);
         elm.Traffic += (to, text) => AdapterLog(text, to);
         string verdict;
@@ -265,15 +265,15 @@ public sealed partial class MainViewModel
             }
             var all = string.Join(" ", answers);
             if (ObdAdapter.LooksLikeElm(all))
-                verdict = $"✅ ELM327-kompatibel: {answers[1].Split('\n').Last()}" +
-                          (answers[3].Contains("41 00") || answers[3].Contains("4100") ? " – bilen svarar på OBD." : " – ingen bil svarade på 0100 (tändningen på?).");
+                verdict = L.F("Source_ElmCompatible0", answers[1].Split('\n').Last()) +
+                          (answers[3].Contains("41 00") || answers[3].Contains("4100") ? L.T("Source_TheCarAnswersOBD") : L.T("Source_NoCarAnswered0100IgnitionOn"));
             else if (answers.All(a => a.Length == 0))
-                verdict = "❌ Adaptern stöds inte (låst till tillverkarens app): den svarar inte på ELM327-kommandon. Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.";
+                verdict = L.T("Source_TheAdapterIsNotSupportedLocked2");
             else
-                verdict = "❌ Adaptern stöds inte (låst till tillverkarens app): den svarar, men inte som en ELM327. Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.";
+                verdict = L.T("Source_TheAdapterIsNotSupportedLocked3");
         }
-        catch (NotElmException ex) { verdict = "❌ Adaptern stöds inte (låst till tillverkarens app): " + ex.Message + " Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink."; }
-        catch (Exception ex) { verdict = "❌ Kunde inte ansluta: " + ex.Message; }
+        catch (NotElmException ex) { verdict = L.T("Source_TheAdapterIsNotSupportedLocked4") + ex.Message + L.T("Source_UseAnELM327CompatibleAdapterE"); }
+        catch (Exception ex) { verdict = L.T("Source_CouldNotConnect2") + ex.Message; }
         finally { await elm.DisposeAsync(); AdapterBusy = false; }
         AdapterLog("🔎 Resultat: " + verdict);
         AdapterStatus = verdict;

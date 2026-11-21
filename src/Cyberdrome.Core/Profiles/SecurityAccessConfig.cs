@@ -35,7 +35,7 @@ public sealed class SecurityAccessConfig
     /// <summary>Räknar ut nyckeln för ett 4-byte-seed.</summary>
     public byte[] ComputeKey(ReadOnlySpan<byte> seed)
     {
-        if (seed.Length != 4) throw new ArgumentException("Seed ska vara 4 byte.", nameof(seed));
+        if (seed.Length != 4) throw new ArgumentException(L.T("SecurityAccessConfig_TheSeedMustBe4Bytes"), nameof(seed));
         uint s = BinaryPrimitives.ReadUInt32BigEndian(seed);
         uint k = uint.RotateLeft(s ^ Hex32(XorMask), ((RotateLeft % 32) + 32) % 32) + Hex32(Add);
         var key = new byte[4];

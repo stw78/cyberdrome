@@ -52,13 +52,13 @@ public sealed class BleObdServer : IAsyncDisposable
     {
         if (IsRunning) return;
         var adapter = await BluetoothAdapter.GetDefaultAsync()
-                      ?? throw new InvalidOperationException("Datorn har ingen Bluetooth-adapter.");
+                      ?? throw new InvalidOperationException(L.T("BleObdServer_TheComputerHasNoBluetoothAdapter"));
         if (!adapter.IsLowEnergySupported || !adapter.IsPeripheralRoleSupported)
-            throw new InvalidOperationException("Datorns Bluetooth kan inte agera Bluetooth LE-enhet (peripheral).");
+            throw new InvalidOperationException(L.T("BleObdServer_TheComputerSBluetoothCannotAct"));
 
         var r = await GattServiceProvider.CreateAsync(ServiceUuid);
         if (r.Error != BluetoothError.Success)
-            throw new InvalidOperationException("Kunde inte skapa Bluetooth LE-tjänsten: " + r.Error);
+            throw new InvalidOperationException(L.T("BleObdServer_CouldNotCreateTheBluetoothLE") + r.Error);
         var provider = r.ServiceProvider;
 
         // FFF1: svar till telefonen (notify). Skrivning tillåts också, eftersom vissa appar skickar hit.
@@ -68,17 +68,17 @@ public sealed class BleObdServer : IAsyncDisposable
                                        | GattCharacteristicProperties.Write | GattCharacteristicProperties.WriteWithoutResponse,
             ReadProtectionLevel = GattProtectionLevel.Plain,
             WriteProtectionLevel = GattProtectionLevel.Plain,
-            UserDescription = "OBD svar",
+            UserDescription = L.T("BleObdServer_OBDReplies"),
         });
         // FFF2: kommandon från telefonen (write).
         var w = await provider.Service.CreateCharacteristicAsync(WriteUuid, new GattLocalCharacteristicParameters
         {
             CharacteristicProperties = GattCharacteristicProperties.Write | GattCharacteristicProperties.WriteWithoutResponse,
             WriteProtectionLevel = GattProtectionLevel.Plain,
-            UserDescription = "OBD kommandon",
+            UserDescription = L.T("BleObdServer_OBDCommands"),
         });
         if (n.Error != BluetoothError.Success || w.Error != BluetoothError.Success)
-            throw new InvalidOperationException("Kunde inte skapa Bluetooth LE-egenskaperna.");
+            throw new InvalidOperationException(L.T("BleObdServer_CouldNotCreateTheBluetoothLE2"));
 
         _notify = n.Characteristic;
         _write = w.Characteristic;
@@ -124,7 +124,7 @@ public sealed class BleObdServer : IAsyncDisposable
             }
             catch { }
             _names[id] = name;
-            Traffic?.Invoke(this, new(DateTime.Now, "Bluetooth LE: " + name, false, "Ansluten via Bluetooth LE"));
+            Traffic?.Invoke(this, new(DateTime.Now, "Bluetooth LE: " + name, false, L.T("BleObdServer_ConnectedViaBluetoothLE")));
         }
         StatusChanged?.Invoke(this, EventArgs.Empty);
     }

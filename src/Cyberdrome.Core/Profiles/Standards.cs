@@ -19,21 +19,21 @@ public static class Vss
 
     public static readonly IReadOnlyList<Signal> Signals =
     [
-        new("Vehicle.Speed", "km/h", "Fordonets hastighet", "0D"),
+        new("Vehicle.Speed", "km/h", L.T("Standards_VehicleSpeed"), "0D"),
         new("Vehicle.Powertrain.CombustionEngine.Speed", "rpm", "Motorvarvtal", "0C"),
-        new("Vehicle.Powertrain.CombustionEngine.ECT", "celsius", "Kylvätsketemperatur", "05"),
-        new("Vehicle.Powertrain.FuelSystem.RelativeLevel", "percent", "Bränslenivå", "2F"),
-        new("Vehicle.OBD.ThrottlePosition", "percent", "Gasspjällsläge", "11"),
-        new("Vehicle.OBD.IntakeTemp", "celsius", "Insugsluftens temperatur", "0F"),
+        new("Vehicle.Powertrain.CombustionEngine.ECT", "celsius", L.T("Standards_EngineCoolantTemperature"), "05"),
+        new("Vehicle.Powertrain.FuelSystem.RelativeLevel", "percent", L.T("Standards_FuelLevel"), "2F"),
+        new("Vehicle.OBD.ThrottlePosition", "percent", L.T("Standards_ThrottlePosition"), "11"),
+        new("Vehicle.OBD.IntakeTemp", "celsius", L.T("Standards_IntakeAirTemperature"), "0F"),
         new("Vehicle.Exterior.AirTemperature", "celsius", "Utetemperatur", "46"),
-        new("Vehicle.LowVoltageBattery.CurrentVoltage", "V", "Batterispänning", "42"),
-        new("Vehicle.Powertrain.Transmission.SelectedGear", "", "Vald växel (126 = P, -1 = R, 0 = N, 127 = D)", null),
-        new("Vehicle.LowVoltageSystemState", "", "Tändning (ON/OFF)", null),
-        new("Vehicle.OBD.DTCList", "", "Aktiva felkoder", "03"),
+        new("Vehicle.LowVoltageBattery.CurrentVoltage", "V", L.T("Standards_BatteryVoltage"), "42"),
+        new("Vehicle.Powertrain.Transmission.SelectedGear", "", L.T("Standards_SelectedGear126P1R"), null),
+        new("Vehicle.LowVoltageSystemState", "", L.T("Standards_IgnitionONOFF"), null),
+        new("Vehicle.OBD.DTCList", "", L.T("Standards_ActiveTroubleCodes"), "03"),
         new("Vehicle.VehicleIdentification.VIN", "", "VIN", null),
-        new("Vehicle.VehicleIdentification.Brand", "", "Märke", null),
+        new("Vehicle.VehicleIdentification.Brand", "", L.T("Ui_Make"), null),
         new("Vehicle.VehicleIdentification.Model", "", "Modell", null),
-        new("Vehicle.VehicleIdentification.Year", "", "Årsmodell", null),
+        new("Vehicle.VehicleIdentification.Year", "", L.T("Ui_ModelYear"), null),
     ];
 
     public static int GearToVss(Gear g) => g switch { Gear.P => 126, Gear.R => -1, Gear.N => 0, _ => 127 };
@@ -68,8 +68,8 @@ public static class Vss
     {
         var unknown = new List<string>();
         JsonObject obj;
-        try { obj = JsonNode.Parse(json) as JsonObject ?? throw new InvalidDataException("VSS-filen måste vara ett JSON-objekt."); }
-        catch (JsonException ex) { throw new InvalidDataException("VSS-filen går inte att läsa: " + ex.Message); }
+        try { obj = JsonNode.Parse(json) as JsonObject ?? throw new InvalidDataException(L.T("Standards_TheVSSFileMustBeA")); }
+        catch (JsonException ex) { throw new InvalidDataException(L.T("Standards_TheVSSFileCannotBeRead") + ex.Message); }
         foreach (var (path, node) in obj)
         {
             var v = node is JsonObject wrap && wrap["value"] is { } inner ? inner : node;
@@ -96,7 +96,7 @@ public static class Vss
                     default: unknown.Add(path); break;
                 }
             }
-            catch (Exception) when (path.StartsWith("Vehicle.", StringComparison.Ordinal)) { unknown.Add(path + " (fel värde)"); }
+            catch (Exception) when (path.StartsWith("Vehicle.", StringComparison.Ordinal)) { unknown.Add(path + L.T("Standards_WrongValue")); }
         }
         return unknown;
     }
@@ -119,9 +119,9 @@ public static class TorqueCsv
             var line = raw.Trim();
             if (line.Length == 0 || line.StartsWith('#') || line.StartsWith("Name", StringComparison.OrdinalIgnoreCase)) continue;
             var f = SplitCsv(line);
-            if (f.Count < 4) { problems?.Add($"För få fält: {line}"); continue; }
+            if (f.Count < 4) { problems?.Add(L.F("Standards_TooFewFields0", line)); continue; }
             var req = f[2].Trim().Replace("0x", "", StringComparison.OrdinalIgnoreCase).Replace(" ", "").ToUpperInvariant();
-            if (req.Length < 2 || req.Length % 2 != 0 || !req.All(Uri.IsHexDigit)) { problems?.Add($"Ogiltigt ModeAndPID \"{f[2]}\" ({f[0]})"); continue; }
+            if (req.Length < 2 || req.Length % 2 != 0 || !req.All(Uri.IsHexDigit)) { problems?.Add(L.F("Standards_InvalidModeAndPID01", f[2], f[0])); continue; }
             double Num(int i, double def) => f.Count > i && double.TryParse(f[i].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var d) ? d : def;
             var pid = new CustomPid
             {
@@ -225,11 +225,11 @@ public static class DtcCsv
             var line = raw.Trim();
             if (line.Length == 0 || line.StartsWith('#')) continue;
             int sep = line.IndexOfAny([';', ',', '\t']);
-            if (sep < 0) { problems?.Add("Saknar avgränsare: " + line); continue; }
+            if (sep < 0) { problems?.Add(L.T("Standards_MissingSeparator") + line); continue; }
             var code = line[..sep].Trim().Trim('"').ToUpperInvariant();
             var text = line[(sep + 1)..].Trim().Trim('"');
             if (code is "CODE" or "KOD" or "DTC") continue; // rubrikrad
-            if (code.Length != 5 || !"PCBU".Contains(code[0]) || !code[1..].All(Uri.IsHexDigit)) { problems?.Add("Ogiltig felkod: " + code); continue; }
+            if (code.Length != 5 || !"PCBU".Contains(code[0]) || !code[1..].All(Uri.IsHexDigit)) { problems?.Add(L.T("Standards_InvalidTroubleCode") + code); continue; }
             d[code] = text;
         }
         return d;

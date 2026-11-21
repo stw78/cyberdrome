@@ -23,11 +23,11 @@ public partial class MainWindow : Window
             if (DataContext is MainViewModel u) u.CloseForUpdate = () => Avalonia.Threading.Dispatcher.UIThread.Post(Close);
             if (DataContext is MainViewModel vm)
                 vm.ConfirmWrite = req => Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() => ConfirmDialog.ShowAsync(this,
-                    "Skriva till den riktiga bilen?",
-                    $"Styrdon (CAN-id): {req.Ecu}\nTjänst: {req.Service}\nData: {req.DataHex}\n" +
-                    $"Batterispänning: {(req.Voltage is { } v ? v.ToString("0.0") + " V" : "okänd")}\n" +
-                    $"Säkerhetskopia av originalvärdet: {req.BackupFile}\n\n" +
-                    "Motorn ska vara avstängd och tändningen på. Fel värden kan göra att styrdonet slutar fungera."));
+                    L.T("MainWindow_WriteToTheRealCar"),
+                    L.F("MainWindow_ControlUnitCANId0Service", req.Ecu, req.Service, req.DataHex) +
+                    L.F("MainWindow_BatteryVoltage0", (req.Voltage is { } v ? v.ToString("0.0") + " V" : L.T("ObdTcpServer_Unknown"))) +
+                    L.F("MainWindow_BackupOfTheOriginalValue0", req.BackupFile) +
+                    L.T("MainWindow_TheEngineShouldBeOffAnd")));
         };
     }
 
@@ -47,10 +47,10 @@ public partial class MainWindow : Window
 
     // ----- Bilmodeller: exportera / importera (.cbs) -----
 
-    private static readonly FilePickerFileType CarFileType = new("Cyberdrome System (.cbs)") { Patterns = ["*.cbs"] };
+    private static FilePickerFileType CarFileType => new(L.T("MainWindow_CyberdromeSystemCbs")) { Patterns = ["*.cbs"] };
     private static readonly FilePickerFileType AnyCarFileType = new("Bilmodell (.cbs, .pdx, .odx)") { Patterns = ["*.cbs", "*.cyberbil", "*.pdx", "*.odx", "*.odx-d"] };
-    private static readonly FilePickerFileType PdxFileType = new("ASAM ODX-paket (.pdx)") { Patterns = ["*.pdx"] };
-    private static readonly FilePickerFileType OdxFileType = new("ASAM ODX (.odx-d)") { Patterns = ["*.odx-d", "*.odx"] };
+    private static FilePickerFileType PdxFileType => new(L.T("MainWindow_ASAMODXPackagePdx")) { Patterns = ["*.pdx"] };
+    private static FilePickerFileType OdxFileType => new(L.T("MainWindow_ASAMODXOdxD")) { Patterns = ["*.odx-d", "*.odx"] };
     private static readonly FilePickerFileType CsvFileType = new("CSV") { Patterns = ["*.csv", "*.txt"] };
     private static readonly FilePickerFileType VssFileType = new("VSS-JSON") { Patterns = ["*.json"] };
 
@@ -59,7 +59,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm || vm.SelectedProfile is null) return;
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Exportera bilmodell", SuggestedFileName = vm.SelectedProfile.Id + ".cbs",
+            Title = L.T("MainWindow_ExportCarModel"), SuggestedFileName = vm.SelectedProfile.Id + ".cbs",
             DefaultExtension = "cbs", FileTypeChoices = [CarFileType],
         });
         var path = file?.TryGetLocalPath();
@@ -71,7 +71,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Importera bilmodell (.cbs eller ODX/PDX)", AllowMultiple = false, FileTypeFilter = [AnyCarFileType],
+            Title = L.T("MainWindow_ImportCarModelCbsOrODX"), AllowMultiple = false, FileTypeFilter = [AnyCarFileType],
         });
         var path = files.FirstOrDefault()?.TryGetLocalPath();
         if (path is not null) vm.ImportCarAny(path);
@@ -95,49 +95,49 @@ public partial class MainWindow : Window
     private async void ExportOdxClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm || vm.SelectedProfile is null) return;
-        var path = await SaveAsync("Exportera som ASAM ODX (.pdx)", vm.SelectedProfile.Id + ".pdx", "pdx", PdxFileType);
+        var path = await SaveAsync(L.T("MainWindow_ExportAsASAMODXPdx"), vm.SelectedProfile.Id + ".pdx", "pdx", PdxFileType);
         if (path is not null) vm.ExportOdx(path);
     }
 
     private async void ImportDtcTextsClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        var path = await OpenAsync("Importera felkodstexter (CSV: P0300;Text)", CsvFileType);
+        var path = await OpenAsync(L.T("MainWindow_ImportTroubleCodeTextsCSVP0300"), CsvFileType);
         if (path is not null) vm.ImportDtcTexts(path);
     }
 
     private async void ImportPidsClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        var path = await OpenAsync("Importera egna PID:ar (Torque/Car Scanner-CSV)", CsvFileType);
+        var path = await OpenAsync(L.T("MainWindow_ImportCustomPIDsTorqueCarScanner"), CsvFileType);
         if (path is not null) vm.ImportCustomPids(path);
     }
 
     private async void ExportPidsClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm || vm.SelectedProfile is null) return;
-        var path = await SaveAsync("Exportera PID-lista (Torque/Car Scanner-CSV)", vm.SelectedProfile.Id + "-pid.csv", "csv", CsvFileType);
+        var path = await SaveAsync(L.T("MainWindow_ExportPIDListTorqueCarScanner"), vm.SelectedProfile.Id + "-pid.csv", "csv", CsvFileType);
         if (path is not null) vm.ExportCustomPids(path);
     }
 
     private async void ImportObdbJsonClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        var path = await OpenAsync("Importera tillverkarsignaler (OBDb-format, signalsets/v3 JSON)", new FilePickerFileType("OBDb-JSON") { Patterns = ["*.json"] });
+        var path = await OpenAsync(L.T("MainWindow_ImportManufacturerSignalsOBDbFormatSignalsets"), new FilePickerFileType("OBDb-JSON") { Patterns = ["*.json"] });
         if (path is not null) vm.ImportObdbJson(path);
     }
 
     private async void ExportVssClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm || vm.SelectedProfile is null) return;
-        var path = await SaveAsync("Exportera värden som VSS-JSON", vm.SelectedProfile.Id + "-vss.json", "json", VssFileType);
+        var path = await SaveAsync(L.T("MainWindow_ExportValuesAsVSSJSON"), vm.SelectedProfile.Id + "-vss.json", "json", VssFileType);
         if (path is not null) vm.ExportVss(path);
     }
 
     private async void ImportVssClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        var path = await OpenAsync("Importera värden (VSS-JSON)", VssFileType);
+        var path = await OpenAsync(L.T("MainWindow_ImportValuesVSSJSON"), VssFileType);
         if (path is not null) vm.ImportVss(path);
     }
 
@@ -150,7 +150,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Importera testfall (JSON)", AllowMultiple = false, FileTypeFilter = [TestFileType],
+            Title = L.T("MainWindow_ImportTestCaseJSON"), AllowMultiple = false, FileTypeFilter = [TestFileType],
         });
         var path = files.FirstOrDefault()?.TryGetLocalPath();
         if (path is not null) vm.ImportTestCase(path);
@@ -161,7 +161,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm || vm.SelectedTest is null) return;
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Exportera testfall som mall", SuggestedFileName = vm.SelectedTest.Id + ".json",
+            Title = L.T("MainWindow_ExportTestCaseAsTemplate"), SuggestedFileName = vm.SelectedTest.Id + ".json",
             DefaultExtension = "json", FileTypeChoices = [TestFileType],
         });
         var path = file?.TryGetLocalPath();
@@ -175,7 +175,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Ladda upp eget tema (zip eller theme.json)",
+            Title = L.T("MainWindow_UploadYourOwnThemeZipOr"),
             AllowMultiple = false,
             FileTypeFilter = [new FilePickerFileType("Tema") { Patterns = ["*.zip", "*.json"] }],
         });
@@ -188,7 +188,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Ladda upp eget skal (zip med skin.json, eller PNG med genomskinlig skärmyta)",
+            Title = L.T("MainWindow_UploadYourOwnSkinZipWith"),
             AllowMultiple = false,
             FileTypeFilter = [new FilePickerFileType("Skal") { Patterns = ["*.zip", "*.png"] }],
         });
@@ -219,7 +219,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Välj en app (APK) att installera",
+            Title = L.T("MainWindow_ChooseAnAppAPKToInstall"),
             AllowMultiple = false,
             FileTypeFilter = [new FilePickerFileType("Android-app") { Patterns = ["*.apk"] }],
         });
@@ -258,14 +258,14 @@ public partial class MainWindow : Window
 
     // ----- Körningar: exportera / importera -----
 
-    private static readonly FilePickerFileType DriveFileType = new("Cyberdrome-körning") { Patterns = ["*.json"] };
+    private static FilePickerFileType DriveFileType => new(L.T("MainWindow_CyberdromeDrive")) { Patterns = ["*.json"] };
 
     private async void ExportDriveClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm || (sender as Control)?.Tag is not DriveItemViewModel item) return;
         var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Exportera körning",
+            Title = L.T("MainWindow_ExportDrive"),
             SuggestedFileName = Cyberdrome.Core.Drives.DriveStore.SafeFileName(item.Name) + ".json",
             DefaultExtension = "json",
             FileTypeChoices = [DriveFileType],
@@ -279,7 +279,7 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Importera körning",
+            Title = L.T("MainWindow_ImportDrive"),
             AllowMultiple = false,
             FileTypeFilter = [DriveFileType],
         });

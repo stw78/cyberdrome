@@ -31,7 +31,7 @@ public sealed class CarPackage
     public void Save(string path)
     {
         var errors = ProfileLoader.Validate(Profile);
-        if (errors.Count > 0) throw new InvalidDataException("Bilmodellen är inte giltig: " + string.Join(" ", errors));
+        if (errors.Count > 0) throw new InvalidDataException(L.T("ProfileStore_TheCarModelIsNotValid") + string.Join(" ", errors));
         if (File.Exists(path)) File.Delete(path);
         using var zip = ZipFile.Open(path, ZipArchiveMode.Create);
         using (var w = new StreamWriter(zip.CreateEntry(ProfileEntry).Open()))
@@ -51,21 +51,21 @@ public sealed class CarPackage
     {
         ZipArchive zip;
         try { zip = ZipFile.OpenRead(path); }
-        catch (InvalidDataException) { throw new InvalidDataException("Filen är ingen .cbs-fil (inte en zip)."); }
+        catch (InvalidDataException) { throw new InvalidDataException(L.T("ProfileStore_TheFileIsNotACbs")); }
         using (zip)
         {
-            var entry = zip.GetEntry(ProfileEntry) ?? throw new InvalidDataException($"Filen saknar {ProfileEntry}.");
+            var entry = zip.GetEntry(ProfileEntry) ?? throw new InvalidDataException(L.F("ProfileStore_TheFileIsMissing0", ProfileEntry));
             string json;
             using (var r = new StreamReader(entry.Open())) json = r.ReadToEnd();
             CarProfile profile;
             try { profile = ProfileLoader.Parse(json, ProfileEntry); }
-            catch (JsonException ex) { throw new InvalidDataException($"{ProfileEntry} går inte att läsa: {ex.Message}"); }
+            catch (JsonException ex) { throw new InvalidDataException(L.F("ProfileStore_0CannotBeRead1", ProfileEntry, ex.Message)); }
             var pkg = new CarPackage { Profile = profile };
             foreach (var e in zip.Entries)
             {
                 if (e.FullName == ProfileEntry || e.FullName.EndsWith('/') || e.FullName.StartsWith("odx/", StringComparison.OrdinalIgnoreCase)) continue;
-                if (e.FullName.Contains("..")) throw new InvalidDataException("Ogiltig sökväg i paketet.");
-                if (e.Length > 20 * 1024 * 1024) throw new InvalidDataException($"{e.FullName} är för stor.");
+                if (e.FullName.Contains("..")) throw new InvalidDataException(L.T("ProfileStore_InvalidPathInThePackage"));
+                if (e.Length > 20 * 1024 * 1024) throw new InvalidDataException(L.F("ProfileStore_0IsTooLarge", e.FullName));
                 using var s = e.Open();
                 using var ms = new MemoryStream();
                 s.CopyTo(ms);
@@ -138,9 +138,9 @@ public sealed class ProfileStore
     /// <summary>Sparar en egen modell. Inbyggda kan inte skrivas över.</summary>
     public CarProfile Save(CarProfile p)
     {
-        if (IsBuiltIn(p.Id)) throw new InvalidOperationException("De inbyggda bilmodellerna är skrivskyddade – gör en kopia.");
+        if (IsBuiltIn(p.Id)) throw new InvalidOperationException(L.T("Cars_TheBuiltInCarModelsAre"));
         var errors = ProfileLoader.Validate(p);
-        if (errors.Count > 0) throw new InvalidDataException("Bilmodellen är inte giltig: " + string.Join(" ", errors));
+        if (errors.Count > 0) throw new InvalidDataException(L.T("ProfileStore_TheCarModelIsNotValid") + string.Join(" ", errors));
         Directory.CreateDirectory(Folder);
         var path = Path.Combine(Folder, p.Id + ".json");
         File.WriteAllText(path, JsonSerializer.Serialize(p, ProfileLoader.JsonOptions));
@@ -151,7 +151,7 @@ public sealed class ProfileStore
 
     public void Delete(CarProfile p)
     {
-        if (IsBuiltIn(p.Id) || !p.IsOwn) throw new InvalidOperationException("Bara egna bilmodeller kan tas bort.");
+        if (IsBuiltIn(p.Id) || !p.IsOwn) throw new InvalidOperationException(L.T("Cars_OnlyYourOwnCarModelsCan"));
         var path = Path.Combine(Folder, p.Id + ".json");
         if (File.Exists(path)) File.Delete(path);
     }

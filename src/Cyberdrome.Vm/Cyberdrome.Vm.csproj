@@ -2,4 +2,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\*.sh" LogicalName="Cyberdrome.Vm.Scripts.%(Filename)%(Extension)" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
+  </ItemGroup>
 </Project>

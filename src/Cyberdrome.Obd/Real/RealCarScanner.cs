@@ -29,17 +29,17 @@ public sealed class RealCarScan
         if (Adapter is { } a)
         {
             sb.AppendLine($"Adapter: {a.Version}{(a.StnVersion is { } s ? " / " + s : "")}");
-            sb.AppendLine($"Protokoll: {a.Protocol} – {a.ProtocolName}");
-            if (a.Voltage is { } v) sb.AppendLine($"Spänning: {v:0.0} V");
+            sb.AppendLine(L.F("RealCarScanner_Protocol01", a.Protocol, a.ProtocolName));
+            if (a.Voltage is { } v) sb.AppendLine(L.F("RealCarScanner_Voltage000V", v));
         }
-        sb.AppendLine($"VIN: {Vin ?? "(svarar inte)"}");
-        if (CalibrationIds.Count > 0) sb.AppendLine("Kalibrerings-id: " + string.Join(", ", CalibrationIds));
-        sb.AppendLine($"PID:ar ({SupportedPids.Count}): " + string.Join(" ", SupportedPids));
-        sb.AppendLine("Felkoder: " + (Dtcs.Count == 0 ? "inga" : string.Join(", ", Dtcs)));
-        sb.AppendLine($"Styrdon ({Ecus.Count}):");
+        sb.AppendLine("VIN: " + (Vin ?? L.T("Scan_NoAnswer")));
+        if (CalibrationIds.Count > 0) sb.AppendLine(L.T("Scan_CalibrationIds") + string.Join(", ", CalibrationIds));
+        sb.AppendLine(L.F("Scan_Pids0", SupportedPids.Count) + string.Join(" ", SupportedPids));
+        sb.AppendLine(L.T("Scan_Dtcs") + (Dtcs.Count == 0 ? L.T("Scan_None") : string.Join(", ", Dtcs)));
+        sb.AppendLine(L.F("Scan_Ecus0", Ecus.Count));
         foreach (var e in Ecus)
             sb.AppendLine($"  {e.RequestId:X3} → {e.ResponseId:X3}  {(e.AnswersObd ? "OBD " : "")}{(e.AnswersUds ? "UDS " : "")}{e.Note}");
-        if (Live.Count > 0) sb.AppendLine("Värden: " + string.Join(", ", Live.Select(kv => $"{kv.Key} {kv.Value:0.#}")));
+        if (Live.Count > 0) sb.AppendLine(L.T("RealCarScanner_Values") + string.Join(", ", Live.Select(kv => $"{kv.Key} {kv.Value:0.#}")));
         return sb.ToString().TrimEnd();
     }
 }
@@ -55,7 +55,7 @@ public static class RealCarScanner
         var scan = new RealCarScan { Adapter = a.Info };
         void Step(string s) { scan.Log.Add(s); progress?.Report(s); }
 
-        Step("Läser stödda PID:ar …");
+        Step(L.T("RealCarScanner_ReadingSupportedPIDs"));
         var supported = new SortedSet<byte>();
         var obdEcus = new HashSet<int>();
         for (byte basePid = 0x00; basePid <= 0xC0; basePid += 0x20)
@@ -72,18 +72,18 @@ public static class RealCarScanner
         }
         scan.SupportedPids.AddRange(supported.Where(p => p % 0x20 != 0).Select(p => p.ToString("X2")));
 
-        Step("Läser VIN …");
+        Step(L.T("RealCarScanner_ReadingVIN"));
         var (vin, _) = await a.RequestAsync(ObdAdapter.FunctionalHeader, [0x09, 0x02], 5000, ct).ConfigureAwait(false);
         var v = vin.FirstOrDefault(x => x.Data.Length > 3 && x.Data[0] == 0x49);
         if (v is not null) scan.Vin = Ascii(v.Data.Skip(3)).Trim();
 
-        Step("Läser kalibrerings-id …");
+        Step(L.T("RealCarScanner_ReadingCalibrationIds"));
         var (cal, _) = await a.RequestAsync(ObdAdapter.FunctionalHeader, [0x09, 0x04], 5000, ct).ConfigureAwait(false);
         foreach (var c in cal.Where(x => x.Data.Length > 3 && x.Data[0] == 0x49))
             foreach (var chunk in c.Data.Skip(3).Chunk(16))
                 if (Ascii(chunk).Trim() is { Length: > 0 } s) scan.CalibrationIds.Add($"{c.ResponseId:X3}: {s}");
 
-        Step("Läser felkoder …");
+        Step(L.T("RealCarScanner_ReadingTroubleCodes"));
         var (dtc, _) = await a.RequestAsync(ObdAdapter.FunctionalHeader, [0x03], 4000, ct).ConfigureAwait(false);
         foreach (var d in dtc.Where(x => x.Data.Length >= 1 && x.Data[0] == 0x43))
         {
@@ -92,7 +92,7 @@ public static class RealCarScanner
                 if (bytes[i] != 0 || bytes[i + 1] != 0) scan.Dtcs.Add(DecodeDtc(bytes[i], bytes[i + 1]));
         }
 
-        Step("Läser värden …");
+        Step(L.T("RealCarScanner_ReadingValues"));
         foreach (var (pid, name) in LivePids)
         {
             if (!supported.Contains(pid)) continue;
@@ -103,7 +103,7 @@ public static class RealCarScanner
 
         if (a.IsCan)
         {
-            Step("Söker styrdon …");
+            Step(L.T("RealCarScanner_SearchingForControlUnits"));
             var ids = Enumerable.Range(0x7E0, 8).Concat(probeUds ? CommonUdsRequestIds : []).Distinct().ToList();
             foreach (var req in ids)
             {
@@ -128,13 +128,13 @@ public static class RealCarScanner
             }
         }
         foreach (var id in obdEcus.Where(id => scan.Ecus.All(e => e.ResponseId != id)))
-            scan.Ecus.Add(new FoundEcu(id >= 0x7E8 && id <= 0x7EF ? id - 8 : 0x7DF, id, true, false, "svarade på 7DF"));
+            scan.Ecus.Add(new FoundEcu(id >= 0x7E8 && id <= 0x7EF ? id - 8 : 0x7DF, id, true, false, L.T("RealCarScanner_AnsweredOn7DF")));
         Step("Klar.");
         return scan;
     }
 
     private static readonly (byte Pid, string Name)[] LivePids =
-        [(0x0D, "km/h"), (0x0C, "rpm"), (0x05, "kylv. °C"), (0x2F, "bränsle %"), (0x11, "gasspjäll %"), (0x0F, "insug °C"), (0x46, "ute °C"), (0x42, "volt")];
+        [(0x0D, "km/h"), (0x0C, "rpm"), (0x05, "kylv. °C"), (0x2F, L.T("Ui_Fuel2")), (0x11, L.T("Source_Throttle")), (0x0F, "insug °C"), (0x46, "ute °C"), (0x42, "volt")];
 
     public static double? Decode(byte pid, byte[] d) => pid switch
     {
@@ -153,7 +153,7 @@ public static class RealCarScanner
     /// <summary>Märke från VIN:ets tillverkarkod (WMI). Grov tabell; bildatabasen ger mer.</summary>
     public static string MakeFromVin(string? vin)
     {
-        if (vin is not { Length: >= 3 }) return "Okänt märke";
+        if (vin is not { Length: >= 3 }) return L.T("RealCarScanner_UnknownMake");
         string[] pairs = ["WVW:Volkswagen", "WVG:Volkswagen", "WV1:Volkswagen", "WV2:Volkswagen", "3VW:Volkswagen", "WAU:Audi", "WUA:Audi", "TMB:Škoda",
             "VSS:Seat", "WBA:BMW", "WBS:BMW", "WBY:BMW", "WMW:Mini", "WDD:Mercedes-Benz", "WDB:Mercedes-Benz", "W1K:Mercedes-Benz", "YV1:Volvo", "YV4:Volvo",
             "LVY:Volvo", "YS3:Saab", "JT:Toyota", "SB1:Toyota", "NMT:Toyota", "WF0:Ford", "1FA:Ford", "1FM:Ford", "VF1:Renault", "VF3:Peugeot", "VF7:Citroën",
@@ -165,7 +165,7 @@ public static class RealCarScanner
             var (code, make) = (p[..p.IndexOf(':')], p[(p.IndexOf(':') + 1)..]);
             if (v.StartsWith(code, StringComparison.Ordinal)) return make;
         }
-        return "Okänt märke";
+        return L.T("RealCarScanner_UnknownMake");
     }
 
     /// <summary>Årsmodell från VIN-tecken 10 (senaste möjliga år som inte ligger i framtiden).</summary>
@@ -192,7 +192,7 @@ public static class RealCarScanner
         make ??= MakeFromVin(scan.Vin);
         var y = year ?? YearFromVin(scan.Vin) ?? DateTime.Now.Year;
         y = Math.Clamp(y, 1996, 2100);
-        model ??= "Riktig bil " + DateTime.Now.ToString("yyyy-MM-dd");
+        model ??= L.T("RealCarScanner_RealCar") + DateTime.Now.ToString("yyyy-MM-dd");
         var p = new CarProfile
         {
             Make = make, Model = model, Generation = "", Year = y, Vin = vin,
@@ -207,18 +207,18 @@ public static class RealCarScanner
             p.Ecus.Add(new EcuProfile
             {
                 Key = n == 0 && e.RequestId == 0x7E0 ? "motor" : $"ecu{e.RequestId:x3}",
-                Name = (e.RequestId == 0x7E0 ? "Motor" : e.RequestId == 0x7E1 ? "Växellåda" : "Styrdon") + $" {e.RequestId:X3}",
+                Name = (e.RequestId == 0x7E0 ? "Motor" : e.RequestId == 0x7E1 ? L.T("RealCarScanner_Transmission") : "Styrdon") + $" {e.RequestId:X3}",
                 RequestId = $"{e.RequestId:X3}", ResponseId = $"{e.ResponseId:X3}", Coding = "00000000", CodingDid = "0600",
             });
             n++;
         }
         if (p.Ecus.Count == 0) p.Ecus.Add(new EcuProfile { Key = "motor", Name = "Motor 7E0", RequestId = "7E0", ResponseId = "7E8", Coding = "00000000" });
         if (p.SupportedPids.Count == 0) p.SupportedPids = null;
-        static double? L(RealCarScan s, string k) => s.Live.TryGetValue(k, out var x) ? x : null;
+        static double? Lv(RealCarScan s, string k) => s.Live.TryGetValue(k, out var x) ? x : null;
         p.DefaultValues = new ProfileDefaults
         {
-            Speed = L(scan, "km/h"), Rpm = L(scan, "rpm"), Coolant = L(scan, "kylv. °C") is { } c ? Math.Clamp(c, -40, 130) : null,
-            Fuel = L(scan, "bränsle %"), BatteryVolt = L(scan, "volt"),
+            Speed = Lv(scan, "km/h"), Rpm = Lv(scan, "rpm"), Coolant = Lv(scan, "kylv. °C") is { } c ? Math.Clamp(c, -40, 130) : null,
+            Fuel = Lv(scan, L.T("Ui_Fuel2")), BatteryVolt = Lv(scan, "volt"),
         };
         p.Id = store.UniqueId(ProfileStore.SafeId($"{make}-{model}"));
         return p;

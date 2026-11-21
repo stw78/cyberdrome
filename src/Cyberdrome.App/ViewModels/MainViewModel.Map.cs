@@ -33,11 +33,11 @@ public sealed partial class MainViewModel
 
     [ObservableProperty] private string _gpsStatus = "";
 
-    public string[] MapClickModes { get; } = ["Klick flyttar bilen", "Klick lägger till ruttpunkt"];
+    public string[] MapClickModes => [L.T("Map_ClickMovesTheCar"), L.T("Map_ClickAddsARoutePoint")];
 
     public string MapHelp => MapClickMode == 0
-        ? "Klicka på kartan för att sätta bilen där. Dra för att flytta kartan, scrolla för att zooma."
-        : "Klicka ut punkter i ordning och tryck sedan Kör rutten. Bilen följer rutten med farten från reglaget (eller körningen).";
+        ? L.T("Map_ClickTheMapToPutThe")
+        : L.T("Map_ClickPointsInOrderAndThen");
 
     public string MapTileUrl
     {
@@ -68,26 +68,26 @@ public sealed partial class MainViewModel
             _draftRoute.Clear();
             MapRoute = null;
             UpdateCarFromGps();
-            GpsStatus = "Bilen flyttad till " + p;
+            GpsStatus = L.T("Map_CarMovedTo") + p;
         }
         else
         {
             if (_draftRoute.Count == 0) _draftRoute.Add(_gps.Position); // rutten börjar där bilen står
             _draftRoute.Add(p);
             MapRoute = _draftRoute.ToList();
-            GpsStatus = $"{_draftRoute.Count} punkter – tryck Kör rutten.";
+            GpsStatus = L.F("Map_0PointsPressDriveTheRoute", _draftRoute.Count);
         }
     }
 
     [RelayCommand]
     private void StartRoute()
     {
-        if (_draftRoute.Count < 2) { GpsStatus = "Klicka ut minst en punkt först (läget ”Klick lägger till ruttpunkt”)."; return; }
+        if (_draftRoute.Count < 2) { GpsStatus = L.T("Map_ClickAtLeastOnePointFirst"); return; }
         var route = new GeoRoute(_draftRoute.ToList());
         _gps.SetRoute(route);
         MapRoute = route.Points;
-        GpsStatus = $"Kör rutten: {route.Length / 1000:0.0} km. Bilen rör sig med farten på Översikt.";
-        if (Speed < 1 && !IsPlayingDrive) GpsStatus += " Farten är 0 – dra upp hastigheten.";
+        GpsStatus = L.F("Map_DrivingTheRoute000", route.Length / 1000);
+        if (Speed < 1 && !IsPlayingDrive) GpsStatus += L.T("Map_TheSpeedIs0RaiseThe");
         UpdateCarFromGps();
     }
 
@@ -97,7 +97,7 @@ public sealed partial class MainViewModel
         _draftRoute.Clear();
         _gps.SetPosition(_gps.Position);
         MapRoute = null;
-        GpsStatus = "Rutten borttagen.";
+        GpsStatus = L.T("Map_RouteRemoved");
     }
 
     private void OnDriveSampleForGps(DriveSample s)
@@ -159,8 +159,8 @@ public sealed partial class MainViewModel
             double speed = Ignition ? Speed : 0;
             var ok = await emu.SendGpsFixAsync(p.Lat, p.Lon, 25, speed);
             GpsStatus = ok
-                ? $"GPS till Android: {p}  ·  {speed:0} km/h  ·  kurs {_gps.Bearing:0}°"
-                : "Kunde inte skicka GPS till Android.";
+                ? L.F("Map_GPSToAndroid010", p, speed, _gps.Bearing)
+                : L.T("Map_CouldNotSendGPSToAndroid");
         }
         catch (Exception ex) { GpsStatus = "GPS: " + ex.Message; }
         finally { _gpsSending = false; }

@@ -424,7 +424,7 @@ public sealed class Elm327Emulator
                 do _random.NextBytes(seed); while (seed.All(b => b == 0));
                 st.PendingSeed = seed;
                 var key = coding.SecurityFor(ecu).ComputeKey(seed);
-                Hint?.Invoke($"{ecu.Name}: förväntad nyckel: {Convert.ToHexString(key).Insert(6, " ").Insert(4, " ").Insert(2, " ")}  (skicka 27 02 {Convert.ToHexString(key)})");
+                Hint?.Invoke(L.F("Elm327Emulator_0ExpectedKey1Send27", ecu.Name, Convert.ToHexString(key).Insert(6, " ").Insert(4, " ").Insert(2, " "), Convert.ToHexString(key)));
                 return [0x67, 0x01, .. seed];
             }
             case 0x02: // sendKey
@@ -438,7 +438,7 @@ public sealed class Elm327Emulator
                 {
                     st.Unlocked = true;
                     st.FailedAttempts = 0;
-                    Hint?.Invoke($"{ecu.Name}: upplåst med rätt nyckel.");
+                    Hint?.Invoke(L.F("Elm327Emulator_0UnlockedWithTheCorrectKey", ecu.Name));
                     return [0x67, 0x02];
                 }
                 st.FailedAttempts++;
@@ -446,7 +446,7 @@ public sealed class Elm327Emulator
                 {
                     st.FailedAttempts = 0;
                     st.LockedUntil = now + LockoutDelay;
-                    Hint?.Invoke($"{ecu.Name}: för många fel nycklar – spärrat i {LockoutDelay.TotalSeconds:0} sekunder.");
+                    Hint?.Invoke(L.F("Elm327Emulator_0TooManyWrongKeysLocked", ecu.Name, LockoutDelay.TotalSeconds));
                     return Neg(0x36); // exceededNumberOfAttempts
                 }
                 return Neg(0x35); // invalidKey

@@ -60,8 +60,8 @@ public static class AndroidBackends
 
     public static string ModeTitle(AndroidMode m) => m switch
     {
-        AndroidMode.NoRestart => "Utan omstart (Googles emulator, för utveckling)",
-        AndroidMode.GoogleApps => "Android med Google-appar (Play Store, Google Maps) – Googles emulator, för utveckling",
-        _ => "Snabbt – WSL2 + Cuttlefish (riktig AOSP)",
+        AndroidMode.NoRestart => L.T("Ui_NoRestartGoogleSEmulatorFor"),
+        AndroidMode.GoogleApps => L.T("Ui_AndroidWithGoogleAppsPlayStore"),
+        _ => L.T("Ui_FastWSL2CuttlefishRealAOSP"),
     };
 }

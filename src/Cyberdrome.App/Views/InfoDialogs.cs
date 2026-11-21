@@ -28,7 +28,7 @@ public static class InfoDialogs
     public static string ReadText(string file)
     {
         var p = Path.Combine(AppContext.BaseDirectory, file);
-        return File.Exists(p) ? File.ReadAllText(p) : $"({file} saknas i programmappen)";
+        return File.Exists(p) ? File.ReadAllText(p) : L.F("InfoDialogs_FileMissing0", file);
     }
 
     /// <summary>Markdown → läsbar text (rubriker och fetstil utan tecken).</summary>
@@ -61,32 +61,25 @@ public static class InfoDialogs
         try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
     }
 
-    public const string Description =
-        "Cyberdrome simulerar en Android-bilradio med en virtuell OBD-port, så att du kan utveckla och testa media-, radio- och " +
-        "OBD-appar utan en riktig bil. Programmet kör Android Automotive, emulerar bilmodeller med egna teman, felkoder, kodning " +
-        "och GPS, och kan även ansluta en riktig OBD-adapter.";
+    public static string Description => L.T("About_Description");
 
-    public static readonly string[] Features =
+    public static string[] Features =>
     [
-        "Android Automotive i programmet (utan omstart), egna teman och skal per bilmodell",
-        "Virtuell OBD-port (ELM327) via Wi-Fi, Bluetooth och Bluetooth LE, med UDS och säkerhetsnyckel",
-        "Bilmodeller: egna, delade (.cbs), ODX/VSS/CSV och bildatabas (vPIC, Wikidata, OBDb)",
-        "Körningar och karta med GPS till Android",
-        "Testfall med godkänt/underkänt och rapporter",
-        "Riktig OBD-adapter: läsläge, vidarekoppling till Android och skrivskydd",
+        L.T("InfoDialogs_AndroidAutomotiveInsideTheProgramNo"),
+        L.T("InfoDialogs_VirtualOBDPortELM327OverWi"),
+        L.T("InfoDialogs_CarModelsOwnSharedCbsODX"),
+        L.T("InfoDialogs_DrivesAndMapWithGPSTo"),
+        L.T("InfoDialogs_TestCasesWithPassFailAnd"),
+        L.T("InfoDialogs_RealOBDAdapterReadOnlyBridge"),
     ];
 
-    public const string Disclaimer =
-        "Cyberdrome tillhandahålls utan någon garanti. Det är en simulator för utveckling och test – inte för användning under " +
-        "körning. Bilmodellernas värden, felkoder och kodningar är påhittade exempel. Skrivning till riktiga bilar sker på egen " +
-        "risk (programmet är i läsläge som standard). Android-avbildningar med Google-tjänster hämtas av dig från Google och får " +
-        "bara användas för utveckling och test. Inga tillverkares logotyper, typsnitt eller säkerhetsalgoritmer ingår.";
+    public static string Disclaimer => L.T("About_Disclaimer");
 
     private static Control DonationBox()
     {
         var btn = new Button
         {
-            Content = Donation.Available ? "Donera via PayPal" : "PayPal-länk kommer snart",
+            Content = Donation.Available ? L.T("InfoDialogs_DonateViaPayPal") : L.T("InfoDialogs_PayPalLinkComingSoon"),
             IsEnabled = Donation.Available, Padding = new Thickness(14, 6), Background = Accent, Foreground = Brushes.White,
         };
         btn.Click += (_, _) => OpenUrl(Donation.Url);
@@ -95,9 +88,8 @@ public static class InfoDialogs
             Background = Soft, CornerRadius = new CornerRadius(8), Padding = new Thickness(12),
             Child = new StackPanel { Spacing = 6, Children =
             {
-                Text("Stöd utvecklingen", 14, FontWeight.SemiBold),
-                Text("Cyberdrome är gratis och öppen källkod. Utvecklingen drivs av donationer – varje bidrag hjälper till med nya " +
-                     "bilmodeller, funktioner och tester mot riktiga bilar."),
+                Text(L.T("InfoDialogs_SupportTheDevelopment"), 14, FontWeight.SemiBold),
+                Text(L.T("About_DonationText")),
                 btn,
             } },
         };
@@ -105,9 +97,9 @@ public static class InfoDialogs
 
     public static async Task ShowAboutAsync(Window owner)
     {
-        var win = NewWindow("Om Cyberdrome", 720, 760);
-        var licenseBtn = new Button { Content = "Licens …", Padding = new Thickness(14, 6) };
-        var close = new Button { Content = "Stäng", Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
+        var win = NewWindow(L.T("InfoDialogs_AboutCyberdrome"), 720, 760);
+        var licenseBtn = new Button { Content = L.T("InfoDialogs_Licence"), Padding = new Thickness(14, 6) };
+        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
         close.Click += (_, _) => win.Close();
         licenseBtn.Click += async (_, _) => await ShowLicenseAsync(win);
         var features = new StackPanel { Spacing = 3 };
@@ -127,16 +119,13 @@ public static class InfoDialogs
                     } },
                 } },
                 Text($"Version {AppVersion}", 13, FontWeight.Medium, Accent),
-                Text("Öppen källkod under GPL-3.0", 13, FontWeight.SemiBold),
+                Text(L.T("InfoDialogs_OpenSourceUnderGPL30"), 13, FontWeight.SemiBold),
                 Text(Description),
-                Text("Det här kan programmet:", 13, FontWeight.SemiBold),
+                Text(L.T("InfoDialogs_WhatTheProgramCanDo"), 13, FontWeight.SemiBold),
                 features,
                 DonationBox(),
                 new Border { Background = Warn, CornerRadius = new CornerRadius(8), Padding = new Thickness(10), Child = Text(Disclaimer, 12) },
-                Text("Cyberdrome © 2026 Jouko Broström. Detta program är fri programvara: du får sprida och ändra det enligt GNU General " +
-                     "Public License version 3 eller (om du vill) senare. Det sprids UTAN NÅGON GARANTI. Programmet använder öppen källkod " +
-                     "(bl.a. Avalonia, CommunityToolkit.Mvvm, Velopack, SQLite, SkiaSharp och .NET). Data som hämtas: © OpenStreetMap-" +
-                     "bidragsgivare (ODbL), OBDb (CC BY-SA 4.0), Wikidata (CC0) och NHTSA vPIC. Allt finns under Licens.", 12, null, Muted),
+                Text(L.T("About_GplNotice"), 12, null, Muted),
                 new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, HorizontalAlignment = HorizontalAlignment.Right, Children = { licenseBtn, close } },
             },
         };
@@ -157,10 +146,10 @@ public static class InfoDialogs
                 new TabItem { Header = "Ansvarsfriskrivning", Content = Mono(PlainMarkdown(ReadText("DISCLAIMER.md"))) },
             },
         };
-        var close = new Button { Content = "Stäng", Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
+        var close = new Button { Content = L.T("InfoDialogs_Close"), Padding = new Thickness(14, 6), IsDefault = true, IsCancel = true };
         close.Click += (_, _) => win.Close();
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 0, 0), Children = { close } };
-        var head = Text($"Cyberdrome · Jouko Broström · version {AppVersion} · GPL-3.0-or-later", 13, FontWeight.Medium);
+        var head = Text(L.F("InfoDialogs_CyberdromeJoukoBrostrMVersion0", AppVersion), 13, FontWeight.Medium);
         var dock = new DockPanel { Margin = new Thickness(18) };
         DockPanel.SetDock(head, Dock.Top);
         DockPanel.SetDock(buttons, Dock.Bottom);
@@ -174,13 +163,13 @@ public static class InfoDialogs
     /// <summary>Första starten: ansvarsfriskrivningen (ingen garanti, simulator, riktiga bilar på egen risk).</summary>
     public static async Task ShowDisclaimerAsync(Window owner)
     {
-        var win = NewWindow("Välkommen till Cyberdrome", 760, 620);
-        var ok = new Button { Content = "Jag förstår", Padding = new Thickness(14, 6), Background = Accent, Foreground = Brushes.White, IsDefault = true };
+        var win = NewWindow(L.T("InfoDialogs_WelcomeToCyberdrome"), 760, 620);
+        var ok = new Button { Content = L.T("InfoDialogs_IUnderstand"), Padding = new Thickness(14, 6), Background = Accent, Foreground = Brushes.White, IsDefault = true };
         ok.Click += (_, _) => win.Close();
         var head = new StackPanel { Spacing = 4, Children =
         {
-            Text("Cyberdrome är fri programvara (GPL-3.0) – utan garanti", 16, FontWeight.SemiBold),
-            Text("Läs ansvarsfriskrivningen. Hela licensen finns under knappen Licens.", 12, null, Muted),
+            Text(L.T("InfoDialogs_CyberdromeIsFreeSoftwareGPL3"), 16, FontWeight.SemiBold),
+            Text(L.T("InfoDialogs_ReadTheDisclaimerTheFullLicence"), 12, null, Muted),
         } };
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 10, 0, 0), Children = { ok } };
         var dock = new DockPanel { Margin = new Thickness(18) };

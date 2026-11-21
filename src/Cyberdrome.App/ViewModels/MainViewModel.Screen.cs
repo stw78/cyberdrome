@@ -70,7 +70,7 @@ public sealed partial class MainViewModel
     {
         if (!ScreenPresets.IsValid(CustomScreenWidth, CustomScreenHeight, CustomScreenDpi))
         {
-            ScreenStatus = "Ogiltig storlek: bredd/höjd 320–4096 och dpi 80–640.";
+            ScreenStatus = L.T("Screen_InvalidSizeWidthHeight3204096");
             return Task.CompletedTask;
         }
         _vmSettings.ScreenPresetId = ScreenPresets.CustomId;
@@ -84,17 +84,17 @@ public sealed partial class MainViewModel
         var (w, h, dpi) = _vmSettings.EffectiveScreen();
         if (_android is not EmulatorVm emu)
         {
-            ScreenStatus = "Skärmstorlek gäller läget Utan omstart (emulatorn).";
+            ScreenStatus = L.T("Screen_TheScreenSizeAppliesToThe");
             return;
         }
         if (!AndroidRunning)
         {
             await emu.ApplyScreenAsync(w, h, dpi, AndroidLogLine);
-            ScreenStatus = $"Sparat: {ScreenLabel}. Gäller när Android startar.";
+            ScreenStatus = L.F("Screen_Saved0AppliesWhenAndroidStarts", ScreenLabel);
             return;
         }
-        ScreenStatus = "Byter skärm …";
+        ScreenStatus = L.T("Screen_ChangingScreen");
         var ok = await emu.ApplyScreenAsync(w, h, dpi, AndroidLogLine);
-        ScreenStatus = ok ? $"Skärm: {ScreenLabel}" : "Kunde inte byta skärm – se loggen på sidan Android.";
+        ScreenStatus = ok ? L.F("Screen_Screen0", ScreenLabel) : L.T("Screen_CouldNotChangeTheScreenSee");
     }
 }

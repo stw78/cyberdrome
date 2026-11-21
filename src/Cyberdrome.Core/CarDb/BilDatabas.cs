@@ -27,7 +27,7 @@ public interface IBilDatabas : IDisposable
 /// <summary>Lokal bildatabas: SQLite-fil + vPIC + OBDb. Fungerar utan internet för det som redan hämtats.</summary>
 public sealed class LocalBilDatabas(CarModelDb db, VpicClient vpic, ObdbClient obdb, WikidataClient? wikidata = null) : IBilDatabas
 {
-    public string Name => "Lokal bildatabas (" + db.FilePath + ")";
+    public string Name => L.T("BilDatabas_LocalCarDatabase") + db.FilePath + ")";
     public CarModelDb Db => db;
     public ObdbClient Obdb => obdb;
 
@@ -44,7 +44,7 @@ public sealed class LocalBilDatabas(CarModelDb db, VpicClient vpic, ObdbClient o
     public async Task<VinInfo> DecodeVinAsync(string vin, CancellationToken ct = default)
     {
         vin = vin.Trim().ToUpperInvariant();
-        if (vin.Length != 17) throw new ArgumentException("Ett VIN har 17 tecken.");
+        if (vin.Length != 17) throw new ArgumentException(L.T("CarDb_AVINHas17Characters"));
         if (db.FindVin(vin) is { } cached) return cached;
         var v = await vpic.DecodeVinAsync(vin, ct: ct).ConfigureAwait(false);
         db.SaveVin(v);
@@ -65,7 +65,7 @@ public sealed class LocalBilDatabas(CarModelDb db, VpicClient vpic, ObdbClient o
         for (int y = toYear; y >= fromYear; y--)
         {
             ct.ThrowIfCancellationRequested();
-            progress?.Report($"vPIC: {make} {y} …");
+            progress?.Report(L.F("BilDatabas_VPIC01", make, y));
             if (db.IsFetched(make, y)) continue;
             added += db.UpsertModels(await vpic.GetModelsAsync(make, y, ct).ConfigureAwait(false));
             db.MarkFetched(make, y);
@@ -123,9 +123,9 @@ public static class CarProfileFactory
         var p = ProfileStore.Clone(template);
         p.Make = make; p.Model = model; p.Generation = ""; p.Year = Math.Clamp(year, 1996, 2100);
         if (year < 1996)
-            notes.Add($"⚠ Årsmodell {year} är äldre än OBD-II (USA 1996, EU bensin 2001, EU diesel 2004) – bilen har troligen ingen OBD-II-port. Modellen sparas som 1996 och simulerar OBD-II ändå.");
+            notes.Add(L.F("BilDatabas_ModelYear0IsOlderThan", year));
         else if (year < 2004)
-            notes.Add("⚠ OBD-II gäller USA från 1996, EU-bensinbilar från 2001 och EU-dieslar från 2004. En europeisk bil av den här årsmodellen kan sakna OBD-II.");
+            notes.Add(L.T("BilDatabas_OBDIIAppliesInTheUS"));
         p.StartDtcs = [];
         p.CustomPids = null; p.ExtraCommands = null; p.DtcDescriptions = null; p.Attribution = null;
         if (sameMake is null)
@@ -134,7 +134,7 @@ public static class CarProfileFactory
             p.Ecus = p.Ecus.Take(1).ToList();
             p.Ecus[0].Key = "motor"; p.Ecus[0].Name = "Motor"; p.Ecus[0].Coding = "00000000";
             p.SecurityAccess = null;
-            notes.Add($"Ingen inbyggd {make} – grunden (skärm, motorstyrdon) kommer från {template.DisplayName}.");
+            notes.Add(L.F("BilDatabas_NoBuiltIn0TheBase", make, template.DisplayName));
         }
         if (vin is { Vin.Length: 17 }) p.Vin = vin.Vin[..11] + "000001"; // serienumret döljs
         else if (sameMake is null) p.Vin = PlaceholderVin(make, p.Year);
@@ -142,15 +142,15 @@ public static class CarProfileFactory
 
         if (signals is { SignalCount: 0 })
         {
-            notes.Add($"OBDb har arkivet {signals.Repo} men det innehåller inga signaler ännu – bara standard-PID:ar.");
+            notes.Add(L.F("BilDatabas_OBDbHasTheRepository0But", signals.Repo));
             signals = null;
             p.ExtraCommands = null;
             return p;
         }
         if (signals is not null && !signals.Repo.Contains('-'))
-            notes.Add($"Modellen saknar egna signaler i OBDb – märkets gemensamma signaler ({signals.Repo}) används.");
+            notes.Add(L.F("BilDatabas_TheModelHasNoSignalsOf", signals.Repo));
         if (signals is not null) ApplySignals(p, signals, notes);
-        else notes.Add("OBDb saknar modellen – bara standard-PID:ar.");
+        else notes.Add(L.T("BilDatabas_OBDbDoesNotHaveTheModel"));
         return p;
     }
 
@@ -158,7 +158,7 @@ public static class CarProfileFactory
     /// Lägger till signaler i OBDb-format (mode 21/22) i en bilmodell: styrdon skapas per CAN-id, frågor med samma
     /// styrdon och fråga ersätts. Används både när en modell skapas och vid import av en OBDb-JSON-fil.
     /// </summary>
-    public static int ApplySignals(CarProfile p, ObdbSignalSet signals, List<string> notes, string? attribution = ObdbClient.Attribution, string source = "OBDb")
+    public static int ApplySignals(CarProfile p, ObdbSignalSet signals, List<string> notes, string? attribution = null, string source = "OBDb")
     {
             int used = 0, skippedExt = 0, skippedOther = 0, skippedYear = 0;
             var commands = new List<ExtraCommand>();
@@ -191,11 +191,11 @@ public static class CarProfileFactory
             // Behåll tidigare frågor (t.ex. från en annan fil) som inte ersätts.
             var kept = (p.ExtraCommands ?? []).Where(o => !commands.Any(n => n.Header == o.Header && n.Request == o.Request));
             p.ExtraCommands = kept.Concat(commands).ToList();
-            if (attribution is not null) p.Attribution = attribution;
-            notes.Add($"{used} tillverkarsignaler i {commands.Count} frågor från {source}.");
-            if (skippedYear > 0) notes.Add($"{skippedYear} frågor gäller andra årsmodeller.");
-            if (skippedExt > 0) notes.Add($"{skippedExt} frågor med utökad adressering hoppades över (simuleras inte).");
-            if (skippedOther > 0) notes.Add($"{skippedOther} frågor av annan typ hoppades över.");
+            p.Attribution = attribution ?? ObdbClient.Attribution;
+            notes.Add(L.F("BilDatabas_0ManufacturerSignalsIn1Requests", used, commands.Count, source));
+            if (skippedYear > 0) notes.Add(L.F("BilDatabas_0RequestsApplyToOtherModel", skippedYear));
+            if (skippedExt > 0) notes.Add(L.F("BilDatabas_0RequestsWithExtendedAddressingWere", skippedExt));
+            if (skippedOther > 0) notes.Add(L.F("BilDatabas_0RequestsOfAnotherTypeWere", skippedOther));
         return used;
     }
 

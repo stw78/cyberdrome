@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Cyberdrome.Core\Cyberdrome.Core.csproj" />
     <ProjectReference Include="..\Cyberdrome.Obd\Cyberdrome.Obd.csproj" />
     <ProjectReference Include="..\Cyberdrome.Vm\Cyberdrome.Vm.csproj" />
+    <ProjectReference Include="..\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\cyberdrome.ico" />

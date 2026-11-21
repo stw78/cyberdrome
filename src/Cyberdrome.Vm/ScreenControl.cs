@@ -22,9 +22,9 @@ public static class SteeringKeys
 
     public static string Label(SteeringButton b) => b switch
     {
-        SteeringButton.Previous => "Föregående",
-        SteeringButton.Next => "Nästa",
-        SteeringButton.Mute => "Ljud av",
+        SteeringButton.Previous => L.T("ScreenControl_Previous"),
+        SteeringButton.Next => L.T("ScreenControl_Next"),
+        SteeringButton.Mute => L.T("ScreenControl_Mute"),
         _ => b.ToString(),
     };
 }

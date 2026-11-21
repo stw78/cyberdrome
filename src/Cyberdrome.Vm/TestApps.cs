@@ -55,22 +55,22 @@ public sealed class FdroidApp
     /// </summary>
     public async Task<string> DownloadAsync(HttpClient http, Action<string> log, Action<double> onPercent, CancellationToken ct = default)
     {
-        log($"Frågar F-Droid efter senaste {DisplayName} …");
+        log(L.F("TestApps_AskingFDroidForTheLatest", DisplayName));
         var info = await http.GetFromJsonAsync<FdroidPackage>(ApiUrl, ct)
-                   ?? throw new InvalidOperationException("F-Droid svarade inte.");
-        if (info.SuggestedVersionCode <= 0) throw new InvalidOperationException("F-Droid gav ingen version.");
+                   ?? throw new InvalidOperationException(L.T("TestApps_FDroidDidNotAnswer"));
+        if (info.SuggestedVersionCode <= 0) throw new InvalidOperationException(L.T("TestApps_FDroidGaveNoVersion"));
 
         var path = CachePath(info.SuggestedVersionCode);
         if (File.Exists(path) && IsValidApk(path))
         {
-            log($"{DisplayName} ({info.SuggestedVersionCode}) finns redan nedladdad.");
+            log(L.F("TestApps_01IsAlreadyDownloaded", DisplayName, info.SuggestedVersionCode));
             onPercent(100);
             return path;
         }
 
         Directory.CreateDirectory(CacheFolder);
         var url = ApkUrl(info.SuggestedVersionCode);
-        log("Laddar ner " + url);
+        log(L.T("TestApps_Downloading") + url);
         using var resp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
         resp.EnsureSuccessStatusCode();
         long total = resp.Content.Headers.ContentLength ?? 0;
@@ -96,7 +96,7 @@ public sealed class FdroidApp
         if (!IsValidApk(tmp))
         {
             File.Delete(tmp);
-            throw new InvalidDataException($"Filen från F-Droid är inte en giltig APK ({DisplayName}).");
+            throw new InvalidDataException(L.F("TestApps_TheFileFromFDroidIs", DisplayName));
         }
         File.Move(tmp, path, overwrite: true);
         onPercent(100);
@@ -111,13 +111,9 @@ public static class AndrObd
     public const string PackageName = "com.fr3ts0n.ecu.gui.androbd";
     public const string DisplayName = "AndrOBD";
 
-    public const string HelpText =
-        "Så ansluter du AndrOBD till den virtuella bilen: öppna AndrOBD → meny (⋮) → Inställningar → " +
-        "Anslutningstyp: Nätverk (Network/WiFi). Ange IP-adress 10.0.2.2 och port 35000. " +
-        "Gå tillbaka och tryck Anslut (Connect). Välj sedan t.ex. Live-data (OBD Data) – hastighet och varvtal " +
-        "följer reglagen i Cyberdrome. AndrOBD är GPLv3 och laddas ner från F-Droid; den följer inte med Cyberdrome.";
+    public static string HelpText => L.T("AndrObd_Help");
 
-    public static readonly FdroidApp App = new(PackageName, DisplayName, HelpText);
+    public static FdroidApp App => new(PackageName, DisplayName, HelpText);
 
     public static string ApiUrl => App.ApiUrl;
     public static string ApkUrl(long versionCode) => App.ApkUrl(versionCode);
@@ -132,7 +128,5 @@ public static class AndrObd
 /// <summary>Kartapp: Organic Maps (öppen källkod, Apache-2.0) från F-Droid, för att se den emulerade GPS:en.</summary>
 public static class OrganicMaps
 {
-    public static readonly FdroidApp App = new("app.organicmaps", "Organic Maps",
-        "Organic Maps visar bilens position från Cyberdrome (GPS skickas från sidan Karta). Första gången: tillåt platsåtkomst. " +
-        "Kartdata för t.ex. Stockholm laddas ner inne i appen när du zoomar in. Organic Maps laddas ner från F-Droid och följer inte med Cyberdrome.");
+    public static FdroidApp App => new("app.organicmaps", "Organic Maps", L.T("OrganicMaps_Help"));
 }

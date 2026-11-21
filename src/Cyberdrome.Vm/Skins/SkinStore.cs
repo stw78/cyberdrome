@@ -35,7 +35,7 @@ public sealed class SkinStore
     public static Skin Load(string dir)
     {
         var json = Path.Combine(dir, "skin.json");
-        if (!File.Exists(json)) throw new FileNotFoundException("skin.json saknas.", json);
+        if (!File.Exists(json)) throw new FileNotFoundException(L.T("SkinStore_SkinJsonIsMissing"), json);
         var s = Skin.FromJson(File.ReadAllText(json));
         s.Folder = dir;
         s.Style = null; // egna skal ritas alltid från sin bild
@@ -57,15 +57,15 @@ public sealed class SkinStore
                 ZipFile.ExtractToDirectory(source, tempDir);
                 // skin.json kan ligga i roten eller i en undermapp
                 var json = Directory.GetFiles(tempDir, "skin.json", SearchOption.AllDirectories).FirstOrDefault()
-                           ?? throw new InvalidDataException("Zip-filen innehåller ingen skin.json.");
+                           ?? throw new InvalidDataException(L.T("SkinStore_TheZipFileContainsNoSkin"));
                 dir = Path.GetDirectoryName(json)!;
             }
             else if (Directory.Exists(source)) dir = source;
-            else throw new InvalidDataException("Välj en mapp eller en zip-fil med skin.json.");
+            else throw new InvalidDataException(L.T("SkinStore_ChooseAFolderOrAZip"));
 
             var skin = Load(dir);
             var errors = skin.Validate();
-            if (errors.Count > 0) throw new InvalidDataException("Skalet är inte giltigt: " + string.Join(" ", errors));
+            if (errors.Count > 0) throw new InvalidDataException(L.T("SkinStore_TheSkinIsNotValid") + string.Join(" ", errors));
 
             var safeId = SafeId(skin.Id);
             if (BuiltInSkins.Find(safeId) is not null || safeId is BuiltInSkins.None or BuiltInSkins.CarDefault)
@@ -102,7 +102,7 @@ public sealed class SkinStore
         if (errors.Count > 0)
         {
             Directory.Delete(target, true);
-            throw new InvalidDataException("Skalet är inte giltigt: " + string.Join(" ", errors));
+            throw new InvalidDataException(L.T("SkinStore_TheSkinIsNotValid") + string.Join(" ", errors));
         }
         return loaded;
     }

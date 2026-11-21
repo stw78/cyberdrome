@@ -50,13 +50,13 @@ public sealed partial class MainViewModel
         copy.Theme ??= bt.Id;
         copy.ScreenPreset ??= bt.ScreenPreset;
         CarEditor = new CarEditorViewModel(copy, isNew: true);
-        CarStatus = $"Kopia av {SelectedProfile.DisplayName}. Ändra och tryck Spara.";
+        CarStatus = L.F("Cars_CopyOf0ChangeItAnd", SelectedProfile.DisplayName);
     }
 
     [RelayCommand]
     private void EditCar()
     {
-        if (SelectedProfile is not { IsOwn: true } p) { CarStatus = "De inbyggda bilmodellerna är skrivskyddade – gör en kopia."; return; }
+        if (SelectedProfile is not { IsOwn: true } p) { CarStatus = L.T("Cars_TheBuiltInCarModelsAre"); return; }
         CarEditor = new CarEditorViewModel(p, isNew: false);
         CarStatus = "";
     }
@@ -69,7 +69,7 @@ public sealed partial class MainViewModel
         if (CarEditor.IsNew || !string.Equals(p.Id, SelectedProfile?.Id, StringComparison.OrdinalIgnoreCase))
             p.Id = _profileStore.UniqueId(p.Id, except: CarEditor.IsNew ? null : SelectedProfile?.Id);
         var errors = ProfileLoader.Validate(p);
-        if (_profileStore.IsBuiltIn(p.Id)) errors.Insert(0, "Id:t tillhör en inbyggd bilmodell.");
+        if (_profileStore.IsBuiltIn(p.Id)) errors.Insert(0, L.T("Cars_TheIdBelongsToABuilt"));
         if (errors.Count > 0) { CarEditor.Errors = string.Join("\n", errors); return; }
         try
         {
@@ -88,7 +88,7 @@ public sealed partial class MainViewModel
     [RelayCommand]
     private void DeleteCar()
     {
-        if (_profileStore is null || SelectedProfile is not { IsOwn: true } p) { CarStatus = "Bara egna bilmodeller kan tas bort."; return; }
+        if (_profileStore is null || SelectedProfile is not { IsOwn: true } p) { CarStatus = L.T("Cars_OnlyYourOwnCarModelsCan"); return; }
         try
         {
             _profileStore.Delete(p);
@@ -127,7 +127,7 @@ public sealed partial class MainViewModel
             pkg.Save(path);
             CarStatus = $"Exporterad: {path}" + (pkg.Extras.Count > 0 ? $" (med {string.Join(", ", pkg.Extras.Keys.Select(k => k.Split('/')[0]).Distinct())})" : "");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte exportera: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotExport") + ex.Message; }
     }
 
     public void ImportCar(string path)
@@ -171,7 +171,7 @@ public sealed partial class MainViewModel
             ReloadOwnProfiles(p.Id);
             CarStatus = $"Importerad: {p.DisplayName}" + (notes.Count > 0 ? $" (med {string.Join(", ", notes.Distinct())})" : "");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte importera: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotImport") + ex.Message; }
         finally { if (Directory.Exists(temp)) Directory.Delete(temp, true); }
     }
 }
@@ -195,12 +195,12 @@ public sealed partial class MainViewModel
             if (errors.Count > 0) throw new InvalidDataException(string.Join(" ", errors));
             _profileStore.Save(p);
             ReloadOwnProfiles(p.Id);
-            var msg = $"Importerad från ODX: {p.DisplayName} ({p.Ecus.Count} styrdon, {p.DtcDescriptions?.Count ?? 0} felkodstexter).";
+            var msg = L.F("Cars_ImportedFromODX01Control", p.DisplayName, p.Ecus.Count, p.DtcDescriptions?.Count ?? 0);
             if (res.Notes.Count > 0) msg += "\nNoteringar: " + string.Join("; ", res.Notes);
-            if (res.Ignored.Count > 0) msg += "\nIgnorerat (stöds inte av simulatorn): " + string.Join("; ", res.Ignored);
+            if (res.Ignored.Count > 0) msg += L.T("Cars_IgnoredNotSupportedByTheSimulator") + string.Join("; ", res.Ignored);
             CarStatus = msg;
         }
-        catch (Exception ex) { CarStatus = "Kunde inte importera ODX: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotImportODX") + ex.Message; }
     }
 
     public void ExportOdx(string path)
@@ -213,9 +213,9 @@ public sealed partial class MainViewModel
                 foreach (var e in p.Ecus) e.Coding = Convert.ToHexString(_car.Coding.Get(e.Key));
             if (path.EndsWith(".pdx", StringComparison.OrdinalIgnoreCase)) Cyberdrome.Core.Profiles.Odx.OdxExporter.SavePdx(p, path);
             else File.WriteAllText(path, Cyberdrome.Core.Profiles.Odx.OdxExporter.ToOdxString(p), new System.Text.UTF8Encoding(false));
-            CarStatus = $"Exporterad som ODX 2.2: {path} (seed/key exporteras aldrig)";
+            CarStatus = L.F("Cars_ExportedAsODX220", path);
         }
-        catch (Exception ex) { CarStatus = "Kunde inte exportera ODX: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotExportODX") + ex.Message; }
     }
 
     /// <summary>Egen modell att ändra i: vald modell om den är egen, annars en ny kopia.</summary>
@@ -225,7 +225,7 @@ public sealed partial class MainViewModel
         if (_profileStore is null || SelectedProfile is null) return null;
         if (SelectedProfile.IsOwn) return SelectedProfile;
         var copy = _profileStore.Duplicate(SelectedProfile);
-        note = $" (inbyggd modell – sparat i kopian {copy.DisplayName})";
+        note = L.F("Cars_BuiltInModelSavedInThe", copy.DisplayName);
         return copy;
     }
 
@@ -242,15 +242,15 @@ public sealed partial class MainViewModel
         {
             var problems = new List<string>();
             var texts = DtcCsv.Parse(File.ReadAllText(path), problems);
-            if (texts.Count == 0) throw new InvalidDataException("Inga felkoder hittades. Format: P0300;Text");
+            if (texts.Count == 0) throw new InvalidDataException(L.T("Cars_NoTroubleCodesFoundFormatP0300"));
             var p = EditableProfile(out var note);
             if (p is null) return;
             p.DtcDescriptions ??= new(StringComparer.OrdinalIgnoreCase);
             foreach (var (k, v) in texts) p.DtcDescriptions[k] = v;
             SaveEdited(p);
-            CarStatus = $"{texts.Count} felkodstexter inlästa{note}." + (problems.Count > 0 ? " Hoppade över: " + string.Join("; ", problems.Take(5)) : "");
+            CarStatus = L.F("Cars_0TroubleCodeTextsLoaded1", texts.Count, note) + (problems.Count > 0 ? L.T("Cars_Skipped") + string.Join("; ", problems.Take(5)) : "");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte läsa felkodstexter: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotReadTroubleCodeTexts") + ex.Message; }
     }
 
     public void ImportCustomPids(string path)
@@ -259,7 +259,7 @@ public sealed partial class MainViewModel
         {
             var problems = new List<string>();
             var pids = TorqueCsv.Parse(File.ReadAllText(path), problems);
-            if (pids.Count == 0) throw new InvalidDataException("Inga PID:ar hittades. Format: Name,ShortName,ModeAndPID,Equation,Min,Max,Units,Header");
+            if (pids.Count == 0) throw new InvalidDataException(L.T("Cars_NoPIDsFoundFormatNameShortName"));
             var p = EditableProfile(out var note);
             if (p is null) return;
             p.CustomPids ??= [];
@@ -271,9 +271,9 @@ public sealed partial class MainViewModel
             var errors = ProfileLoader.Validate(p);
             if (errors.Count > 0) throw new InvalidDataException(string.Join(" ", errors));
             SaveEdited(p);
-            CarStatus = $"{pids.Count} egna PID:ar inlästa{note} – simulatorn svarar nu på dem." + (problems.Count > 0 ? " Hoppade över: " + string.Join("; ", problems.Take(5)) : "");
+            CarStatus = L.F("Cars_0CustomPIDsLoaded1The", pids.Count, note) + (problems.Count > 0 ? L.T("Cars_Skipped") + string.Join("; ", problems.Take(5)) : "");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte läsa PID-listan: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotReadThePIDList") + ex.Message; }
     }
 
     public void ExportCustomPids(string path)
@@ -282,9 +282,9 @@ public sealed partial class MainViewModel
         try
         {
             File.WriteAllText(path, TorqueCsv.Write(TorqueCsv.FromProfile(SelectedProfile)), new System.Text.UTF8Encoding(false));
-            CarStatus = $"PID-lista exporterad (Torque/Car Scanner-format): {path}";
+            CarStatus = L.F("Cars_PIDListExportedTorqueCarScanner", path);
         }
-        catch (Exception ex) { CarStatus = "Kunde inte exportera PID-listan: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotExportThePIDList") + ex.Message; }
     }
 
     public void ExportVss(string path)
@@ -293,9 +293,9 @@ public sealed partial class MainViewModel
         try
         {
             File.WriteAllText(path, Vss.Export(SelectedProfile, _car.State), new System.Text.UTF8Encoding(false));
-            CarStatus = $"Värden exporterade som VSS-JSON: {path}";
+            CarStatus = L.F("Cars_ValuesExportedAsVSSJSON0", path);
         }
-        catch (Exception ex) { CarStatus = "Kunde inte exportera VSS: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotExportVSS") + ex.Message; }
     }
 
     public void ImportVss(string path)
@@ -304,9 +304,9 @@ public sealed partial class MainViewModel
         try
         {
             var unknown = Vss.Import(File.ReadAllText(path), _car.State);
-            CarStatus = "VSS-värden inlästa till bilen." + (unknown.Count > 0 ? " Okända namn: " + string.Join(", ", unknown.Take(8)) : "");
+            CarStatus = L.T("Cars_VSSValuesLoadedIntoTheCar") + (unknown.Count > 0 ? L.T("Cars_UnknownNames") + string.Join(", ", unknown.Take(8)) : "");
         }
-        catch (Exception ex) { CarStatus = "Kunde inte läsa VSS: " + ex.Message; }
+        catch (Exception ex) { CarStatus = L.T("Cars_CouldNotReadVSS") + ex.Message; }
     }
 }
 

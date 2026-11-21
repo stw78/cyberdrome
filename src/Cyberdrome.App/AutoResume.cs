@@ -44,7 +44,7 @@ public static class AutoResume
         }
         catch (Exception ex)
         {
-            log("Kunde inte ställa in automatisk start efter omstart: " + ex.Message);
+            log(L.T("AutoResume_CouldNotSetUpAutomaticStart") + ex.Message);
             return false;
         }
     }

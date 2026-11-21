@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\src\Cyberdrome.Core\Cyberdrome.Core.csproj" />
     <ProjectReference Include="..\..\src\Cyberdrome.Obd\Cyberdrome.Obd.csproj" />
     <ProjectReference Include="..\..\src\Cyberdrome.Vm\Cyberdrome.Vm.csproj" />
+    <ProjectReference Include="..\..\src\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\profiles\*.json" Link="profiles\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />

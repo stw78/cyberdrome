@@ -74,8 +74,8 @@ public sealed class Drive
 
     public static Drive FromJson(string json)
     {
-        var d = JsonSerializer.Deserialize<Drive>(json, Json) ?? throw new InvalidDataException("Tom körning.");
-        if (d.Samples.Count == 0) throw new InvalidDataException("Körningen saknar data.");
+        var d = JsonSerializer.Deserialize<Drive>(json, Json) ?? throw new InvalidDataException(L.T("Drive_EmptyDrive"));
+        if (d.Samples.Count == 0) throw new InvalidDataException(L.T("Drive_TheDriveHasNoData"));
         d.Samples.Sort((a, b) => a.T.CompareTo(b.T));
         return d;
     }
@@ -86,7 +86,7 @@ public sealed class Drive
     /// </summary>
     public DriveSample At(double t)
     {
-        if (Samples.Count == 0) throw new InvalidOperationException("Körningen saknar data.");
+        if (Samples.Count == 0) throw new InvalidOperationException(Cyberdrome.Localization.L.T("Drive_TheDriveHasNoData"));
         if (t <= Samples[0].T) return Samples[0] with { T = t };
         if (t >= Samples[^1].T) return Samples[^1] with { T = t };
 

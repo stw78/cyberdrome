@@ -39,7 +39,7 @@ public sealed partial class MainViewModel
 
     public string SelectedTestInfo => SelectedTest is not { } t ? "" :
         $"{t.Description}\n{t.DurationSeconds:0} s · {t.Steps.Count} steg · {t.Checks.Count} kontroller"
-        + (t.Profile is null ? "" : $" · bilmodell {t.Profile}") + (t.Drive is null ? "" : $" · körning \"{t.Drive}\"")
+        + (t.Profile is null ? "" : $" · bilmodell {t.Profile}") + (t.Drive is null ? "" : L.F("Tests_Drive0", t.Drive))
         + "\nKontroller: " + string.Join("; ", t.Checks.Select(c => c.Name + (c.Optional ? " (valfri)" : "")));
 
     private void InitTests()
@@ -68,12 +68,12 @@ public sealed partial class MainViewModel
         _testStart = DateTime.Now;
         TestResultRows.Clear();
         LastReportPath = null;
-        TestSummary = $"Testet körs … ({t.DurationSeconds:0} s)";
+        TestSummary = L.F("Tests_TheTestIsRunning00", t.DurationSeconds);
         TestSummaryColor = Avalonia.Media.Brush.Parse("#2563EB");
-        TestInstruction = "Ha appen i Android öppen och ansluten till OBD.";
+        TestInstruction = L.T("Tests_KeepTheAppInAndroidOpen");
         TestProgress = 0;
         IsTestRunning = true;
-        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, $"Testfall startat: {t.Name}"));
+        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, L.F("Tests_TestCaseStarted0", t.Name)));
         _testTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(200), DispatcherPriority.Background, (_, _) => TestTick());
         _testTimer.Start();
         TestTick();
@@ -116,7 +116,7 @@ public sealed partial class MainViewModel
             TestInstruction = $"Steg {i + 1}: {TestEvaluator.Describe(s)}";
             AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, $"Teststeg {i + 1}: {TestEvaluator.Describe(s)}"));
         }
-        TestSummary = $"Testet körs … {Math.Max(0, t.DurationSeconds - elapsed):0} s kvar · {_testTraffic?.Count(e => e.FromApp) ?? 0} OBD-frågor hittills";
+        TestSummary = L.F("Tests_TheTestIsRunning002", Math.Max(0, t.DurationSeconds - elapsed), _testTraffic?.Count(e => e.FromApp) ?? 0);
         if (elapsed >= t.DurationSeconds) FinishTest(aborted: false);
     }
 
@@ -136,16 +136,16 @@ public sealed partial class MainViewModel
         TestResultRows.Clear();
         foreach (var c in result.Checks)
             TestResultRows.Add(new CheckRow(c.Name,
-                c.Status switch { CheckStatus.Passed => "✔ Godkänd", CheckStatus.NotDone => "– Ej utförd (valfri)", _ => "✘ Underkänd" },
+                c.Status switch { CheckStatus.Passed => L.T("Tests_Passed"), CheckStatus.NotDone => L.T("Tests_NotPerformedOptional"), _ => L.T("Tests_Failed") },
                 Avalonia.Media.Brush.Parse(c.Status switch { CheckStatus.Passed => "#16A34A", CheckStatus.NotDone => "#B45309", _ => "#DC2626" }),
                 c.Detail, string.Join("\n", c.Excerpt)));
-        TestSummary = (aborted ? "Avbrutet – " : "") + (result.Passed ? "GODKÄNT" : "UNDERKÄNT")
-                      + $": {result.PassedCount} av {result.Checks.Count} kontroller godkända · {result.RequestCount} OBD-frågor"
-                      + (result.Clients.Count > 0 ? " från " + string.Join(", ", result.Clients) : " (ingen app frågade)");
+        TestSummary = (aborted ? L.T("Tests_Cancelled") : "") + (result.Passed ? L.T("Tests_PASSED") : L.T("Tests_FAILED"))
+                      + L.F("Tests_0Of1ChecksPassed2", result.PassedCount, result.Checks.Count, result.RequestCount)
+                      + (result.Clients.Count > 0 ? L.T("Tests_From") + string.Join(", ", result.Clients) : L.T("Tests_NoAppAsked"));
         TestSummaryColor = Avalonia.Media.Brush.Parse(result.Passed ? "#16A34A" : "#DC2626");
         try { LastReportPath = TestEvaluator.SaveReport(result); }
-        catch (Exception ex) { TestSummary += " · Rapporten kunde inte sparas: " + ex.Message; }
-        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, $"Testfall klart: {t.Name} – {(result.Passed ? "GODKÄNT" : "UNDERKÄNT")}"));
+        catch (Exception ex) { TestSummary += L.T("Tests_TheReportCouldNotBeSaved") + ex.Message; }
+        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, L.F("Tests_TestCaseFinished01", t.Name, (result.Passed ? L.T("Tests_PASSED") : L.T("Tests_FAILED")))));
     }
 
     [RelayCommand]
@@ -153,7 +153,7 @@ public sealed partial class MainViewModel
     {
         if (LastReportPath is null) return;
         try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(LastReportPath) { UseShellExecute = true }); }
-        catch (Exception ex) { TestSummary = "Kunde inte öppna rapporten: " + ex.Message; }
+        catch (Exception ex) { TestSummary = L.T("Tests_CouldNotOpenTheReport") + ex.Message; }
     }
 
     [RelayCommand]
@@ -174,16 +174,16 @@ public sealed partial class MainViewModel
             var t = _testStore.Import(path);
             InitTests();
             SelectedTest = TestCases.FirstOrDefault(x => x.Id == t.Id);
-            TestSummary = "Testfall importerat: " + t.Name;
+            TestSummary = L.T("Tests_TestCaseImported") + t.Name;
             TestSummaryColor = Avalonia.Media.Brush.Parse("#0F172A");
         }
-        catch (Exception ex) { TestSummary = "Kunde inte importera: " + ex.Message; TestSummaryColor = Avalonia.Media.Brush.Parse("#DC2626"); }
+        catch (Exception ex) { TestSummary = L.T("Cars_CouldNotImport") + ex.Message; TestSummaryColor = Avalonia.Media.Brush.Parse("#DC2626"); }
     }
 
     public void ExportTestCase(string path)
     {
         if (SelectedTest is null) return;
         try { TestStore.Export(SelectedTest, path); TestSummary = "Exporterat: " + path; TestSummaryColor = Avalonia.Media.Brush.Parse("#0F172A"); }
-        catch (Exception ex) { TestSummary = "Kunde inte exportera: " + ex.Message; }
+        catch (Exception ex) { TestSummary = L.T("Cars_CouldNotExport") + ex.Message; }
     }
 }

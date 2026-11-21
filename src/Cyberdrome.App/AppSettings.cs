@@ -38,6 +38,9 @@ public sealed class AppSettings
     /// <summary>Mapp med uppdateringar (Velopack-paket). Tom = &lt;arbetsmapp&gt;\release\uppdateringar (se WorkFolder).</summary>
     public string? UpdateFolder { get; set; }
 
+    /// <summary>Språk: "system" (standard), "sv" eller "en".</summary>
+    public string Language { get; set; } = "system";
+
     public static string FilePath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome", "app.json");
 

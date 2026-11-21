@@ -281,5 +281,5 @@ public sealed record CarDbHit(string Make, string Model, int? FromYear, int? ToY
 {
     public string Years => FromYear is null ? "–" : FromYear == ToYear ? $"{FromYear}" : $"{FromYear}–{ToYear}";
     public string SourceText => string.Join(", ", Sources);
-    public string Label => $"{Make} {Model}   ·   {Years}   ·   {SourceText}{(Obdb is not null ? "  ★ tillverkarsignaler" : "")}";
+    public string Label => $"{Make} {Model}   ·   {Years}   ·   {SourceText}{(Obdb is not null ? L.T("CarDb_ManufacturerSignalsStar") : "")}";
 }

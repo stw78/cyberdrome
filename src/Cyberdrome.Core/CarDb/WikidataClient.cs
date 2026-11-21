@@ -51,7 +51,7 @@ public sealed class WikidataClient
     public async Task<List<CarModelEntry>> GetModelsAsync(string make, CancellationToken ct = default)
     {
         var maker = await FindMakerAsync(make, ct).ConfigureAwait(false)
-                    ?? throw new InvalidOperationException($"Hittade ingen biltillverkare \"{make}\" i Wikidata.");
+                    ?? throw new InvalidOperationException(L.F("WikidataClient_NoCarManufacturer0FoundIn", make));
         var query = $$"""
             SELECT ?m ?mLabel (MIN(YEAR(?s)) AS ?from) (MAX(YEAR(?e)) AS ?to) WHERE {
               ?m wdt:P31/wdt:P279* wd:Q3231690 .

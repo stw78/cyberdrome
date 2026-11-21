@@ -52,14 +52,14 @@ public sealed partial class MainViewModel
         UpdateBusy = true;
         try
         {
-            if (!Updates.IsInstalled) { UpdateStatus = "Uppdateringar fungerar i den installerade versionen (inte när programmet körs från källkoden)."; return; }
-            if (!Directory.Exists(UpdateFolder)) { UpdateStatus = $"Mappen finns inte: {UpdateFolder}"; return; }
+            if (!Updates.IsInstalled) { UpdateStatus = L.T("Release_UpdatesWorkInTheInstalledVersion"); return; }
+            if (!Directory.Exists(UpdateFolder)) { UpdateStatus = L.F("Release_TheFolderDoesNotExist0", UpdateFolder); return; }
             _pendingUpdate = await Updates.CheckForUpdatesAsync();
             UpdateStatus = _pendingUpdate is null
-                ? $"Du har den senaste versionen ({InfoDialogs.AppVersion})."
-                : $"Ny version finns: {_pendingUpdate.TargetFullRelease.Version}. Tryck \"Installera uppdatering\".";
+                ? L.F("Release_YouHaveTheLatestVersion0", InfoDialogs.AppVersion)
+                : L.F("Release_ANewVersionIsAvailable0", _pendingUpdate.TargetFullRelease.Version);
         }
-        catch (Exception ex) { UpdateStatus = "Kunde inte söka efter uppdateringar: " + ex.Message; }
+        catch (Exception ex) { UpdateStatus = L.T("Release_CouldNotCheckForUpdates") + ex.Message; }
         finally { UpdateBusy = false; }
     }
 
@@ -70,13 +70,42 @@ public sealed partial class MainViewModel
         UpdateBusy = true;
         try
         {
-            UpdateStatus = "Hämtar uppdateringen …";
-            await Updates.DownloadUpdatesAsync(_pendingUpdate, p => Avalonia.Threading.Dispatcher.UIThread.Post(() => UpdateStatus = $"Hämtar uppdateringen … {p} %"));
-            UpdateStatus = "Installerar och startar om …";
+            UpdateStatus = L.T("Release_DownloadingTheUpdate");
+            await Updates.DownloadUpdatesAsync(_pendingUpdate, p => Avalonia.Threading.Dispatcher.UIThread.Post(() => UpdateStatus = L.F("Release_DownloadingTheUpdate0", p)));
+            UpdateStatus = L.T("Release_InstallingAndRestarting");
             // Väntar tills programmet har avslutats normalt (servrar och emulator stängs), installerar och startar igen.
             Updates.WaitExitThenApplyUpdates(_pendingUpdate, silent: false, restart: true);
             CloseForUpdate?.Invoke();
         }
-        catch (Exception ex) { UpdateStatus = "Uppdateringen misslyckades: " + ex.Message; UpdateBusy = false; }
+        catch (Exception ex) { UpdateStatus = L.T("Release_TheUpdateFailed") + ex.Message; UpdateBusy = false; }
+    }
+}
+
+/// <summary>Språkval (Inställningar): systemets språk, svenska eller engelska. Byts direkt.</summary>
+public sealed partial class MainViewModel
+{
+    public sealed record LanguageOption(string Code, string Name)
+    {
+        /// <summary>"Systemets språk" översätts vid visning; språknamnen visas på sitt eget språk.</summary>
+        public string Label => Code == L.SystemLanguage ? L.T("Settings_SystemLanguage") : Name;
+        public override string ToString() => Label;
+    }
+
+    private LanguageOption[]? _languageOptions;
+    public LanguageOption[] LanguageOptions => _languageOptions ??=
+        [new(L.SystemLanguage, L.T("Settings_SystemLanguage")), .. L.Languages.Select(kv => new LanguageOption(kv.Key, kv.Value))];
+
+    public LanguageOption? SelectedLanguage
+    {
+        get => LanguageOptions.FirstOrDefault(o => o.Code == _appSettings.Language) ?? LanguageOptions[0];
+        set
+        {
+            if (value is null || value.Code == _appSettings.Language) return;
+            _appSettings.Language = value.Code;
+            _appSettings.Save();
+            L.SetLanguage(value.Code);
+            // Uppdatera alla beräknade texter (menyer, knappar, val i listor).
+            OnPropertyChanged(string.Empty);
+        }
     }
 }

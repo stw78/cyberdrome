@@ -31,12 +31,12 @@ public sealed partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            ErrorText = "Kunde inte läsa bilmodellerna: " + ex.Message;
+            ErrorText = L.T("Main_CouldNotReadTheCarModels") + ex.Message;
         }
 
         if (Profiles.Count == 0)
         {
-            ErrorText ??= $"Inga bilmodeller hittades i {profileFolder}.";
+            ErrorText ??= L.F("Main_NoCarModelsFoundIn0", profileFolder);
             _timer = new DispatcherTimer();
             return;
         }
@@ -80,7 +80,8 @@ public sealed partial class MainViewModel : ObservableObject
 
     // ---------------- Navigering ----------------
 
-    public string[] Pages { get; } = ["Översikt", "Dolda funktioner", "OBD-logg", "Android", "Körningar", "Karta", "Testfall", "Bilmodeller", "OBD-källa", "Bildatabas", "Inställningar"];
+    /// <summary>Sidorna i menyn (översatta, byts när språket ändras).</summary>
+    public PageItem[] PageKeys { get; } = new[] { "Nav_Overview", "Nav_HiddenFeatures", "Nav_ObdLog", "Nav_Android", "Nav_Drives", "Nav_Map", "Nav_TestCases", "Nav_CarModels", "Nav_ObdSource", "Nav_CarDatabase", "Nav_Settings" }.Select(k => new PageItem(k)).ToArray();
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsOverview), nameof(IsFeatures), nameof(IsLog), nameof(IsAndroid), nameof(IsDrives), nameof(IsMap), nameof(IsTests), nameof(IsCars), nameof(IsSource), nameof(IsCarDb), nameof(IsSettings))]
@@ -125,7 +126,7 @@ public sealed partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(SelectedThemeOption));
         OnPropertyChanged(nameof(SelectedSkinOption));
         _ = ApplyCarLookAsync(); // bilens eget tema, skal och skärmformat
-        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, $"Bilmodell bytt till {value.DisplayName}"));
+        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, L.F("Main_CarModelChangedTo0", value.DisplayName)));
     }
 
     /// <summary>Bilmodellens egna startvärden (egna modeller kan ha det).</summary>
@@ -168,7 +169,7 @@ public sealed partial class MainViewModel : ObservableObject
     public bool GearN { get => Gear == Core.Gear.N; set { if (value) Gear = Core.Gear.N; } }
     public bool GearD { get => Gear == Core.Gear.D; set { if (value) Gear = Core.Gear.D; } }
 
-    public string CarRunningText => Ignition ? "Bilen är igång" : "Tändningen är av";
+    public string CarRunningText => Ignition ? L.T("Main_TheCarIsRunning") : L.T("Main_TheIgnitionIsOff");
 
     // ---------------- Felkoder ----------------
 
@@ -182,7 +183,7 @@ public sealed partial class MainViewModel : ObservableObject
     {
         var d = _car?.State.Dtcs ?? [];
         var texts = _car?.Coding.Profile.DtcDescriptions;
-        DtcText = d.Count == 0 ? "Inga felkoder" : string.Join(", ", d.Select(c => texts?.GetValueOrDefault(c) is { Length: > 0 } t ? $"{c} ({t})" : c));
+        DtcText = d.Count == 0 ? L.T("Main_NoTroubleCodes") : string.Join(", ", d.Select(c => texts?.GetValueOrDefault(c) is { Length: > 0 } t ? $"{c} ({t})" : c));
         if (_car is not null && DtcToggles.Count == 0)
             foreach (var (code, desc) in DtcToggleViewModel.Common)
                 DtcToggles.Add(new DtcToggleViewModel(code, desc, _car.State));
@@ -210,7 +211,7 @@ public sealed partial class MainViewModel : ObservableObject
     public string FeatureSummary => SelectedProfile is null ? "" :
         $"{SelectedProfile.Model} har {Features.Count} exempelfunktioner.";
 
-    public string FeatureOnText => $"{Features.Count(f => f.IsOn)} påslagna";
+    public string FeatureOnText => L.F("Main_0TurnedOn", Features.Count(f => f.IsOn));
 
     private void LoadFeatures()
     {
@@ -252,7 +253,7 @@ public sealed partial class MainViewModel : ObservableObject
             _requireSecurity[_car.Profile.Id] = value;
             OnPropertyChanged();
             AddLog(new ObdTrafficEntry(DateTime.Now, "program", false,
-                value ? "Säkerhetsnyckel (UDS 27) krävs för kodning." : "Säkerhetsnyckel (UDS 27) krävs inte längre för kodning."));
+                value ? L.T("Main_ASecurityKeyUDS27Is") : L.T("Main_ASecurityKeyUDS27Is2")));
         }
     }
 
@@ -282,7 +283,7 @@ public sealed partial class MainViewModel : ObservableObject
         }
         catch (SocketException ex)
         {
-            ObdStatus = $"Kunde inte starta på port {ObdTcpServer.DefaultPort}: {ex.Message}";
+            ObdStatus = L.F("Main_CouldNotStartOnPort0", ObdTcpServer.DefaultPort, ex.Message);
         }
         UpdateObdStatus();
     }
@@ -303,7 +304,7 @@ public sealed partial class MainViewModel : ObservableObject
 
     public bool BluetoothSupported => OperatingSystem.IsWindows();
 
-    [ObservableProperty] private string _bluetoothStatus = "Bluetooth är av";
+    [ObservableProperty] private string _bluetoothStatus = L.T("Main_BluetoothIsOff");
     [ObservableProperty] private string _bluetoothName = Environment.MachineName;
 
     private bool _bluetoothEnabled;
@@ -333,7 +334,7 @@ public sealed partial class MainViewModel : ObservableObject
                 _bt.Traffic += (_, e) => Dispatcher.UIThread.Post(() => AddLog(e));
                 _bt.StatusChanged += (_, _) => Dispatcher.UIThread.Post(UpdateBluetoothStatus);
             }
-            BluetoothStatus = "Startar Bluetooth …";
+            BluetoothStatus = L.T("Main_StartingBluetooth");
             try
             {
                 await _bt.StartAsync();
@@ -341,7 +342,7 @@ public sealed partial class MainViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                BluetoothStatus = "Bluetooth gick inte att starta: " + ex.Message;
+                BluetoothStatus = L.T("Main_BluetoothCouldNotBeStarted") + ex.Message;
                 return;
             }
         }
@@ -351,7 +352,7 @@ public sealed partial class MainViewModel : ObservableObject
         }
         UpdateBluetoothStatus();
 #else
-        BluetoothStatus = "Bluetooth OBD finns bara på Windows i den här versionen.";
+        BluetoothStatus = L.T("Main_BluetoothOBDIsOnlyAvailableOn");
         await Task.CompletedTask;
 #endif
     }
@@ -361,7 +362,7 @@ public sealed partial class MainViewModel : ObservableObject
     private BleObdServer? _ble;
 #endif
 
-    [ObservableProperty] private string _bleStatus = "Bluetooth LE är av";
+    [ObservableProperty] private string _bleStatus = L.T("Main_BluetoothLEIsOff");
 
     private bool _bleEnabled;
     public bool BleEnabled
@@ -390,14 +391,14 @@ public sealed partial class MainViewModel : ObservableObject
                 _ble.Traffic += (_, e) => Dispatcher.UIThread.Post(() => AddLog(e));
                 _ble.StatusChanged += (_, _) => Dispatcher.UIThread.Post(UpdateBleStatus);
             }
-            BleStatus = "Startar Bluetooth LE …";
+            BleStatus = L.T("Main_StartingBluetoothLE");
             try { await _ble.StartAsync(); }
-            catch (Exception ex) { BleStatus = "Bluetooth LE gick inte att starta: " + ex.Message; return; }
+            catch (Exception ex) { BleStatus = L.T("Main_BluetoothLECouldNotBeStarted") + ex.Message; return; }
         }
         else if (_ble is not null) await _ble.StopAsync();
         UpdateBleStatus();
 #else
-        BleStatus = "Bluetooth LE OBD finns bara på Windows i den här versionen.";
+        BleStatus = L.T("Main_BluetoothLEOBDIsOnlyAvailable");
         await Task.CompletedTask;
 #endif
     }
@@ -405,27 +406,27 @@ public sealed partial class MainViewModel : ObservableObject
     private void UpdateBleStatus()
     {
 #if WINDOWS
-        if (_ble is null || !_ble.IsRunning) { BleStatus = "Bluetooth LE är av"; return; }
+        if (_ble is null || !_ble.IsRunning) { BleStatus = L.T("Main_BluetoothLEIsOff"); return; }
         if (_ble.AdvertisementStatus is "Aborted" or "Stopped")
         {
-            BleStatus = $"Bluetooth LE-annonseringen stoppades av Windows ({_ble.AdvertisementStatus}). Slå av och på igen.";
+            BleStatus = L.F("Main_WindowsStoppedTheBluetoothLEAdvertising", _ble.AdvertisementStatus);
             return;
         }
         var devices = _ble.ConnectedDevices;
         BleStatus = devices.Count == 0
-            ? $"Väntar på iPhone – syns som ”{BluetoothName}” (BLE-tjänst FFF0)"
-            : "Ansluten: " + string.Join(", ", devices);
+            ? L.F("Main_WaitingForAnIPhoneVisibleAs", BluetoothName)
+            : L.T("Main_ConnectedPrefix") + string.Join(", ", devices);
 #endif
     }
 
     private void UpdateBluetoothStatus()
     {
 #if WINDOWS
-        if (_bt is null || !_bt.IsRunning) { BluetoothStatus = "Bluetooth är av"; return; }
+        if (_bt is null || !_bt.IsRunning) { BluetoothStatus = L.T("Main_BluetoothIsOff"); return; }
         var devices = _bt.ConnectedDevices;
         BluetoothStatus = devices.Count == 0
-            ? $"Väntar på parning/anslutning – syns som ”{BluetoothName}”, tjänst OBDII"
-            : "Ansluten: " + string.Join(", ", devices);
+            ? L.F("Main_WaitingForPairingConnectionVisibleAs", BluetoothName)
+            : L.T("Main_ConnectedPrefix") + string.Join(", ", devices);
 #endif
     }
 
@@ -433,20 +434,20 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (_server is null) return;
         ObdRunning = _server.IsRunning;
-        if (_server.IsRunning) ObdStatus = "Virtuell OBD-adapter är på";
-        else if (!ObdStatus.StartsWith("Kunde")) ObdStatus = "Virtuell OBD-adapter är av";
+        if (_server.IsRunning) ObdStatus = L.T("Main_VirtualOBDAdapterIsOn");
+        else if (!ObdStatus.StartsWith("Kunde")) ObdStatus = L.T("Main_VirtualOBDAdapterIsOff");
         ObdClients = _server.ClientCount switch
         {
-            0 => "Ingen app ansluten än",
-            1 => "1 app ansluten",
-            var n => $"{n} appar anslutna",
+            0 => L.T("Main_NoAppConnectedYet"),
+            1 => L.T("Main_1AppConnected"),
+            var n => L.F("Main_0AppsConnected", n),
         };
         if (_server.LastRequest is { } t)
         {
             var s = (int)(DateTime.Now - t).TotalSeconds;
-            ObdLastAnswer = s < 2 ? "Svar skickat just nu" : $"Senaste svar för {s} sekunder sedan";
+            ObdLastAnswer = s < 2 ? L.T("Main_ReplySentJustNow") : L.F("Main_LastReply0SecondsAgo", s);
         }
-        else ObdLastAnswer = "Väntar på första frågan";
+        else ObdLastAnswer = L.T("Main_WaitingForTheFirstRequest");
     }
 
     private static IEnumerable<IPAddress> LocalAddresses()
@@ -502,16 +503,16 @@ public sealed partial class MainViewModel : ObservableObject
     private bool _androidBusy;
 
     [ObservableProperty]
-    private string _androidStatus = "Kontrollerar Android …";
+    private string _androidStatus = L.T("Main_CheckingAndroid");
 
     public bool AndroidRunning => AndroidState == AndroidState.Running;
     public bool AndroidReady => !AndroidBusy && AndroidState is AndroidState.Stopped or AndroidState.Running;
     public bool AndroidCanInstall => !AndroidBusy && AndroidState is not (AndroidState.Stopped or AndroidState.Running or AndroidState.NotWindows);
     public string AndroidStatusShort => AndroidState switch
     {
-        AndroidState.Running => "Android igång",
-        AndroidState.Stopped => "Android avstängt",
-        _ => "Android inte installerat",
+        AndroidState.Running => L.T("Main_AndroidRunning"),
+        AndroidState.Stopped => L.T("Main_AndroidStopped"),
+        _ => L.T("Main_AndroidNotInstalled"),
     };
 
     private void AndroidLogLine(string line) => Dispatcher.UIThread.Post(() =>
@@ -525,7 +526,7 @@ public sealed partial class MainViewModel : ObservableObject
         if (AndroidBusy) return;
         AndroidBusy = true;
         try { await work(); }
-        catch (Exception ex) { AndroidLogLine("Fel: " + ex.Message); }
+        catch (Exception ex) { AndroidLogLine(L.T("Main_ErrorPrefix") + ex.Message); }
         finally
         {
             AndroidBusy = false;
@@ -537,7 +538,7 @@ public sealed partial class MainViewModel : ObservableObject
     private async Task RefreshAndroid()
     {
         try { AndroidState = await _android.GetStateAsync(); }
-        catch (Exception ex) { AndroidLogLine("Kunde inte läsa Android-läget: " + ex.Message); }
+        catch (Exception ex) { AndroidLogLine(L.T("Main_CouldNotReadTheAndroidMode") + ex.Message); }
         AndroidStatus = _android.Describe(AndroidState);
     }
 
@@ -578,13 +579,13 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Anropas när programmet startats automatiskt efter omstarten (se AutoResume).</summary>
     public async Task ContinueInstallAfterReboot()
     {
-        AndroidLogLine("Datorn har startats om – fortsätter installationen av Android.");
+        AndroidLogLine(L.T("Main_TheComputerHasRestartedContinuingThe"));
         PageIndex = 3;
         await RefreshAndroid();
         if (AndroidState == AndroidState.WslMissing)
         {
             // Undvik en slinga av administratörsfrågor och omstarter om WSL2 ändå inte fungerar.
-            AndroidLogLine("WSL2 fungerar fortfarande inte efter omstarten. Kontrollera att virtualisering är påslaget i BIOS och tryck sedan Installera Android.");
+            AndroidLogLine(L.T("Main_WSL2StillDoesnTWorkAfter"));
             return;
         }
         await InstallAndroid();
@@ -594,9 +595,9 @@ public sealed partial class MainViewModel : ObservableObject
     private Task InstallAndroid() => RunAndroid(async () =>
     {
         PageIndex = 3;
-        AndroidStatus = "Installerar … (det kan ta en stund, se loggen nedan)";
+        AndroidStatus = L.T("Main_InstallingThisMayTakeAWhile");
         InstallDone = false;
-        ApplyProgress(new InstallProgress(0, "Förbereder installationen …"));
+        ApplyProgress(new InstallProgress(0, L.T("Main_PreparingTheInstallation")));
         // Progress<T> skickar uppdateringarna till UI-tråden åt oss.
         var progress = new Progress<InstallProgress>(ApplyProgress);
         try
@@ -606,24 +607,24 @@ public sealed partial class MainViewModel : ObservableObject
             {
                 // Låt programmet starta av sig självt efter omstarten och fortsätta installationen.
                 if (AutoResume.Register(AndroidLogLine))
-                    AndroidLogLine("Efter omstarten öppnas Cyberdrome automatiskt och fortsätter installationen.");
+                    AndroidLogLine(L.T("Main_AfterTheRestartCyberdromeOpensAutomatically"));
             }
             else if (state == AndroidState.Stopped)
             {
                 // Installationen är klar: starta Android direkt, utan extra knapptryck eller omstart av programmet.
                 await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
-                ApplyProgress(new InstallProgress(100, "Klart! Android är installerat – startar Android …", true));
-                AndroidStatus = "Startar Android …";
+                ApplyProgress(new InstallProgress(100, L.T("Main_DoneAndroidIsInstalledStartingAndroid"), true));
+                AndroidStatus = L.T("Main_StartingAndroid");
                 var r = await _android.StartAsync(AndroidLogLine, new Progress<InstallProgress>(p =>
-                    ApplyProgress(p with { Percent = 100, Done = true, Text = "Klart! " + p.Text })));
+                    ApplyProgress(p with { Percent = 100, Done = true, Text = L.T("Main_DonePrefix") + p.Text })));
                 if (r.Ok)
                 {
-                    ApplyProgress(new InstallProgress(100, "Klart! Android är installerat och igång.", true));
+                    ApplyProgress(new InstallProgress(100, L.T("Main_DoneAndroidIsInstalledAndRunning"), true));
                     OpenAndroidScreen();
                 }
                 else
                 {
-                    ApplyProgress(new InstallProgress(100, "Android är installerat men kunde inte startas – se loggen. Tryck Starta för att försöka igen.", true));
+                    ApplyProgress(new InstallProgress(100, L.T("Main_AndroidIsInstalledButCouldNot"), true));
                 }
             }
         }
@@ -634,9 +635,9 @@ public sealed partial class MainViewModel : ObservableObject
             if (!InstallDone)
             {
                 InstallProgressIndeterminate = false;
-                InstallProgressText = AndroidState == AndroidState.RebootNeeded || InstallProgressText.Contains("Starta om")
+                InstallProgressText = AndroidState == AndroidState.RebootNeeded || InstallProgressText.Contains(L.T("Main_Restart"))
                     ? InstallProgressText
-                    : "Installationen avbröts eller misslyckades – se loggen nedan.";
+                    : L.T("Main_TheInstallationWasCancelledOrFailed");
             }
         }
     });
@@ -644,18 +645,18 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand]
     private Task StartAndroid() => RunAndroid(async () =>
     {
-        AndroidStatus = "Startar Android …";
+        AndroidStatus = L.T("Main_StartingAndroid");
         InstallDone = false;
         var r = await _android.StartAsync(AndroidLogLine, new Progress<InstallProgress>(ApplyProgress));
         await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
         if (r.Ok) { OpenAndroidScreen(); InstallProgressVisible = false; }
-        else ApplyProgress(new InstallProgress(0, "Android kunde inte startas – se loggen nedan."));
+        else ApplyProgress(new InstallProgress(0, L.T("Main_AndroidCouldNotBeStartedSee")));
     });
 
     [RelayCommand]
     private Task StopAndroid() => RunAndroid(async () =>
     {
-        AndroidStatus = "Stänger av Android …";
+        AndroidStatus = L.T("Main_ShuttingDownAndroid");
         await _android.StopAsync(AndroidLogLine);
     });
 
@@ -741,7 +742,7 @@ public sealed partial class MainViewModel : ObservableObject
             catch (OperationCanceledException) { break; }
             catch (Exception ex)
             {
-                AndroidLogLine("Skärmen: " + ex.Message);
+                AndroidLogLine(L.T("Main_Screen") + ex.Message);
                 try { await Task.Delay(1000, ct); } catch { break; }
             }
         }
@@ -805,38 +806,38 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (_android is not IScreenControl screen)
         {
-            AndroidLogLine($"{app.DisplayName} kan installeras i läget Utan omstart (emulatorn).");
+            AndroidLogLine(L.F("Main_0CanBeInstalledInThe", app.DisplayName));
             return;
         }
         if (!AndroidRunning)
         {
-            AndroidLogLine("Starta Android först.");
+            AndroidLogLine(L.T("Main_StartAndroidFirst"));
             return;
         }
         InstallDone = false;
-        ApplyProgress(new InstallProgress(0, $"Laddar ner {app.DisplayName} från F-Droid …"));
+        ApplyProgress(new InstallProgress(0, L.F("Main_Downloading0FromFDroid", app.DisplayName)));
         try
         {
             var path = await app.DownloadAsync(Http, AndroidLogLine, pct =>
-                Dispatcher.UIThread.Post(() => ApplyProgress(new InstallProgress(pct * 0.8, $"Laddar ner {app.DisplayName} från F-Droid … {pct:0} %"))));
+                Dispatcher.UIThread.Post(() => ApplyProgress(new InstallProgress(pct * 0.8, L.F("Main_Downloading0FromFDroid1", app.DisplayName, pct)))));
             await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Background);
-            ApplyProgress(new InstallProgress(85, $"Installerar {app.DisplayName} i Android …"));
+            ApplyProgress(new InstallProgress(85, L.F("Main_Installing0InAndroid", app.DisplayName)));
             var r = await _android.InstallApkAsync(path, AndroidLogLine);
             if (!r.Ok)
             {
-                ApplyProgress(new InstallProgress(85, $"{app.DisplayName} kunde inte installeras – se loggen."));
+                ApplyProgress(new InstallProgress(85, L.F("Main_0CouldNotBeInstalledSee", app.DisplayName)));
                 return;
             }
             await screen.LaunchAppAsync(app.PackageName);
-            ApplyProgress(new InstallProgress(100, $"Klart! {app.DisplayName} är installerad och startad.", true));
-            AndroidLogLine($"{app.DisplayName} är installerad. " + app.HelpText);
+            ApplyProgress(new InstallProgress(100, L.F("Main_Done0IsInstalledAndStarted", app.DisplayName), true));
+            AndroidLogLine(L.F("Main_0IsInstalled", app.DisplayName) + app.HelpText);
             TestAppHelp = app.HelpText;
             TestAppHelpVisible = true;
         }
         catch (Exception ex)
         {
-            ApplyProgress(new InstallProgress(0, $"Kunde inte hämta {app.DisplayName}: " + ex.Message));
-            AndroidLogLine($"Kunde inte hämta {app.DisplayName}: " + ex.Message);
+            ApplyProgress(new InstallProgress(0, L.F("Main_CouldNotGet0", app.DisplayName) + ex.Message));
+            AndroidLogLine(L.F("Main_CouldNotGet0", app.DisplayName) + ex.Message);
         }
     });
 
@@ -847,7 +848,7 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (_android is not IScreenControl screen || !AndroidRunning)
         {
-            AndroidLogLine("Starta Android (läget Utan omstart) först.");
+            AndroidLogLine(L.T("Main_StartAndroidNoRestartModeFirst"));
             return;
         }
         var project = CyberdromeRadio.FindProjectDir(AppContext.BaseDirectory);
@@ -855,13 +856,13 @@ public sealed partial class MainViewModel : ObservableObject
         {
             // Installerad version: färdigbyggd APK i programmappen (apps\).
             var bundled = SampleApp.Bundled(CyberdromeRadio.ApkName);
-            if (bundled is null) { AndroidLogLine($"Hittar inte Cyberdrome Radio (apps\\{CyberdromeRadio.ApkName})."); return; }
+            if (bundled is null) { AndroidLogLine(L.F("Main_CyberdromeRadioNotFoundApps0", CyberdromeRadio.ApkName)); return; }
             InstallDone = false;
-            ApplyProgress(new InstallProgress(70, "Installerar Cyberdrome Radio …"));
+            ApplyProgress(new InstallProgress(70, L.T("Main_InstallingCyberdromeRadio")));
             var br = await _android.InstallApkAsync(bundled, AndroidLogLine);
-            if (!br.Ok) { ApplyProgress(new InstallProgress(70, "Cyberdrome Radio kunde inte installeras – se loggen.")); return; }
+            if (!br.Ok) { ApplyProgress(new InstallProgress(70, L.T("Main_CyberdromeRadioCouldNotBeInstalled"))); return; }
             await screen.LaunchAppAsync(CyberdromeRadio.PackageName);
-            ApplyProgress(new InstallProgress(100, "Klart! Cyberdrome Radio är installerad och startad.", true));
+            ApplyProgress(new InstallProgress(100, L.T("Main_DoneCyberdromeRadioIsInstalledAnd"), true));
             return;
         }
         InstallDone = false;
@@ -872,23 +873,23 @@ public sealed partial class MainViewModel : ObservableObject
             .Select(File.GetLastWriteTimeUtc).DefaultIfEmpty(DateTime.MinValue).Max();
         if (!File.Exists(apk) || File.GetLastWriteTimeUtc(apk) < newest)
         {
-            ApplyProgress(new InstallProgress(null, "Bygger Cyberdrome Radio …"));
+            ApplyProgress(new InstallProgress(null, L.T("Main_BuildingCyberdromeRadio")));
             var built = await CyberdromeRadio.BuildAsync(project, _vmSettings.SdkRoot, AndroidLogLine);
             if (built is null)
             {
-                ApplyProgress(new InstallProgress(0, "Bygget av Cyberdrome Radio misslyckades – se loggen."));
+                ApplyProgress(new InstallProgress(0, L.T("Main_BuildingCyberdromeRadioFailedSeeThe")));
                 return;
             }
         }
-        ApplyProgress(new InstallProgress(70, "Installerar Cyberdrome Radio …"));
+        ApplyProgress(new InstallProgress(70, L.T("Main_InstallingCyberdromeRadio")));
         var r = await _android.InstallApkAsync(apk, AndroidLogLine);
         if (!r.Ok)
         {
-            ApplyProgress(new InstallProgress(70, "Cyberdrome Radio kunde inte installeras – se loggen."));
+            ApplyProgress(new InstallProgress(70, L.T("Main_CyberdromeRadioCouldNotBeInstalled")));
             return;
         }
         await screen.LaunchAppAsync(CyberdromeRadio.PackageName);
-        ApplyProgress(new InstallProgress(100, "Klart! Cyberdrome Radio är installerad och startad.", true));
+        ApplyProgress(new InstallProgress(100, L.T("Main_DoneCyberdromeRadioIsInstalledAnd"), true));
     });
 
     [ObservableProperty]
@@ -899,16 +900,16 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (_android is not IScreenControl s || !AndroidRunning) return;
         var png = await s.CaptureScreenAsync();
-        if (png is null) { ScreenshotStatus = "Kunde inte ta skärmbild."; return; }
+        if (png is null) { ScreenshotStatus = L.T("Main_CouldNotTakeAScreenshot"); return; }
         try
         {
             Directory.CreateDirectory(_vmSettings.ScreenshotFolder);
             var path = ScreenshotNaming.UniquePath(_vmSettings.ScreenshotFolder, DateTime.Now);
             await File.WriteAllBytesAsync(path, png);
             ScreenshotStatus = "Sparad: " + path;
-            AndroidLogLine("Skärmbild sparad: " + path);
+            AndroidLogLine(L.T("Main_ScreenshotSaved") + path);
         }
-        catch (Exception ex) { ScreenshotStatus = "Kunde inte spara: " + ex.Message; }
+        catch (Exception ex) { ScreenshotStatus = L.T("Main_CouldNotSave") + ex.Message; }
     }
 
     // ----- Bekräftelse i programmet (ingen blockerande Windows-dialog) -----
@@ -950,7 +951,7 @@ public sealed partial class MainViewModel : ObservableObject
 
     // ----- Inställningar: Android-läge -----
 
-    public string AndroidModeText => "Android-läge: " + AndroidBackends.ModeTitle(_vmSettings.Mode);
+    public string AndroidModeText => L.T("Main_AndroidMode") + AndroidBackends.ModeTitle(_vmSettings.Mode);
 
     public bool ModeFast
     {
@@ -985,7 +986,7 @@ public sealed partial class MainViewModel : ObservableObject
         _screenCts = null;
         OnPropertyChanged(nameof(CanControlScreen));
         UpdateScreenLoop();
-        AndroidLogLine("Android-läge bytt till: " + AndroidBackends.ModeTitle(mode));
+        AndroidLogLine(L.T("Main_AndroidModeChangedTo") + AndroidBackends.ModeTitle(mode));
         InstallProgressVisible = false;
         OnPropertyChanged(nameof(ModeFast));
         OnPropertyChanged(nameof(ModeNoRestart));
@@ -1003,9 +1004,9 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Anropas från fönstret när användaren valt en APK-fil.</summary>
     public Task InstallApk(string path) => RunAndroid(async () =>
     {
-        AndroidStatus = "Installerar app …";
+        AndroidStatus = L.T("Main_InstallingApp");
         var r = await _android.InstallApkAsync(path, AndroidLogLine);
-        AndroidLogLine(r.Ok ? "Appen är installerad." : "Appen kunde inte installeras.");
+        AndroidLogLine(r.Ok ? L.T("Main_TheAppIsInstalled") : L.T("Main_TheAppCouldNotBeInstalled"));
     });
 
     [RelayCommand]

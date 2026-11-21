@@ -62,7 +62,7 @@ public sealed partial class CarEditorViewModel : ObservableObject
     private static string Fmt(double? v) => v is { } x ? x.ToString("0.#", CultureInfo.InvariantCulture) : "";
 
     public bool IsNew { get; }
-    public string Title => IsNew ? "Ny bilmodell (kopia)" : "Redigera egen bilmodell";
+    public string Title => IsNew ? L.T("CarEditorViewModel_NewCarModelCopy") : L.T("CarEditorViewModel_EditOwnCarModel");
 
     [ObservableProperty] private string _id;
     [ObservableProperty] private string _make;
@@ -84,11 +84,11 @@ public sealed partial class CarEditorViewModel : ObservableObject
     public ObservableCollection<EcuRow> Ecus { get; } = new();
     public ObservableCollection<FeatureRow> Features { get; } = new();
 
-    public string KnownPidsText => "Möjliga PID:ar: " + string.Join(", ", ProfileLoader.KnownPids.Select(p => p.ToString("X2"))) + " (tomt = alla)";
+    public string KnownPidsText => L.T("CarEditorViewModel_PossiblePIDs") + string.Join(", ", ProfileLoader.KnownPids.Select(p => p.ToString("X2"))) + " (tomt = alla)";
 
-    [RelayCommand] private void AddEcu() => Ecus.Add(new EcuRow { Key = "styrdon" + (Ecus.Count + 1), Name = "Nytt styrdon", RequestId = "7E1", ResponseId = "7E9" });
+    [RelayCommand] private void AddEcu() => Ecus.Add(new EcuRow { Key = "styrdon" + (Ecus.Count + 1), Name = L.T("CarEditorViewModel_NewControlUnit"), RequestId = "7E1", ResponseId = "7E9" });
     [RelayCommand] private void RemoveEcu(EcuRow? r) { if (r is not null) Ecus.Remove(r); }
-    [RelayCommand] private void AddFeature() => Features.Add(new FeatureRow { Id = "funktion" + (Features.Count + 1), Name = "Ny funktion", Ecu = Ecus.FirstOrDefault()?.Key ?? "" });
+    [RelayCommand] private void AddFeature() => Features.Add(new FeatureRow { Id = "funktion" + (Features.Count + 1), Name = L.T("CarEditorViewModel_NewFeature"), Ecu = Ecus.FirstOrDefault()?.Key ?? "" });
     [RelayCommand] private void RemoveFeature(FeatureRow? r) { if (r is not null) Features.Remove(r); }
 
     private static double? Num(string s) =>

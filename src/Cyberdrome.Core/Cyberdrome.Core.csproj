@@ -2,4 +2,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
+  </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace Cyberdrome.Core.CarDb;
 /// </summary>
 public sealed class ObdbClient
 {
-    public const string Attribution = "Data från OBDb (github.com/OBDb), CC BY-SA 4.0";
+    public static string Attribution => L.T("Obdb_Attribution");
     /// <summary>Modellnamn för arkiv med märkesgemensamma signaler (arkivnamnet är bara märket).</summary>
     public const string MakeWide = "(alla modeller)";
     public const string ListUrl = "https://api.github.com/orgs/OBDb/repos?per_page=100&page=";
@@ -55,7 +55,7 @@ public sealed class ObdbClient
         var list = new List<ObdbVehicle>();
         for (int page = 1; page <= 30; page++)
         {
-            progress?.Report($"OBDb: hämtar lista, sida {page} …");
+            progress?.Report(L.F("Obdb_OBDbGettingListPage0", page));
             var json = await Http.GetStringAsync(_http, ListUrl + page, ct).ConfigureAwait(false);
             using var doc = JsonDocument.Parse(json);
             int n = 0;
@@ -84,7 +84,7 @@ public sealed class ObdbClient
         var notice = Path.Combine(Folder, "LICENS.txt");
         if (!File.Exists(notice))
             await File.WriteAllTextAsync(notice,
-                "Filerna i den här mappen är hämtade från OBDb (https://github.com/OBDb).\r\n" +
+                "Filerna i den här mappen är hämtade från OBDb (https://github.com/OBDb). / The files in this folder are downloaded from OBDb.\r\n" +
                 "Licens: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).\r\n" +
                 "https://creativecommons.org/licenses/by-sa/4.0/\r\n" +
                 "Ändrade versioner av datat måste delas under samma licens. Datat är inte en del av Cyberdromes programkod.\r\n", ct).ConfigureAwait(false);
@@ -101,15 +101,15 @@ internal static class Http
         {
             using var resp = await http.GetAsync(url, ct).ConfigureAwait(false);
             if (resp.IsSuccessStatusCode) return await resp.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
-            if (resp.StatusCode == HttpStatusCode.NotFound) throw new HttpRequestException("Hittades inte (404): " + url, null, resp.StatusCode);
+            if (resp.StatusCode == HttpStatusCode.NotFound) throw new HttpRequestException(L.T("Obdb_NotFound404") + url, null, resp.StatusCode);
             if (resp.StatusCode == HttpStatusCode.Forbidden && resp.Headers.TryGetValues("X-RateLimit-Remaining", out var rem) && rem.FirstOrDefault() == "0")
             {
                 var reset = resp.Headers.TryGetValues("X-RateLimit-Reset", out var r) && long.TryParse(r.FirstOrDefault(), out var s)
-                    ? DateTimeOffset.FromUnixTimeSeconds(s).ToLocalTime().ToString("HH:mm") : "om en stund";
-                throw new HttpRequestException($"GitHubs gräns för antal frågor är nådd. Försök igen efter {reset} (sparad data fungerar under tiden).", null, resp.StatusCode);
+                    ? DateTimeOffset.FromUnixTimeSeconds(s).ToLocalTime().ToString("HH:mm") : L.T("Obdb_InAWhile");
+                throw new HttpRequestException(L.F("Obdb_GitHubSRequestLimitHasBeen", reset), null, resp.StatusCode);
             }
             bool retry = resp.StatusCode is HttpStatusCode.TooManyRequests or >= HttpStatusCode.InternalServerError;
-            if (!retry || attempt >= 3) throw new HttpRequestException($"Fel {(int)resp.StatusCode} från {new Uri(url).Host}.", null, resp.StatusCode);
+            if (!retry || attempt >= 3) throw new HttpRequestException(L.F("Obdb_Error0From1", (int)resp.StatusCode, new Uri(url).Host), null, resp.StatusCode);
             var wait = resp.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(Math.Pow(2, attempt + 1));
             await Task.Delay(wait, ct).ConfigureAwait(false);
         }
@@ -128,7 +128,7 @@ public sealed class ObdbSignalSet
         using var doc = JsonDocument.Parse(json);
         var set = new ObdbSignalSet { Repo = repo };
         if (!doc.RootElement.TryGetProperty("commands", out var cmds) || cmds.ValueKind != JsonValueKind.Array)
-            throw new InvalidDataException("Ingen \"commands\"-lista – inte en OBDb-signalfil.");
+            throw new InvalidDataException(L.T("Obdb_NoCommandsListNotAnOBDb"));
         foreach (var c in cmds.EnumerateArray())
         {
             if (!c.TryGetProperty("cmd", out var cmd) || cmd.ValueKind != JsonValueKind.Object) continue;

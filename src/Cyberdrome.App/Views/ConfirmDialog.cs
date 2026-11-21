@@ -11,8 +11,10 @@ namespace Cyberdrome.App.Views;
 /// <summary>Enkel Ja/Nej-dialog (används för att bekräfta skrivning till en riktig bil).</summary>
 public static class ConfirmDialog
 {
-    public static async Task<bool> ShowAsync(Window owner, string title, string text, string yes = "Skriv till bilen", string no = "Avbryt")
+    public static async Task<bool> ShowAsync(Window owner, string title, string text, string? yes = null, string? no = null)
     {
+        yes ??= L.T("Confirm_WriteToCar");
+        no ??= L.T("Ui_Cancel");
         var result = false;
         var win = new Window
         {

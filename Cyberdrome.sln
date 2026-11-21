@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberdrome.Tests", "tests\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberdrome.Vm", "src\Cyberdrome.Vm\Cyberdrome.Vm.csproj", "{F17EDFF3-EE78-4F9D-955B-8650E52B846F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyberdrome.Localization", "src\Cyberdrome.Localization\Cyberdrome.Localization.csproj", "{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{F17EDFF3-EE78-4F9D-955B-8650E52B846F}.Release|x64.Build.0 = Release|Any CPU
 		{F17EDFF3-EE78-4F9D-955B-8650E52B846F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F17EDFF3-EE78-4F9D-955B-8650E52B846F}.Release|x86.Build.0 = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Debug|x86.Build.0 = Debug|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|x64.Build.0 = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +111,6 @@ Global
 		{1CFE66C9-B8CB-496A-B0A5-8E37AAB17075} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{086E8D9E-B4F4-4463-B21D-E70B39E31395} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{F17EDFF3-EE78-4F9D-955B-8650E52B846F} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{C5F1AA77-18D8-46BD-8A9F-565080F0EB0C} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

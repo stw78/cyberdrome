@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Cyberdrome.Core\Cyberdrome.Core.csproj" />
+    <ProjectReference Include="..\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="11.0.0" />

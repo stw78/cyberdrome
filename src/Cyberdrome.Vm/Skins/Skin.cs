@@ -74,25 +74,25 @@ public sealed class Skin
     public string ToJson() => JsonSerializer.Serialize(this, Json);
 
     public static Skin FromJson(string json) =>
-        JsonSerializer.Deserialize<Skin>(json, Json) ?? throw new InvalidDataException("Tom skin.json.");
+        JsonSerializer.Deserialize<Skin>(json, Json) ?? throw new InvalidDataException(L.T("Skin_EmptySkinJson"));
 
     /// <summary>Kontrollerar att skalet går att använda. Returnerar en lista med fel (tom = OK).</summary>
     public IReadOnlyList<string> Validate()
     {
         var errors = new List<string>();
-        if (string.IsNullOrWhiteSpace(Id)) errors.Add("id saknas.");
-        if (string.IsNullOrWhiteSpace(Name)) errors.Add("name saknas.");
-        if (Width <= 0 || Height <= 0) errors.Add("width och height måste vara större än 0.");
-        if (!Screen.FitsIn(Width, Height)) errors.Add("screen måste ligga helt inne i skalet.");
-        if (Screen.W < 100 || Screen.H < 100) errors.Add("screen är för liten (minst 100×100).");
-        if (ScreenPresets.All.All(p => p.Id != ScreenPreset)) errors.Add($"okänt screenPreset: {ScreenPreset}.");
+        if (string.IsNullOrWhiteSpace(Id)) errors.Add(L.T("TestCase_IdIsMissing"));
+        if (string.IsNullOrWhiteSpace(Name)) errors.Add(L.T("TestCase_NameIsMissing"));
+        if (Width <= 0 || Height <= 0) errors.Add(L.T("Skin_WidthAndHeightMustBeGreater"));
+        if (!Screen.FitsIn(Width, Height)) errors.Add(L.T("Skin_ScreenMustBeCompletelyInsideThe"));
+        if (Screen.W < 100 || Screen.H < 100) errors.Add(L.T("Skin_ScreenIsTooSmallAtLeast"));
+        if (ScreenPresets.All.All(p => p.Id != ScreenPreset)) errors.Add(L.F("Skin_UnknownScreenPreset0", ScreenPreset));
         foreach (var b in Buttons)
         {
-            if (!b.Rect.FitsIn(Width, Height)) errors.Add($"knappen \"{b.Name}\" ligger utanför skalet.");
-            if (b.KeyCode is < 0 or > 300) errors.Add($"knappen \"{b.Name}\" har ogiltig keyCode {b.KeyCode}.");
+            if (!b.Rect.FitsIn(Width, Height)) errors.Add(L.F("Skin_TheButton0IsOutsideThe", b.Name));
+            if (b.KeyCode is < 0 or > 300) errors.Add(L.F("Skin_TheButton0HasAnInvalid", b.Name, b.KeyCode));
         }
-        if (Style is null && Image is null) errors.Add("image saknas.");
-        if (ImagePath is { } img && !File.Exists(img)) errors.Add($"bilden {Image} finns inte.");
+        if (Style is null && Image is null) errors.Add(L.T("Skin_ImageIsMissing"));
+        if (ImagePath is { } img && !File.Exists(img)) errors.Add(L.F("Skin_TheImage0DoesNotExist", Image));
         return errors;
     }
 

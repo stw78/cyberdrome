@@ -13,6 +13,8 @@ internal static class Program
     public static void Main(string[] args)
     {
         // Velopack måste köras först: hanterar installation, uppdatering och avinstallation (och avslutar då direkt).
+        // Språket väljs först, så att även avinstallationens frågor visas på rätt språk.
+        L.SetLanguage(AppSettings.Load().Language);
         VelopackApp.Build()
             .OnBeforeUninstallFastCallback(_ => AskRemoveUserData())
             .Run();
@@ -40,10 +42,10 @@ internal static class Program
         var roaming = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Cyberdrome");
         var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyberdrome");
         int answer = MessageBoxW(IntPtr.Zero,
-            "Cyberdrome Simulator avinstalleras.\n\nVill du även ta bort mina data?\n" +
-            $"  {roaming}\n  {local}\n\n(egna bilmodeller, teman, skal, körningar, testfall, säkerhetskopior, inställningar och loggar)\n\n" +
-            "Nej (standard) = dina data finns kvar om du installerar igen.",
-            "Ta bort mina data?", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TOPMOST);
+            L.T("Program_CyberdromeSimulatorIsBeingUninstalledDo") +
+            L.F("Program_01OwnCarModelsThemes", roaming, local) +
+            L.T("Program_NoDefaultYourDataIsKept"),
+            L.T("Program_RemoveMyData"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TOPMOST);
         if (answer != IDYES) return;
         foreach (var dir in new[] { roaming, local })
             try { if (Directory.Exists(dir)) Directory.Delete(dir, true); } catch { /* låst fil – resten tas bort */ }

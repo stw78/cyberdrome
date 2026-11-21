@@ -55,7 +55,7 @@ public sealed partial class LauncherTheme
     public string ToJson() => JsonSerializer.Serialize(this, Json);
 
     public static LauncherTheme FromJson(string json) =>
-        JsonSerializer.Deserialize<LauncherTheme>(json, Json) ?? throw new InvalidDataException("Tom theme.json.");
+        JsonSerializer.Deserialize<LauncherTheme>(json, Json) ?? throw new InvalidDataException(L.T("LauncherTheme_EmptyThemeJson"));
 
     [GeneratedRegex("^#?([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$")]
     private static partial Regex HexColor();
@@ -66,16 +66,16 @@ public sealed partial class LauncherTheme
     public IReadOnlyList<string> Validate()
     {
         var e = new List<string>();
-        if (string.IsNullOrWhiteSpace(Id)) e.Add("id saknas.");
-        if (string.IsNullOrWhiteSpace(Name)) e.Add("name saknas.");
-        if (!Layouts.Contains(Layout)) e.Add($"layout måste vara en av: {string.Join(", ", Layouts)}.");
-        if (!Fonts.Contains(Font)) e.Add($"font måste vara en av: {string.Join(", ", Fonts)}.");
-        if (!Wallpapers.Contains(Wallpaper)) e.Add($"wallpaper måste vara en av: {string.Join(", ", Wallpapers)}.");
+        if (string.IsNullOrWhiteSpace(Id)) e.Add(L.T("TestCase_IdIsMissing"));
+        if (string.IsNullOrWhiteSpace(Name)) e.Add(L.T("TestCase_NameIsMissing"));
+        if (!Layouts.Contains(Layout)) e.Add(L.F("LauncherTheme_LayoutMustBeOneOf0", string.Join(", ", Layouts)));
+        if (!Fonts.Contains(Font)) e.Add(L.F("LauncherTheme_FontMustBeOneOf0", string.Join(", ", Fonts)));
+        if (!Wallpapers.Contains(Wallpaper)) e.Add(L.F("LauncherTheme_WallpaperMustBeOneOf0", string.Join(", ", Wallpapers)));
         foreach (var (n, c) in new[] { ("background", Colors.Background), ("surface", Colors.Surface), ("accent", Colors.Accent), ("text", Colors.Text), ("muted", Colors.Muted) })
-            if (!IsColor(c)) e.Add($"colors.{n} är inte en färg (#RRGGBB).");
-        if (CornerRadius is < 0 or > 60) e.Add("cornerRadius ska vara 0–60.");
-        if (TabColors is not null && (TabColors.Count != 6 || TabColors.Any(c => !IsColor(c)))) e.Add("tabColors ska vara 6 färger.");
-        if (ScreenPreset is not null && ScreenPresets.All.All(p => p.Id != ScreenPreset)) e.Add($"okänt screenPreset: {ScreenPreset}.");
+            if (!IsColor(c)) e.Add(L.F("LauncherTheme_Colors0IsNotAColour", n));
+        if (CornerRadius is < 0 or > 60) e.Add(L.T("LauncherTheme_CornerRadiusMustBe060"));
+        if (TabColors is not null && (TabColors.Count != 6 || TabColors.Any(c => !IsColor(c)))) e.Add(L.T("LauncherTheme_TabColorsMustBe6Colours"));
+        if (ScreenPreset is not null && ScreenPresets.All.All(p => p.Id != ScreenPreset)) e.Add(L.F("Skin_UnknownScreenPreset0", ScreenPreset));
         return e;
     }
 
@@ -91,12 +91,12 @@ public static class BuiltInThemes
 
     public static readonly IReadOnlyList<(string Id, string Name, string ScreenPreset, ScreenOrientation Orientation)> All =
     [
-        ("vw-golf8", "Golf 8-stil (rutnät, blå accent)", "10in-1560x700", ScreenOrientation.Landscape),
-        ("skoda-octavia4", "Octavia 4-stil (rutnät, grön accent)", "10in-1280x800", ScreenOrientation.Landscape),
-        ("bmw-g20", "3-serie G20-stil (meny till vänster, bred)", "12in-1920x720", ScreenOrientation.Landscape),
-        ("volvo-xc60", "XC60-stil (stående, staplade rutor)", "9in-1024x768", ScreenOrientation.Portrait),
-        ("toyota-rav4", "RAV4-stil (delad startskärm)", "8in-800x480", ScreenOrientation.Landscape),
-        ("ford-focus4", "Focus Mk4-stil (tre fält + flikrad)", "8in-800x480", ScreenOrientation.Landscape),
+        ("vw-golf8", L.T("LauncherTheme_Golf8StyleGridBlueAccent"), "10in-1560x700", ScreenOrientation.Landscape),
+        ("skoda-octavia4", L.T("LauncherTheme_Octavia4StyleGridGreenAccent"), "10in-1280x800", ScreenOrientation.Landscape),
+        ("bmw-g20", L.T("LauncherTheme_3SeriesG20StyleMenuOn"), "12in-1920x720", ScreenOrientation.Landscape),
+        ("volvo-xc60", L.T("LauncherTheme_XC60StylePortraitStackedTiles"), "9in-1024x768", ScreenOrientation.Portrait),
+        ("toyota-rav4", L.T("LauncherTheme_RAV4StyleSplitHomeScreen"), "8in-800x480", ScreenOrientation.Landscape),
+        ("ford-focus4", L.T("LauncherTheme_FocusMk4StyleThreePanelsTab"), "8in-800x480", ScreenOrientation.Landscape),
     ];
 
     public static bool IsBuiltIn(string id) => All.Any(t => t.Id == id);
@@ -140,24 +140,24 @@ public sealed class ThemeStore
         {
             using var zip = ZipFile.OpenRead(source);
             var entry = zip.Entries.FirstOrDefault(e => e.Name.Equals("theme.json", StringComparison.OrdinalIgnoreCase))
-                        ?? throw new InvalidDataException("Zip-filen innehåller ingen theme.json.");
+                        ?? throw new InvalidDataException(L.T("LauncherTheme_TheZipFileContainsNoTheme"));
             using var r = new StreamReader(entry.Open());
             json = r.ReadToEnd();
         }
         else if (Directory.Exists(source))
         {
             var f = Path.Combine(source, "theme.json");
-            if (!File.Exists(f)) throw new InvalidDataException("Mappen innehåller ingen theme.json.");
+            if (!File.Exists(f)) throw new InvalidDataException(L.T("LauncherTheme_TheFolderContainsNoThemeJson"));
             json = File.ReadAllText(f);
         }
         else if (File.Exists(source)) json = File.ReadAllText(source);
-        else throw new InvalidDataException("Välj en zip-fil, en mapp eller en theme.json.");
+        else throw new InvalidDataException(L.T("LauncherTheme_ChooseAZipFileAFolder"));
 
         LauncherTheme t;
         try { t = LauncherTheme.FromJson(json); }
-        catch (JsonException ex) { throw new InvalidDataException("theme.json går inte att läsa: " + ex.Message); }
+        catch (JsonException ex) { throw new InvalidDataException(L.T("LauncherTheme_ThemeJsonCannotBeRead") + ex.Message); }
         var errors = t.Validate();
-        if (errors.Count > 0) throw new InvalidDataException("Temat är inte giltigt: " + string.Join(" ", errors));
+        if (errors.Count > 0) throw new InvalidDataException(L.T("LauncherTheme_TheThemeIsNotValid") + string.Join(" ", errors));
 
         var id = Skins.SkinStore.SafeId(t.Id);
         if (BuiltInThemes.IsBuiltIn(id) || id is BuiltInThemes.CarDefault or BuiltInThemes.Off) id = "eget-" + id;

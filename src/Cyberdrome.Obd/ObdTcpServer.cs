@@ -71,7 +71,7 @@ public sealed class ObdTcpServer : IAsyncDisposable
 
     private async Task HandleClient(TcpClient client, CancellationToken ct)
     {
-        var name = client.Client.RemoteEndPoint?.ToString() ?? "okänd";
+        var name = client.Client.RemoteEndPoint?.ToString() ?? L.T("ObdTcpServer_Unknown");
         Interlocked.Increment(ref _clientCount);
         StatusChanged?.Invoke(this, EventArgs.Empty);
         var session = new ObdLineSession(_car, name, e => Traffic?.Invoke(this, e));

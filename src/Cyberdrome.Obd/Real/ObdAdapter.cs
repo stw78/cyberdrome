@@ -38,10 +38,10 @@ public sealed class ObdAdapter : IAsyncDisposable
     {
         string z;
         try { z = await _elm.SendAsync("ATZ", 5000, ct).ConfigureAwait(false); }
-        catch (TimeoutException) { throw new NotElmException("Inget svar på ATZ."); }
+        catch (TimeoutException) { throw new NotElmException(L.T("ObdAdapter_NoReplyToATZ")); }
         await Task.Delay(300, ct).ConfigureAwait(false);
         var version = Last(await _elm.SendAsync("ATI", 2000, ct).ConfigureAwait(false));
-        if (!LooksLikeElm(z + " " + version)) throw new NotElmException($"Svarade \"{(z + " " + version).Trim()}\" i stället för en ELM327-version.");
+        if (!LooksLikeElm(z + " " + version)) throw new NotElmException(L.F("ObdAdapter_Replied0InsteadOfAnELM327", (z + " " + version).Trim()));
         foreach (var c in new[] { "ATE0", "ATL0", "ATS1", "ATH1", "ATCAF1", "ATSP0" })
             await _elm.SendAsync(c, 2000, ct).ConfigureAwait(false);
         string? stn = null;

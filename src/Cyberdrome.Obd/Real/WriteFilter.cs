@@ -23,52 +23,52 @@ public static class WriteFilter
 {
     private static readonly Dictionary<byte, string> ReadServices = new()
     {
-        [0x01] = "OBD 01 aktuella värden",
-        [0x02] = "OBD 02 frysta värden",
-        [0x03] = "OBD 03 läs felkoder",
-        [0x05] = "OBD 05 lambdasondtest (läs)",
+        [0x01] = L.T("WriteFilter_OBD01CurrentValues"),
+        [0x02] = L.T("WriteFilter_OBD02FreezeFrame"),
+        [0x03] = L.T("WriteFilter_OBD03ReadTroubleCodes"),
+        [0x05] = L.T("WriteFilter_OBD05OxygenSensorTestRead"),
         [0x06] = "OBD 06 testresultat",
-        [0x07] = "OBD 07 väntande felkoder",
+        [0x07] = L.T("WriteFilter_OBD07PendingTroubleCodes"),
         [0x09] = "OBD 09 fordonsinfo",
-        [0x0A] = "OBD 0A permanenta felkoder",
-        [0x19] = "UDS 19 läs felkodsinfo",
-        [0x1A] = "KWP 1A läs styrdons-id",
-        [0x21] = "KWP 21 läs data (lokalt id)",
-        [0x22] = "UDS 22 läs data (DID)",
-        [0x3E] = "UDS 3E tester present",
+        [0x0A] = L.T("WriteFilter_OBD0APermanentTroubleCodes"),
+        [0x19] = L.T("WriteFilter_UDS19ReadDTCInformation"),
+        [0x1A] = L.T("WriteFilter_KWP1AReadECUIdentification"),
+        [0x21] = L.T("WriteFilter_KWP21ReadDataLocalId"),
+        [0x22] = L.T("WriteFilter_UDS22ReadDataDID"),
+        [0x3E] = L.T("WriteFilter_UDS3ETesterPresent"),
     };
 
     private static readonly Dictionary<byte, string> WriteServices = new()
     {
-        [0x04] = "OBD 04 radera felkoder",
-        [0x08] = "OBD 08 styr system i bilen",
-        [0x10] = "UDS 10 byt diagnossession",
-        [0x11] = "UDS 11 starta om styrdon",
-        [0x14] = "UDS 14 radera felkoder",
-        [0x23] = "UDS 23 läs minne",
-        [0x28] = "UDS 28 styr kommunikation",
-        [0x2C] = "UDS 2C definiera data",
-        [0x2E] = "UDS 2E skriv data (DID)",
-        [0x2F] = "UDS 2F styr in-/utgång",
+        [0x04] = L.T("WriteFilter_OBD04ClearTroubleCodes"),
+        [0x08] = L.T("WriteFilter_OBD08ControlOnBoardSystem"),
+        [0x10] = L.T("WriteFilter_UDS10ChangeDiagnosticSession"),
+        [0x11] = L.T("WriteFilter_UDS11ResetControlUnit"),
+        [0x14] = L.T("WriteFilter_UDS14ClearTroubleCodes"),
+        [0x23] = L.T("WriteFilter_UDS23ReadMemory"),
+        [0x28] = L.T("WriteFilter_UDS28CommunicationControl"),
+        [0x2C] = L.T("WriteFilter_UDS2CDefineData"),
+        [0x2E] = L.T("WriteFilter_UDS2EWriteDataDID"),
+        [0x2F] = L.T("WriteFilter_UDS2FInputOutputControl"),
         [0x31] = "UDS 31 rutin",
         [0x34] = "UDS 34 nedladdning",
         [0x35] = "UDS 35 uppladdning",
-        [0x36] = "UDS 36 dataöverföring",
-        [0x37] = "UDS 37 avsluta överföring",
-        [0x3B] = "KWP 3B skriv data (lokalt id)",
-        [0x3D] = "UDS 3D skriv minne",
-        [0x85] = "UDS 85 styr felkodsinställning",
+        [0x36] = L.T("WriteFilter_UDS36TransferData"),
+        [0x37] = L.T("WriteFilter_UDS37RequestTransferExit"),
+        [0x3B] = L.T("WriteFilter_KWP3BWriteDataLocalId"),
+        [0x3D] = L.T("WriteFilter_UDS3DWriteMemory"),
+        [0x85] = L.T("WriteFilter_UDS85ControlDTCSetting"),
     };
 
     public static FilterDecision Classify(byte[] request)
     {
-        if (request.Length == 0) return new(FilterKind.Write, "tom fråga");
+        if (request.Length == 0) return new(FilterKind.Write, L.T("WriteFilter_EmptyRequest"));
         byte sid = request[0];
         if (sid == 0x10)
             return request.Length == 2 && request[1] == 0x01 ? new(FilterKind.Read, "UDS 10 01 standardsession") : new(FilterKind.Write, WriteServices[0x10]);
-        if (sid == 0x27) return new(FilterKind.Security, "UDS 27 säkerhetsåtkomst");
+        if (sid == 0x27) return new(FilterKind.Security, L.T("WriteFilter_UDS27SecurityAccess"));
         if (ReadServices.TryGetValue(sid, out var r)) return new(FilterKind.Read, r);
         if (WriteServices.TryGetValue(sid, out var w)) return new(FilterKind.Write, w);
-        return new(FilterKind.Write, $"okänd tjänst 0x{sid:X2} (räknas som skrivning)");
+        return new(FilterKind.Write, L.F("WriteFilter_UnknownService0x0X2Counted", sid));
     }
 }

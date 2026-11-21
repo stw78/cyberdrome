@@ -1,0 +1,2898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_Description" xml:space="preserve">
+    <value>Cyberdrome simulerar en Android-bilradio med en virtuell OBD-port, så att du kan utveckla och testa media-, radio- och OBD-appar utan en riktig bil. Programmet kör Android Automotive, emulerar bilmodeller med egna teman, felkoder, kodning och GPS, och kan även ansluta en riktig OBD-adapter.</value>
+  </data>
+  <data name="About_Disclaimer" xml:space="preserve">
+    <value>Cyberdrome tillhandahålls utan någon garanti. Det är en simulator för utveckling och test – inte för användning under körning. Bilmodellernas värden, felkoder och kodningar är påhittade exempel. Skrivning till riktiga bilar sker på egen risk (programmet är i läsläge som standard). Android-avbildningar med Google-tjänster hämtas av dig från Google och får bara användas för utveckling och test. Inga tillverkares logotyper, typsnitt eller säkerhetsalgoritmer ingår.</value>
+  </data>
+  <data name="About_DonationText" xml:space="preserve">
+    <value>Cyberdrome är gratis och öppen källkod. Utvecklingen drivs av donationer – varje bidrag hjälper till med nya bilmodeller, funktioner och tester mot riktiga bilar.</value>
+  </data>
+  <data name="About_GplNotice" xml:space="preserve">
+    <value>Cyberdrome © 2026 Jouko Broström. Detta program är fri programvara: du får sprida och ändra det enligt GNU General Public License version 3 eller (om du vill) senare. Det sprids UTAN NÅGON GARANTI. Programmet använder öppen källkod (bl.a. Avalonia, CommunityToolkit.Mvvm, Velopack, SQLite, SkiaSharp och .NET). Data som hämtas: © OpenStreetMap-bidragsgivare (ODbL), OBDb (CC BY-SA 4.0), Wikidata (CC0) och NHTSA vPIC. Allt finns under Licens.</value>
+  </data>
+  <data name="AndrObd_Help" xml:space="preserve">
+    <value>Så ansluter du AndrOBD till den virtuella bilen: öppna AndrOBD → meny (⋮) → Inställningar → Anslutningstyp: Nätverk (Network/WiFi). Ange IP-adress 10.0.2.2 och port 35000. Gå tillbaka och tryck Anslut (Connect). Välj sedan t.ex. Live-data (OBD Data) – hastighet och varvtal följer reglagen i Cyberdrome. AndrOBD är GPLv3 och laddas ner från F-Droid; den följer inte med Cyberdrome.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsInstalled" xml:space="preserve">
+    <value>Android är installerat.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsInstalledAndStopped" xml:space="preserve">
+    <value>Android är installerat och avstängt.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsNotInstalledYet" xml:space="preserve">
+    <value>Android är inte installerat än.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsPartlyInstalledPressInstall" xml:space="preserve">
+    <value>Android är delvis installerat. Tryck Installera Android för att fortsätta.</value>
+  </data>
+  <data name="AndroidVm_AndroidIsRunning" xml:space="preserve">
+    <value>Android är igång.</value>
+  </data>
+  <data name="AndroidVm_CancelledNothingWasChanged" xml:space="preserve">
+    <value>Avbrutet. Inget ändrades.</value>
+  </data>
+  <data name="AndroidVm_CancelledNothingWasChanged2" xml:space="preserve">
+    <value>Avbrutet – inget ändrades.</value>
+  </data>
+  <data name="AndroidVm_CheckingWhatNeedsToBeInstalled" xml:space="preserve">
+    <value>Kontrollerar vad som behöver installeras …</value>
+  </data>
+  <data name="AndroidVm_CouldNotCreateTheLinuxEnvironment" xml:space="preserve">
+    <value>Kunde inte skapa Linux-miljön.</value>
+  </data>
+  <data name="AndroidVm_CouldNotOpenTheScreen" xml:space="preserve">
+    <value>Kunde inte öppna skärmen: </value>
+  </data>
+  <data name="AndroidVm_CreatingTheLinuxEnvironment0" xml:space="preserve">
+    <value>Skapar Linux-miljön {0} …</value>
+  </data>
+  <data name="AndroidVm_DoneAndroidIsDownloadedAndInstalled" xml:space="preserve">
+    <value>Klart! Android är nedladdat och installerat.</value>
+  </data>
+  <data name="AndroidVm_InstallingTheCuttlefishTools" xml:space="preserve">
+    <value>Installerar Cuttlefish-verktygen …</value>
+  </data>
+  <data name="AndroidVm_InstallingTheToolsFailed" xml:space="preserve">
+    <value>Installationen av verktygen misslyckades.</value>
+  </data>
+  <data name="AndroidVm_Mode0" xml:space="preserve">
+    <value>Läge: {0}</value>
+  </data>
+  <data name="AndroidVm_RestartTheComputerAndThenPress" xml:space="preserve">
+    <value>Starta om datorn och tryck sedan Installera Android igen.</value>
+  </data>
+  <data name="AndroidVm_Step1Of3DownloadingAnd" xml:space="preserve">
+    <value>Steg 1 av 3: Laddar ner och skapar Linux-miljön ({0}) …</value>
+  </data>
+  <data name="AndroidVm_Step2Of30" xml:space="preserve">
+    <value>Steg 2 av 3: {0} …</value>
+  </data>
+  <data name="AndroidVm_Step2Of3InstallingThe" xml:space="preserve">
+    <value>Steg 2 av 3: Installerar Cuttlefish-verktygen …</value>
+  </data>
+  <data name="AndroidVm_Step3Of3DownloadingAndroid" xml:space="preserve">
+    <value>Steg 3 av 3: Laddar ner Android: {0} av ca {1} ({2:0} %){3}</value>
+  </data>
+  <data name="AndroidVm_Step3Of3StartingThe" xml:space="preserve">
+    <value>Steg 3 av 3: Startar nedladdningen av Android …</value>
+  </data>
+  <data name="AndroidVm_TheAndroidDownloadFailed" xml:space="preserve">
+    <value>Nedladdningen av Android misslyckades.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidImageIsNotDownloaded" xml:space="preserve">
+    <value>Android-avbilden är inte nedladdad. Tryck Installera Android för att fortsätta.</value>
+  </data>
+  <data name="AndroidVm_TheAndroidPartOnlyWorksOn" xml:space="preserve">
+    <value>Android-delen fungerar bara på Windows i den här versionen.</value>
+  </data>
+  <data name="AndroidVm_TurningOnWSL2AnswerYesTo" xml:space="preserve">
+    <value>Slår på WSL2 (svara Ja på Windows administratörsfråga) …</value>
+  </data>
+  <data name="AndroidVm_TurningOnWSL2WindowsAsksFor" xml:space="preserve">
+    <value>Slår på WSL2 (Windows frågar om lov som administratör) …</value>
+  </data>
+  <data name="AndroidVm_UnknownStatePressCheckAgain" xml:space="preserve">
+    <value>Okänt läge. Tryck Kontrollera igen.</value>
+  </data>
+  <data name="AndroidVm_VirtualisationIsMissingInWSLCheck" xml:space="preserve">
+    <value>Virtualisering saknas i WSL. Kontrollera att virtualisering är påslaget i BIOS.</value>
+  </data>
+  <data name="AndroidVm_VirtualisationKVMIsMissingInsideWSL" xml:space="preserve">
+    <value>Virtualisering (KVM) saknas inne i WSL. Android kan inte köras snabbt utan den.</value>
+  </data>
+  <data name="AndroidVm_WSL2CouldNotBeTurnedOn" xml:space="preserve">
+    <value>Det gick inte att slå på WSL2 (felkod {0}).</value>
+  </data>
+  <data name="AndroidVm_WSL2IsNotTurnedOnPress" xml:space="preserve">
+    <value>WSL2 är inte påslaget. Tryck Installera Android så slår programmet på det.</value>
+  </data>
+  <data name="AndroidVm_WSL2IsTurnedOnRestartThe" xml:space="preserve">
+    <value>WSL2 är påslaget. Starta om datorn och tryck sedan på Installera Android igen.</value>
+  </data>
+  <data name="AndroidVm_WSL2IsTurnedOnRestartThe2" xml:space="preserve">
+    <value>WSL2 är påslaget. Starta om datorn och tryck Installera Android igen.</value>
+  </data>
+  <data name="AndroidVm_YouSaidNoToTheAdministrator" xml:space="preserve">
+    <value>Du sa nej till administratörsfrågan. Inget ändrades.</value>
+  </data>
+  <data name="Android_RestartExplanation" xml:space="preserve">
+    <value>För att köra Android snabbt behöver Windows-funktionen Virtual Machine Platform (WSL2) slås på. Windows frågar om lov som administratör, och sedan behöver datorn startas om en gång. Efter omstarten trycker du Installera Android igen så fortsätter installationen.</value>
+  </data>
+  <data name="AutoResume_CouldNotSetUpAutomaticStart" xml:space="preserve">
+    <value>Kunde inte ställa in automatisk start efter omstart: </value>
+  </data>
+  <data name="BilDatabas_0ManufacturerSignalsIn1Requests" xml:space="preserve">
+    <value>{0} tillverkarsignaler i {1} frågor från {2}.</value>
+  </data>
+  <data name="BilDatabas_0RequestsApplyToOtherModel" xml:space="preserve">
+    <value>{0} frågor gäller andra årsmodeller.</value>
+  </data>
+  <data name="BilDatabas_0RequestsOfAnotherTypeWere" xml:space="preserve">
+    <value>{0} frågor av annan typ hoppades över.</value>
+  </data>
+  <data name="BilDatabas_0RequestsWithExtendedAddressingWere" xml:space="preserve">
+    <value>{0} frågor med utökad adressering hoppades över (simuleras inte).</value>
+  </data>
+  <data name="BilDatabas_LocalCarDatabase" xml:space="preserve">
+    <value>Lokal bildatabas (</value>
+  </data>
+  <data name="BilDatabas_ModelYear0IsOlderThan" xml:space="preserve">
+    <value>⚠ Årsmodell {0} är äldre än OBD-II (USA 1996, EU bensin 2001, EU diesel 2004) – bilen har troligen ingen OBD-II-port. Modellen sparas som 1996 och simulerar OBD-II ändå.</value>
+  </data>
+  <data name="BilDatabas_NoBuiltIn0TheBase" xml:space="preserve">
+    <value>Ingen inbyggd {0} – grunden (skärm, motorstyrdon) kommer från {1}.</value>
+  </data>
+  <data name="BilDatabas_OBDIIAppliesInTheUS" xml:space="preserve">
+    <value>⚠ OBD-II gäller USA från 1996, EU-bensinbilar från 2001 och EU-dieslar från 2004. En europeisk bil av den här årsmodellen kan sakna OBD-II.</value>
+  </data>
+  <data name="BilDatabas_OBDbDoesNotHaveTheModel" xml:space="preserve">
+    <value>OBDb saknar modellen – bara standard-PID:ar.</value>
+  </data>
+  <data name="BilDatabas_OBDbHasTheRepository0But" xml:space="preserve">
+    <value>OBDb har arkivet {0} men det innehåller inga signaler ännu – bara standard-PID:ar.</value>
+  </data>
+  <data name="BilDatabas_TheModelHasNoSignalsOf" xml:space="preserve">
+    <value>Modellen saknar egna signaler i OBDb – märkets gemensamma signaler ({0}) används.</value>
+  </data>
+  <data name="BilDatabas_VPIC01" xml:space="preserve">
+    <value>vPIC: {0} {1} …</value>
+  </data>
+  <data name="BleObdServer_ConnectedViaBluetoothLE" xml:space="preserve">
+    <value>Ansluten via Bluetooth LE</value>
+  </data>
+  <data name="BleObdServer_CouldNotCreateTheBluetoothLE" xml:space="preserve">
+    <value>Kunde inte skapa Bluetooth LE-tjänsten: </value>
+  </data>
+  <data name="BleObdServer_CouldNotCreateTheBluetoothLE2" xml:space="preserve">
+    <value>Kunde inte skapa Bluetooth LE-egenskaperna.</value>
+  </data>
+  <data name="BleObdServer_OBDCommands" xml:space="preserve">
+    <value>OBD kommandon</value>
+  </data>
+  <data name="BleObdServer_OBDReplies" xml:space="preserve">
+    <value>OBD svar</value>
+  </data>
+  <data name="BleObdServer_TheComputerHasNoBluetoothAdapter" xml:space="preserve">
+    <value>Datorn har ingen Bluetooth-adapter.</value>
+  </data>
+  <data name="BleObdServer_TheComputerSBluetoothCannotAct" xml:space="preserve">
+    <value>Datorns Bluetooth kan inte agera Bluetooth LE-enhet (peripheral).</value>
+  </data>
+  <data name="Ble_PropWrite" xml:space="preserve">
+    <value>skriv</value>
+  </data>
+  <data name="Ble_PropWriteNoResponse" xml:space="preserve">
+    <value>skriv-utan-svar</value>
+  </data>
+  <data name="BluetoothObdServer_BluetoothIsTurnedOffInWindows" xml:space="preserve">
+    <value>Bluetooth är avstängt i Windows. Slå på det i Inställningar → Bluetooth.</value>
+  </data>
+  <data name="BluetoothObdServer_ConnectedViaBluetooth" xml:space="preserve">
+    <value>Ansluten via Bluetooth</value>
+  </data>
+  <data name="BluetoothObdServer_TheBluetoothConnectionWasClosed" xml:space="preserve">
+    <value>Bluetooth-anslutningen stängdes</value>
+  </data>
+  <data name="BluetoothObdServer_TheComputerSBluetoothDoesNot" xml:space="preserve">
+    <value>Datorns Bluetooth stöder inte klassisk Bluetooth (SPP).</value>
+  </data>
+  <data name="BluetoothObdServer_UnknownDevice" xml:space="preserve">
+    <value>okänd enhet</value>
+  </data>
+  <data name="Bridge_Unknown" xml:space="preserve">
+    <value>okänd</value>
+  </data>
+  <data name="BuiltInSkins_3SeriesG20StyleWide10" xml:space="preserve">
+    <value>3-serie G20-stil: bred 10,25" skärm</value>
+  </data>
+  <data name="BuiltInSkins_FocusMk4StyleFreeStanding8" xml:space="preserve">
+    <value>Focus Mk4-stil: fristående 8" med knapprad</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingGlossyScreenWithA" xml:space="preserve">
+    <value>Fristående blank skärm med smal ram, pekreglage under skärmen, mörk instrumentbräda.</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingScreenRowOfPhysical" xml:space="preserve">
+    <value>Fristående skärm, rad med fysiska ljudknappar och volymvred under.</value>
+  </data>
+  <data name="BuiltInSkins_FreeStandingScreenWithChromeTrim" xml:space="preserve">
+    <value>Fristående skärm med kromlist, pekreglage och ventiler under.</value>
+  </data>
+  <data name="BuiltInSkins_Golf8StyleFreeStanding10" xml:space="preserve">
+    <value>Golf 8-stil: fristående 10" skärm</value>
+  </data>
+  <data name="BuiltInSkins_MuteKnob" xml:space="preserve">
+    <value>Ljud av (vred)</value>
+  </data>
+  <data name="BuiltInSkins_Octavia4StyleFreeStanding10" xml:space="preserve">
+    <value>Octavia 4-stil: fristående 10" med kromram</value>
+  </data>
+  <data name="BuiltInSkins_PortraitScreenWithChromeFrameAnd" xml:space="preserve">
+    <value>Stående skärm med kromram och hemknapp, vertikala ventiler, volymvred under.</value>
+  </data>
+  <data name="BuiltInSkins_RAV4StyleScreenWithPhysicalButtons" xml:space="preserve">
+    <value>RAV4-stil: skärm med fysiska knappar och vred</value>
+  </data>
+  <data name="BuiltInSkins_ScreenBuiltIntoTheCentreConsole" xml:space="preserve">
+    <value>Skärm inbyggd i mittkonsolen med knappar och vred på båda sidor.</value>
+  </data>
+  <data name="BuiltInSkins_VolumeDown" xml:space="preserve">
+    <value>Volym ned</value>
+  </data>
+  <data name="BuiltInSkins_VolumeUp" xml:space="preserve">
+    <value>Volym upp</value>
+  </data>
+  <data name="BuiltInSkins_WideFreeStandingScreenRowOf" xml:space="preserve">
+    <value>Bred fristående skärm, rad med snabbknappar och volymvred under, mörk instrumentbräda.</value>
+  </data>
+  <data name="BuiltInSkins_XC60StylePortrait9Screen" xml:space="preserve">
+    <value>XC60-stil: stående 9" skärm</value>
+  </data>
+  <data name="CarDb_01ModelYears2Sources" xml:space="preserve">
+    <value>{0} {1}  ·  årsmodeller {2}  ·  källor: {3}</value>
+  </data>
+  <data name="CarDb_0MakesDownloaded" xml:space="preserve">
+    <value>{0} märken hämtade.</value>
+  </data>
+  <data name="CarDb_0NewModelRowsFor1" xml:space="preserve">
+    <value>{0} nya modellrader för {1} från Wikidata.</value>
+  </data>
+  <data name="CarDb_0NewModelYearsFor1" xml:space="preserve">
+    <value>{0} nya modell/år för {1}.</value>
+  </data>
+  <data name="CarDb_0Results" xml:space="preserve">
+    <value>{0} träffar. </value>
+  </data>
+  <data name="CarDb_0VehiclesWithManufacturerSignalsIn" xml:space="preserve">
+    <value>{0} fordon med tillverkarsignaler i OBDb.</value>
+  </data>
+  <data name="CarDb_AVINHas17Characters" xml:space="preserve">
+    <value>Ett VIN har 17 tecken.</value>
+  </data>
+  <data name="CarDb_And0More" xml:space="preserve">
+    <value>
+  … och {0} till</value>
+  </data>
+  <data name="CarDb_CouldNotCreateTheCarModel" xml:space="preserve">
+    <value>Kunde inte skapa bilmodellen: </value>
+  </data>
+  <data name="CarDb_CouldNotGetTheOBDbSignals" xml:space="preserve">
+    <value>
+Kunde inte hämta OBDb-signalerna: </value>
+  </data>
+  <data name="CarDb_CouldNotReadTheSignalFile" xml:space="preserve">
+    <value>Kunde inte läsa signalfilen: </value>
+  </data>
+  <data name="CarDb_Database0Makes1ModelYears" xml:space="preserve">
+    <value>Databasen: {0} märken, {1} modell/år, {2} avkodade VIN, {3} fordon med tillverkarsignaler (OBDb).</value>
+  </data>
+  <data name="CarDb_DecodingVIN" xml:space="preserve">
+    <value>Avkodar VIN …</value>
+  </data>
+  <data name="CarDb_EnterAMakeEGSaab" xml:space="preserve">
+    <value>Skriv ett märke, t.ex. Saab.</value>
+  </data>
+  <data name="CarDb_EnterAMakeEGToyota" xml:space="preserve">
+    <value>Skriv ett märke, t.ex. Toyota.</value>
+  </data>
+  <data name="CarDb_EnterMakeAndModelForThe" xml:space="preserve">
+    <value>Skriv märke och modell för standard-OBD-bilen.</value>
+  </data>
+  <data name="CarDb_EnterModelYearsEG2015" xml:space="preserve">
+    <value>Ange årsmodeller, t.ex. 2015–2026.</value>
+  </data>
+  <data name="CarDb_EnterTheModelYearEG" xml:space="preserve">
+    <value>Skriv årsmodell, t.ex. 2005.</value>
+  </data>
+  <data name="CarDb_Getting012FromVPIC" xml:space="preserve">
+    <value>Hämtar {0} {1}–{2} från vPIC …</value>
+  </data>
+  <data name="CarDb_Getting0ModelsFromWikidata" xml:space="preserve">
+    <value>Hämtar {0}-modeller från Wikidata …</value>
+  </data>
+  <data name="CarDb_GettingCarMakesFromNHTSAVPIC" xml:space="preserve">
+    <value>Hämtar bilmärken från NHTSA vPIC …</value>
+  </data>
+  <data name="CarDb_GettingManufacturerSignalsFromOBDb" xml:space="preserve">
+    <value>
+Hämtar tillverkarsignaler från OBDb …</value>
+  </data>
+  <data name="CarDb_GettingTheVehicleListFromOBDb" xml:space="preserve">
+    <value>Hämtar fordonslistan från OBDb …</value>
+  </data>
+  <data name="CarDb_Manufacturer0Body1Fuel2" xml:space="preserve">
+    <value>
+Tillverkare: {0}
+Kaross: {1}
+Bränsle: {2}
+Motor: {3}
+Fabriksland: {4}</value>
+  </data>
+  <data name="CarDb_ManufacturerSignalsCanBeAddedLater" xml:space="preserve">
+    <value> Tillverkarsignaler kan läggas till senare på sidan Bilmodeller: "Importera PID:ar (CSV)" (Torque/Car Scanner) eller "Importera signaler (OBDb-JSON)".</value>
+  </data>
+  <data name="CarDb_ManufacturerSignalsStar" xml:space="preserve">
+    <value>  ★ tillverkarsignaler</value>
+  </data>
+  <data name="CarDb_ModelUnknown" xml:space="preserve">
+    <value>modellen okänd</value>
+  </data>
+  <data name="CarDb_NewCarModelSelected0" xml:space="preserve">
+    <value>Ny bilmodell vald: {0}. </value>
+  </data>
+  <data name="CarDb_NoResultsGetMakesModelsFrom" xml:space="preserve">
+    <value>Inga träffar. Hämta märken/modeller från vPIC eller listan från OBDb först, eller avkoda ett VIN.</value>
+  </data>
+  <data name="CarDb_NoteFromVPIC0" xml:space="preserve">
+    <value>
+Anmärkning från vPIC: {0}</value>
+  </data>
+  <data name="CarDb_OBDb0SignalsIn1Requests" xml:space="preserve">
+    <value>
+OBDb: {0} signaler i {1} frågor ({2}):
+</value>
+  </data>
+  <data name="CarDb_OBDbHasNoManufacturerSignalsFor" xml:space="preserve">
+    <value>
+OBDb har inga tillverkarsignaler för modellen – bilmodellen får standard-PID:ar.</value>
+  </data>
+  <data name="CarDb_OBDbNoSignalFile" xml:space="preserve">
+    <value>
+OBDb: ingen signalfil.</value>
+  </data>
+  <data name="CarDb_OBDbTheRepository0ExistsBut" xml:space="preserve">
+    <value>
+OBDb: arkivet {0} finns men innehåller inga signaler ännu – bilmodellen får standard-PID:ar.</value>
+  </data>
+  <data name="CarDb_SignalsFrom0OBDbFormat" xml:space="preserve">
+    <value>Signaler från {0} (OBDb-format)</value>
+  </data>
+  <data name="CarDb_StandardOBDCarSelected0" xml:space="preserve">
+    <value>Standard-OBD-bil vald: {0}. </value>
+  </data>
+  <data name="CarDb_TheCarDatabaseCouldNotBe" xml:space="preserve">
+    <value>Bildatabasen kunde inte öppnas: </value>
+  </data>
+  <data name="CarDb_TheFileContainsNoSignals" xml:space="preserve">
+    <value>Filen innehåller inga signaler.</value>
+  </data>
+  <data name="CarDb_TheModelHasNoSignalsOf" xml:space="preserve">
+    <value>
+(Modellen saknar egna signaler – märkets gemensamma signaler från arkivet {0} visas.)</value>
+  </data>
+  <data name="CarDb_TheModelYearFor01" xml:space="preserve">
+    <value>Årsmodellen för {0} {1} är okänd – skriv den i fältet År och tryck Skapa bilmodell igen.</value>
+  </data>
+  <data name="CarDb_TheSimulatorNowAnswersThem" xml:space="preserve">
+    <value> Simulatorn svarar nu på dem.</value>
+  </data>
+  <data name="CarDb_TheVINCouldNotBeFully" xml:space="preserve">
+    <value>VIN:et kunde inte avkodas helt (vPIC har i första hand bilar sålda i USA).</value>
+  </data>
+  <data name="CarDb_VINDecoded012" xml:space="preserve">
+    <value>VIN avkodat: {0} {1} {2}.</value>
+  </data>
+  <data name="CarDb_WhatIsAlreadyInTheDatabase" xml:space="preserve">
+    <value> (det som redan finns i databasen fungerar utan internet).</value>
+  </data>
+  <data name="CarDb_Years01" xml:space="preserve">
+    <value>  (år {0}–{1})</value>
+  </data>
+  <data name="CarEditorViewModel_EditOwnCarModel" xml:space="preserve">
+    <value>Redigera egen bilmodell</value>
+  </data>
+  <data name="CarEditorViewModel_NewCarModelCopy" xml:space="preserve">
+    <value>Ny bilmodell (kopia)</value>
+  </data>
+  <data name="CarEditorViewModel_NewControlUnit" xml:space="preserve">
+    <value>Nytt styrdon</value>
+  </data>
+  <data name="CarEditorViewModel_NewFeature" xml:space="preserve">
+    <value>Ny funktion</value>
+  </data>
+  <data name="CarEditorViewModel_PossiblePIDs" xml:space="preserve">
+    <value>Möjliga PID:ar: </value>
+  </data>
+  <data name="Cars_0CustomPIDsLoaded1The" xml:space="preserve">
+    <value>{0} egna PID:ar inlästa{1} – simulatorn svarar nu på dem.</value>
+  </data>
+  <data name="Cars_0TroubleCodeTextsLoaded1" xml:space="preserve">
+    <value>{0} felkodstexter inlästa{1}.</value>
+  </data>
+  <data name="Cars_BuiltInModelSavedInThe" xml:space="preserve">
+    <value> (inbyggd modell – sparat i kopian {0})</value>
+  </data>
+  <data name="Cars_CopyOf0ChangeItAnd" xml:space="preserve">
+    <value>Kopia av {0}. Ändra och tryck Spara.</value>
+  </data>
+  <data name="Cars_CouldNotExport" xml:space="preserve">
+    <value>Kunde inte exportera: </value>
+  </data>
+  <data name="Cars_CouldNotExportODX" xml:space="preserve">
+    <value>Kunde inte exportera ODX: </value>
+  </data>
+  <data name="Cars_CouldNotExportThePIDList" xml:space="preserve">
+    <value>Kunde inte exportera PID-listan: </value>
+  </data>
+  <data name="Cars_CouldNotExportVSS" xml:space="preserve">
+    <value>Kunde inte exportera VSS: </value>
+  </data>
+  <data name="Cars_CouldNotImport" xml:space="preserve">
+    <value>Kunde inte importera: </value>
+  </data>
+  <data name="Cars_CouldNotImportODX" xml:space="preserve">
+    <value>Kunde inte importera ODX: </value>
+  </data>
+  <data name="Cars_CouldNotReadThePIDList" xml:space="preserve">
+    <value>Kunde inte läsa PID-listan: </value>
+  </data>
+  <data name="Cars_CouldNotReadTroubleCodeTexts" xml:space="preserve">
+    <value>Kunde inte läsa felkodstexter: </value>
+  </data>
+  <data name="Cars_CouldNotReadVSS" xml:space="preserve">
+    <value>Kunde inte läsa VSS: </value>
+  </data>
+  <data name="Cars_ExportedAsODX220" xml:space="preserve">
+    <value>Exporterad som ODX 2.2: {0} (seed/key exporteras aldrig)</value>
+  </data>
+  <data name="Cars_IgnoredNotSupportedByTheSimulator" xml:space="preserve">
+    <value>
+Ignorerat (stöds inte av simulatorn): </value>
+  </data>
+  <data name="Cars_ImportedFromODX01Control" xml:space="preserve">
+    <value>Importerad från ODX: {0} ({1} styrdon, {2} felkodstexter).</value>
+  </data>
+  <data name="Cars_NoPIDsFoundFormatNameShortName" xml:space="preserve">
+    <value>Inga PID:ar hittades. Format: Name,ShortName,ModeAndPID,Equation,Min,Max,Units,Header</value>
+  </data>
+  <data name="Cars_NoTroubleCodesFoundFormatP0300" xml:space="preserve">
+    <value>Inga felkoder hittades. Format: P0300;Text</value>
+  </data>
+  <data name="Cars_OnlyYourOwnCarModelsCan" xml:space="preserve">
+    <value>Bara egna bilmodeller kan tas bort.</value>
+  </data>
+  <data name="Cars_PIDListExportedTorqueCarScanner" xml:space="preserve">
+    <value>PID-lista exporterad (Torque/Car Scanner-format): {0}</value>
+  </data>
+  <data name="Cars_Skipped" xml:space="preserve">
+    <value> Hoppade över: </value>
+  </data>
+  <data name="Cars_TheBuiltInCarModelsAre" xml:space="preserve">
+    <value>De inbyggda bilmodellerna är skrivskyddade – gör en kopia.</value>
+  </data>
+  <data name="Cars_TheIdBelongsToABuilt" xml:space="preserve">
+    <value>Id:t tillhör en inbyggd bilmodell.</value>
+  </data>
+  <data name="Cars_UnknownNames" xml:space="preserve">
+    <value> Okända namn: </value>
+  </data>
+  <data name="Cars_VSSValuesLoadedIntoTheCar" xml:space="preserve">
+    <value>VSS-värden inlästa till bilen.</value>
+  </data>
+  <data name="Cars_ValuesExportedAsVSSJSON0" xml:space="preserve">
+    <value>Värden exporterade som VSS-JSON: {0}</value>
+  </data>
+  <data name="Confirm_WriteToCar" xml:space="preserve">
+    <value>Skriv till bilen</value>
+  </data>
+  <data name="Conv_Connect" xml:space="preserve">
+    <value>Anslut</value>
+  </data>
+  <data name="Conv_Disconnect" xml:space="preserve">
+    <value>Koppla från</value>
+  </data>
+  <data name="Conv_Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="Conv_Working" xml:space="preserve">
+    <value>Fungerar</value>
+  </data>
+  <data name="DriveStore_Drive" xml:space="preserve">
+    <value>Körning</value>
+  </data>
+  <data name="Drive_EmptyDrive" xml:space="preserve">
+    <value>Tom körning.</value>
+  </data>
+  <data name="Drive_TheDriveHasNoData" xml:space="preserve">
+    <value>Körningen saknar data.</value>
+  </data>
+  <data name="Drives_ChooseADriveInTheList" xml:space="preserve">
+    <value>Välj en körning i listan.</value>
+  </data>
+  <data name="Drives_Continue" xml:space="preserve">
+    <value>▶ Fortsätt</value>
+  </data>
+  <data name="Drives_Deleted0TheExampleDrivesCome" xml:space="preserve">
+    <value>Borttagen: {0}. (Exempelkörningarna kommer tillbaka vid nästa start.)</value>
+  </data>
+  <data name="Drives_MyDrive" xml:space="preserve">
+    <value>Min körning</value>
+  </data>
+  <data name="Drives_PlaybackOf0IsFinished" xml:space="preserve">
+    <value>Uppspelningen av {0} är klar.</value>
+  </data>
+  <data name="Drives_PlaybackStarted0" xml:space="preserve">
+    <value>Uppspelning startad: {0}</value>
+  </data>
+  <data name="Drives_PlaybackStopped" xml:space="preserve">
+    <value>Uppspelning stoppad</value>
+  </data>
+  <data name="Drives_Record" xml:space="preserve">
+    <value>⏺ Spela in</value>
+  </data>
+  <data name="Drives_Recording01Points" xml:space="preserve">
+    <value>Spelar in … {0} ({1} punkter)</value>
+  </data>
+  <data name="Drives_RecordingMoveTheSlidersOnOverview" xml:space="preserve">
+    <value>Spelar in … dra i reglagen på Översikt.</value>
+  </data>
+  <data name="Drives_RenamedTo0" xml:space="preserve">
+    <value>Bytt namn till {0}.</value>
+  </data>
+  <data name="Drives_StopAndSave" xml:space="preserve">
+    <value>⏹ Stoppa och spara</value>
+  </data>
+  <data name="Drives_StopThePlaybackFirst" xml:space="preserve">
+    <value>Stoppa uppspelningen först.</value>
+  </data>
+  <data name="Drives_StopTheRecordingFirst" xml:space="preserve">
+    <value>Stoppa inspelningen först.</value>
+  </data>
+  <data name="Drives_TheNameIsEmptyUnchangedOr" xml:space="preserve">
+    <value>Namnet är tomt, oförändrat eller finns redan.</value>
+  </data>
+  <data name="DtcToggleViewModel_CatalystEfficiencyBelowThreshold" xml:space="preserve">
+    <value>katalysator, låg verkningsgrad</value>
+  </data>
+  <data name="DtcToggleViewModel_LostCommunicationWithEngineControlUnit" xml:space="preserve">
+    <value>tappad kommunikation med motorstyrdon</value>
+  </data>
+  <data name="DtcToggleViewModel_MisfireCylinder1" xml:space="preserve">
+    <value>feltändning cylinder 1</value>
+  </data>
+  <data name="DtcToggleViewModel_RandomMisfire" xml:space="preserve">
+    <value>slumpmässig feltändning</value>
+  </data>
+  <data name="DtcToggleViewModel_SystemTooLeanBank1" xml:space="preserve">
+    <value>för magert, bank 1</value>
+  </data>
+  <data name="DtcToggleViewModel_SystemVoltageLow" xml:space="preserve">
+    <value>låg systemspänning</value>
+  </data>
+  <data name="DtcToggleViewModel_ThermostatTemperatureTooLow" xml:space="preserve">
+    <value>termostat, för låg temperatur</value>
+  </data>
+  <data name="DtcToggleViewModel_WheelSpeedSensorFrontLeft" xml:space="preserve">
+    <value>hjulhastighetsgivare vänster fram</value>
+  </data>
+  <data name="Elm327Emulator_0ExpectedKey1Send27" xml:space="preserve">
+    <value>{0}: förväntad nyckel: {1}  (skicka 27 02 {2})</value>
+  </data>
+  <data name="Elm327Emulator_0TooManyWrongKeysLocked" xml:space="preserve">
+    <value>{0}: för många fel nycklar – spärrat i {1:0} sekunder.</value>
+  </data>
+  <data name="Elm327Emulator_0UnlockedWithTheCorrectKey" xml:space="preserve">
+    <value>{0}: upplåst med rätt nyckel.</value>
+  </data>
+  <data name="ElmConnection_NoReplyTimeout" xml:space="preserve">
+    <value>(inget svar – tidsgräns)</value>
+  </data>
+  <data name="ElmConnection_ReplyWithoutELMPrompt0Hex" xml:space="preserve">
+    <value>(svar utan ELM-prompt: "{0}", hex {1})</value>
+  </data>
+  <data name="ElmConnection_TheAdapterClosedTheConnection" xml:space="preserve">
+    <value>Adaptern stängde förbindelsen.</value>
+  </data>
+  <data name="ElmConnection_TheAdapterDidNotReplyTo" xml:space="preserve">
+    <value>Adaptern svarade inte på {0}.</value>
+  </data>
+  <data name="ElmConnection_TheAdapterIsNotConnected" xml:space="preserve">
+    <value>Adaptern är inte ansluten.</value>
+  </data>
+  <data name="EmulatorVm_0HasBeenRestarted" xml:space="preserve">
+    <value>{0} är omstartad.</value>
+  </data>
+  <data name="EmulatorVm_AndroidAutomotiveIsDownloaded" xml:space="preserve">
+    <value>Android Automotive är nedladdat.</value>
+  </data>
+  <data name="EmulatorVm_AndroidDidNotStartWithinThe" xml:space="preserve">
+    <value>Android startade inte inom tidsgränsen. Emulatorn kan fortfarande vara på väg – tryck Kontrollera igen.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsAlreadyRunning" xml:space="preserve">
+    <value>Android är redan igång.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsDownloadedButTheVirtual" xml:space="preserve">
+    <value>Android är nedladdat men den virtuella bilen saknas. Tryck Installera Android.</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsNotDownloadedYetPress" xml:space="preserve">
+    <value>Android är inte nedladdat än. Tryck Installera Android (ingen omstart behövs).</value>
+  </data>
+  <data name="EmulatorVm_AndroidIsNotRunning" xml:space="preserve">
+    <value>Android är inte igång.</value>
+  </data>
+  <data name="EmulatorVm_AndroidSDKSdkmanagerAndJavaWas" xml:space="preserve">
+    <value>Android SDK (sdkmanager och Java) hittades inte i {0}. Ändra SdkRoot i {1}.</value>
+  </data>
+  <data name="EmulatorVm_AndroidSDKWasNotFoundIn" xml:space="preserve">
+    <value>Android SDK hittades inte i {0}.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotChangeTheScreenSize" xml:space="preserve">
+    <value>Kunde inte byta skärmstorlek.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotCreateTheVirtualCar" xml:space="preserve">
+    <value>Kunde inte skapa den virtuella bilen.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotInstallTheEmulator" xml:space="preserve">
+    <value>Kunde inte installera emulatorn.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotStart0Again" xml:space="preserve">
+    <value>Kunde inte starta {0} igen.</value>
+  </data>
+  <data name="EmulatorVm_CouldNotStartTheEmulator" xml:space="preserve">
+    <value>Kunde inte starta emulatorn: </value>
+  </data>
+  <data name="EmulatorVm_CreatingTheVirtualCar0" xml:space="preserve">
+    <value>Skapar den virtuella bilen {0} …</value>
+  </data>
+  <data name="EmulatorVm_Downloading0" xml:space="preserve">
+    <value>Laddar ner {0} …</value>
+  </data>
+  <data name="EmulatorVm_NoAppFoundInTheForeground" xml:space="preserve">
+    <value>Hittade ingen app i förgrunden.</value>
+  </data>
+  <data name="EmulatorVm_PressInstallAndroid" xml:space="preserve">
+    <value>Tryck Installera Android.</value>
+  </data>
+  <data name="EmulatorVm_Restarting0" xml:space="preserve">
+    <value>Startar om {0} …</value>
+  </data>
+  <data name="EmulatorVm_Screen012Dpi" xml:space="preserve">
+    <value>Skärm: {0}×{1}, {2} dpi.</value>
+  </data>
+  <data name="EmulatorVm_StartingAndroid0STheFirst" xml:space="preserve">
+    <value>Startar Android … ({0} s, första starten kan ta ett par minuter)</value>
+  </data>
+  <data name="EmulatorVm_StartingTheAndroidEmulator" xml:space="preserve">
+    <value>Startar Android-emulatorn …</value>
+  </data>
+  <data name="EmulatorVm_Step1Of3DownloadingThe" xml:space="preserve">
+    <value>Steg 1 av 3: Laddar ner emulatorn …</value>
+  </data>
+  <data name="EmulatorVm_Step1Of3DownloadingThe2" xml:space="preserve">
+    <value>Steg 1 av 3: Laddar ner emulatorn … {0:0} %</value>
+  </data>
+  <data name="EmulatorVm_Step2Of3DownloadingAndroid" xml:space="preserve">
+    <value>Steg 2 av 3: Laddar ner Android Automotive …</value>
+  </data>
+  <data name="EmulatorVm_Step2Of3DownloadingAndroid2" xml:space="preserve">
+    <value>Steg 2 av 3: Laddar ner Android Automotive … {0:0} %</value>
+  </data>
+  <data name="EmulatorVm_Step3Of3CreatingThe" xml:space="preserve">
+    <value>Steg 3 av 3: Skapar den virtuella bilen …</value>
+  </data>
+  <data name="EmulatorVm_TheEmulatorClosedImmediatelyCode0" xml:space="preserve">
+    <value>Emulatorn stängdes direkt (kod {0}).</value>
+  </data>
+  <data name="EmulatorVm_TheEmulatorIsNotInstalledPress" xml:space="preserve">
+    <value>Emulatorn är inte installerad. Tryck Installera Android.</value>
+  </data>
+  <data name="EmulatorVm_WindowsHypervisorPlatformCannotBeUsed" xml:space="preserve">
+    <value>Windows Hypervisor Platform går inte att använda. Välj läget Snabbt under Inställningar i stället.</value>
+  </data>
+  <data name="EmulatorVm_WindowsHypervisorPlatformCannotBeUsed2" xml:space="preserve">
+    <value>Windows Hypervisor Platform går inte att använda. Välj läget Snabbt under Inställningar.</value>
+  </data>
+  <data name="ExampleDrives_ColdStartCoolant590C" xml:space="preserve">
+    <value>Kallstart: kylvätska 5 → 90 °C, tomgång 1300 → 800 rpm</value>
+  </data>
+  <data name="ExampleDrives_OnRampTo110120Km" xml:space="preserve">
+    <value>Påfart till 110–120 km/h och motorväg</value>
+  </data>
+  <data name="ExampleDrives_StopAndGoInTown0" xml:space="preserve">
+    <value>Stopp-och-kör i stan, 0–50 km/h</value>
+  </data>
+  <data name="Fmt_AndroidPairing" xml:space="preserve">
+    <value>Android: para telefonen med datorn ”{0}” i telefonens Bluetooth-inställningar. Välj sedan Bluetooth-adapter i OBD-appen och datorn ”{0}” (tjänsten OBDII).</value>
+  </data>
+  <data name="Fmt_CarDbSources" xml:space="preserve">
+    <value>Källor: NHTSA vPIC (öppen data, USA:s trafiksäkerhetsverk) · Wikidata (CC0) · {0}</value>
+  </data>
+  <data name="Fmt_ObdAddressEmulator" xml:space="preserve">
+    <value>OBD-adress inne i emulatorn: {0}  ·  Googles emulatoravbilder får inte spridas med Cyberdrome.</value>
+  </data>
+  <data name="Fmt_ObdForAndroidApps" xml:space="preserve">
+    <value>OBD för appar i Android: {0}</value>
+  </data>
+  <data name="Fmt_PlaybackRunning" xml:space="preserve">
+    <value>Uppspelning pågår: {0} – reglagen följer körningen (stoppa under Körningar)</value>
+  </data>
+  <data name="Fmt_PlayingDrive" xml:space="preserve">
+    <value>Spelar upp: {0}</value>
+  </data>
+  <data name="Fmt_Selected" xml:space="preserve">
+    <value>Vald: {0}</value>
+  </data>
+  <data name="Fmt_StatusCarModel" xml:space="preserve">
+    <value>● Bilmodell: {0}</value>
+  </data>
+  <data name="GeoRoute_TheRouteNeedsAtLeastOne" xml:space="preserve">
+    <value>Rutten behöver minst en punkt.</value>
+  </data>
+  <data name="InfoDialogs_AboutCyberdrome" xml:space="preserve">
+    <value>Om Cyberdrome</value>
+  </data>
+  <data name="InfoDialogs_AndroidAutomotiveInsideTheProgramNo" xml:space="preserve">
+    <value>Android Automotive i programmet (utan omstart), egna teman och skal per bilmodell</value>
+  </data>
+  <data name="InfoDialogs_CarModelsOwnSharedCbsODX" xml:space="preserve">
+    <value>Bilmodeller: egna, delade (.cbs), ODX/VSS/CSV och bildatabas (vPIC, Wikidata, OBDb)</value>
+  </data>
+  <data name="InfoDialogs_Close" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="InfoDialogs_CyberdromeIsFreeSoftwareGPL3" xml:space="preserve">
+    <value>Cyberdrome är fri programvara (GPL-3.0) – utan garanti</value>
+  </data>
+  <data name="InfoDialogs_CyberdromeJoukoBrostrMVersion0" xml:space="preserve">
+    <value>Cyberdrome · Jouko Broström · version {0} · GPL-3.0-or-later</value>
+  </data>
+  <data name="InfoDialogs_DonateViaPayPal" xml:space="preserve">
+    <value>Donera via PayPal</value>
+  </data>
+  <data name="InfoDialogs_DrivesAndMapWithGPSTo" xml:space="preserve">
+    <value>Körningar och karta med GPS till Android</value>
+  </data>
+  <data name="InfoDialogs_FileMissing0" xml:space="preserve">
+    <value>({0} saknas i programmappen)</value>
+  </data>
+  <data name="InfoDialogs_IUnderstand" xml:space="preserve">
+    <value>Jag förstår</value>
+  </data>
+  <data name="InfoDialogs_Licence" xml:space="preserve">
+    <value>Licens …</value>
+  </data>
+  <data name="InfoDialogs_OpenSourceUnderGPL30" xml:space="preserve">
+    <value>Öppen källkod under GPL-3.0</value>
+  </data>
+  <data name="InfoDialogs_PayPalLinkComingSoon" xml:space="preserve">
+    <value>PayPal-länk kommer snart</value>
+  </data>
+  <data name="InfoDialogs_ReadTheDisclaimerTheFullLicence" xml:space="preserve">
+    <value>Läs ansvarsfriskrivningen. Hela licensen finns under knappen Licens.</value>
+  </data>
+  <data name="InfoDialogs_RealOBDAdapterReadOnlyBridge" xml:space="preserve">
+    <value>Riktig OBD-adapter: läsläge, vidarekoppling till Android och skrivskydd</value>
+  </data>
+  <data name="InfoDialogs_SupportTheDevelopment" xml:space="preserve">
+    <value>Stöd utvecklingen</value>
+  </data>
+  <data name="InfoDialogs_TestCasesWithPassFailAnd" xml:space="preserve">
+    <value>Testfall med godkänt/underkänt och rapporter</value>
+  </data>
+  <data name="InfoDialogs_VirtualOBDPortELM327OverWi" xml:space="preserve">
+    <value>Virtuell OBD-port (ELM327) via Wi-Fi, Bluetooth och Bluetooth LE, med UDS och säkerhetsnyckel</value>
+  </data>
+  <data name="InfoDialogs_WelcomeToCyberdrome" xml:space="preserve">
+    <value>Välkommen till Cyberdrome</value>
+  </data>
+  <data name="InfoDialogs_WhatTheProgramCanDo" xml:space="preserve">
+    <value>Det här kan programmet:</value>
+  </data>
+  <data name="LauncherTheme_3SeriesG20StyleMenuOn" xml:space="preserve">
+    <value>3-serie G20-stil (meny till vänster, bred)</value>
+  </data>
+  <data name="LauncherTheme_ChooseAZipFileAFolder" xml:space="preserve">
+    <value>Välj en zip-fil, en mapp eller en theme.json.</value>
+  </data>
+  <data name="LauncherTheme_Colors0IsNotAColour" xml:space="preserve">
+    <value>colors.{0} är inte en färg (#RRGGBB).</value>
+  </data>
+  <data name="LauncherTheme_CornerRadiusMustBe060" xml:space="preserve">
+    <value>cornerRadius ska vara 0–60.</value>
+  </data>
+  <data name="LauncherTheme_EmptyThemeJson" xml:space="preserve">
+    <value>Tom theme.json.</value>
+  </data>
+  <data name="LauncherTheme_FocusMk4StyleThreePanelsTab" xml:space="preserve">
+    <value>Focus Mk4-stil (tre fält + flikrad)</value>
+  </data>
+  <data name="LauncherTheme_FontMustBeOneOf0" xml:space="preserve">
+    <value>font måste vara en av: {0}.</value>
+  </data>
+  <data name="LauncherTheme_Golf8StyleGridBlueAccent" xml:space="preserve">
+    <value>Golf 8-stil (rutnät, blå accent)</value>
+  </data>
+  <data name="LauncherTheme_LayoutMustBeOneOf0" xml:space="preserve">
+    <value>layout måste vara en av: {0}.</value>
+  </data>
+  <data name="LauncherTheme_Octavia4StyleGridGreenAccent" xml:space="preserve">
+    <value>Octavia 4-stil (rutnät, grön accent)</value>
+  </data>
+  <data name="LauncherTheme_RAV4StyleSplitHomeScreen" xml:space="preserve">
+    <value>RAV4-stil (delad startskärm)</value>
+  </data>
+  <data name="LauncherTheme_TabColorsMustBe6Colours" xml:space="preserve">
+    <value>tabColors ska vara 6 färger.</value>
+  </data>
+  <data name="LauncherTheme_TheFolderContainsNoThemeJson" xml:space="preserve">
+    <value>Mappen innehåller ingen theme.json.</value>
+  </data>
+  <data name="LauncherTheme_TheThemeIsNotValid" xml:space="preserve">
+    <value>Temat är inte giltigt: </value>
+  </data>
+  <data name="LauncherTheme_TheZipFileContainsNoTheme" xml:space="preserve">
+    <value>Zip-filen innehåller ingen theme.json.</value>
+  </data>
+  <data name="LauncherTheme_ThemeJsonCannotBeRead" xml:space="preserve">
+    <value>theme.json går inte att läsa: </value>
+  </data>
+  <data name="LauncherTheme_WallpaperMustBeOneOf0" xml:space="preserve">
+    <value>wallpaper måste vara en av: {0}.</value>
+  </data>
+  <data name="LauncherTheme_XC60StylePortraitStackedTiles" xml:space="preserve">
+    <value>XC60-stil (stående, staplade rutor)</value>
+  </data>
+  <data name="Look_AndroidSNormalHomeScreen" xml:space="preserve">
+    <value>Androids vanliga startskärm.</value>
+  </data>
+  <data name="Look_BuildingCyberdromeLauncher" xml:space="preserve">
+    <value>Bygger Cyberdrome Launcher …</value>
+  </data>
+  <data name="Look_BuildingCyberdromeLauncherFailedSeeThe" xml:space="preserve">
+    <value>Bygget av Cyberdrome Launcher misslyckades – se loggen på sidan Android.</value>
+  </data>
+  <data name="Look_CouldNotChangeTheme" xml:space="preserve">
+    <value>Kunde inte byta tema: </value>
+  </data>
+  <data name="Look_CouldNotImportSkin" xml:space="preserve">
+    <value>Kunde inte importera skal: </value>
+  </data>
+  <data name="Look_CouldNotImportTheme" xml:space="preserve">
+    <value>Kunde inte importera tema: </value>
+  </data>
+  <data name="Look_CouldNotInstallCyberdromeLauncher" xml:space="preserve">
+    <value>Kunde inte installera Cyberdrome Launcher.</value>
+  </data>
+  <data name="Look_CyberdromeLauncherNotFoundAppsOr" xml:space="preserve">
+    <value>Hittar inte Cyberdrome Launcher (apps\ eller android\CyberdromeLauncher).</value>
+  </data>
+  <data name="Look_InstallingCyberdromeLauncher" xml:space="preserve">
+    <value>Installerar Cyberdrome Launcher …</value>
+  </data>
+  <data name="Look_NoSkin" xml:space="preserve">
+    <value>Inget skal</value>
+  </data>
+  <data name="Look_NoTransparentScreenAreaAtLeast" xml:space="preserve">
+    <value>Hittade ingen genomskinlig skärmyta (minst 100×100) mitt i bilden.</value>
+  </data>
+  <data name="Look_OffAndroidSNormalHomeScreen" xml:space="preserve">
+    <value>Av – Androids vanliga startskärm</value>
+  </data>
+  <data name="Look_SkinImported" xml:space="preserve">
+    <value>Skal importerat: </value>
+  </data>
+  <data name="Look_TheCarSOwnSkinDefault" xml:space="preserve">
+    <value>Bilens eget skal (standard)</value>
+  </data>
+  <data name="Look_TheCarSOwnThemeDefault" xml:space="preserve">
+    <value>Bilens eget tema (standard)</value>
+  </data>
+  <data name="Look_TheImageCouldNotBeRead" xml:space="preserve">
+    <value>Bilden gick inte att läsa.</value>
+  </data>
+  <data name="Look_TheThemeIsUsedWhenAndroid" xml:space="preserve">
+    <value>Temat används när Android körs (läget Utan omstart eller Google-appar).</value>
+  </data>
+  <data name="Look_ThemeImported" xml:space="preserve">
+    <value>Tema importerat: </value>
+  </data>
+  <data name="Look_ThemePrefix" xml:space="preserve">
+    <value>Tema: </value>
+  </data>
+  <data name="MainWindow_ASAMODXOdxD" xml:space="preserve">
+    <value>ASAM ODX (.odx-d)</value>
+  </data>
+  <data name="MainWindow_ASAMODXPackagePdx" xml:space="preserve">
+    <value>ASAM ODX-paket (.pdx)</value>
+  </data>
+  <data name="MainWindow_BackupOfTheOriginalValue0" xml:space="preserve">
+    <value>Säkerhetskopia av originalvärdet: {0}
+
+</value>
+  </data>
+  <data name="MainWindow_BatteryVoltage0" xml:space="preserve">
+    <value>Batterispänning: {0}
+</value>
+  </data>
+  <data name="MainWindow_ChooseAnAppAPKToInstall" xml:space="preserve">
+    <value>Välj en app (APK) att installera</value>
+  </data>
+  <data name="MainWindow_ControlUnitCANId0Service" xml:space="preserve">
+    <value>Styrdon (CAN-id): {0}
+Tjänst: {1}
+Data: {2}
+</value>
+  </data>
+  <data name="MainWindow_CyberdromeDrive" xml:space="preserve">
+    <value>Cyberdrome-körning</value>
+  </data>
+  <data name="MainWindow_CyberdromeSystemCbs" xml:space="preserve">
+    <value>Cyberdrome System (.cbs)</value>
+  </data>
+  <data name="MainWindow_ExportAsASAMODXPdx" xml:space="preserve">
+    <value>Exportera som ASAM ODX (.pdx)</value>
+  </data>
+  <data name="MainWindow_ExportCarModel" xml:space="preserve">
+    <value>Exportera bilmodell</value>
+  </data>
+  <data name="MainWindow_ExportDrive" xml:space="preserve">
+    <value>Exportera körning</value>
+  </data>
+  <data name="MainWindow_ExportPIDListTorqueCarScanner" xml:space="preserve">
+    <value>Exportera PID-lista (Torque/Car Scanner-CSV)</value>
+  </data>
+  <data name="MainWindow_ExportTestCaseAsTemplate" xml:space="preserve">
+    <value>Exportera testfall som mall</value>
+  </data>
+  <data name="MainWindow_ExportValuesAsVSSJSON" xml:space="preserve">
+    <value>Exportera värden som VSS-JSON</value>
+  </data>
+  <data name="MainWindow_ImportCarModelCbsOrODX" xml:space="preserve">
+    <value>Importera bilmodell (.cbs eller ODX/PDX)</value>
+  </data>
+  <data name="MainWindow_ImportCustomPIDsTorqueCarScanner" xml:space="preserve">
+    <value>Importera egna PID:ar (Torque/Car Scanner-CSV)</value>
+  </data>
+  <data name="MainWindow_ImportDrive" xml:space="preserve">
+    <value>Importera körning</value>
+  </data>
+  <data name="MainWindow_ImportManufacturerSignalsOBDbFormatSignalsets" xml:space="preserve">
+    <value>Importera tillverkarsignaler (OBDb-format, signalsets/v3 JSON)</value>
+  </data>
+  <data name="MainWindow_ImportTestCaseJSON" xml:space="preserve">
+    <value>Importera testfall (JSON)</value>
+  </data>
+  <data name="MainWindow_ImportTroubleCodeTextsCSVP0300" xml:space="preserve">
+    <value>Importera felkodstexter (CSV: P0300;Text)</value>
+  </data>
+  <data name="MainWindow_ImportValuesVSSJSON" xml:space="preserve">
+    <value>Importera värden (VSS-JSON)</value>
+  </data>
+  <data name="MainWindow_TheEngineShouldBeOffAnd" xml:space="preserve">
+    <value>Motorn ska vara avstängd och tändningen på. Fel värden kan göra att styrdonet slutar fungera.</value>
+  </data>
+  <data name="MainWindow_UploadYourOwnSkinZipWith" xml:space="preserve">
+    <value>Ladda upp eget skal (zip med skin.json, eller PNG med genomskinlig skärmyta)</value>
+  </data>
+  <data name="MainWindow_UploadYourOwnThemeZipOr" xml:space="preserve">
+    <value>Ladda upp eget tema (zip eller theme.json)</value>
+  </data>
+  <data name="MainWindow_WriteToTheRealCar" xml:space="preserve">
+    <value>Skriva till den riktiga bilen?</value>
+  </data>
+  <data name="Main_0AppsConnected" xml:space="preserve">
+    <value>{0} appar anslutna</value>
+  </data>
+  <data name="Main_0CanBeInstalledInThe" xml:space="preserve">
+    <value>{0} kan installeras i läget Utan omstart (emulatorn).</value>
+  </data>
+  <data name="Main_0CouldNotBeInstalledSee" xml:space="preserve">
+    <value>{0} kunde inte installeras – se loggen.</value>
+  </data>
+  <data name="Main_0IsInstalled" xml:space="preserve">
+    <value>{0} är installerad. </value>
+  </data>
+  <data name="Main_0TurnedOn" xml:space="preserve">
+    <value>{0} påslagna</value>
+  </data>
+  <data name="Main_1AppConnected" xml:space="preserve">
+    <value>1 app ansluten</value>
+  </data>
+  <data name="Main_ASecurityKeyUDS27Is" xml:space="preserve">
+    <value>Säkerhetsnyckel (UDS 27) krävs för kodning.</value>
+  </data>
+  <data name="Main_ASecurityKeyUDS27Is2" xml:space="preserve">
+    <value>Säkerhetsnyckel (UDS 27) krävs inte längre för kodning.</value>
+  </data>
+  <data name="Main_AfterTheRestartCyberdromeOpensAutomatically" xml:space="preserve">
+    <value>Efter omstarten öppnas Cyberdrome automatiskt och fortsätter installationen.</value>
+  </data>
+  <data name="Main_AndroidCouldNotBeStartedSee" xml:space="preserve">
+    <value>Android kunde inte startas – se loggen nedan.</value>
+  </data>
+  <data name="Main_AndroidIsInstalledButCouldNot" xml:space="preserve">
+    <value>Android är installerat men kunde inte startas – se loggen. Tryck Starta för att försöka igen.</value>
+  </data>
+  <data name="Main_AndroidMode" xml:space="preserve">
+    <value>Android-läge: </value>
+  </data>
+  <data name="Main_AndroidModeChangedTo" xml:space="preserve">
+    <value>Android-läge bytt till: </value>
+  </data>
+  <data name="Main_AndroidNotInstalled" xml:space="preserve">
+    <value>Android inte installerat</value>
+  </data>
+  <data name="Main_AndroidRunning" xml:space="preserve">
+    <value>Android igång</value>
+  </data>
+  <data name="Main_AndroidStopped" xml:space="preserve">
+    <value>Android avstängt</value>
+  </data>
+  <data name="Main_BluetoothCouldNotBeStarted" xml:space="preserve">
+    <value>Bluetooth gick inte att starta: </value>
+  </data>
+  <data name="Main_BluetoothIsOff" xml:space="preserve">
+    <value>Bluetooth är av</value>
+  </data>
+  <data name="Main_BluetoothLECouldNotBeStarted" xml:space="preserve">
+    <value>Bluetooth LE gick inte att starta: </value>
+  </data>
+  <data name="Main_BluetoothLEIsOff" xml:space="preserve">
+    <value>Bluetooth LE är av</value>
+  </data>
+  <data name="Main_BluetoothLEOBDIsOnlyAvailable" xml:space="preserve">
+    <value>Bluetooth LE OBD finns bara på Windows i den här versionen.</value>
+  </data>
+  <data name="Main_BluetoothOBDIsOnlyAvailableOn" xml:space="preserve">
+    <value>Bluetooth OBD finns bara på Windows i den här versionen.</value>
+  </data>
+  <data name="Main_BuildingCyberdromeRadio" xml:space="preserve">
+    <value>Bygger Cyberdrome Radio …</value>
+  </data>
+  <data name="Main_BuildingCyberdromeRadioFailedSeeThe" xml:space="preserve">
+    <value>Bygget av Cyberdrome Radio misslyckades – se loggen.</value>
+  </data>
+  <data name="Main_CarModelChangedTo0" xml:space="preserve">
+    <value>Bilmodell bytt till {0}</value>
+  </data>
+  <data name="Main_CheckingAndroid" xml:space="preserve">
+    <value>Kontrollerar Android …</value>
+  </data>
+  <data name="Main_ConnectedPrefix" xml:space="preserve">
+    <value>Ansluten: </value>
+  </data>
+  <data name="Main_CouldNotGet0" xml:space="preserve">
+    <value>Kunde inte hämta {0}: </value>
+  </data>
+  <data name="Main_CouldNotReadTheAndroidMode" xml:space="preserve">
+    <value>Kunde inte läsa Android-läget: </value>
+  </data>
+  <data name="Main_CouldNotReadTheCarModels" xml:space="preserve">
+    <value>Kunde inte läsa bilmodellerna: </value>
+  </data>
+  <data name="Main_CouldNotSave" xml:space="preserve">
+    <value>Kunde inte spara: </value>
+  </data>
+  <data name="Main_CouldNotStartOnPort0" xml:space="preserve">
+    <value>Kunde inte starta på port {0}: {1}</value>
+  </data>
+  <data name="Main_CouldNotTakeAScreenshot" xml:space="preserve">
+    <value>Kunde inte ta skärmbild.</value>
+  </data>
+  <data name="Main_CyberdromeRadioCouldNotBeInstalled" xml:space="preserve">
+    <value>Cyberdrome Radio kunde inte installeras – se loggen.</value>
+  </data>
+  <data name="Main_CyberdromeRadioNotFoundApps0" xml:space="preserve">
+    <value>Hittar inte Cyberdrome Radio (apps\{0}).</value>
+  </data>
+  <data name="Main_Done0IsInstalledAndStarted" xml:space="preserve">
+    <value>Klart! {0} är installerad och startad.</value>
+  </data>
+  <data name="Main_DoneAndroidIsInstalledAndRunning" xml:space="preserve">
+    <value>Klart! Android är installerat och igång.</value>
+  </data>
+  <data name="Main_DoneAndroidIsInstalledStartingAndroid" xml:space="preserve">
+    <value>Klart! Android är installerat – startar Android …</value>
+  </data>
+  <data name="Main_DoneCyberdromeRadioIsInstalledAnd" xml:space="preserve">
+    <value>Klart! Cyberdrome Radio är installerad och startad.</value>
+  </data>
+  <data name="Main_DonePrefix" xml:space="preserve">
+    <value>Klart! </value>
+  </data>
+  <data name="Main_Downloading0FromFDroid" xml:space="preserve">
+    <value>Laddar ner {0} från F-Droid …</value>
+  </data>
+  <data name="Main_Downloading0FromFDroid1" xml:space="preserve">
+    <value>Laddar ner {0} från F-Droid … {1:0} %</value>
+  </data>
+  <data name="Main_ErrorPrefix" xml:space="preserve">
+    <value>Fel: </value>
+  </data>
+  <data name="Main_Installing0InAndroid" xml:space="preserve">
+    <value>Installerar {0} i Android …</value>
+  </data>
+  <data name="Main_InstallingApp" xml:space="preserve">
+    <value>Installerar app …</value>
+  </data>
+  <data name="Main_InstallingCyberdromeRadio" xml:space="preserve">
+    <value>Installerar Cyberdrome Radio …</value>
+  </data>
+  <data name="Main_InstallingThisMayTakeAWhile" xml:space="preserve">
+    <value>Installerar … (det kan ta en stund, se loggen nedan)</value>
+  </data>
+  <data name="Main_LastReply0SecondsAgo" xml:space="preserve">
+    <value>Senaste svar för {0} sekunder sedan</value>
+  </data>
+  <data name="Main_NoAppConnectedYet" xml:space="preserve">
+    <value>Ingen app ansluten än</value>
+  </data>
+  <data name="Main_NoCarModelsFoundIn0" xml:space="preserve">
+    <value>Inga bilmodeller hittades i {0}.</value>
+  </data>
+  <data name="Main_NoTroubleCodes" xml:space="preserve">
+    <value>Inga felkoder</value>
+  </data>
+  <data name="Main_PreparingTheInstallation" xml:space="preserve">
+    <value>Förbereder installationen …</value>
+  </data>
+  <data name="Main_ReplySentJustNow" xml:space="preserve">
+    <value>Svar skickat just nu</value>
+  </data>
+  <data name="Main_Restart" xml:space="preserve">
+    <value>Starta om</value>
+  </data>
+  <data name="Main_Screen" xml:space="preserve">
+    <value>Skärmen: </value>
+  </data>
+  <data name="Main_ScreenshotSaved" xml:space="preserve">
+    <value>Skärmbild sparad: </value>
+  </data>
+  <data name="Main_ShuttingDownAndroid" xml:space="preserve">
+    <value>Stänger av Android …</value>
+  </data>
+  <data name="Main_StartAndroidFirst" xml:space="preserve">
+    <value>Starta Android först.</value>
+  </data>
+  <data name="Main_StartAndroidNoRestartModeFirst" xml:space="preserve">
+    <value>Starta Android (läget Utan omstart) först.</value>
+  </data>
+  <data name="Main_StartingAndroid" xml:space="preserve">
+    <value>Startar Android …</value>
+  </data>
+  <data name="Main_StartingBluetooth" xml:space="preserve">
+    <value>Startar Bluetooth …</value>
+  </data>
+  <data name="Main_StartingBluetoothLE" xml:space="preserve">
+    <value>Startar Bluetooth LE …</value>
+  </data>
+  <data name="Main_TheAppCouldNotBeInstalled" xml:space="preserve">
+    <value>Appen kunde inte installeras.</value>
+  </data>
+  <data name="Main_TheAppIsInstalled" xml:space="preserve">
+    <value>Appen är installerad.</value>
+  </data>
+  <data name="Main_TheCarIsRunning" xml:space="preserve">
+    <value>Bilen är igång</value>
+  </data>
+  <data name="Main_TheComputerHasRestartedContinuingThe" xml:space="preserve">
+    <value>Datorn har startats om – fortsätter installationen av Android.</value>
+  </data>
+  <data name="Main_TheIgnitionIsOff" xml:space="preserve">
+    <value>Tändningen är av</value>
+  </data>
+  <data name="Main_TheInstallationWasCancelledOrFailed" xml:space="preserve">
+    <value>Installationen avbröts eller misslyckades – se loggen nedan.</value>
+  </data>
+  <data name="Main_VirtualOBDAdapterIsOff" xml:space="preserve">
+    <value>Virtuell OBD-adapter är av</value>
+  </data>
+  <data name="Main_VirtualOBDAdapterIsOn" xml:space="preserve">
+    <value>Virtuell OBD-adapter är på</value>
+  </data>
+  <data name="Main_WSL2StillDoesnTWorkAfter" xml:space="preserve">
+    <value>WSL2 fungerar fortfarande inte efter omstarten. Kontrollera att virtualisering är påslaget i BIOS och tryck sedan Installera Android.</value>
+  </data>
+  <data name="Main_WaitingForAnIPhoneVisibleAs" xml:space="preserve">
+    <value>Väntar på iPhone – syns som ”{0}” (BLE-tjänst FFF0)</value>
+  </data>
+  <data name="Main_WaitingForPairingConnectionVisibleAs" xml:space="preserve">
+    <value>Väntar på parning/anslutning – syns som ”{0}”, tjänst OBDII</value>
+  </data>
+  <data name="Main_WaitingForTheFirstRequest" xml:space="preserve">
+    <value>Väntar på första frågan</value>
+  </data>
+  <data name="Main_WindowsStoppedTheBluetoothLEAdvertising" xml:space="preserve">
+    <value>Bluetooth LE-annonseringen stoppades av Windows ({0}). Slå av och på igen.</value>
+  </data>
+  <data name="Map_0PointsPressDriveTheRoute" xml:space="preserve">
+    <value>{0} punkter – tryck Kör rutten.</value>
+  </data>
+  <data name="Map_CarMovedTo" xml:space="preserve">
+    <value>Bilen flyttad till </value>
+  </data>
+  <data name="Map_ClickAddsARoutePoint" xml:space="preserve">
+    <value>Klick lägger till ruttpunkt</value>
+  </data>
+  <data name="Map_ClickAtLeastOnePointFirst" xml:space="preserve">
+    <value>Klicka ut minst en punkt först (läget ”Klick lägger till ruttpunkt”).</value>
+  </data>
+  <data name="Map_ClickMovesTheCar" xml:space="preserve">
+    <value>Klick flyttar bilen</value>
+  </data>
+  <data name="Map_ClickPointsInOrderAndThen" xml:space="preserve">
+    <value>Klicka ut punkter i ordning och tryck sedan Kör rutten. Bilen följer rutten med farten från reglaget (eller körningen).</value>
+  </data>
+  <data name="Map_ClickTheMapToPutThe" xml:space="preserve">
+    <value>Klicka på kartan för att sätta bilen där. Dra för att flytta kartan, scrolla för att zooma.</value>
+  </data>
+  <data name="Map_CouldNotSendGPSToAndroid" xml:space="preserve">
+    <value>Kunde inte skicka GPS till Android.</value>
+  </data>
+  <data name="Map_DrivingTheRoute000" xml:space="preserve">
+    <value>Kör rutten: {0:0.0} km. Bilen rör sig med farten på Översikt.</value>
+  </data>
+  <data name="Map_GPSToAndroid010" xml:space="preserve">
+    <value>GPS till Android: {0}  ·  {1:0} km/h  ·  kurs {2:0}°</value>
+  </data>
+  <data name="Map_RouteRemoved" xml:space="preserve">
+    <value>Rutten borttagen.</value>
+  </data>
+  <data name="Map_TheSpeedIs0RaiseThe" xml:space="preserve">
+    <value> Farten är 0 – dra upp hastigheten.</value>
+  </data>
+  <data name="Nav_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Nav_CarDatabase" xml:space="preserve">
+    <value>Bildatabas</value>
+  </data>
+  <data name="Nav_CarModels" xml:space="preserve">
+    <value>Bilmodeller</value>
+  </data>
+  <data name="Nav_Drives" xml:space="preserve">
+    <value>Körningar</value>
+  </data>
+  <data name="Nav_HiddenFeatures" xml:space="preserve">
+    <value>Dolda funktioner</value>
+  </data>
+  <data name="Nav_Map" xml:space="preserve">
+    <value>Karta</value>
+  </data>
+  <data name="Nav_ObdLog" xml:space="preserve">
+    <value>OBD-logg</value>
+  </data>
+  <data name="Nav_ObdSource" xml:space="preserve">
+    <value>OBD-källa</value>
+  </data>
+  <data name="Nav_Overview" xml:space="preserve">
+    <value>Översikt</value>
+  </data>
+  <data name="Nav_Settings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="Nav_TestCases" xml:space="preserve">
+    <value>Testfall</value>
+  </data>
+  <data name="ObdAdapter_NoReplyToATZ" xml:space="preserve">
+    <value>Inget svar på ATZ.</value>
+  </data>
+  <data name="ObdAdapter_Replied0InsteadOfAnELM327" xml:space="preserve">
+    <value>Svarade "{0}" i stället för en ELM327-version.</value>
+  </data>
+  <data name="ObdTcpServer_Unknown" xml:space="preserve">
+    <value>okänd</value>
+  </data>
+  <data name="Obdb_Attribution" xml:space="preserve">
+    <value>Data från OBDb (github.com/OBDb), CC BY-SA 4.0</value>
+  </data>
+  <data name="Obdb_Error0From1" xml:space="preserve">
+    <value>Fel {0} från {1}.</value>
+  </data>
+  <data name="Obdb_GitHubSRequestLimitHasBeen" xml:space="preserve">
+    <value>GitHubs gräns för antal frågor är nådd. Försök igen efter {0} (sparad data fungerar under tiden).</value>
+  </data>
+  <data name="Obdb_InAWhile" xml:space="preserve">
+    <value>om en stund</value>
+  </data>
+  <data name="Obdb_NoCommandsListNotAnOBDb" xml:space="preserve">
+    <value>Ingen "commands"-lista – inte en OBDb-signalfil.</value>
+  </data>
+  <data name="Obdb_NotFound404" xml:space="preserve">
+    <value>Hittades inte (404): </value>
+  </data>
+  <data name="Obdb_OBDbGettingListPage0" xml:space="preserve">
+    <value>OBDb: hämtar lista, sida {0} …</value>
+  </data>
+  <data name="OdxImporter_0CANIdMissing7E07E8" xml:space="preserve">
+    <value>{0}: CAN-id saknas – 7E0/7E8 används.</value>
+  </data>
+  <data name="OdxImporter_0Coding1BytesOnlyThe" xml:space="preserve">
+    <value>{0}: kodning {1} byte – bara de första {2} används</value>
+  </data>
+  <data name="OdxImporter_0NoCodingService222E" xml:space="preserve">
+    <value>{0}: ingen kodningstjänst (22/2E) – 4 byte nollor används.</value>
+  </data>
+  <data name="OdxImporter_0OtherDiagnosticServices1" xml:space="preserve">
+    <value>{0}: övriga diagnostjänster ({1} st)</value>
+  </data>
+  <data name="OdxImporter_0SameCANIdAsAnother" xml:space="preserve">
+    <value>{0}: samma CAN-id som ett annat styrdon – hoppades över.</value>
+  </data>
+  <data name="OdxImporter_0SecurityAccess0x271Services" xml:space="preserve">
+    <value>{0}: säkerhetsåtkomst 0x27 ({1} tjänster) – Cyberdrome använder egen påhittad formel</value>
+  </data>
+  <data name="OdxImporter_ECUVariant0WithoutItsOwn" xml:space="preserve">
+    <value>ECU-variant {0} utan egna CAN-id (ärver bas)</value>
+  </data>
+  <data name="OdxImporter_EmptyODXFile" xml:space="preserve">
+    <value>Tom ODX-fil.</value>
+  </data>
+  <data name="OdxImporter_JobsAcrossSeveralControlUnitsMULTIPLE" xml:space="preserve">
+    <value>Jobb över flera styrdon (MULTIPLE-ECU-JOB)</value>
+  </data>
+  <data name="OdxImporter_NoControlUnitsBASEVARIANTECU" xml:space="preserve">
+    <value>Hittade inga styrdon (BASE-VARIANT/ECU-VARIANT med CAN-id) i ODX-filen.</value>
+  </data>
+  <data name="OdxImporter_ODXVersion0Only2X" xml:space="preserve">
+    <value>ODX-version {0} – bara 2.x är provad.</value>
+  </data>
+  <data name="OdxImporter_TheFileIsNotODXThe" xml:space="preserve">
+    <value>Filen är inte ODX (rotelementet heter inte ODX).</value>
+  </data>
+  <data name="OdxImporter_TheFileIsNotValidODX" xml:space="preserve">
+    <value>Filen är ingen giltig ODX/XML: </value>
+  </data>
+  <data name="OdxImporter_ThePDXFileContainsNoOdx" xml:space="preserve">
+    <value>PDX-filen innehåller ingen .odx-fil.</value>
+  </data>
+  <data name="OdxImporter_VINMissingInODXThePlaceholder" xml:space="preserve">
+    <value>VIN saknas i ODX – platshållaren CDX00000000000001 används (ändra i redigeraren).</value>
+  </data>
+  <data name="Odx_ComparamSpec" xml:space="preserve">
+    <value>Kommunikationsspecifikation (COMPARAM-SPEC)</value>
+  </data>
+  <data name="Odx_Count01" xml:space="preserve">
+    <value>{0} ({1} st)</value>
+  </data>
+  <data name="Odx_Flash" xml:space="preserve">
+    <value>Flashdata (FLASH)</value>
+  </data>
+  <data name="Odx_FunctionalGroup" xml:space="preserve">
+    <value>Funktionsgrupper (FUNCTIONAL-GROUP)</value>
+  </data>
+  <data name="Odx_Protocol" xml:space="preserve">
+    <value>Protokollager (PROTOCOL)</value>
+  </data>
+  <data name="Odx_SingleJob" xml:space="preserve">
+    <value>Diagnosjobb (SINGLE-ECU-JOB)</value>
+  </data>
+  <data name="Odx_VehicleInfo" xml:space="preserve">
+    <value>Fordonsinformation (VEHICLE-INFO-SPEC)</value>
+  </data>
+  <data name="OrganicMaps_Help" xml:space="preserve">
+    <value>Organic Maps visar bilens position från Cyberdrome (GPS skickas från sidan Karta). Första gången: tillåt platsåtkomst. Kartdata för t.ex. Stockholm laddas ner inne i appen när du zoomar in. Organic Maps laddas ner från F-Droid och följer inte med Cyberdrome.</value>
+  </data>
+  <data name="ProfileLoader_0EmptyFile" xml:space="preserve">
+    <value>{0}: tom fil.</value>
+  </data>
+  <data name="ProfileLoader_AControlUnitHasNoKey" xml:space="preserve">
+    <value>Ett styrdon saknar nyckel.</value>
+  </data>
+  <data name="ProfileLoader_AtLeastOneECUIsNeeded" xml:space="preserve">
+    <value>Minst en ECU behövs.</value>
+  </data>
+  <data name="ProfileLoader_CustomPID0InvalidHeader1" xml:space="preserve">
+    <value>Egen PID {0}: ogiltig header "{1}".</value>
+  </data>
+  <data name="ProfileLoader_CustomPID0InvalidRequest1" xml:space="preserve">
+    <value>Egen PID {0}: ogiltig fråga "{1}".</value>
+  </data>
+  <data name="ProfileLoader_ECU0AtMost1Bytes" xml:space="preserve">
+    <value>ECU {0}: högst {1} byte kodning.</value>
+  </data>
+  <data name="ProfileLoader_ECU0CodingMustBeHex" xml:space="preserve">
+    <value>ECU {0}: kodning måste vara hex med jämnt antal tecken.</value>
+  </data>
+  <data name="ProfileLoader_ECU0InvalidCANId11" xml:space="preserve">
+    <value>ECU {0}: ogiltigt CAN-id (11 bit, t.ex. 7E0).</value>
+  </data>
+  <data name="ProfileLoader_ECU0TheCodingDIDMust" xml:space="preserve">
+    <value>ECU {0}: kodnings-DID måste vara 4 hex-tecken.</value>
+  </data>
+  <data name="ProfileLoader_Feature0BitMustBe0" xml:space="preserve">
+    <value>Funktion {0}: bit måste vara 0–7.</value>
+  </data>
+  <data name="ProfileLoader_Feature0Byte1DoesNot" xml:space="preserve">
+    <value>Funktion {0}: byte {1} finns inte i kodningen.</value>
+  </data>
+  <data name="ProfileLoader_Feature0ECU1DoesNot" xml:space="preserve">
+    <value>Funktion {0}: ECU '{1}' finns inte.</value>
+  </data>
+  <data name="ProfileLoader_IdIsMissing" xml:space="preserve">
+    <value>Id saknas.</value>
+  </data>
+  <data name="ProfileLoader_MakeAndModelMustBeFilled" xml:space="preserve">
+    <value>Märke och modell måste fyllas i.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest01InvalidRequest" xml:space="preserve">
+    <value>Tillverkarfråga {0}/{1}: ogiltig fråga.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest01InvalidSignal" xml:space="preserve">
+    <value>Tillverkarfråga {0}/{1}: ogiltig signalposition.</value>
+  </data>
+  <data name="ProfileLoader_ManufacturerRequest0ControlUnit1" xml:space="preserve">
+    <value>Tillverkarfråga {0}: styrdon {1} finns inte.</value>
+  </data>
+  <data name="ProfileLoader_PID0IsNotSupportedBy" xml:space="preserve">
+    <value>PID {0} stöds inte av simulatorn.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultEngineSpeedMustBe" xml:space="preserve">
+    <value>Standardvarvtal måste vara 0–8000.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultFuelLevelMustBe" xml:space="preserve">
+    <value>Standardbränsle måste vara 0–100 %.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultSpeedMustBe0" xml:space="preserve">
+    <value>Standardfart måste vara 0–250 km/h.</value>
+  </data>
+  <data name="ProfileLoader_TheDefaultTemperatureMustBe40" xml:space="preserve">
+    <value>Standardtemperatur måste vara −40–130 °C.</value>
+  </data>
+  <data name="ProfileLoader_TheIdMayOnlyContainLetters" xml:space="preserve">
+    <value>Id får bara innehålla bokstäver, siffror, - och _.</value>
+  </data>
+  <data name="ProfileLoader_TheModelYearMustBe1996" xml:space="preserve">
+    <value>Årsmodell måste vara 1996–2100 (OBD-II).</value>
+  </data>
+  <data name="ProfileLoader_TheTroubleCode0HasThe" xml:space="preserve">
+    <value>Felkoden {0} har fel format (t.ex. P0300).</value>
+  </data>
+  <data name="ProfileLoader_TheVINMayOnlyContainA" xml:space="preserve">
+    <value>VIN får bara innehålla A–Z (utom I, O, Q) och 0–9.</value>
+  </data>
+  <data name="ProfileLoader_TheVINMustBe17Characters" xml:space="preserve">
+    <value>VIN måste vara 17 tecken.</value>
+  </data>
+  <data name="ProfileLoader_TroubleCodeTextInvalidTroubleCode" xml:space="preserve">
+    <value>Felkodstext: ogiltig felkod "{0}".</value>
+  </data>
+  <data name="ProfileLoader_TwoControlUnitsHaveTheSame" xml:space="preserve">
+    <value>Två styrdon har samma nyckel.</value>
+  </data>
+  <data name="ProfileLoader_TwoControlUnitsHaveTheSame2" xml:space="preserve">
+    <value>Två styrdon har samma fråge-id (CAN).</value>
+  </data>
+  <data name="ProfileLoader_TwoHiddenFeaturesHaveTheSame" xml:space="preserve">
+    <value>Två dolda funktioner har samma id.</value>
+  </data>
+  <data name="ProfileStore_0CannotBeRead1" xml:space="preserve">
+    <value>{0} går inte att läsa: {1}</value>
+  </data>
+  <data name="ProfileStore_0IsTooLarge" xml:space="preserve">
+    <value>{0} är för stor.</value>
+  </data>
+  <data name="ProfileStore_InvalidPathInThePackage" xml:space="preserve">
+    <value>Ogiltig sökväg i paketet.</value>
+  </data>
+  <data name="ProfileStore_TheCarModelIsNotValid" xml:space="preserve">
+    <value>Bilmodellen är inte giltig: </value>
+  </data>
+  <data name="ProfileStore_TheFileIsMissing0" xml:space="preserve">
+    <value>Filen saknar {0}.</value>
+  </data>
+  <data name="ProfileStore_TheFileIsNotACbs" xml:space="preserve">
+    <value>Filen är ingen .cbs-fil (inte en zip).</value>
+  </data>
+  <data name="Program_01OwnCarModelsThemes" xml:space="preserve">
+    <value>  {0}
+  {1}
+
+(egna bilmodeller, teman, skal, körningar, testfall, säkerhetskopior, inställningar och loggar)
+
+</value>
+  </data>
+  <data name="Program_CyberdromeSimulatorIsBeingUninstalledDo" xml:space="preserve">
+    <value>Cyberdrome Simulator avinstalleras.
+
+Vill du även ta bort mina data?
+</value>
+  </data>
+  <data name="Program_NoDefaultYourDataIsKept" xml:space="preserve">
+    <value>Nej (standard) = dina data finns kvar om du installerar igen.</value>
+  </data>
+  <data name="Program_RemoveMyData" xml:space="preserve">
+    <value>Ta bort mina data?</value>
+  </data>
+  <data name="RealAdapterBluetooth_BLEWriteFailed" xml:space="preserve">
+    <value>BLE-skrivning misslyckades: </value>
+  </data>
+  <data name="RealAdapterBluetooth_CouldNotReadTheBLEServices" xml:space="preserve">
+    <value>Kunde inte läsa BLE-tjänsterna: </value>
+  </data>
+  <data name="RealAdapterBluetooth_CouldNotTurnOnNotifications" xml:space="preserve">
+    <value>Kunde inte slå på notiser: </value>
+  </data>
+  <data name="RealAdapterBluetooth_NoServiceWithBothNotifyAnd" xml:space="preserve">
+    <value>Ingen tjänst med både notify och skriv hittades.</value>
+  </data>
+  <data name="RealAdapterBluetooth_Read" xml:space="preserve">
+    <value>läs</value>
+  </data>
+  <data name="RealAdapterBluetooth_Service0" xml:space="preserve">
+    <value>Tjänst {0}: </value>
+  </data>
+  <data name="RealAdapterBluetooth_Service0CharacteristicsCannotBeRead" xml:space="preserve">
+    <value>Tjänst {0}: kännetecken går inte att läsa ({1})</value>
+  </data>
+  <data name="RealAdapterBluetooth_TheBLEDeviceDoesNotAnswer" xml:space="preserve">
+    <value>BLE-enheten svarar inte.</value>
+  </data>
+  <data name="RealAdapterBluetooth_TheBluetoothServiceWasNotFound" xml:space="preserve">
+    <value>Bluetooth-tjänsten hittades inte (är adaptern på och parkopplad?).</value>
+  </data>
+  <data name="RealAdapterBluetooth_UnknownSPPDevice" xml:space="preserve">
+    <value>Okänd SPP-enhet</value>
+  </data>
+  <data name="RealAdapterBluetooth_Using0Replies1Commands2" xml:space="preserve">
+    <value>Använder {0}: svar {1}, kommandon {2}</value>
+  </data>
+  <data name="RealCarBridge_BlockedCouldNotBackUpThe" xml:space="preserve">
+    <value>🔒 Stoppad: kunde inte säkerhetskopiera originalvärdet: </value>
+  </data>
+  <data name="RealCarBridge_BlockedReadOnly0To1" xml:space="preserve">
+    <value>🔒 Stoppad (läsläge): {0} till {1:X3}. Slå på "Tillåt skrivning" för att släppa igenom.</value>
+  </data>
+  <data name="RealCarBridge_BlockedTheBatteryVoltageIs0" xml:space="preserve">
+    <value>🔒 Stoppad: batterispänningen är {0} (minst {1:0.0} V krävs för skrivning).</value>
+  </data>
+  <data name="RealCarBridge_DeniedByTheUser0To" xml:space="preserve">
+    <value>✋ Nekad av användaren: {0} till {1:X3}.</value>
+  </data>
+  <data name="RealCarBridge_SentToTheCar0To" xml:space="preserve">
+    <value>✍ Skickad till bilen: {0} till {1:X3} ({2}). Säkerhetskopia: {3}</value>
+  </data>
+  <data name="RealCarBridge_TheOriginalValueCouldNotBe" xml:space="preserve">
+    <value>originalvärdet gick inte att läsa ({0}).</value>
+  </data>
+  <data name="RealCarScanner_AnsweredOn7DF" xml:space="preserve">
+    <value>svarade på 7DF</value>
+  </data>
+  <data name="RealCarScanner_Protocol01" xml:space="preserve">
+    <value>Protokoll: {0} – {1}</value>
+  </data>
+  <data name="RealCarScanner_ReadingCalibrationIds" xml:space="preserve">
+    <value>Läser kalibrerings-id …</value>
+  </data>
+  <data name="RealCarScanner_ReadingSupportedPIDs" xml:space="preserve">
+    <value>Läser stödda PID:ar …</value>
+  </data>
+  <data name="RealCarScanner_ReadingTroubleCodes" xml:space="preserve">
+    <value>Läser felkoder …</value>
+  </data>
+  <data name="RealCarScanner_ReadingVIN" xml:space="preserve">
+    <value>Läser VIN …</value>
+  </data>
+  <data name="RealCarScanner_ReadingValues" xml:space="preserve">
+    <value>Läser värden …</value>
+  </data>
+  <data name="RealCarScanner_RealCar" xml:space="preserve">
+    <value>Riktig bil </value>
+  </data>
+  <data name="RealCarScanner_SearchingForControlUnits" xml:space="preserve">
+    <value>Söker styrdon …</value>
+  </data>
+  <data name="RealCarScanner_Transmission" xml:space="preserve">
+    <value>Växellåda</value>
+  </data>
+  <data name="RealCarScanner_UnknownMake" xml:space="preserve">
+    <value>Okänt märke</value>
+  </data>
+  <data name="RealCarScanner_Values" xml:space="preserve">
+    <value>Värden: </value>
+  </data>
+  <data name="RealCarScanner_Voltage000V" xml:space="preserve">
+    <value>Spänning: {0:0.0} V</value>
+  </data>
+  <data name="Release_ANewVersionIsAvailable0" xml:space="preserve">
+    <value>Ny version finns: {0}. Tryck "Installera uppdatering".</value>
+  </data>
+  <data name="Release_CouldNotCheckForUpdates" xml:space="preserve">
+    <value>Kunde inte söka efter uppdateringar: </value>
+  </data>
+  <data name="Release_DownloadingTheUpdate" xml:space="preserve">
+    <value>Hämtar uppdateringen …</value>
+  </data>
+  <data name="Release_DownloadingTheUpdate0" xml:space="preserve">
+    <value>Hämtar uppdateringen … {0} %</value>
+  </data>
+  <data name="Release_InstallingAndRestarting" xml:space="preserve">
+    <value>Installerar och startar om …</value>
+  </data>
+  <data name="Release_TheFolderDoesNotExist0" xml:space="preserve">
+    <value>Mappen finns inte: {0}</value>
+  </data>
+  <data name="Release_TheUpdateFailed" xml:space="preserve">
+    <value>Uppdateringen misslyckades: </value>
+  </data>
+  <data name="Release_UpdatesWorkInTheInstalledVersion" xml:space="preserve">
+    <value>Uppdateringar fungerar i den installerade versionen (inte när programmet körs från källkoden).</value>
+  </data>
+  <data name="Release_YouHaveTheLatestVersion0" xml:space="preserve">
+    <value>Du har den senaste versionen ({0}).</value>
+  </data>
+  <data name="Scan_CalibrationIds" xml:space="preserve">
+    <value>Kalibrerings-id: </value>
+  </data>
+  <data name="Scan_Dtcs" xml:space="preserve">
+    <value>Felkoder: </value>
+  </data>
+  <data name="Scan_Ecus0" xml:space="preserve">
+    <value>Styrdon ({0}):</value>
+  </data>
+  <data name="Scan_NoAnswer" xml:space="preserve">
+    <value>(svarar inte)</value>
+  </data>
+  <data name="Scan_None" xml:space="preserve">
+    <value>inga</value>
+  </data>
+  <data name="Scan_Pids0" xml:space="preserve">
+    <value>PID:ar ({0}): </value>
+  </data>
+  <data name="ScreenControl_Mute" xml:space="preserve">
+    <value>Ljud av</value>
+  </data>
+  <data name="ScreenControl_Next" xml:space="preserve">
+    <value>Nästa</value>
+  </data>
+  <data name="ScreenControl_Previous" xml:space="preserve">
+    <value>Föregående</value>
+  </data>
+  <data name="ScreenPresets_101BudgetCarRadio1024" xml:space="preserve">
+    <value>10,1" billig bilradio 1024×600</value>
+  </data>
+  <data name="ScreenPresets_10WideCarScreen1560700" xml:space="preserve">
+    <value>10" bred bilskärm 1560×700</value>
+  </data>
+  <data name="ScreenPresets_123WideScreen1920720" xml:space="preserve">
+    <value>12,3" bred skärm 1920×720</value>
+  </data>
+  <data name="ScreenPresets_7OlderCarRadio800480" xml:space="preserve">
+    <value>7" äldre bilradio 800×480</value>
+  </data>
+  <data name="ScreenPresets_943Screen1024768" xml:space="preserve">
+    <value>9" 4:3-skärm 1024×768 (t.ex. stående)</value>
+  </data>
+  <data name="Screen_10Tablet" xml:space="preserve">
+    <value>10,1" surfplatta/bilradio 1280×800</value>
+  </data>
+  <data name="Screen_7Radio1024" xml:space="preserve">
+    <value>7" bilradio 1024×600</value>
+  </data>
+  <data name="Screen_8Radio1280" xml:space="preserve">
+    <value>8" bilradio 1280×720</value>
+  </data>
+  <data name="Screen_8Radio800" xml:space="preserve">
+    <value>8" bilradio 800×480</value>
+  </data>
+  <data name="Screen_9Radio1280" xml:space="preserve">
+    <value>9" bilradio 1280×720</value>
+  </data>
+  <data name="Screen_ChangingScreen" xml:space="preserve">
+    <value>Byter skärm …</value>
+  </data>
+  <data name="Screen_CouldNotChangeTheScreenSee" xml:space="preserve">
+    <value>Kunde inte byta skärm – se loggen på sidan Android.</value>
+  </data>
+  <data name="Screen_Custom" xml:space="preserve">
+    <value>Anpassad</value>
+  </data>
+  <data name="Screen_InvalidSizeWidthHeight3204096" xml:space="preserve">
+    <value>Ogiltig storlek: bredd/höjd 320–4096 och dpi 80–640.</value>
+  </data>
+  <data name="Screen_LandscapeLower" xml:space="preserve">
+    <value>liggande</value>
+  </data>
+  <data name="Screen_PortraitLower" xml:space="preserve">
+    <value>stående</value>
+  </data>
+  <data name="Screen_Saved0AppliesWhenAndroidStarts" xml:space="preserve">
+    <value>Sparat: {0}. Gäller när Android startar.</value>
+  </data>
+  <data name="Screen_Screen0" xml:space="preserve">
+    <value>Skärm: {0}</value>
+  </data>
+  <data name="Screen_TeslaStyle1080" xml:space="preserve">
+    <value>10,4" Tesla-stil 1920×1080</value>
+  </data>
+  <data name="Screen_TeslaStyle1200" xml:space="preserve">
+    <value>10,4" Tesla-stil 1920×1200</value>
+  </data>
+  <data name="Screen_TheScreenSizeAppliesToThe" xml:space="preserve">
+    <value>Skärmstorlek gäller läget Utan omstart (emulatorn).</value>
+  </data>
+  <data name="SecurityAccessConfig_TheSeedMustBe4Bytes" xml:space="preserve">
+    <value>Seed ska vara 4 byte.</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Språk</value>
+  </data>
+  <data name="Settings_LanguageHelp" xml:space="preserve">
+    <value>Programmets språk. Byts direkt; meddelanden som redan visas behåller sitt språk.</value>
+  </data>
+  <data name="Settings_SystemLanguage" xml:space="preserve">
+    <value>Systemets språk</value>
+  </data>
+  <data name="SkinStore_ChooseAFolderOrAZip" xml:space="preserve">
+    <value>Välj en mapp eller en zip-fil med skin.json.</value>
+  </data>
+  <data name="SkinStore_SkinJsonIsMissing" xml:space="preserve">
+    <value>skin.json saknas.</value>
+  </data>
+  <data name="SkinStore_TheSkinIsNotValid" xml:space="preserve">
+    <value>Skalet är inte giltigt: </value>
+  </data>
+  <data name="SkinStore_TheZipFileContainsNoSkin" xml:space="preserve">
+    <value>Zip-filen innehåller ingen skin.json.</value>
+  </data>
+  <data name="Skin_EmptySkinJson" xml:space="preserve">
+    <value>Tom skin.json.</value>
+  </data>
+  <data name="Skin_ImageIsMissing" xml:space="preserve">
+    <value>image saknas.</value>
+  </data>
+  <data name="Skin_ScreenIsTooSmallAtLeast" xml:space="preserve">
+    <value>screen är för liten (minst 100×100).</value>
+  </data>
+  <data name="Skin_ScreenMustBeCompletelyInsideThe" xml:space="preserve">
+    <value>screen måste ligga helt inne i skalet.</value>
+  </data>
+  <data name="Skin_TheButton0HasAnInvalid" xml:space="preserve">
+    <value>knappen "{0}" har ogiltig keyCode {1}.</value>
+  </data>
+  <data name="Skin_TheButton0IsOutsideThe" xml:space="preserve">
+    <value>knappen "{0}" ligger utanför skalet.</value>
+  </data>
+  <data name="Skin_TheImage0DoesNotExist" xml:space="preserve">
+    <value>bilden {0} finns inte.</value>
+  </data>
+  <data name="Skin_UnknownScreenPreset0" xml:space="preserve">
+    <value>okänt screenPreset: {0}.</value>
+  </data>
+  <data name="Skin_WidthAndHeightMustBeGreater" xml:space="preserve">
+    <value>width och height måste vara större än 0.</value>
+  </data>
+  <data name="Source_BluetoothIsOnlySupportedOnWindows" xml:space="preserve">
+    <value>Bluetooth stöds bara på Windows.</value>
+  </data>
+  <data name="Source_BluetoothLE" xml:space="preserve">
+    <value>Bluetooth LE</value>
+  </data>
+  <data name="Source_BluetoothPaired" xml:space="preserve">
+    <value>Bluetooth (parkopplad)</value>
+  </data>
+  <data name="Source_BridgeONAppsWiFiBluetooth" xml:space="preserve">
+    <value>🔌 Vidarekoppling PÅ: appar (Wi-Fi, Bluetooth, BLE) pratar nu med den riktiga bilen via adaptern</value>
+  </data>
+  <data name="Source_ChooseACOMPort" xml:space="preserve">
+    <value>Välj en COM-port.</value>
+  </data>
+  <data name="Source_ConnectingTo0" xml:space="preserve">
+    <value>Ansluter till {0} …</value>
+  </data>
+  <data name="Source_CouldNotConnect" xml:space="preserve">
+    <value>Kunde inte ansluta: </value>
+  </data>
+  <data name="Source_CouldNotConnect2" xml:space="preserve">
+    <value>❌ Kunde inte ansluta: </value>
+  </data>
+  <data name="Source_DisconnectTheAdapterFirst" xml:space="preserve">
+    <value>Koppla från adaptern först.</value>
+  </data>
+  <data name="Source_ElmCompatible0" xml:space="preserve">
+    <value>✅ ELM327-kompatibel: {0}</value>
+  </data>
+  <data name="Source_Found0PairedAnd1BLE" xml:space="preserve">
+    <value>Hittade {0} parkopplade och {1} BLE-enheter. Klassisk Bluetooth måste parkopplas i Windows först (kod ofta 1234 eller 0000).</value>
+  </data>
+  <data name="Source_Identifying0" xml:space="preserve">
+    <value>🔎 Identifierar {0} …</value>
+  </data>
+  <data name="Source_Identifying02" xml:space="preserve">
+    <value>Identifierar {0} …</value>
+  </data>
+  <data name="Source_InvalidPort" xml:space="preserve">
+    <value>Ogiltig port.</value>
+  </data>
+  <data name="Source_NewCarModel01Control" xml:space="preserve">
+    <value>Ny bilmodell: {0} ({1} styrdon, {2} PID:ar). Ändra namn/modell på sidan Bilmodeller.</value>
+  </data>
+  <data name="Source_NoAdapterConnectedTheSimulatorUses" xml:space="preserve">
+    <value>Ingen adapter ansluten. Simulatorn använder den virtuella bilen.</value>
+  </data>
+  <data name="Source_NoCOMPortsFoundConnectThe" xml:space="preserve">
+    <value>Inga COM-portar hittades. Anslut USB-adaptern eller parkoppla Bluetooth-adaptern i Windows.</value>
+  </data>
+  <data name="Source_NoCarAnswered0100IgnitionOn" xml:space="preserve">
+    <value> – ingen bil svarade på 0100 (tändningen på?).</value>
+  </data>
+  <data name="Source_NoValues" xml:space="preserve">
+    <value>inga värden</value>
+  </data>
+  <data name="Source_ReadOnly" xml:space="preserve">
+    <value> · läsläge</value>
+  </data>
+  <data name="Source_ReadOnly2" xml:space="preserve">
+    <value> – läsläge</value>
+  </data>
+  <data name="Source_ReadOnly3" xml:space="preserve">
+    <value>läsläge</value>
+  </data>
+  <data name="Source_ReadTheCarFirst" xml:space="preserve">
+    <value>Läs bilen först.</value>
+  </data>
+  <data name="Source_ReadingRealCar" xml:space="preserve">
+    <value>Läser riktig bil: </value>
+  </data>
+  <data name="Source_SearchForAndChooseABluetooth" xml:space="preserve">
+    <value>Sök och välj en Bluetooth-adapter.</value>
+  </data>
+  <data name="Source_SearchingForBluetoothAdapters8S" xml:space="preserve">
+    <value>Söker Bluetooth-adaptrar (8 s) …</value>
+  </data>
+  <data name="Source_SourceVirtualCar" xml:space="preserve">
+    <value>🔌 Källa: virtuell bil</value>
+  </data>
+  <data name="Source_TheAdapterIsDisconnectedTheSimulator" xml:space="preserve">
+    <value>Adaptern är frånkopplad. Simulatorn använder den virtuella bilen.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked" xml:space="preserve">
+    <value>Adaptern stöds inte (låst till tillverkarens app eller inte ELM327-kompatibel). </value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked2" xml:space="preserve">
+    <value>❌ Adaptern stöds inte (låst till tillverkarens app): den svarar inte på ELM327-kommandon. Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked3" xml:space="preserve">
+    <value>❌ Adaptern stöds inte (låst till tillverkarens app): den svarar, men inte som en ELM327. Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.</value>
+  </data>
+  <data name="Source_TheAdapterIsNotSupportedLocked4" xml:space="preserve">
+    <value>❌ Adaptern stöds inte (låst till tillverkarens app): </value>
+  </data>
+  <data name="Source_TheBluetoothSearchFailed" xml:space="preserve">
+    <value>Bluetooth-sökningen misslyckades: </value>
+  </data>
+  <data name="Source_TheCarAnswersOBD" xml:space="preserve">
+    <value> – bilen svarar på OBD.</value>
+  </data>
+  <data name="Source_TheReadingFailed" xml:space="preserve">
+    <value>Avläsningen misslyckades: </value>
+  </data>
+  <data name="Source_TheReadingIsFinishedOnlyRead" xml:space="preserve">
+    <value>Avläsningen är klar (bara lästjänster användes).</value>
+  </data>
+  <data name="Source_ThisConnectionTypeIsNotSupported" xml:space="preserve">
+    <value>Den här anslutningstypen stöds inte här.</value>
+  </data>
+  <data name="Source_Throttle" xml:space="preserve">
+    <value>gasspjäll %</value>
+  </data>
+  <data name="Source_USBOrBluetoothViaCOMPort" xml:space="preserve">
+    <value>USB eller Bluetooth via COM-port</value>
+  </data>
+  <data name="Source_UseAnELM327CompatibleAdapterE" xml:space="preserve">
+    <value> Använd en ELM327-kompatibel adapter, t.ex. vLinker eller OBDLink.</value>
+  </data>
+  <data name="Source_WRITINGALLOWED" xml:space="preserve">
+    <value> – SKRIVNING TILLÅTEN</value>
+  </data>
+  <data name="Source_WRITINGALLOWED2" xml:space="preserve">
+    <value>SKRIVNING TILLÅTEN</value>
+  </data>
+  <data name="Source_WritingAllowedForThisSessionEvery" xml:space="preserve">
+    <value>⚠ Skrivning tillåten för den här sessionen. Varje skrivning måste bekräftas och originalvärdet sparas först.</value>
+  </data>
+  <data name="Standards_ActiveTroubleCodes" xml:space="preserve">
+    <value>Aktiva felkoder</value>
+  </data>
+  <data name="Standards_BatteryVoltage" xml:space="preserve">
+    <value>Batterispänning</value>
+  </data>
+  <data name="Standards_EngineCoolantTemperature" xml:space="preserve">
+    <value>Kylvätsketemperatur</value>
+  </data>
+  <data name="Standards_FuelLevel" xml:space="preserve">
+    <value>Bränslenivå</value>
+  </data>
+  <data name="Standards_IgnitionONOFF" xml:space="preserve">
+    <value>Tändning (ON/OFF)</value>
+  </data>
+  <data name="Standards_IntakeAirTemperature" xml:space="preserve">
+    <value>Insugsluftens temperatur</value>
+  </data>
+  <data name="Standards_InvalidModeAndPID01" xml:space="preserve">
+    <value>Ogiltigt ModeAndPID "{0}" ({1})</value>
+  </data>
+  <data name="Standards_InvalidTroubleCode" xml:space="preserve">
+    <value>Ogiltig felkod: </value>
+  </data>
+  <data name="Standards_MissingSeparator" xml:space="preserve">
+    <value>Saknar avgränsare: </value>
+  </data>
+  <data name="Standards_SelectedGear126P1R" xml:space="preserve">
+    <value>Vald växel (126 = P, -1 = R, 0 = N, 127 = D)</value>
+  </data>
+  <data name="Standards_TheVSSFileCannotBeRead" xml:space="preserve">
+    <value>VSS-filen går inte att läsa: </value>
+  </data>
+  <data name="Standards_TheVSSFileMustBeA" xml:space="preserve">
+    <value>VSS-filen måste vara ett JSON-objekt.</value>
+  </data>
+  <data name="Standards_ThrottlePosition" xml:space="preserve">
+    <value>Gasspjällsläge</value>
+  </data>
+  <data name="Standards_TooFewFields0" xml:space="preserve">
+    <value>För få fält: {0}</value>
+  </data>
+  <data name="Standards_VehicleSpeed" xml:space="preserve">
+    <value>Fordonets hastighet</value>
+  </data>
+  <data name="Standards_WrongValue" xml:space="preserve">
+    <value> (fel värde)</value>
+  </data>
+  <data name="TestApps_01IsAlreadyDownloaded" xml:space="preserve">
+    <value>{0} ({1}) finns redan nedladdad.</value>
+  </data>
+  <data name="TestApps_AskingFDroidForTheLatest" xml:space="preserve">
+    <value>Frågar F-Droid efter senaste {0} …</value>
+  </data>
+  <data name="TestApps_Downloading" xml:space="preserve">
+    <value>Laddar ner </value>
+  </data>
+  <data name="TestApps_FDroidDidNotAnswer" xml:space="preserve">
+    <value>F-Droid svarade inte.</value>
+  </data>
+  <data name="TestApps_FDroidGaveNoVersion" xml:space="preserve">
+    <value>F-Droid gav ingen version.</value>
+  </data>
+  <data name="TestApps_TheFileFromFDroidIs" xml:space="preserve">
+    <value>Filen från F-Droid är inte en giltig APK ({0}).</value>
+  </data>
+  <data name="TestCase_AtLeastOneCheckIsNeeded" xml:space="preserve">
+    <value>minst en kontroll behövs.</value>
+  </data>
+  <data name="TestCase_BasicPIDs" xml:space="preserve">
+    <value>Grundläggande PID:ar</value>
+  </data>
+  <data name="TestCase_Check0AfterStepDoesNotExist" xml:space="preserve">
+    <value>kontroll "{0}": afterStep finns inte.</value>
+  </data>
+  <data name="TestCase_Check0CommandIsMissing" xml:space="preserve">
+    <value>kontroll "{0}": command saknas.</value>
+  </data>
+  <data name="TestCase_Check0TextIsMissing" xml:space="preserve">
+    <value>kontroll "{0}": text saknas.</value>
+  </data>
+  <data name="TestCase_Check0UnknownType1" xml:space="preserve">
+    <value>kontroll "{0}": okänd typ "{1}".</value>
+  </data>
+  <data name="TestCase_ClearTheTroubleCodesInThe" xml:space="preserve">
+    <value>Radera felkoderna i appen (valfritt).</value>
+  </data>
+  <data name="TestCase_CodingViaUDS22" xml:space="preserve">
+    <value>Kodning via UDS 22</value>
+  </data>
+  <data name="TestCase_CyberdromeTurnsOnP0300TheApp" xml:space="preserve">
+    <value>Cyberdrome tänder P0300. Appen ska läsa felkoderna (mode 03) och se P0300. Radera gärna i appen (mode 04).</value>
+  </data>
+  <data name="TestCase_DurationSecondsMustBe13600" xml:space="preserve">
+    <value>durationSeconds ska vara 1–3600.</value>
+  </data>
+  <data name="TestCase_EmptyTestCase" xml:space="preserve">
+    <value>Tomt testfall.</value>
+  </data>
+  <data name="TestCase_EngineSpeed010CAtLeast" xml:space="preserve">
+    <value>Varvtal (01 0C) minst varannan sekund</value>
+  </data>
+  <data name="TestCase_IdIsMissing" xml:space="preserve">
+    <value>id saknas.</value>
+  </data>
+  <data name="TestCase_KeepTheAppOpenAndConnected" xml:space="preserve">
+    <value>Ha appen öppen och ansluten till OBD (t.ex. Cyberdrome Radio eller startskärmen).</value>
+  </data>
+  <data name="TestCase_NameIsMissing" xml:space="preserve">
+    <value>name saknas.</value>
+  </data>
+  <data name="TestCase_NoErrorReplies" xml:space="preserve">
+    <value>Inga felsvar</value>
+  </data>
+  <data name="TestCase_NoErrorRepliesOrNODATA" xml:space="preserve">
+    <value>Inga felsvar (? eller NO DATA)</value>
+  </data>
+  <data name="TestCase_ReadTheCodingInTheApp" xml:space="preserve">
+    <value>Läs kodning i appen (ATSH714, 220600).</value>
+  </data>
+  <data name="TestCase_Speed010DAtLeastEvery" xml:space="preserve">
+    <value>Hastighet (01 0D) minst varannan sekund</value>
+  </data>
+  <data name="TestCase_Step0AtMustBeWithin" xml:space="preserve">
+    <value>steg {0}: at måste ligga inom testets tid.</value>
+  </data>
+  <data name="TestCase_Step0DtcIsMissing" xml:space="preserve">
+    <value>steg {0}: dtc saknas.</value>
+  </data>
+  <data name="TestCase_Step0UnknownAction1" xml:space="preserve">
+    <value>steg {0}: okänd action "{1}".</value>
+  </data>
+  <data name="TestCase_TheAppClearedTroubleCodes04" xml:space="preserve">
+    <value>Appen raderade felkoder (04)</value>
+  </data>
+  <data name="TestCase_TheAppGot90KmH" xml:space="preserve">
+    <value>Appen fick 90 km/h efter steg 2</value>
+  </data>
+  <data name="TestCase_TheAppReadTroubleCodes03" xml:space="preserve">
+    <value>Appen läste felkoder (03) efter att P0300 tändes</value>
+  </data>
+  <data name="TestCase_TheAppSelectedAControlUnit" xml:space="preserve">
+    <value>Appen valde styrdon med ATSH</value>
+  </data>
+  <data name="TestCase_TheAppShouldReadSpeedAnd" xml:space="preserve">
+    <value>Appen ska läsa hastighet och varvtal ofta (minst varannan sekund) utan felsvar. Värdena ändras under testet.</value>
+  </data>
+  <data name="TestCase_TheAppShouldSelectTheInstrument" xml:space="preserve">
+    <value>Appen ska välja instrumentet (ATSH714) och läsa kodningen med 22 06 00 (och gärna VIN med 22 F1 90).</value>
+  </data>
+  <data name="TestCase_TheCodingWasRead6206" xml:space="preserve">
+    <value>Kodningen lästes (62 06 00 …)</value>
+  </data>
+  <data name="TestCase_TheReplyContainedP03000300" xml:space="preserve">
+    <value>Svaret innehöll P0300 (03 00)</value>
+  </data>
+  <data name="TestCase_TheVINWasReadWith22" xml:space="preserve">
+    <value>VIN lästes med 22 F1 90</value>
+  </data>
+  <data name="TestCase_TroubleCodeP0300IsNowActive" xml:space="preserve">
+    <value>Felkod P0300 är nu aktiv – läs felkoder i appen.</value>
+  </data>
+  <data name="TestCase_TroubleCodesReadAndClear" xml:space="preserve">
+    <value>Felkoder: läs och radera</value>
+  </data>
+  <data name="TestEvaluator_0Of1ChecksPassedP" xml:space="preserve">
+    <value> – {0} av {1} kontroller godkända&lt;/p&gt;</value>
+  </data>
+  <data name="TestEvaluator_0Requests100S" xml:space="preserve">
+    <value>{0} frågor ({1:0.0}/s), längsta paus {2:0.0} s.</value>
+  </data>
+  <data name="TestEvaluator_0RequestsWithoutErrorReplies" xml:space="preserve">
+    <value>{0} frågor utan felsvar.</value>
+  </data>
+  <data name="TestEvaluator_0TimesFirst1HHMm" xml:space="preserve">
+    <value>{0} gånger, första {1:HH:mm:ss}.</value>
+  </data>
+  <data name="TestEvaluator_ClearAllTroubleCodes" xml:space="preserve">
+    <value>Radera alla felkoder</value>
+  </data>
+  <data name="TestEvaluator_Coolant00C" xml:space="preserve">
+    <value>kylvätska {0:0} °C</value>
+  </data>
+  <data name="TestEvaluator_DoctypeHtmlHtmlHeadMetaCharset" xml:space="preserve">
+    <value>&lt;!doctype html&gt;&lt;html lang=sv&gt;&lt;head&gt;&lt;meta charset=utf-8&gt;&lt;title&gt;Testresultat – </value>
+  </data>
+  <data name="TestEvaluator_Fuel00" xml:space="preserve">
+    <value>bränsle {0:0} %</value>
+  </data>
+  <data name="TestEvaluator_IgnitionOff" xml:space="preserve">
+    <value>tändning av</value>
+  </data>
+  <data name="TestEvaluator_IgnitionOn" xml:space="preserve">
+    <value>tändning på</value>
+  </data>
+  <data name="TestEvaluator_LongestPause000S" xml:space="preserve">
+    <value>Längsta paus {0:0.0} s (vid {1:HH:mm:ss}), max {2:0.0} s tillåts. {3} frågor.</value>
+  </data>
+  <data name="TestEvaluator_NoneOf0RepliesContained1" xml:space="preserve">
+    <value>Inget av {0} svar innehöll {1}.</value>
+  </data>
+  <data name="TestEvaluator_Only0Of1Times" xml:space="preserve">
+    <value>Bara {0} av {1} gånger.</value>
+  </data>
+  <data name="TestEvaluator_PClassMuted0YyyyMM" xml:space="preserve">
+    <value>&lt;p class=muted&gt;{0:yyyy-MM-dd HH:mm:ss} – {1:HH:mm:ss} · {2} OBD-frågor · appar: {3}&lt;/p&gt;</value>
+  </data>
+  <data name="TestEvaluator_Set" xml:space="preserve">
+    <value>Sätt </value>
+  </data>
+  <data name="TestEvaluator_SpanClassFailFAILEDSpan" xml:space="preserve">
+    <value>&lt;span class=fail&gt;UNDERKÄNT&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassFailFailedSpan" xml:space="preserve">
+    <value>&lt;span class=fail&gt;✘ Underkänd&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassNdNotPerformedOptional" xml:space="preserve">
+    <value>&lt;span class=nd&gt;– Ej utförd (valfri)&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassOkPASSEDSpan" xml:space="preserve">
+    <value>&lt;span class=ok&gt;GODKÄNT&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_SpanClassOkPassedSpan" xml:space="preserve">
+    <value>&lt;span class=ok&gt;✔ Godkänd&lt;/span&gt;</value>
+  </data>
+  <data name="TestEvaluator_Step0WasNeverRun" xml:space="preserve">
+    <value>Steg {0} kördes aldrig.</value>
+  </data>
+  <data name="TestEvaluator_TableH2StepsH2TableTr" xml:space="preserve">
+    <value>&lt;/table&gt;&lt;h2&gt;Steg&lt;/h2&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Tid&lt;/th&gt;&lt;th&gt;Steg&lt;/th&gt;&lt;th&gt;Utfört&lt;/th&gt;&lt;/tr&gt;</value>
+  </data>
+  <data name="TestEvaluator_TablePClassMutedCyberdromeSimulator" xml:space="preserve">
+    <value>&lt;/table&gt;&lt;p class=muted&gt;Cyberdrome Simulator – testrapport&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</value>
+  </data>
+  <data name="TestEvaluator_TheAppNeverAskedFor0" xml:space="preserve">
+    <value>Appen frågade aldrig efter {0}.</value>
+  </data>
+  <data name="TestEvaluator_TheAppNeverSent0" xml:space="preserve">
+    <value>Appen skickade aldrig {0}.</value>
+  </data>
+  <data name="TestEvaluator_TheReplyContained01HH" xml:space="preserve">
+    <value>Svaret innehöll {0} ({1:HH:mm:ss}).</value>
+  </data>
+  <data name="TestEvaluator_TurnOffTroubleCode0" xml:space="preserve">
+    <value>Släck felkod {0}</value>
+  </data>
+  <data name="TestEvaluator_TurnOnTroubleCode0" xml:space="preserve">
+    <value>Tänd felkod {0}</value>
+  </data>
+  <data name="TestEvaluator_UnknownCheckType" xml:space="preserve">
+    <value>Okänd kontrolltyp.</value>
+  </data>
+  <data name="TestStore_TheFileCannotBeRead" xml:space="preserve">
+    <value>Filen går inte att läsa: </value>
+  </data>
+  <data name="TestStore_TheTestCaseIsNotValid" xml:space="preserve">
+    <value>Testfallet är inte giltigt: </value>
+  </data>
+  <data name="Tests_0Of1ChecksPassed2" xml:space="preserve">
+    <value>: {0} av {1} kontroller godkända · {2} OBD-frågor</value>
+  </data>
+  <data name="Tests_Cancelled" xml:space="preserve">
+    <value>Avbrutet – </value>
+  </data>
+  <data name="Tests_CouldNotOpenTheReport" xml:space="preserve">
+    <value>Kunde inte öppna rapporten: </value>
+  </data>
+  <data name="Tests_Drive0" xml:space="preserve">
+    <value> · körning "{0}"</value>
+  </data>
+  <data name="Tests_FAILED" xml:space="preserve">
+    <value>UNDERKÄNT</value>
+  </data>
+  <data name="Tests_Failed" xml:space="preserve">
+    <value>✘ Underkänd</value>
+  </data>
+  <data name="Tests_From" xml:space="preserve">
+    <value> från </value>
+  </data>
+  <data name="Tests_KeepTheAppInAndroidOpen" xml:space="preserve">
+    <value>Ha appen i Android öppen och ansluten till OBD.</value>
+  </data>
+  <data name="Tests_NoAppAsked" xml:space="preserve">
+    <value> (ingen app frågade)</value>
+  </data>
+  <data name="Tests_NotPerformedOptional" xml:space="preserve">
+    <value>– Ej utförd (valfri)</value>
+  </data>
+  <data name="Tests_PASSED" xml:space="preserve">
+    <value>GODKÄNT</value>
+  </data>
+  <data name="Tests_Passed" xml:space="preserve">
+    <value>✔ Godkänd</value>
+  </data>
+  <data name="Tests_TestCaseFinished01" xml:space="preserve">
+    <value>Testfall klart: {0} – {1}</value>
+  </data>
+  <data name="Tests_TestCaseImported" xml:space="preserve">
+    <value>Testfall importerat: </value>
+  </data>
+  <data name="Tests_TestCaseStarted0" xml:space="preserve">
+    <value>Testfall startat: {0}</value>
+  </data>
+  <data name="Tests_TheReportCouldNotBeSaved" xml:space="preserve">
+    <value> · Rapporten kunde inte sparas: </value>
+  </data>
+  <data name="Tests_TheTestIsRunning00" xml:space="preserve">
+    <value>Testet körs … ({0:0} s)</value>
+  </data>
+  <data name="Tests_TheTestIsRunning002" xml:space="preserve">
+    <value>Testet körs … {0:0} s kvar · {1} OBD-frågor hittills</value>
+  </data>
+  <data name="Ui_About" xml:space="preserve">
+    <value>Om</value>
+  </data>
+  <data name="Ui_Adapter" xml:space="preserve">
+    <value>Adapter</value>
+  </data>
+  <data name="Ui_Add" xml:space="preserve">
+    <value>Lägg till</value>
+  </data>
+  <data name="Ui_AddSignalsCarModels" xml:space="preserve">
+    <value>Lägg till signaler (Bilmodeller) …</value>
+  </data>
+  <data name="Ui_AllCarModelsAndCodingData" xml:space="preserve">
+    <value>Alla bilmodeller och kodningsdata är påhittade exempel för test.</value>
+  </data>
+  <data name="Ui_AllowWritingForThisSession" xml:space="preserve">
+    <value>Tillåt skrivning för den här sessionen</value>
+  </data>
+  <data name="Ui_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Ui_AndroidInTheCar" xml:space="preserve">
+    <value>Android i bilen</value>
+  </data>
+  <data name="Ui_AndroidMode" xml:space="preserve">
+    <value>Android-läge</value>
+  </data>
+  <data name="Ui_AndroidWithGoogleAppsPlayStore" xml:space="preserve">
+    <value>Android med Google-appar (Play Store, Google Maps) – Googles emulator, för utveckling</value>
+  </data>
+  <data name="Ui_AppearsAsAnOrdinaryWiFi" xml:space="preserve">
+    <value>Syns som en vanlig Wi-Fi OBD-dongel (ELM327).</value>
+  </data>
+  <data name="Ui_Apply" xml:space="preserve">
+    <value>Använd</value>
+  </data>
+  <data name="Ui_ApplyAgain" xml:space="preserve">
+    <value>Använd igen</value>
+  </data>
+  <data name="Ui_BluetoothLEIPhone" xml:space="preserve">
+    <value>Bluetooth LE (iPhone)</value>
+  </data>
+  <data name="Ui_BluetoothOBDII" xml:space="preserve">
+    <value>Bluetooth (OBDII)</value>
+  </data>
+  <data name="Ui_CanTFindTheModelCreate" xml:space="preserve">
+    <value>Hittar du inte modellen? Skapa en standard-OBD-bil (OBD-II-PID:ar, VIN, felkoder) – tillverkarsignaler kan läggas till senare.</value>
+  </data>
+  <data name="Ui_Cancel" xml:space="preserve">
+    <value>Avbryt</value>
+  </data>
+  <data name="Ui_Cancel2" xml:space="preserve">
+    <value>⏹ Avbryt</value>
+  </data>
+  <data name="Ui_CarDatabase" xml:space="preserve">
+    <value>Bildatabas</value>
+  </data>
+  <data name="Ui_CarModel" xml:space="preserve">
+    <value>Bilmodell:</value>
+  </data>
+  <data name="Ui_CarModels" xml:space="preserve">
+    <value>Bilmodeller</value>
+  </data>
+  <data name="Ui_CheckAgain" xml:space="preserve">
+    <value>Kontrollera igen</value>
+  </data>
+  <data name="Ui_CheckForUpdates" xml:space="preserve">
+    <value>Sök efter uppdateringar</value>
+  </data>
+  <data name="Ui_ChooseHowAndroidRunsItCannot" xml:space="preserve">
+    <value>Välj hur Android körs. Det går inte att byta medan något installeras eller startas.</value>
+  </data>
+  <data name="Ui_ChooseWhetherTheAppsInAndroid" xml:space="preserve">
+    <value>Välj om apparna (i Android, telefonen via Wi-Fi/Bluetooth) ska prata med den virtuella bilen eller med en riktig bil via en ELM327-kompatibel adapter (t.ex. vLinker, OBDLink, Vgate). Läsläge är standard: allt som kan ändra något i bilen stoppas.</value>
+  </data>
+  <data name="Ui_Clear" xml:space="preserve">
+    <value>Rensa</value>
+  </data>
+  <data name="Ui_Clear2" xml:space="preserve">
+    <value>Töm</value>
+  </data>
+  <data name="Ui_ClearRoute" xml:space="preserve">
+    <value>Rensa rutt</value>
+  </data>
+  <data name="Ui_ClearTheLog" xml:space="preserve">
+    <value>Töm loggen</value>
+  </data>
+  <data name="Ui_CodingHex" xml:space="preserve">
+    <value>kodning hex</value>
+  </data>
+  <data name="Ui_Continue" xml:space="preserve">
+    <value>Fortsätt</value>
+  </data>
+  <data name="Ui_ControlUnit" xml:space="preserve">
+    <value>+ Styrdon</value>
+  </data>
+  <data name="Ui_ControlUnit2" xml:space="preserve">
+    <value>styrdon</value>
+  </data>
+  <data name="Ui_ControlUnitsECU" xml:space="preserve">
+    <value>Styrdon (ECU)</value>
+  </data>
+  <data name="Ui_Coolant" xml:space="preserve">
+    <value>Kylvätska</value>
+  </data>
+  <data name="Ui_CreateCarModel" xml:space="preserve">
+    <value>Skapa bilmodell</value>
+  </data>
+  <data name="Ui_CreateStandardOBDCar" xml:space="preserve">
+    <value>Skapa standard-OBD-bil</value>
+  </data>
+  <data name="Ui_CreateVirtualCarFromRealCar" xml:space="preserve">
+    <value>Skapa virtuell bil från riktig bil</value>
+  </data>
+  <data name="Ui_Dark" xml:space="preserve">
+    <value>Mörker</value>
+  </data>
+  <data name="Ui_DecodeVIN" xml:space="preserve">
+    <value>Avkoda VIN</value>
+  </data>
+  <data name="Ui_Delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Ui_Description" xml:space="preserve">
+    <value>beskrivning</value>
+  </data>
+  <data name="Ui_DragToChangeAndroidAndOBD" xml:space="preserve">
+    <value>Dra för att ändra. Android och OBD ser samma värden.</value>
+  </data>
+  <data name="Ui_DriveTheRoute" xml:space="preserve">
+    <value>▶ Kör rutten</value>
+  </data>
+  <data name="Ui_Drives" xml:space="preserve">
+    <value>Körningar</value>
+  </data>
+  <data name="Ui_EG10in1280x800" xml:space="preserve">
+    <value>t.ex. 10in-1280x800</value>
+  </data>
+  <data name="Ui_EGP0300U0100" xml:space="preserve">
+    <value>t.ex. P0300, U0100</value>
+  </data>
+  <data name="Ui_EGP0301" xml:space="preserve">
+    <value>t.ex. P0301</value>
+  </data>
+  <data name="Ui_EGVwGolf8" xml:space="preserve">
+    <value>t.ex. vw-golf8</value>
+  </data>
+  <data name="Ui_Edit" xml:space="preserve">
+    <value>Redigera</value>
+  </data>
+  <data name="Ui_EmptyAll" xml:space="preserve">
+    <value>tomt = alla</value>
+  </data>
+  <data name="Ui_EngineSpeed" xml:space="preserve">
+    <value>Varvtal</value>
+  </data>
+  <data name="Ui_Export" xml:space="preserve">
+    <value>Exportera …</value>
+  </data>
+  <data name="Ui_ExportAsTemplate" xml:space="preserve">
+    <value>Exportera som mall …</value>
+  </data>
+  <data name="Ui_ExportCarModel" xml:space="preserve">
+    <value>Exportera bilmodell …</value>
+  </data>
+  <data name="Ui_ExportODXPdx" xml:space="preserve">
+    <value>Exportera ODX (.pdx) …</value>
+  </data>
+  <data name="Ui_ExportPIDsCSV" xml:space="preserve">
+    <value>Exportera PID:ar (CSV) …</value>
+  </data>
+  <data name="Ui_ExportValuesVSS" xml:space="preserve">
+    <value>Exportera värden (VSS) …</value>
+  </data>
+  <data name="Ui_ExportWithCurrentCoding" xml:space="preserve">
+    <value>Exportera med nuvarande kodning</value>
+  </data>
+  <data name="Ui_FastWSL2CuttlefishRealAOSP" xml:space="preserve">
+    <value>Snabbt – WSL2 + Cuttlefish (riktig AOSP)</value>
+  </data>
+  <data name="Ui_Feature" xml:space="preserve">
+    <value>+ Funktion</value>
+  </data>
+  <data name="Ui_FolderWithUpdatePackagesVelopackNo" xml:space="preserve">
+    <value>Mapp med uppdateringspaket (Velopack). Ingen server används.</value>
+  </data>
+  <data name="Ui_FollowTheCar" xml:space="preserve">
+    <value>Följ bilen</value>
+  </data>
+  <data name="Ui_FreeMapAppApache20" xml:space="preserve">
+    <value>Fri kartapp (Apache-2.0) från F-Droid, ca 63 MB. Visar GPS:en från Cyberdrome. Följer inte med Cyberdrome.</value>
+  </data>
+  <data name="Ui_FreeOBDAppGPLv3FromF" xml:space="preserve">
+    <value>Gratis OBD-app (GPLv3) från F-Droid. Laddas ner när du trycker – följer inte med Cyberdrome.</value>
+  </data>
+  <data name="Ui_Fuel" xml:space="preserve">
+    <value>Bränsle</value>
+  </data>
+  <data name="Ui_Fuel2" xml:space="preserve">
+    <value>bränsle %</value>
+  </data>
+  <data name="Ui_Gear" xml:space="preserve">
+    <value>Växel</value>
+  </data>
+  <data name="Ui_Generation" xml:space="preserve">
+    <value>Generation</value>
+  </data>
+  <data name="Ui_GetMakesVPIC" xml:space="preserve">
+    <value>Hämta bilmärken (vPIC)</value>
+  </data>
+  <data name="Ui_GetModelsVPIC" xml:space="preserve">
+    <value>Hämta modeller (vPIC)</value>
+  </data>
+  <data name="Ui_GetModelsWikidata" xml:space="preserve">
+    <value>Hämta modeller (Wikidata)</value>
+  </data>
+  <data name="Ui_GetVehicleListOBDb" xml:space="preserve">
+    <value>Hämta fordonslista (OBDb)</value>
+  </data>
+  <data name="Ui_Height" xml:space="preserve">
+    <value>Höjd</value>
+  </data>
+  <data name="Ui_HiddenFeatures" xml:space="preserve">
+    <value>Dolda funktioner</value>
+  </data>
+  <data name="Ui_HideVINSerialNumber" xml:space="preserve">
+    <value>Dölj VIN-serienummer</value>
+  </data>
+  <data name="Ui_IPhoneNoPairingInTheIOS" xml:space="preserve">
+    <value>iPhone: ingen parning i iOS-inställningar behövs. Öppna OBD-appen (t.ex. Car Scanner), välj adaptertyp Bluetooth LE / BLE, sök och välj datorn i listan.</value>
+  </data>
+  <data name="Ui_Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Ui_Id2" xml:space="preserve">
+    <value>id</value>
+  </data>
+  <data name="Ui_IdentifyAdapter" xml:space="preserve">
+    <value>Identifiera adapter</value>
+  </data>
+  <data name="Ui_Ignition" xml:space="preserve">
+    <value>Tändning</value>
+  </data>
+  <data name="Ui_Import" xml:space="preserve">
+    <value>Importera …</value>
+  </data>
+  <data name="Ui_ImportCarModel" xml:space="preserve">
+    <value>Importera bilmodell …</value>
+  </data>
+  <data name="Ui_ImportPIDsCSV" xml:space="preserve">
+    <value>Importera PID:ar (CSV) …</value>
+  </data>
+  <data name="Ui_ImportSignalsOBDbJSON" xml:space="preserve">
+    <value>Importera signaler (OBDb-JSON) …</value>
+  </data>
+  <data name="Ui_ImportTestCase" xml:space="preserve">
+    <value>Importera testfall …</value>
+  </data>
+  <data name="Ui_ImportValuesVSS" xml:space="preserve">
+    <value>Importera värden (VSS) …</value>
+  </data>
+  <data name="Ui_InstallAndroid" xml:space="preserve">
+    <value>Installera Android</value>
+  </data>
+  <data name="Ui_InstallApp" xml:space="preserve">
+    <value>+ Installera app</value>
+  </data>
+  <data name="Ui_InstallAppAPK" xml:space="preserve">
+    <value>Installera app (APK)</value>
+  </data>
+  <data name="Ui_InstallCyberdromeRadio" xml:space="preserve">
+    <value>Installera Cyberdrome Radio</value>
+  </data>
+  <data name="Ui_InstallMapAppInAndroidOrganic" xml:space="preserve">
+    <value>Installera kartapp i Android (Organic Maps)</value>
+  </data>
+  <data name="Ui_InstallMapAppOrganicMaps" xml:space="preserve">
+    <value>Installera kartapp (Organic Maps)</value>
+  </data>
+  <data name="Ui_InstallTestAppAndrOBD" xml:space="preserve">
+    <value>Installera testapp (AndrOBD)</value>
+  </data>
+  <data name="Ui_InstallUpdate" xml:space="preserve">
+    <value>Installera uppdatering</value>
+  </data>
+  <data name="Ui_Key" xml:space="preserve">
+    <value>nyckel</value>
+  </data>
+  <data name="Ui_Landscape" xml:space="preserve">
+    <value>Liggande</value>
+  </data>
+  <data name="Ui_Licence" xml:space="preserve">
+    <value>Licens</value>
+  </data>
+  <data name="Ui_LikeTheModeAboveButWith" xml:space="preserve">
+    <value>Som läget ovan men med Googles appar, t.ex. Google Maps (som följer GPS:en från Cyberdrome). Laddar ner Googles avbild (ca 1,4 GB) och skapar en egen virtuell bil – den vanliga påverkas inte. Play Store kräver Google-inloggning. OBS: Googles appar och avbilder är bara för utveckling enligt Googles licens och får inte spridas med Cyberdrome.</value>
+  </data>
+  <data name="Ui_Log" xml:space="preserve">
+    <value>Logg</value>
+  </data>
+  <data name="Ui_LookPerCarModel" xml:space="preserve">
+    <value>Utseende per bilmodell</value>
+  </data>
+  <data name="Ui_Loop" xml:space="preserve">
+    <value>Slinga</value>
+  </data>
+  <data name="Ui_Make" xml:space="preserve">
+    <value>Märke</value>
+  </data>
+  <data name="Ui_MakeYourOwnCarModelWith" xml:space="preserve">
+    <value>Gör en egen bilmodell med standard-PID:ar, OBDb:s tillverkarsignaler (mode 21/22) och skärm/tema från närmaste inbyggda modell.</value>
+  </data>
+  <data name="Ui_MapAndGPS" xml:space="preserve">
+    <value>Karta och GPS</value>
+  </data>
+  <data name="Ui_MapDataOpenStreetMapContributorsODbLOpenStreetMap" xml:space="preserve">
+    <value>Kartdata © OpenStreetMap-bidragsgivare (ODbL). OpenStreetMaps egna rutor får bara användas måttligt för utveckling – mer användning kräver en kommersiell eller egen kartserver.</value>
+  </data>
+  <data name="Ui_MapTiles" xml:space="preserve">
+    <value>Kartrutor:</value>
+  </data>
+  <data name="Ui_Model" xml:space="preserve">
+    <value>Modell</value>
+  </data>
+  <data name="Ui_ModelYear" xml:space="preserve">
+    <value>Årsmodell</value>
+  </data>
+  <data name="Ui_Mute" xml:space="preserve">
+    <value>🔇 Ljud av</value>
+  </data>
+  <data name="Ui_Name" xml:space="preserve">
+    <value>namn</value>
+  </data>
+  <data name="Ui_NameOfTheDrive" xml:space="preserve">
+    <value>Namn på körningen</value>
+  </data>
+  <data name="Ui_NewCarModelFromCopy" xml:space="preserve">
+    <value>Ny bilmodell från kopia</value>
+  </data>
+  <data name="Ui_Next" xml:space="preserve">
+    <value>Nästa ⏭</value>
+  </data>
+  <data name="Ui_NoRestartGoogleSEmulatorFor" xml:space="preserve">
+    <value>Utan omstart (Googles emulator, för utveckling)</value>
+  </data>
+  <data name="Ui_OBDAddressForAppsInsideThe" xml:space="preserve">
+    <value>OBD-adress för appar inne i Android-emulatorn:</value>
+  </data>
+  <data name="Ui_OBDLog" xml:space="preserve">
+    <value>OBD-logg</value>
+  </data>
+  <data name="Ui_OBDSource" xml:space="preserve">
+    <value>OBD-källa</value>
+  </data>
+  <data name="Ui_Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="Ui_On" xml:space="preserve">
+    <value>På</value>
+  </data>
+  <data name="Ui_OnCodingWith2ERequires10" xml:space="preserve">
+    <value>På: kodning med 2E kräver 10 03 och upplåsning med 27 01 / 27 02. Den förväntade nyckeln visas i OBD-loggen. Formeln är påhittad och gäller bara de simulerade styrdonen.</value>
+  </data>
+  <data name="Ui_Open" xml:space="preserve">
+    <value>Öppna</value>
+  </data>
+  <data name="Ui_OpenTheReport" xml:space="preserve">
+    <value>Öppna rapporten</value>
+  </data>
+  <data name="Ui_OpenTheReportsFolder" xml:space="preserve">
+    <value>Öppna mappen med rapporter</value>
+  </data>
+  <data name="Ui_OurExampleAppRadioSteeringWheel" xml:space="preserve">
+    <value>Vår exempelapp: radio, rattknappar, live OBD och volym efter fart. Byggs från android\CyberdromeRadio.</value>
+  </data>
+  <data name="Ui_PIDsHex" xml:space="preserve">
+    <value>PID:ar (hex)</value>
+  </data>
+  <data name="Ui_Play" xml:space="preserve">
+    <value>▶ Spela upp</value>
+  </data>
+  <data name="Ui_Portrait" xml:space="preserve">
+    <value>Stående</value>
+  </data>
+  <data name="Ui_Previous" xml:space="preserve">
+    <value>⏮ Föregående</value>
+  </data>
+  <data name="Ui_QuickPicksCommonTroubleCodes" xml:space="preserve">
+    <value>Snabbval – vanliga felkoder:</value>
+  </data>
+  <data name="Ui_ReadRealCar" xml:space="preserve">
+    <value>Läs riktig bil</value>
+  </data>
+  <data name="Ui_RealAdapterBridgeAppsToThe" xml:space="preserve">
+    <value>Riktig adapter (vidarekoppla appar till bilen)</value>
+  </data>
+  <data name="Ui_RecordWhileYouMoveTheSliders" xml:space="preserve">
+    <value>Spela in när du drar i reglagen, eller spela upp en sparad körning. Under uppspelning får OBD (och Android) exakt samma värden varje gång.</value>
+  </data>
+  <data name="Ui_Refresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="Ui_Rename" xml:space="preserve">
+    <value>Byt namn</value>
+  </data>
+  <data name="Ui_Request" xml:space="preserve">
+    <value>fråga</value>
+  </data>
+  <data name="Ui_RequestFromTheAppReplyFrom" xml:space="preserve">
+    <value>→ fråga från appen   ← svar från den virtuella bilen</value>
+  </data>
+  <data name="Ui_RequireSecurityKeyUDS27" xml:space="preserve">
+    <value>Kräv säkerhetsnyckel (UDS 27)</value>
+  </data>
+  <data name="Ui_RequiresARestartOfTheComputer" xml:space="preserve">
+    <value>Kräver en omstart av datorn första gången, om Windows funktion Virtual Machine Platform inte redan är påslagen. Sedan snabbt varje gång.</value>
+  </data>
+  <data name="Ui_ResetToFactory" xml:space="preserve">
+    <value>Återställ till fabrik</value>
+  </data>
+  <data name="Ui_Response" xml:space="preserve">
+    <value>svar</value>
+  </data>
+  <data name="Ui_RestartApp" xml:space="preserve">
+    <value>Starta om app</value>
+  </data>
+  <data name="Ui_RunATestCaseWhileThe" xml:space="preserve">
+    <value>Kör ett testfall medan appen i Android (eller en telefon via Wi-Fi/Bluetooth) är ansluten till OBD. Cyberdrome ändrar bilens värden och felkoder enligt stegen och kontrollerar sedan i OBD-trafiken att appen gjorde rätt. Resultatet sparas som rapport (HTML och JSON).</value>
+  </data>
+  <data name="Ui_RunTheTest" xml:space="preserve">
+    <value>▶ Kör testet</value>
+  </data>
+  <data name="Ui_RunsGoogleSAndroidAutomotiveEmulator" xml:space="preserve">
+    <value>Kör Googles Android Automotive-emulator direkt i Windows med Windows Hypervisor Platform. Ingen omstart behövs och den är snabb. Appar i emulatorn når OBD på 10.0.2.2:35000. OBS: Googles emulatoravbilder hämtas av dig och får inte spridas med Cyberdrome.</value>
+  </data>
+  <data name="Ui_Save" xml:space="preserve">
+    <value>Spara</value>
+  </data>
+  <data name="Ui_ScanBluetooth" xml:space="preserve">
+    <value>Sök Bluetooth</value>
+  </data>
+  <data name="Ui_Screen" xml:space="preserve">
+    <value>Skärm</value>
+  </data>
+  <data name="Ui_ScreenPreset" xml:space="preserve">
+    <value>Skärmförval</value>
+  </data>
+  <data name="Ui_Search" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="Ui_SearchCarModelsAndDecodeVINs" xml:space="preserve">
+    <value>Sök bilmodeller och avkoda VIN. Databasen är en lokal fil (%AppData%\Cyberdrome\bildatabas.db) som du fyller från öppna källor: NHTSA vPIC (märken, modeller per år, VIN – mest bilar sålda i USA), Wikidata (modellnamn även för europeiska bilar) och OBDb (tillverkarsignaler per modell). Det som hämtats fungerar utan internet.</value>
+  </data>
+  <data name="Ui_SearchEGToyotaRav4" xml:space="preserve">
+    <value>Sök, t.ex. toyota rav4</value>
+  </data>
+  <data name="Ui_SendGPSToAndroid" xml:space="preserve">
+    <value>Skicka GPS till Android</value>
+  </data>
+  <data name="Ui_Settings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="Ui_ShowLiveValues" xml:space="preserve">
+    <value>Visa livevärden</value>
+  </data>
+  <data name="Ui_ShowTheAndroidScreen" xml:space="preserve">
+    <value>Visa Android-skärmen</value>
+  </data>
+  <data name="Ui_ShowTheScreen" xml:space="preserve">
+    <value>Visa skärmen</value>
+  </data>
+  <data name="Ui_SizeAndResolutionOfTheCar" xml:space="preserve">
+    <value>Storlek och upplösning på bilradions/surfplattans skärm. Byts direkt i emulatorn och sparas till nästa start.</value>
+  </data>
+  <data name="Ui_Skin" xml:space="preserve">
+    <value>Skal:</value>
+  </data>
+  <data name="Ui_Speed" xml:space="preserve">
+    <value>Hastighet</value>
+  </data>
+  <data name="Ui_StandardFormatsASAMODX22" xml:space="preserve">
+    <value>Standardformat: ASAM ODX 2.2 (.pdx/.odx-d, ISO 22901) för styrdon, kodning och felkoder · COVESA VSS (JSON) för bilens värden · Torque/Car Scanner-CSV för egna PID:ar · felkodstexter som CSV (P0300;Text). Inbyggda modeller ändras inte – import av CSV skapar en kopia.</value>
+  </data>
+  <data name="Ui_Start" xml:space="preserve">
+    <value>Starta</value>
+  </data>
+  <data name="Ui_StartAndroid" xml:space="preserve">
+    <value>Starta Android</value>
+  </data>
+  <data name="Ui_StartValues" xml:space="preserve">
+    <value>Startvärden</value>
+  </data>
+  <data name="Ui_SteeringWheelButtons" xml:space="preserve">
+    <value>Rattknappar:</value>
+  </data>
+  <data name="Ui_Stop" xml:space="preserve">
+    <value>Stoppa</value>
+  </data>
+  <data name="Ui_Stop2" xml:space="preserve">
+    <value>⏹ Stoppa</value>
+  </data>
+  <data name="Ui_TakeScreenshot" xml:space="preserve">
+    <value>Ta skärmbild</value>
+  </data>
+  <data name="Ui_TestCases" xml:space="preserve">
+    <value>Testfall</value>
+  </data>
+  <data name="Ui_TheCarRightNow" xml:space="preserve">
+    <value>Bilen just nu</value>
+  </data>
+  <data name="Ui_TheCarSScreenIsShown" xml:space="preserve">
+    <value>Här visas bilens skärm när Android körs. Klicka och dra direkt på skärmen.</value>
+  </data>
+  <data name="Ui_TheComputerNeedsToRestart" xml:space="preserve">
+    <value>En omstart av datorn behövs</value>
+  </data>
+  <data name="Ui_TheFirstInstallationDownloadsSeveralGB" xml:space="preserve">
+    <value>Första installationen laddar ner flera GB och kan ta en stund. Läget väljs under Inställningar.</value>
+  </data>
+  <data name="Ui_TheSixBuiltInCarModels" xml:space="preserve">
+    <value>De sex inbyggda bilmodellerna är skrivskyddade. Gör en kopia för att ändra namn, VIN, PID:ar, startvärden, styrdon, kodning, dolda funktioner, felkoder, skärm och tema. Dela en bilmodell som .cbs-fil (med eget tema, skal och testfall). Delade filer får inte innehålla riktiga tillverkares seed/key-algoritmer.</value>
+  </data>
+  <data name="Ui_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Ui_Theme2" xml:space="preserve">
+    <value>Tema:</value>
+  </data>
+  <data name="Ui_ThemeInAndroid" xml:space="preserve">
+    <value>Tema i Android:</value>
+  </data>
+  <data name="Ui_ThemeTheHomeScreenInsideAndroid" xml:space="preserve">
+    <value>Tema = startskärmen inne i Android (Cyberdrome Launcher). Skal = ramen/instrumentbrädan runt skärmen. Valen sparas per bilmodell; standard är bilens eget. Formerna och färgerna är inspirerade av respektive märke men ritade av oss – inga logotyper eller märkesgrafik.</value>
+  </data>
+  <data name="Ui_TroubleCodeTextsCSV" xml:space="preserve">
+    <value>Felkodstexter (CSV) …</value>
+  </data>
+  <data name="Ui_TroubleCodes" xml:space="preserve">
+    <value>Felkoder</value>
+  </data>
+  <data name="Ui_TroubleCodesAtStart" xml:space="preserve">
+    <value>Felkoder vid start</value>
+  </data>
+  <data name="Ui_TurnOnOrOffAnOBD" xml:space="preserve">
+    <value>Slå på eller av. En OBD-app som kodar bilen ser samma ändringar (UDS 22/2E).</value>
+  </data>
+  <data name="Ui_Updates" xml:space="preserve">
+    <value>Uppdateringar</value>
+  </data>
+  <data name="Ui_UploadYourOwnSkin" xml:space="preserve">
+    <value>Ladda upp eget skal …</value>
+  </data>
+  <data name="Ui_UploadYourOwnTheme" xml:space="preserve">
+    <value>Ladda upp eget tema …</value>
+  </data>
+  <data name="Ui_VIN17Characters" xml:space="preserve">
+    <value>VIN (17 tecken)</value>
+  </data>
+  <data name="Ui_VirtualCar" xml:space="preserve">
+    <value>Virtuell bil</value>
+  </data>
+  <data name="Ui_VirtualOBD" xml:space="preserve">
+    <value>Virtuell OBD</value>
+  </data>
+  <data name="Ui_WarningWritingCanChangeOrDamage" xml:space="preserve">
+    <value>Varning: skrivning kan ändra eller skada styrdon. Ha motorn avstängd, tändningen på och en stabil batterispänning (minst 12,0 V – annars stoppas skrivningen). Varje skrivning visar en bekräftelse med styrdon, tjänst och data, och originalvärdet sparas först i %AppData%\Cyberdrome\backup. Cyberdrome räknar aldrig ut tillverkares säkerhetsnycklar (UDS 27) – nyckeln måste komma från appen. Stängs av när adaptern kopplas från.</value>
+  </data>
+  <data name="Ui_Width" xml:space="preserve">
+    <value>Bredd</value>
+  </data>
+  <data name="Ui_Year" xml:space="preserve">
+    <value>År</value>
+  </data>
+  <data name="Ui_YouCanAlreadyTestOBDConnect" xml:space="preserve">
+    <value>Redan nu kan du testa OBD: anslut en OBD-app (t.ex. i en Android-telefon på samma nätverk) till adressen nedan som en Wi-Fi-dongel.</value>
+  </data>
+  <data name="VpicClient_NoReply" xml:space="preserve">
+    <value>Inget svar</value>
+  </data>
+  <data name="WikidataClient_NoCarManufacturer0FoundIn" xml:space="preserve">
+    <value>Hittade ingen biltillverkare "{0}" i Wikidata.</value>
+  </data>
+  <data name="WriteFilter_EmptyRequest" xml:space="preserve">
+    <value>tom fråga</value>
+  </data>
+  <data name="WriteFilter_KWP1AReadECUIdentification" xml:space="preserve">
+    <value>KWP 1A läs styrdons-id</value>
+  </data>
+  <data name="WriteFilter_KWP21ReadDataLocalId" xml:space="preserve">
+    <value>KWP 21 läs data (lokalt id)</value>
+  </data>
+  <data name="WriteFilter_KWP3BWriteDataLocalId" xml:space="preserve">
+    <value>KWP 3B skriv data (lokalt id)</value>
+  </data>
+  <data name="WriteFilter_OBD01CurrentValues" xml:space="preserve">
+    <value>OBD 01 aktuella värden</value>
+  </data>
+  <data name="WriteFilter_OBD02FreezeFrame" xml:space="preserve">
+    <value>OBD 02 frysta värden</value>
+  </data>
+  <data name="WriteFilter_OBD03ReadTroubleCodes" xml:space="preserve">
+    <value>OBD 03 läs felkoder</value>
+  </data>
+  <data name="WriteFilter_OBD04ClearTroubleCodes" xml:space="preserve">
+    <value>OBD 04 radera felkoder</value>
+  </data>
+  <data name="WriteFilter_OBD05OxygenSensorTestRead" xml:space="preserve">
+    <value>OBD 05 lambdasondtest (läs)</value>
+  </data>
+  <data name="WriteFilter_OBD07PendingTroubleCodes" xml:space="preserve">
+    <value>OBD 07 väntande felkoder</value>
+  </data>
+  <data name="WriteFilter_OBD08ControlOnBoardSystem" xml:space="preserve">
+    <value>OBD 08 styr system i bilen</value>
+  </data>
+  <data name="WriteFilter_OBD0APermanentTroubleCodes" xml:space="preserve">
+    <value>OBD 0A permanenta felkoder</value>
+  </data>
+  <data name="WriteFilter_UDS10ChangeDiagnosticSession" xml:space="preserve">
+    <value>UDS 10 byt diagnossession</value>
+  </data>
+  <data name="WriteFilter_UDS11ResetControlUnit" xml:space="preserve">
+    <value>UDS 11 starta om styrdon</value>
+  </data>
+  <data name="WriteFilter_UDS14ClearTroubleCodes" xml:space="preserve">
+    <value>UDS 14 radera felkoder</value>
+  </data>
+  <data name="WriteFilter_UDS19ReadDTCInformation" xml:space="preserve">
+    <value>UDS 19 läs felkodsinfo</value>
+  </data>
+  <data name="WriteFilter_UDS22ReadDataDID" xml:space="preserve">
+    <value>UDS 22 läs data (DID)</value>
+  </data>
+  <data name="WriteFilter_UDS23ReadMemory" xml:space="preserve">
+    <value>UDS 23 läs minne</value>
+  </data>
+  <data name="WriteFilter_UDS27SecurityAccess" xml:space="preserve">
+    <value>UDS 27 säkerhetsåtkomst</value>
+  </data>
+  <data name="WriteFilter_UDS28CommunicationControl" xml:space="preserve">
+    <value>UDS 28 styr kommunikation</value>
+  </data>
+  <data name="WriteFilter_UDS2CDefineData" xml:space="preserve">
+    <value>UDS 2C definiera data</value>
+  </data>
+  <data name="WriteFilter_UDS2EWriteDataDID" xml:space="preserve">
+    <value>UDS 2E skriv data (DID)</value>
+  </data>
+  <data name="WriteFilter_UDS2FInputOutputControl" xml:space="preserve">
+    <value>UDS 2F styr in-/utgång</value>
+  </data>
+  <data name="WriteFilter_UDS36TransferData" xml:space="preserve">
+    <value>UDS 36 dataöverföring</value>
+  </data>
+  <data name="WriteFilter_UDS37RequestTransferExit" xml:space="preserve">
+    <value>UDS 37 avsluta överföring</value>
+  </data>
+  <data name="WriteFilter_UDS3DWriteMemory" xml:space="preserve">
+    <value>UDS 3D skriv minne</value>
+  </data>
+  <data name="WriteFilter_UDS3ETesterPresent" xml:space="preserve">
+    <value>UDS 3E tester present</value>
+  </data>
+  <data name="WriteFilter_UDS85ControlDTCSetting" xml:space="preserve">
+    <value>UDS 85 styr felkodsinställning</value>
+  </data>
+  <data name="WriteFilter_UnknownService0x0X2Counted" xml:space="preserve">
+    <value>okänd tjänst 0x{0:X2} (räknas som skrivning)</value>
+  </data>
+</root>

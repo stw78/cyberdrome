@@ -81,7 +81,7 @@ public sealed class TestCase
     };
 
     public string ToJson() => JsonSerializer.Serialize(this, Json);
-    public static TestCase FromJson(string json) => JsonSerializer.Deserialize<TestCase>(json, Json) ?? throw new InvalidDataException("Tomt testfall.");
+    public static TestCase FromJson(string json) => JsonSerializer.Deserialize<TestCase>(json, Json) ?? throw new InvalidDataException(L.T("TestCase_EmptyTestCase"));
 
     public static readonly string[] CheckTypes = ["requestRate", "requestSeen", "responseContains", "noErrors"];
     public static readonly string[] StepActions = ["set", "addDtc", "removeDtc", "clearDtcs", "note"];
@@ -89,24 +89,24 @@ public sealed class TestCase
     public IReadOnlyList<string> Validate()
     {
         var e = new List<string>();
-        if (string.IsNullOrWhiteSpace(Id)) e.Add("id saknas.");
-        if (string.IsNullOrWhiteSpace(Name)) e.Add("name saknas.");
-        if (DurationSeconds is <= 0 or > 3600) e.Add("durationSeconds ska vara 1–3600.");
+        if (string.IsNullOrWhiteSpace(Id)) e.Add(L.T("TestCase_IdIsMissing"));
+        if (string.IsNullOrWhiteSpace(Name)) e.Add(L.T("TestCase_NameIsMissing"));
+        if (DurationSeconds is <= 0 or > 3600) e.Add(L.T("TestCase_DurationSecondsMustBe13600"));
         for (int i = 0; i < Steps.Count; i++)
         {
             var s = Steps[i];
-            if (!StepActions.Contains(s.Action)) e.Add($"steg {i + 1}: okänd action \"{s.Action}\".");
-            if (s.At < 0 || s.At > DurationSeconds) e.Add($"steg {i + 1}: at måste ligga inom testets tid.");
-            if (s.Action is "addDtc" or "removeDtc" && string.IsNullOrWhiteSpace(s.Dtc)) e.Add($"steg {i + 1}: dtc saknas.");
+            if (!StepActions.Contains(s.Action)) e.Add(L.F("TestCase_Step0UnknownAction1", i + 1, s.Action));
+            if (s.At < 0 || s.At > DurationSeconds) e.Add(L.F("TestCase_Step0AtMustBeWithin", i + 1));
+            if (s.Action is "addDtc" or "removeDtc" && string.IsNullOrWhiteSpace(s.Dtc)) e.Add(L.F("TestCase_Step0DtcIsMissing", i + 1));
         }
         foreach (var c in Checks)
         {
-            if (!CheckTypes.Contains(c.Type)) e.Add($"kontroll \"{c.Name}\": okänd typ \"{c.Type}\".");
-            if (c.Type != "noErrors" && string.IsNullOrWhiteSpace(c.Command)) e.Add($"kontroll \"{c.Name}\": command saknas.");
-            if (c.Type == "responseContains" && string.IsNullOrWhiteSpace(c.Text)) e.Add($"kontroll \"{c.Name}\": text saknas.");
-            if (c.AfterStep is { } a && (a < 0 || a >= Steps.Count)) e.Add($"kontroll \"{c.Name}\": afterStep finns inte.");
+            if (!CheckTypes.Contains(c.Type)) e.Add(L.F("TestCase_Check0UnknownType1", c.Name, c.Type));
+            if (c.Type != "noErrors" && string.IsNullOrWhiteSpace(c.Command)) e.Add(L.F("TestCase_Check0CommandIsMissing", c.Name));
+            if (c.Type == "responseContains" && string.IsNullOrWhiteSpace(c.Text)) e.Add(L.F("TestCase_Check0TextIsMissing", c.Name));
+            if (c.AfterStep is { } a && (a < 0 || a >= Steps.Count)) e.Add(L.F("TestCase_Check0AfterStepDoesNotExist", c.Name));
         }
-        if (Checks.Count == 0) e.Add("minst en kontroll behövs.");
+        if (Checks.Count == 0) e.Add(L.T("TestCase_AtLeastOneCheckIsNeeded"));
         return e;
     }
 }
@@ -118,56 +118,56 @@ public static class BuiltInTestCases
     [
         new TestCase
         {
-            Id = "grund-pid", Name = "Grundläggande PID:ar",
-            Description = "Appen ska läsa hastighet och varvtal ofta (minst varannan sekund) utan felsvar. Värdena ändras under testet.",
+            Id = "grund-pid", Name = L.T("TestCase_BasicPIDs"),
+            Description = L.T("TestCase_TheAppShouldReadSpeedAnd"),
             Values = new() { Speed = 50, Rpm = 2000, Coolant = 88, Fuel = 60, Ignition = true },
             DurationSeconds = 20,
             Steps =
             [
-                new() { At = 0, Action = "note", Text = "Ha appen öppen och ansluten till OBD (t.ex. Cyberdrome Radio eller startskärmen)." },
+                new() { At = 0, Action = "note", Text = L.T("TestCase_KeepTheAppOpenAndConnected") },
                 new() { At = 8, Action = "set", Values = new() { Speed = 90, Rpm = 3000 } },
                 new() { At = 14, Action = "set", Values = new() { Speed = 30, Rpm = 1500 } },
             ],
             Checks =
             [
-                new() { Type = "requestRate", Name = "Hastighet (01 0D) minst varannan sekund", Command = "010D", MaxGapSeconds = 2 },
-                new() { Type = "requestRate", Name = "Varvtal (01 0C) minst varannan sekund", Command = "010C", MaxGapSeconds = 2 },
-                new() { Type = "responseContains", Name = "Appen fick 90 km/h efter steg 2", Command = "010D", Text = "410D5A", AfterStep = 1 },
-                new() { Type = "noErrors", Name = "Inga felsvar (? eller NO DATA)" },
+                new() { Type = "requestRate", Name = L.T("TestCase_Speed010DAtLeastEvery"), Command = "010D", MaxGapSeconds = 2 },
+                new() { Type = "requestRate", Name = L.T("TestCase_EngineSpeed010CAtLeast"), Command = "010C", MaxGapSeconds = 2 },
+                new() { Type = "responseContains", Name = L.T("TestCase_TheAppGot90KmH"), Command = "010D", Text = "410D5A", AfterStep = 1 },
+                new() { Type = "noErrors", Name = L.T("TestCase_NoErrorRepliesOrNODATA") },
             ],
         },
         new TestCase
         {
-            Id = "felkoder", Name = "Felkoder: läs och radera",
-            Description = "Cyberdrome tänder P0300. Appen ska läsa felkoderna (mode 03) och se P0300. Radera gärna i appen (mode 04).",
+            Id = "felkoder", Name = L.T("TestCase_TroubleCodesReadAndClear"),
+            Description = L.T("TestCase_CyberdromeTurnsOnP0300TheApp"),
             Values = new() { Speed = 0, Rpm = 800, Ignition = true },
             DurationSeconds = 30,
             Steps =
             [
                 new() { At = 0, Action = "clearDtcs" },
-                new() { At = 3, Action = "addDtc", Dtc = "P0300", Text = "Felkod P0300 är nu aktiv – läs felkoder i appen." },
-                new() { At = 20, Action = "note", Text = "Radera felkoderna i appen (valfritt)." },
+                new() { At = 3, Action = "addDtc", Dtc = "P0300", Text = L.T("TestCase_TroubleCodeP0300IsNowActive") },
+                new() { At = 20, Action = "note", Text = L.T("TestCase_ClearTheTroubleCodesInThe") },
             ],
             Checks =
             [
-                new() { Type = "requestSeen", Name = "Appen läste felkoder (03) efter att P0300 tändes", Command = "03", AfterStep = 1 },
-                new() { Type = "responseContains", Name = "Svaret innehöll P0300 (03 00)", Command = "03", Text = "0300", AfterStep = 1 },
-                new() { Type = "requestSeen", Name = "Appen raderade felkoder (04)", Command = "04", Optional = true },
+                new() { Type = "requestSeen", Name = L.T("TestCase_TheAppReadTroubleCodes03"), Command = "03", AfterStep = 1 },
+                new() { Type = "responseContains", Name = L.T("TestCase_TheReplyContainedP03000300"), Command = "03", Text = "0300", AfterStep = 1 },
+                new() { Type = "requestSeen", Name = L.T("TestCase_TheAppClearedTroubleCodes04"), Command = "04", Optional = true },
             ],
         },
         new TestCase
         {
-            Id = "uds-kodning", Name = "Kodning via UDS 22",
-            Description = "Appen ska välja instrumentet (ATSH714) och läsa kodningen med 22 06 00 (och gärna VIN med 22 F1 90).",
+            Id = "uds-kodning", Name = L.T("TestCase_CodingViaUDS22"),
+            Description = L.T("TestCase_TheAppShouldSelectTheInstrument"),
             Profile = "vw-golf8",
             DurationSeconds = 30,
-            Steps = [new() { At = 0, Action = "note", Text = "Läs kodning i appen (ATSH714, 220600)." }],
+            Steps = [new() { At = 0, Action = "note", Text = L.T("TestCase_ReadTheCodingInTheApp") }],
             Checks =
             [
-                new() { Type = "requestSeen", Name = "Appen valde styrdon med ATSH", Command = "ATSH714" },
-                new() { Type = "responseContains", Name = "Kodningen lästes (62 06 00 …)", Command = "220600", Text = "620600" },
-                new() { Type = "requestSeen", Name = "VIN lästes med 22 F1 90", Command = "22F190", Optional = true },
-                new() { Type = "noErrors", Name = "Inga felsvar" },
+                new() { Type = "requestSeen", Name = L.T("TestCase_TheAppSelectedAControlUnit"), Command = "ATSH714" },
+                new() { Type = "responseContains", Name = L.T("TestCase_TheCodingWasRead6206"), Command = "220600", Text = "620600" },
+                new() { Type = "requestSeen", Name = L.T("TestCase_TheVINWasReadWith22"), Command = "22F190", Optional = true },
+                new() { Type = "noErrors", Name = L.T("TestCase_NoErrorReplies") },
             ],
         },
     ];

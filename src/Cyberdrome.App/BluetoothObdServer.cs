@@ -47,12 +47,12 @@ public sealed class BluetoothObdServer : IAsyncDisposable
     {
         if (IsRunning) return;
         var adapter = await BluetoothAdapter.GetDefaultAsync()
-                      ?? throw new InvalidOperationException("Datorn har ingen Bluetooth-adapter.");
+                      ?? throw new InvalidOperationException(L.T("BleObdServer_TheComputerHasNoBluetoothAdapter"));
         if (!adapter.IsClassicSupported)
-            throw new InvalidOperationException("Datorns Bluetooth stöder inte klassisk Bluetooth (SPP).");
+            throw new InvalidOperationException(L.T("BluetoothObdServer_TheComputerSBluetoothDoesNot"));
         var radio = await adapter.GetRadioAsync();
         if (radio is not null && radio.State != Windows.Devices.Radios.RadioState.On)
-            throw new InvalidOperationException("Bluetooth är avstängt i Windows. Slå på det i Inställningar → Bluetooth.");
+            throw new InvalidOperationException(L.T("BluetoothObdServer_BluetoothIsTurnedOffInWindows"));
         // Windows visar datorns namn (enhetsnamnet) för andra Bluetooth-enheter.
         AdapterName = Environment.MachineName;
 
@@ -100,12 +100,12 @@ public sealed class BluetoothObdServer : IAsyncDisposable
     private async void OnConnection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
     {
         var socket = args.Socket;
-        var device = socket.Information.RemoteHostName?.DisplayName ?? "okänd enhet";
+        var device = socket.Information.RemoteHostName?.DisplayName ?? L.T("BluetoothObdServer_UnknownDevice");
         var client = "Bluetooth: " + device;
         lock (_sockets) _sockets.Add(socket);
         lock (_connected) _connected.Add(device);
         StatusChanged?.Invoke(this, EventArgs.Empty);
-        Traffic?.Invoke(this, new(DateTime.Now, client, false, "Ansluten via Bluetooth"));
+        Traffic?.Invoke(this, new(DateTime.Now, client, false, L.T("BluetoothObdServer_ConnectedViaBluetooth")));
         var ct = _cts?.Token ?? CancellationToken.None;
         try
         {
@@ -119,7 +119,7 @@ public sealed class BluetoothObdServer : IAsyncDisposable
             lock (_sockets) _sockets.Remove(socket);
             lock (_connected) _connected.Remove(device);
             try { socket.Dispose(); } catch { }
-            Traffic?.Invoke(this, new(DateTime.Now, client, false, "Bluetooth-anslutningen stängdes"));
+            Traffic?.Invoke(this, new(DateTime.Now, client, false, L.T("BluetoothObdServer_TheBluetoothConnectionWasClosed")));
             StatusChanged?.Invoke(this, EventArgs.Empty);
         }
     }

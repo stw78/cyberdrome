@@ -28,7 +28,7 @@ public static class AdapterDiscovery
         {
             // Hoppa över Cyberdromes egen virtuella dongel.
             if (d.Name.Contains("Cyberdrome", StringComparison.OrdinalIgnoreCase)) continue;
-            list.Add(new AdapterDevice(d.Name.Length > 0 ? d.Name : "Okänd SPP-enhet", AdapterDeviceKind.Spp, d.Id, 0, null));
+            list.Add(new AdapterDevice(d.Name.Length > 0 ? d.Name : L.T("RealAdapterBluetooth_UnknownSPPDevice"), AdapterDeviceKind.Spp, d.Id, 0, null));
         }
         return list;
     }
@@ -68,7 +68,7 @@ public sealed class RfcommAdapterTransport(AdapterDevice device) : IAdapterTrans
 
     public async Task<Stream> OpenAsync(CancellationToken ct)
     {
-        var svc = await RfcommDeviceService.FromIdAsync(device.Id) ?? throw new IOException("Bluetooth-tjänsten hittades inte (är adaptern på och parkopplad?).");
+        var svc = await RfcommDeviceService.FromIdAsync(device.Id) ?? throw new IOException(L.T("RealAdapterBluetooth_TheBluetoothServiceWasNotFound"));
         _socket = new StreamSocket();
         await _socket.ConnectAsync(svc.ConnectionHostName, svc.ConnectionServiceName, SocketProtectionLevel.BluetoothEncryptionAllowNullAuthentication).AsTask(ct);
         return new DuplexStream(_socket.InputStream.AsStreamForRead(0), _socket.OutputStream.AsStreamForWrite(0));
@@ -99,16 +99,16 @@ public sealed class BleAdapterTransport(AdapterDevice device, Action<string>? lo
 
     public async Task<Stream> OpenAsync(CancellationToken ct)
     {
-        _dev = await BluetoothLEDevice.FromBluetoothAddressAsync(device.Address).AsTask(ct) ?? throw new IOException("BLE-enheten svarar inte.");
+        _dev = await BluetoothLEDevice.FromBluetoothAddressAsync(device.Address).AsTask(ct) ?? throw new IOException(L.T("RealAdapterBluetooth_TheBLEDeviceDoesNotAnswer"));
         var services = await _dev.GetGattServicesAsync(BluetoothCacheMode.Uncached).AsTask(ct);
-        if (services.Status != GattCommunicationStatus.Success) throw new IOException("Kunde inte läsa BLE-tjänsterna: " + services.Status);
+        if (services.Status != GattCommunicationStatus.Success) throw new IOException(L.T("RealAdapterBluetooth_CouldNotReadTheBLEServices") + services.Status);
         (GattCharacteristic Notify, GattCharacteristic Write)? pick = null;
         int bestRank = int.MaxValue;
         foreach (var s in services.Services)
         {
             var chars = await s.GetCharacteristicsAsync(BluetoothCacheMode.Uncached).AsTask(ct);
-            if (chars.Status != GattCommunicationStatus.Success) { Services.Add($"Tjänst {Short(s.Uuid)}: kännetecken går inte att läsa ({chars.Status})"); continue; }
-            Services.Add($"Tjänst {Short(s.Uuid)}: " + string.Join(", ", chars.Characteristics.Select(c => $"{Short(c.Uuid)} [{Props(c.CharacteristicProperties)}]")));
+            if (chars.Status != GattCommunicationStatus.Success) { Services.Add(L.F("RealAdapterBluetooth_Service0CharacteristicsCannotBeRead", Short(s.Uuid), chars.Status)); continue; }
+            Services.Add(L.F("RealAdapterBluetooth_Service0", Short(s.Uuid)) + string.Join(", ", chars.Characteristics.Select(c => $"{Short(c.Uuid)} [{Props(c.CharacteristicProperties)}]")));
             var notify = chars.Characteristics.FirstOrDefault(c => c.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify) || c.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate));
             var write = chars.Characteristics.FirstOrDefault(c => c.CharacteristicProperties.HasFlag(GattCharacteristicProperties.WriteWithoutResponse) || c.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Write));
             if (notify is null || write is null) continue;
@@ -118,15 +118,15 @@ public sealed class BleAdapterTransport(AdapterDevice device, Action<string>? lo
             if (rank < bestRank) { bestRank = rank; pick = (notify, write); }
         }
         foreach (var l in Services) log?.Invoke(l);
-        if (pick is null) throw new NotElmException("Ingen tjänst med både notify och skriv hittades.");
+        if (pick is null) throw new NotElmException(L.T("RealAdapterBluetooth_NoServiceWithBothNotifyAnd"));
         var (n, w) = pick.Value;
-        log?.Invoke($"Använder {Short(n.Service.Uuid)}: svar {Short(n.Uuid)}, kommandon {Short(w.Uuid)}");
+        log?.Invoke(L.F("RealAdapterBluetooth_Using0Replies1Commands2", Short(n.Service.Uuid), Short(n.Uuid), Short(w.Uuid)));
         _stream = new BleStream(w);
         n.ValueChanged += (_, e) => _stream.Push(e.CharacteristicValue.ToArray());
         var cccd = n.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify)
             ? GattClientCharacteristicConfigurationDescriptorValue.Notify : GattClientCharacteristicConfigurationDescriptorValue.Indicate;
         var st = await n.WriteClientCharacteristicConfigurationDescriptorAsync(cccd).AsTask(ct);
-        if (st != GattCommunicationStatus.Success) throw new IOException("Kunde inte slå på notiser: " + st);
+        if (st != GattCommunicationStatus.Success) throw new IOException(L.T("RealAdapterBluetooth_CouldNotTurnOnNotifications") + st);
         return _stream;
     }
 
@@ -139,9 +139,9 @@ public sealed class BleAdapterTransport(AdapterDevice device, Action<string>? lo
     private static string Props(GattCharacteristicProperties p)
     {
         var l = new List<string>();
-        if (p.HasFlag(GattCharacteristicProperties.Read)) l.Add("läs");
-        if (p.HasFlag(GattCharacteristicProperties.Write)) l.Add("skriv");
-        if (p.HasFlag(GattCharacteristicProperties.WriteWithoutResponse)) l.Add("skriv-utan-svar");
+        if (p.HasFlag(GattCharacteristicProperties.Read)) l.Add(L.T("RealAdapterBluetooth_Read"));
+        if (p.HasFlag(GattCharacteristicProperties.Write)) l.Add(L.T("Ble_PropWrite"));
+        if (p.HasFlag(GattCharacteristicProperties.WriteWithoutResponse)) l.Add(L.T("Ble_PropWriteNoResponse"));
         if (p.HasFlag(GattCharacteristicProperties.Notify)) l.Add("notify");
         if (p.HasFlag(GattCharacteristicProperties.Indicate)) l.Add("indicate");
         return string.Join("/", l);
@@ -180,7 +180,7 @@ public sealed class BleAdapterTransport(AdapterDevice device, Action<string>? lo
             {
                 var chunk = buffer.Slice(i, Math.Min(20, buffer.Length - i)).ToArray();
                 var st = await write.WriteValueAsync(chunk.AsBuffer(), opt).AsTask(ct);
-                if (st != GattCommunicationStatus.Success) throw new IOException("BLE-skrivning misslyckades: " + st);
+                if (st != GattCommunicationStatus.Success) throw new IOException(L.T("RealAdapterBluetooth_BLEWriteFailed") + st);
             }
         }
 

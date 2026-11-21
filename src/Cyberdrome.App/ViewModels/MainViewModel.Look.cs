@@ -42,16 +42,16 @@ public sealed partial class MainViewModel
     private void ReloadLookOptions()
     {
         ThemeOptions.Clear();
-        ThemeOptions.Add(new(BuiltInThemes.CarDefault, "Bilens eget tema (standard)"));
+        ThemeOptions.Add(new(BuiltInThemes.CarDefault, L.T("Look_TheCarSOwnThemeDefault")));
         foreach (var t in BuiltInThemes.All) ThemeOptions.Add(new(t.Id, t.Name));
         foreach (var t in _themeStore.LoadAll()) ThemeOptions.Add(new(t.Id, "Eget: " + t.Name));
-        ThemeOptions.Add(new(BuiltInThemes.Off, "Av – Androids vanliga startskärm"));
+        ThemeOptions.Add(new(BuiltInThemes.Off, L.T("Look_OffAndroidSNormalHomeScreen")));
 
         SkinOptions.Clear();
-        SkinOptions.Add(new(BuiltInSkins.CarDefault, "Bilens eget skal (standard)"));
+        SkinOptions.Add(new(BuiltInSkins.CarDefault, L.T("Look_TheCarSOwnSkinDefault")));
         foreach (var s in BuiltInSkins.All) SkinOptions.Add(new(s.Id, s.Name));
         foreach (var s in _skinStore.LoadAll()) SkinOptions.Add(new(s.Id, "Eget: " + s.Name));
-        SkinOptions.Add(new(BuiltInSkins.None, "Inget skal"));
+        SkinOptions.Add(new(BuiltInSkins.None, L.T("Look_NoSkin")));
         OnPropertyChanged(nameof(SelectedThemeOption));
         OnPropertyChanged(nameof(SelectedSkinOption));
     }
@@ -130,14 +130,14 @@ public sealed partial class MainViewModel
 
             if (_android is not EmulatorVm emu || !AndroidRunning)
             {
-                LookStatus = "Temat används när Android körs (läget Utan omstart eller Google-appar).";
+                LookStatus = L.T("Look_TheThemeIsUsedWhenAndroid");
                 return;
             }
 
             if (themeId == BuiltInThemes.Off)
             {
                 await emu.ResetHomeAsync();
-                LookStatus = "Androids vanliga startskärm.";
+                LookStatus = L.T("Look_AndroidSNormalHomeScreen");
                 return;
             }
 
@@ -148,10 +148,10 @@ public sealed partial class MainViewModel
             var r = await emu.RunShellAsync(args);
             await emu.SetHomeAsync(CyberdromeLauncher.HomeActivity);
             LookStatus = r.Ok && r.Output.Contains("\"OK\"")
-                ? $"Tema: {ThemeOptions.FirstOrDefault(o => o.Id == themeId)?.Name ?? themeId}"
-                : "Kunde inte byta tema: " + r.Output.Trim();
+                ? L.T("Look_ThemePrefix") + (ThemeOptions.FirstOrDefault(o => o.Id == themeId)?.Name ?? themeId)
+                : L.T("Look_CouldNotChangeTheme") + r.Output.Trim();
         }
-        catch (Exception ex) { LookStatus = "Tema: " + ex.Message; }
+        catch (Exception ex) { LookStatus = L.T("Look_ThemePrefix") + ex.Message; }
         finally { _lookBusy = false; }
     }
 
@@ -168,12 +168,12 @@ public sealed partial class MainViewModel
         {
             // Installerad version: färdigbyggd APK i programmappen (apps\).
             var bundled = SampleApp.Bundled(app.ApkName);
-            if (bundled is null) { LookStatus = "Hittar inte Cyberdrome Launcher (apps\\ eller android\\CyberdromeLauncher)."; return false; }
+            if (bundled is null) { LookStatus = L.T("Look_CyberdromeLauncherNotFoundAppsOr"); return false; }
             long bstamp = File.GetLastWriteTimeUtc(bundled).Ticks;
             if (installed && _appSettings.InstalledLauncher.GetValueOrDefault(emu.AvdName) == bstamp) return true;
-            LookStatus = "Installerar Cyberdrome Launcher …";
+            LookStatus = L.T("Look_InstallingCyberdromeLauncher");
             var br = await emu.InstallApkAsync(bundled, AndroidLogLine);
-            if (!br.Ok) { LookStatus = "Kunde inte installera Cyberdrome Launcher."; return false; }
+            if (!br.Ok) { LookStatus = L.T("Look_CouldNotInstallCyberdromeLauncher"); return false; }
             _appSettings.InstalledLauncher[emu.AvdName] = bstamp;
             _appSettings.Save();
             return true;
@@ -182,16 +182,16 @@ public sealed partial class MainViewModel
         var apk = app.ApkPath(project);
         if (rebuild)
         {
-            LookStatus = "Bygger Cyberdrome Launcher …";
+            LookStatus = L.T("Look_BuildingCyberdromeLauncher");
             if (await app.BuildAsync(project, _vmSettings.SdkRoot, AndroidLogLine) is null)
             {
-                LookStatus = "Bygget av Cyberdrome Launcher misslyckades – se loggen på sidan Android.";
+                LookStatus = L.T("Look_BuildingCyberdromeLauncherFailedSeeThe");
                 return false;
             }
         }
-        LookStatus = "Installerar Cyberdrome Launcher …";
+        LookStatus = L.T("Look_InstallingCyberdromeLauncher");
         var r = await emu.InstallApkAsync(apk, AndroidLogLine);
-        if (!r.Ok) { LookStatus = "Kunde inte installera Cyberdrome Launcher."; return false; }
+        if (!r.Ok) { LookStatus = L.T("Look_CouldNotInstallCyberdromeLauncher"); return false; }
         _appSettings.InstalledLauncher[emu.AvdName] = File.GetLastWriteTimeUtc(apk).Ticks;
         _appSettings.Save();
         return true;
@@ -217,9 +217,9 @@ public sealed partial class MainViewModel
             var t = _themeStore.Import(path);
             ReloadLookOptions();
             SelectedThemeOption = ThemeOptions.FirstOrDefault(o => o.Id == t.Id);
-            LookStatus = "Tema importerat: " + t.Name;
+            LookStatus = L.T("Look_ThemeImported") + t.Name;
         }
-        catch (Exception ex) { LookStatus = "Kunde inte importera tema: " + ex.Message; }
+        catch (Exception ex) { LookStatus = L.T("Look_CouldNotImportTheme") + ex.Message; }
     }
 
     /// <summary>Importerar ett skal: zip/mapp med skin.json, eller en PNG där skärmytan är genomskinlig.</summary>
@@ -230,9 +230,9 @@ public sealed partial class MainViewModel
             Skin s;
             if (path.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
             {
-                var a = readAlpha(path) ?? throw new InvalidDataException("Bilden gick inte att läsa.");
+                var a = readAlpha(path) ?? throw new InvalidDataException(L.T("Look_TheImageCouldNotBeRead"));
                 var rect = SkinStore.DetectScreen(a.Alpha, a.W, a.H)
-                           ?? throw new InvalidDataException("Hittade ingen genomskinlig skärmyta (minst 100×100) mitt i bilden.");
+                           ?? throw new InvalidDataException(L.T("Look_NoTransparentScreenAreaAtLeast"));
                 var (w, h, _) = _vmSettings.EffectiveScreen();
                 s = _skinStore.SaveFromImage(path, new Skin
                 {
@@ -246,8 +246,8 @@ public sealed partial class MainViewModel
             else s = _skinStore.Import(path);
             ReloadLookOptions();
             SelectedSkinOption = SkinOptions.FirstOrDefault(o => o.Id == s.Id);
-            LookStatus = "Skal importerat: " + s.Name;
+            LookStatus = L.T("Look_SkinImported") + s.Name;
         }
-        catch (Exception ex) { LookStatus = "Kunde inte importera skal: " + ex.Message; }
+        catch (Exception ex) { LookStatus = L.T("Look_CouldNotImportSkin") + ex.Message; }
     }
 }

@@ -93,7 +93,7 @@ public static class TestEvaluator
             {
                 if (a >= stepTimes.Count || stepTimes[a] is null)
                 {
-                    checks.Add(new(c.Name, c.Type, CheckStatus.Failed, $"Steg {a + 1} kördes aldrig.", []));
+                    checks.Add(new(c.Name, c.Type, CheckStatus.Failed, L.F("TestEvaluator_Step0WasNeverRun", a + 1), []));
                     continue;
                 }
                 from = stepTimes[a]!.Value;
@@ -105,7 +105,7 @@ public static class TestEvaluator
                 "requestSeen" => RequestSeen(c, relevant),
                 "responseContains" => ResponseContains(c, relevant),
                 "noErrors" => NoErrors(c, relevant),
-                _ => new CheckResult(c.Name, c.Type, CheckStatus.Failed, "Okänd kontrolltyp.", []),
+                _ => new CheckResult(c.Name, c.Type, CheckStatus.Failed, L.T("TestEvaluator_UnknownCheckType"), []),
             });
         }
 
@@ -116,17 +116,17 @@ public static class TestEvaluator
 
     public static string Describe(TestStep s) => s.Action switch
     {
-        "set" => "Sätt " + string.Join(", ", new[]
+        "set" => L.T("TestEvaluator_Set") + string.Join(", ", new[]
         {
             s.Values?.Speed is { } sp ? $"hastighet {sp:0} km/h" : null,
             s.Values?.Rpm is { } r ? $"varvtal {r:0}" : null,
-            s.Values?.Coolant is { } c ? $"kylvätska {c:0} °C" : null,
-            s.Values?.Fuel is { } f ? $"bränsle {f:0} %" : null,
-            s.Values?.Ignition is { } ig ? (ig ? "tändning på" : "tändning av") : null,
+            s.Values?.Coolant is { } c ? L.F("TestEvaluator_Coolant00C", c) : null,
+            s.Values?.Fuel is { } f ? L.F("TestEvaluator_Fuel00", f) : null,
+            s.Values?.Ignition is { } ig ? (ig ? L.T("TestEvaluator_IgnitionOn") : L.T("TestEvaluator_IgnitionOff")) : null,
         }.Where(x => x is not null)),
-        "addDtc" => $"Tänd felkod {s.Dtc}",
-        "removeDtc" => $"Släck felkod {s.Dtc}",
-        "clearDtcs" => "Radera alla felkoder",
+        "addDtc" => L.F("TestEvaluator_TurnOnTroubleCode0", s.Dtc),
+        "removeDtc" => L.F("TestEvaluator_TurnOffTroubleCode0", s.Dtc),
+        "clearDtcs" => L.T("TestEvaluator_ClearAllTroubleCodes"),
         _ => s.Text ?? "",
     } + (s.Action != "note" && !string.IsNullOrEmpty(s.Text) ? " – " + s.Text : "");
 
@@ -136,7 +136,7 @@ public static class TestEvaluator
     private static CheckResult RequestRate(TestCheck c, List<Exchange> xs, DateTime from, DateTime end)
     {
         var hits = xs.Where(x => Matches(x.Command, c.Command!)).Select(x => x.Time).ToList();
-        if (hits.Count == 0) return NotSeen(c, $"Appen frågade aldrig efter {c.Command}.");
+        if (hits.Count == 0) return NotSeen(c, L.F("TestEvaluator_TheAppNeverAskedFor0", c.Command));
         var windowStart = from + StartGrace;
         var times = hits.Where(t => t >= windowStart).ToList();
         var points = new List<DateTime> { windowStart };
@@ -153,27 +153,27 @@ public static class TestEvaluator
         var inv = CultureInfo.GetCultureInfo("sv-SE");
         double perSec = hits.Count / Math.Max(1, (end - from).TotalSeconds);
         return maxGap <= c.MaxGapSeconds
-            ? new(c.Name, c.Type, CheckStatus.Passed, string.Format(inv, "{0} frågor ({1:0.0}/s), längsta paus {2:0.0} s.", hits.Count, perSec, maxGap), excerpt)
-            : new(c.Name, c.Type, CheckStatus.Failed, string.Format(inv, "Längsta paus {0:0.0} s (vid {1:HH:mm:ss}), max {2:0.0} s tillåts. {3} frågor.", maxGap, gapAt, c.MaxGapSeconds, hits.Count), excerpt);
+            ? new(c.Name, c.Type, CheckStatus.Passed, string.Format(inv, L.T("TestEvaluator_0Requests100S"), hits.Count, perSec, maxGap), excerpt)
+            : new(c.Name, c.Type, CheckStatus.Failed, string.Format(inv, L.T("TestEvaluator_LongestPause000S"), maxGap, gapAt, c.MaxGapSeconds, hits.Count), excerpt);
     }
 
     private static CheckResult RequestSeen(TestCheck c, List<Exchange> xs)
     {
         var hits = xs.Where(x => Matches(x.Command, c.Command!)).ToList();
         return hits.Count >= c.MinCount
-            ? new(c.Name, c.Type, CheckStatus.Passed, $"{hits.Count} gånger, första {hits[0].Time:HH:mm:ss}.", hits.Take(3).Select(Line).ToList())
-            : NotSeen(c, hits.Count == 0 ? $"Appen skickade aldrig {c.Command}." : $"Bara {hits.Count} av {c.MinCount} gånger.");
+            ? new(c.Name, c.Type, CheckStatus.Passed, L.F("TestEvaluator_0TimesFirst1HHMm", hits.Count, hits[0].Time), hits.Take(3).Select(Line).ToList())
+            : NotSeen(c, hits.Count == 0 ? L.F("TestEvaluator_TheAppNeverSent0", c.Command) : L.F("TestEvaluator_Only0Of1Times", hits.Count, c.MinCount));
     }
 
     private static CheckResult ResponseContains(TestCheck c, List<Exchange> xs)
     {
         var hits = xs.Where(x => Matches(x.Command, c.Command!)).ToList();
-        if (hits.Count == 0) return NotSeen(c, $"Appen skickade aldrig {c.Command}.");
+        if (hits.Count == 0) return NotSeen(c, L.F("TestEvaluator_TheAppNeverSent0", c.Command));
         var want = Compact(c.Text!);
         var ok = hits.FirstOrDefault(x => Compact(x.Response).Contains(want, StringComparison.Ordinal));
         return ok is not null
-            ? new(c.Name, c.Type, CheckStatus.Passed, $"Svaret innehöll {c.Text} ({ok.Time:HH:mm:ss}).", [Line(ok)])
-            : new(c.Name, c.Type, CheckStatus.Failed, $"Inget av {hits.Count} svar innehöll {c.Text}.", hits.TakeLast(3).Select(Line).ToList());
+            ? new(c.Name, c.Type, CheckStatus.Passed, L.F("TestEvaluator_TheReplyContained01HH", c.Text, ok.Time), [Line(ok)])
+            : new(c.Name, c.Type, CheckStatus.Failed, L.F("TestEvaluator_NoneOf0RepliesContained1", hits.Count, c.Text), hits.TakeLast(3).Select(Line).ToList());
     }
 
     private static CheckResult NoErrors(TestCheck c, List<Exchange> xs)
@@ -183,7 +183,7 @@ public static class TestEvaluator
             (x.Command.All(Uri.IsHexDigit) && Compact(x.Response) == "?")
             || (x.Command.StartsWith("01", StringComparison.Ordinal) && x.Command.All(Uri.IsHexDigit) && Compact(x.Response).Contains("NODATA"))).ToList();
         return bad.Count == 0
-            ? new(c.Name, c.Type, CheckStatus.Passed, $"{xs.Count} frågor utan felsvar.", [])
+            ? new(c.Name, c.Type, CheckStatus.Passed, L.F("TestEvaluator_0RequestsWithoutErrorReplies", xs.Count), [])
             : new(c.Name, c.Type, CheckStatus.Failed, $"{bad.Count} felsvar.", bad.Take(5).Select(Line).ToList());
     }
 
@@ -202,21 +202,21 @@ public static class TestEvaluator
         string E(string s) => s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
         string Status(CheckStatus s) => s switch
         {
-            CheckStatus.Passed => "<span class=ok>✔ Godkänd</span>",
-            CheckStatus.NotDone => "<span class=nd>– Ej utförd (valfri)</span>",
-            _ => "<span class=fail>✘ Underkänd</span>",
+            CheckStatus.Passed => L.T("TestEvaluator_SpanClassOkPassedSpan"),
+            CheckStatus.NotDone => L.T("TestEvaluator_SpanClassNdNotPerformedOptional"),
+            _ => L.T("TestEvaluator_SpanClassFailFailedSpan"),
         };
         var sb = new StringBuilder();
-        sb.Append("<!doctype html><html lang=sv><head><meta charset=utf-8><title>Testresultat – ").Append(E(r.TestName)).Append("</title><style>")
+        sb.Append(L.T("TestEvaluator_DoctypeHtmlHtmlHeadMetaCharset")).Append(E(r.TestName)).Append("</title><style>")
           .Append("body{font-family:Segoe UI,Arial,sans-serif;margin:24px;color:#0f172a}h1{margin:0 0 4px}.muted{color:#64748b}")
           .Append("table{border-collapse:collapse;width:100%;margin:12px 0}td,th{border-bottom:1px solid #e3e7ef;padding:8px;text-align:left;vertical-align:top}")
           .Append(".ok{color:#16a34a;font-weight:600}.fail{color:#dc2626;font-weight:600}.nd{color:#b45309;font-weight:600}")
           .Append("pre{background:#f8fafc;padding:6px;margin:4px 0 0;font-size:12px;white-space:pre-wrap}.big{font-size:20px;font-weight:700}")
           .Append("</style></head><body>");
         sb.Append("<h1>").Append(E(r.TestName)).Append("</h1><div class=muted>").Append(E(r.Description)).Append("</div>");
-        sb.Append("<p class=big>").Append(r.Passed ? "<span class=ok>GODKÄNT</span>" : "<span class=fail>UNDERKÄNT</span>")
-          .Append($" – {r.PassedCount} av {r.Checks.Count} kontroller godkända</p>");
-        sb.Append($"<p class=muted>{r.Start:yyyy-MM-dd HH:mm:ss} – {r.End:HH:mm:ss} · {r.RequestCount} OBD-frågor · appar: {E(string.Join(", ", r.Clients))}</p>");
+        sb.Append("<p class=big>").Append(r.Passed ? L.T("TestEvaluator_SpanClassOkPASSEDSpan") : L.T("TestEvaluator_SpanClassFailFAILEDSpan"))
+          .Append(L.F("TestEvaluator_0Of1ChecksPassedP", r.PassedCount, r.Checks.Count));
+        sb.Append(L.F("TestEvaluator_PClassMuted0YyyyMM", r.Start, r.End, r.RequestCount, E(string.Join(", ", r.Clients))));
         sb.Append("<h2>Kontroller</h2><table><tr><th>Kontroll</th><th>Resultat</th><th>Detaljer</th></tr>");
         foreach (var c in r.Checks)
         {
@@ -224,10 +224,10 @@ public static class TestEvaluator
             if (c.Excerpt.Count > 0) sb.Append("<pre>").Append(E(string.Join("\n", c.Excerpt))).Append("</pre>");
             sb.Append("</td></tr>");
         }
-        sb.Append("</table><h2>Steg</h2><table><tr><th>#</th><th>Tid</th><th>Steg</th><th>Utfört</th></tr>");
+        sb.Append(L.T("TestEvaluator_TableH2StepsH2TableTr"));
         foreach (var s in r.Steps)
             sb.Append($"<tr><td>{s.Index + 1}</td><td>{s.At:0} s</td><td>{E(s.Description)}</td><td>{(s.DoneAt is { } d ? d.ToString("HH:mm:ss") : "–")}</td></tr>");
-        sb.Append("</table><p class=muted>Cyberdrome Simulator – testrapport</p></body></html>");
+        sb.Append(L.T("TestEvaluator_TablePClassMutedCyberdromeSimulator"));
         return sb.ToString();
     }
 

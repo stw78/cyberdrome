@@ -54,22 +54,22 @@ public sealed class RealCarBridge : IObdBridge
         if (d.Kind != FilterKind.Read)
         {
             if (!AllowWrites)
-                return Negative(header, sid, $"🔒 Stoppad (läsläge): {d.Service} till {header:X3}. Slå på \"Tillåt skrivning\" för att släppa igenom.");
+                return Negative(header, sid, L.F("RealCarBridge_BlockedReadOnly0To1", d.Service, header));
             if (d.Kind == FilterKind.Write)
             {
                 double? volt = null;
                 try { volt = await _adapter.ReadVoltageAsync().ConfigureAwait(false); } catch { }
                 if (volt is null or < MinWriteVoltage)
-                    return Negative(header, sid, $"🔒 Stoppad: batterispänningen är {(volt is { } v ? v.ToString("0.0") + " V" : "okänd")} (minst {MinWriteVoltage:0.0} V krävs för skrivning).");
+                    return Negative(header, sid, L.F("RealCarBridge_BlockedTheBatteryVoltageIs0", (volt is { } v ? v.ToString("0.0") + " V" : L.T("Bridge_Unknown")), MinWriteVoltage));
                 string? backup;
                 try { backup = await BackupAsync(header, request, d.Service, volt).ConfigureAwait(false); }
-                catch (Exception ex) { return Negative(header, sid, "🔒 Stoppad: kunde inte säkerhetskopiera originalvärdet: " + ex.Message); }
+                catch (Exception ex) { return Negative(header, sid, L.T("RealCarBridge_BlockedCouldNotBackUpThe") + ex.Message); }
                 bool ok;
                 try { ok = await _confirm(new WriteRequest(header, request, d.Service, backup, volt)).ConfigureAwait(false); }
                 catch { ok = false; }
-                if (!ok) return Negative(header, sid, $"✋ Nekad av användaren: {d.Service} till {header:X3}.");
+                if (!ok) return Negative(header, sid, L.F("RealCarBridge_DeniedByTheUser0To", d.Service, header));
                 var (wr, we) = await _adapter.RequestAsync(header, request).ConfigureAwait(false);
-                return new BridgeReply(wr, we, $"✍ Skickad till bilen: {d.Service} till {header:X3} ({Convert.ToHexString(request)}). Säkerhetskopia: {backup}");
+                return new BridgeReply(wr, we, L.F("RealCarBridge_SentToTheCar0To", d.Service, header, Convert.ToHexString(request), backup));
             }
             // 0x27: nyckeln kommer från appen; Cyberdrome räknar aldrig ut riktiga nycklar.
         }
@@ -99,7 +99,7 @@ public sealed class RealCarBridge : IObdBridge
             if (r.Count > 0) original = string.Join(" | ", r.Select(x => $"{x.ResponseId:X3}: {Convert.ToHexString(x.Data)}"));
             else readError = e ?? "NO DATA";
             if (request[0] is 0x2E or 0x3B && (original is null || r.All(x => x.Data.Length > 0 && x.Data[0] == 0x7F)))
-                throw new InvalidOperationException($"originalvärdet gick inte att läsa ({readError ?? original}).");
+                throw new InvalidOperationException(L.F("RealCarBridge_TheOriginalValueCouldNotBe", readError ?? original));
         }
         var file = Path.Combine(BackupFolder, $"{DateTime.Now:yyyyMMdd-HHmmss-fff}_{header:X3}_{request[0]:X2}.json");
         var json = JsonSerializer.Serialize(new

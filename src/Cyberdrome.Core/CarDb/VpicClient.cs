@@ -74,7 +74,7 @@ public sealed class VpicClient
     {
         var path = $"DecodeVinValues/{Uri.EscapeDataString(vin.Trim().ToUpperInvariant())}?format=json" + (modelYear is { } y ? $"&modelyear={y}" : "");
         var r = (await GetResultsAsync(path, ct).ConfigureAwait(false)).FirstOrDefault();
-        return r.ValueKind == JsonValueKind.Undefined ? new VinInfo(vin, "", "", null, "", "", "", "", "", "Inget svar") : Parse(vin, r);
+        return r.ValueKind == JsonValueKind.Undefined ? new VinInfo(vin, "", "", null, "", "", "", "", "", L.T("VpicClient_NoReply")) : Parse(vin, r);
     }
 
     /// <summary>Tolkar ett DecodeVinValues-resultat (platta fält).</summary>

@@ -35,9 +35,9 @@ public sealed class TestStore
     {
         TestCase t;
         try { t = TestCase.FromJson(File.ReadAllText(path)); }
-        catch (System.Text.Json.JsonException ex) { throw new InvalidDataException("Filen går inte att läsa: " + ex.Message); }
+        catch (System.Text.Json.JsonException ex) { throw new InvalidDataException(L.T("TestStore_TheFileCannotBeRead") + ex.Message); }
         var errors = t.Validate();
-        if (errors.Count > 0) throw new InvalidDataException("Testfallet är inte giltigt: " + string.Join(" ", errors));
+        if (errors.Count > 0) throw new InvalidDataException(L.T("TestStore_TheTestCaseIsNotValid") + string.Join(" ", errors));
         if (BuiltInTestCases.All.Any(b => b.Id == t.Id)) t.Id = "eget-" + t.Id;
         Directory.CreateDirectory(Folder);
         var target = Path.Combine(Folder, string.Concat(t.Id.Select(c => char.IsLetterOrDigit(c) || c is '-' or '_' ? c : '-')) + ".json");

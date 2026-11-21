@@ -93,7 +93,7 @@ public sealed class ElmConnection : IAsyncDisposable
 
     private async Task<string> SendLockedAsync(string cmd, int timeoutMs, CancellationToken ct)
     {
-        var s = _stream ?? throw new InvalidOperationException("Adaptern är inte ansluten.");
+        var s = _stream ?? throw new InvalidOperationException(L.T("ElmConnection_TheAdapterIsNotConnected"));
         _pending.Clear();
         Traffic?.Invoke(true, cmd);
         var bytes = Encoding.ASCII.GetBytes(cmd + "\r");
@@ -107,7 +107,7 @@ public sealed class ElmConnection : IAsyncDisposable
             while (true)
             {
                 int n = await s.ReadAsync(_buf, timeout.Token).ConfigureAwait(false);
-                if (n == 0) throw new IOException("Adaptern stängde förbindelsen.");
+                if (n == 0) throw new IOException(L.T("ElmConnection_TheAdapterClosedTheConnection"));
                 _pending.Append(Encoding.Latin1.GetString(_buf, 0, n));
                 var text = _pending.ToString();
                 int prompt = text.IndexOf('>');
@@ -122,9 +122,9 @@ public sealed class ElmConnection : IAsyncDisposable
         catch (OperationCanceledException) when (!ct.IsCancellationRequested)
         {
             var partial = _pending.ToString();
-            Traffic?.Invoke(false, partial.Length == 0 ? "(inget svar – tidsgräns)"
-                : $"(svar utan ELM-prompt: \"{new string(partial.Select(c => c is >= ' ' and < '\x7f' ? c : '·').ToArray())}\", hex {Convert.ToHexString(Encoding.Latin1.GetBytes(partial))})");
-            throw new TimeoutException($"Adaptern svarade inte på {cmd}.");
+            Traffic?.Invoke(false, partial.Length == 0 ? L.T("ElmConnection_NoReplyTimeout")
+                : L.F("ElmConnection_ReplyWithoutELMPrompt0Hex", new string(partial.Select(c => c is >= ' ' and < '\x7f' ? c : '·').ToArray()), Convert.ToHexString(Encoding.Latin1.GetBytes(partial))));
+            throw new TimeoutException(L.F("ElmConnection_TheAdapterDidNotReplyTo", cmd));
         }
     }
 

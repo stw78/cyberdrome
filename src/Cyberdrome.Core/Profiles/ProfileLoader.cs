@@ -31,7 +31,7 @@ public static class ProfileLoader
     public static CarProfile Parse(string json, string source = "profil")
     {
         var p = JsonSerializer.Deserialize<CarProfile>(json, JsonOptions)
-                ?? throw new InvalidDataException($"{source}: tom fil.");
+                ?? throw new InvalidDataException(L.F("ProfileLoader_0EmptyFile", source));
         var errors = Validate(p);
         if (errors.Count > 0)
             throw new InvalidDataException($"{source}: " + string.Join(" ", errors));
@@ -48,57 +48,57 @@ public static class ProfileLoader
     public static List<string> Validate(CarProfile p)
     {
         var e = new List<string>();
-        if (string.IsNullOrWhiteSpace(p.Id)) e.Add("Id saknas.");
-        else if (!p.Id.All(c => char.IsLetterOrDigit(c) || c is '-' or '_')) e.Add("Id får bara innehålla bokstäver, siffror, - och _.");
-        if (string.IsNullOrWhiteSpace(p.Make) || string.IsNullOrWhiteSpace(p.Model)) e.Add("Märke och modell måste fyllas i.");
-        if (p.Year is < 1996 or > 2100) e.Add("Årsmodell måste vara 1996–2100 (OBD-II).");
-        if (p.Vin.Length != 17) e.Add("VIN måste vara 17 tecken.");
-        else if (p.Vin.Any(c => !char.IsLetterOrDigit(c) || "IOQ".Contains(char.ToUpperInvariant(c)))) e.Add("VIN får bara innehålla A–Z (utom I, O, Q) och 0–9.");
-        if (p.Ecus.Count == 0) e.Add("Minst en ECU behövs.");
-        if (p.Ecus.GroupBy(x => x.Key).Any(g => g.Count() > 1)) e.Add("Två styrdon har samma nyckel.");
-        if (p.Ecus.GroupBy(x => x.RequestId.ToUpperInvariant()).Any(g => g.Count() > 1)) e.Add("Två styrdon har samma fråge-id (CAN).");
+        if (string.IsNullOrWhiteSpace(p.Id)) e.Add(L.T("ProfileLoader_IdIsMissing"));
+        else if (!p.Id.All(c => char.IsLetterOrDigit(c) || c is '-' or '_')) e.Add(L.T("ProfileLoader_TheIdMayOnlyContainLetters"));
+        if (string.IsNullOrWhiteSpace(p.Make) || string.IsNullOrWhiteSpace(p.Model)) e.Add(L.T("ProfileLoader_MakeAndModelMustBeFilled"));
+        if (p.Year is < 1996 or > 2100) e.Add(L.T("ProfileLoader_TheModelYearMustBe1996"));
+        if (p.Vin.Length != 17) e.Add(L.T("ProfileLoader_TheVINMustBe17Characters"));
+        else if (p.Vin.Any(c => !char.IsLetterOrDigit(c) || "IOQ".Contains(char.ToUpperInvariant(c)))) e.Add(L.T("ProfileLoader_TheVINMayOnlyContainA"));
+        if (p.Ecus.Count == 0) e.Add(L.T("ProfileLoader_AtLeastOneECUIsNeeded"));
+        if (p.Ecus.GroupBy(x => x.Key).Any(g => g.Count() > 1)) e.Add(L.T("ProfileLoader_TwoControlUnitsHaveTheSame"));
+        if (p.Ecus.GroupBy(x => x.RequestId.ToUpperInvariant()).Any(g => g.Count() > 1)) e.Add(L.T("ProfileLoader_TwoControlUnitsHaveTheSame2"));
         foreach (var ecu in p.Ecus)
         {
-            if (string.IsNullOrWhiteSpace(ecu.Key)) e.Add("Ett styrdon saknar nyckel.");
+            if (string.IsNullOrWhiteSpace(ecu.Key)) e.Add(L.T("ProfileLoader_AControlUnitHasNoKey"));
             if (!IsHex(ecu.RequestId) || !IsHex(ecu.ResponseId) || ecu.RequestId.Length > 3 || ecu.ResponseId.Length > 3)
-                e.Add($"ECU {ecu.Key}: ogiltigt CAN-id (11 bit, t.ex. 7E0).");
-            if (ecu.Coding.Length % 2 != 0 || (ecu.Coding.Length > 0 && !IsHex(ecu.Coding))) e.Add($"ECU {ecu.Key}: kodning måste vara hex med jämnt antal tecken.");
-            else if (ecu.Coding.Length / 2 > MaxCodingBytes) e.Add($"ECU {ecu.Key}: högst {MaxCodingBytes} byte kodning.");
-            if (!IsHex(ecu.CodingDid) || ecu.CodingDid.Length != 4) e.Add($"ECU {ecu.Key}: kodnings-DID måste vara 4 hex-tecken.");
+                e.Add(L.F("ProfileLoader_ECU0InvalidCANId11", ecu.Key));
+            if (ecu.Coding.Length % 2 != 0 || (ecu.Coding.Length > 0 && !IsHex(ecu.Coding))) e.Add(L.F("ProfileLoader_ECU0CodingMustBeHex", ecu.Key));
+            else if (ecu.Coding.Length / 2 > MaxCodingBytes) e.Add(L.F("ProfileLoader_ECU0AtMost1Bytes", ecu.Key, MaxCodingBytes));
+            if (!IsHex(ecu.CodingDid) || ecu.CodingDid.Length != 4) e.Add(L.F("ProfileLoader_ECU0TheCodingDIDMust", ecu.Key));
         }
-        if (p.Features.GroupBy(f => f.Id).Any(g => g.Count() > 1)) e.Add("Två dolda funktioner har samma id.");
+        if (p.Features.GroupBy(f => f.Id).Any(g => g.Count() > 1)) e.Add(L.T("ProfileLoader_TwoHiddenFeaturesHaveTheSame"));
         foreach (var d in p.StartDtcs)
-            if (d.Length != 5 || !"PCBU".Contains(char.ToUpperInvariant(d[0])) || !d[1..].All(Uri.IsHexDigit)) e.Add($"Felkoden {d} har fel format (t.ex. P0300).");
+            if (d.Length != 5 || !"PCBU".Contains(char.ToUpperInvariant(d[0])) || !d[1..].All(Uri.IsHexDigit)) e.Add(L.F("ProfileLoader_TheTroubleCode0HasThe", d));
         if (p.SupportedPids is { } pids)
             foreach (var pid in pids)
-                if (pid.Length != 2 || !IsHex(pid) || !KnownPids.Contains(Convert.ToByte(pid, 16))) e.Add($"PID {pid} stöds inte av simulatorn.");
+                if (pid.Length != 2 || !IsHex(pid) || !KnownPids.Contains(Convert.ToByte(pid, 16))) e.Add(L.F("ProfileLoader_PID0IsNotSupportedBy", pid));
         if (p.DefaultValues is { } dv)
         {
-            if (dv.Speed is < 0 or > 250) e.Add("Standardfart måste vara 0–250 km/h.");
-            if (dv.Rpm is < 0 or > 8000) e.Add("Standardvarvtal måste vara 0–8000.");
-            if (dv.Coolant is < -40 or > 130) e.Add("Standardtemperatur måste vara −40–130 °C.");
-            if (dv.Fuel is < 0 or > 100) e.Add("Standardbränsle måste vara 0–100 %.");
+            if (dv.Speed is < 0 or > 250) e.Add(L.T("ProfileLoader_TheDefaultSpeedMustBe0"));
+            if (dv.Rpm is < 0 or > 8000) e.Add(L.T("ProfileLoader_TheDefaultEngineSpeedMustBe"));
+            if (dv.Coolant is < -40 or > 130) e.Add(L.T("ProfileLoader_TheDefaultTemperatureMustBe40"));
+            if (dv.Fuel is < 0 or > 100) e.Add(L.T("ProfileLoader_TheDefaultFuelLevelMustBe"));
         }
         foreach (var f in p.Features)
         {
             var ecu = p.Ecus.FirstOrDefault(x => x.Key == f.Ecu);
-            if (ecu is null) { e.Add($"Funktion {f.Id}: ECU '{f.Ecu}' finns inte."); continue; }
-            if (f.Byte < 0 || f.Byte >= ecu.Coding.Length / 2) e.Add($"Funktion {f.Id}: byte {f.Byte} finns inte i kodningen.");
-            if (f.Bit is < 0 or > 7) e.Add($"Funktion {f.Id}: bit måste vara 0–7.");
+            if (ecu is null) { e.Add(L.F("ProfileLoader_Feature0ECU1DoesNot", f.Id, f.Ecu)); continue; }
+            if (f.Byte < 0 || f.Byte >= ecu.Coding.Length / 2) e.Add(L.F("ProfileLoader_Feature0Byte1DoesNot", f.Id, f.Byte));
+            if (f.Bit is < 0 or > 7) e.Add(L.F("ProfileLoader_Feature0BitMustBe0", f.Id));
         }
         foreach (var c in p.CustomPids ?? [])
         {
-            if (c.Request.Length is < 2 or > 14 || c.Request.Length % 2 != 0 || !IsHex(c.Request)) e.Add($"Egen PID {c.Name}: ogiltig fråga \"{c.Request}\".");
-            if (!string.IsNullOrEmpty(c.Header) && (c.Header.Length > 3 || !IsHex(c.Header))) e.Add($"Egen PID {c.Name}: ogiltig header \"{c.Header}\".");
+            if (c.Request.Length is < 2 or > 14 || c.Request.Length % 2 != 0 || !IsHex(c.Request)) e.Add(L.F("ProfileLoader_CustomPID0InvalidRequest1", c.Name, c.Request));
+            if (!string.IsNullOrEmpty(c.Header) && (c.Header.Length > 3 || !IsHex(c.Header))) e.Add(L.F("ProfileLoader_CustomPID0InvalidHeader1", c.Name, c.Header));
         }
         foreach (var x in p.ExtraCommands ?? [])
         {
-            if (x.Request.Length is < 2 or > 14 || x.Request.Length % 2 != 0 || !IsHex(x.Request)) e.Add($"Tillverkarfråga {x.Header}/{x.Request}: ogiltig fråga.");
-            else if (p.Ecus.All(ecu => !ecu.RequestId.Equals(x.Header, StringComparison.OrdinalIgnoreCase))) e.Add($"Tillverkarfråga {x.Request}: styrdon {x.Header} finns inte.");
-            if (x.Signals.Any(s => s.Bix < 0 || s.Len is < 1 or > 63)) e.Add($"Tillverkarfråga {x.Header}/{x.Request}: ogiltig signalposition.");
+            if (x.Request.Length is < 2 or > 14 || x.Request.Length % 2 != 0 || !IsHex(x.Request)) e.Add(L.F("ProfileLoader_ManufacturerRequest01InvalidRequest", x.Header, x.Request));
+            else if (p.Ecus.All(ecu => !ecu.RequestId.Equals(x.Header, StringComparison.OrdinalIgnoreCase))) e.Add(L.F("ProfileLoader_ManufacturerRequest0ControlUnit1", x.Request, x.Header));
+            if (x.Signals.Any(s => s.Bix < 0 || s.Len is < 1 or > 63)) e.Add(L.F("ProfileLoader_ManufacturerRequest01InvalidSignal", x.Header, x.Request));
         }
         foreach (var code in p.DtcDescriptions?.Keys ?? Enumerable.Empty<string>())
-            if (code.Length != 5 || !"PCBU".Contains(char.ToUpperInvariant(code[0])) || !IsHex(code[1..])) e.Add($"Felkodstext: ogiltig felkod \"{code}\".");
+            if (code.Length != 5 || !"PCBU".Contains(char.ToUpperInvariant(code[0])) || !IsHex(code[1..])) e.Add(L.F("ProfileLoader_TroubleCodeTextInvalidTroubleCode", code));
         return e;
     }
 

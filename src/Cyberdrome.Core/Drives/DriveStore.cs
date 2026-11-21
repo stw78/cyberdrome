@@ -18,7 +18,7 @@ public sealed class DriveStore
     {
         var invalid = Path.GetInvalidFileNameChars();
         var s = new string(name.Trim().Select(c => invalid.Contains(c) ? '_' : c).ToArray());
-        return string.IsNullOrWhiteSpace(s) ? "Körning" : s;
+        return string.IsNullOrWhiteSpace(s) ? L.T("DriveStore_Drive") : s;
     }
 
     public string PathFor(string name) => Path.Combine(Folder, SafeFileName(name) + ".json");

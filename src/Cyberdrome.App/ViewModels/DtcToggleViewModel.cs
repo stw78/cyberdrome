@@ -38,13 +38,13 @@ public sealed partial class DtcToggleViewModel : ObservableObject
     /// <summary>Vanliga felkoder (allmänna SAE-koder, samma för alla märken).</summary>
     public static readonly (string Code, string Description)[] Common =
     [
-        ("P0300", "slumpmässig feltändning"),
-        ("P0301", "feltändning cylinder 1"),
-        ("P0171", "för magert, bank 1"),
-        ("P0420", "katalysator, låg verkningsgrad"),
-        ("P0128", "termostat, för låg temperatur"),
-        ("P0562", "låg systemspänning"),
-        ("C0035", "hjulhastighetsgivare vänster fram"),
-        ("U0100", "tappad kommunikation med motorstyrdon"),
+        ("P0300", L.T("DtcToggleViewModel_RandomMisfire")),
+        ("P0301", L.T("DtcToggleViewModel_MisfireCylinder1")),
+        ("P0171", L.T("DtcToggleViewModel_SystemTooLeanBank1")),
+        ("P0420", L.T("DtcToggleViewModel_CatalystEfficiencyBelowThreshold")),
+        ("P0128", L.T("DtcToggleViewModel_ThermostatTemperatureTooLow")),
+        ("P0562", L.T("DtcToggleViewModel_SystemVoltageLow")),
+        ("C0035", L.T("DtcToggleViewModel_WheelSpeedSensorFrontLeft")),
+        ("U0100", L.T("DtcToggleViewModel_LostCommunicationWithEngineControlUnit")),
     ];
 }

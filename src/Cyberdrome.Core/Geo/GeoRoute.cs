@@ -47,7 +47,7 @@ public sealed class GeoRoute
 
     public GeoRoute(IReadOnlyList<GeoPoint> points)
     {
-        if (points.Count == 0) throw new ArgumentException("Rutten behöver minst en punkt.");
+        if (points.Count == 0) throw new ArgumentException(L.T("GeoRoute_TheRouteNeedsAtLeastOne"));
         Points = points.ToArray();
         _cumulative = new double[Points.Count];
         for (int i = 1; i < Points.Count; i++)

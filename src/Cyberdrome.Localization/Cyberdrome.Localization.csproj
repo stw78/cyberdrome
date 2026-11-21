@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Alla texter som användaren ser: Strings.resx (engelska, reserv) och Strings.<språk>.resx (t.ex. sv). -->
+  <ItemGroup>
+    <EmbeddedResource Update="Strings.resx" LogicalName="Cyberdrome.Localization.Strings.resources" />
+    <EmbeddedResource Update="Strings.sv.resx" LogicalName="Cyberdrome.Localization.Strings.sv.resources" WithCulture="true" Culture="sv" />
+  </ItemGroup>
+</Project>

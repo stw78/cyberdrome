@@ -91,7 +91,7 @@ public static class ExampleDrives
     {
         // En cykel på 40 s: stå still 8 s, accelerera 10 s, rulla 14 s, bromsa 8 s. Toppfarten varierar.
         double[] tops = [30, 50, 40, 50, 25, 45, 50, 35];
-        return Make(City, "Stopp-och-kör i stan, 0–50 km/h", 300, t =>
+        return Make(City, L.T("ExampleDrives_StopAndGoInTown0"), 300, t =>
         {
             int cycle = t / 40, s = t % 40;
             double top = tops[cycle % tops.Length];
@@ -117,7 +117,7 @@ public static class ExampleDrives
     /// <summary>Påfart och motorväg i 110–120 km/h, 10 minuter.</summary>
     public static Drive HighwayDrive() => WithRoute(HighwayDriveRaw(), HighwayRoute);
 
-    private static Drive HighwayDriveRaw() => Make(Highway, "Påfart till 110–120 km/h och motorväg", 600, t =>
+    private static Drive HighwayDriveRaw() => Make(Highway, L.T("ExampleDrives_OnRampTo110120Km"), 600, t =>
     {
         double speed, throttle;
         if (t < 3) { speed = 0; throttle = 0; }
@@ -139,7 +139,7 @@ public static class ExampleDrives
     /// <summary>Kallstart en vintermorgon: kylvätska 5 → 90 °C, högt tomgångsvarv som sjunker.</summary>
     public static Drive ColdStartDrive() => WithRoute(ColdStartDriveRaw(), [ParkedSpot]);
 
-    private static Drive ColdStartDriveRaw() => Make(ColdStart, "Kallstart: kylvätska 5 → 90 °C, tomgång 1300 → 800 rpm", 600, t =>
+    private static Drive ColdStartDriveRaw() => Make(ColdStart, L.T("ExampleDrives_ColdStartCoolant590C"), 600, t =>
     {
         double coolant = 90 - 85 * Math.Exp(-t / 150.0);
         double warm = (coolant - 5) / 85; // 0..1

@@ -1,0 +1,72 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "toyota-rav4",
+  "make": "Toyota",
+  "model": "RAV4",
+  "generation": "XA40",
+  "year": 2018,
+  "vin": "JTMRFREV00D000005",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "0F1E2D3C", "rotateLeft": 3, "add": "2468ACE0" },
+  "ecus": [
+    {
+      "key": "ecm",
+      "name": "Motor/Hybrid",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "body",
+      "name": "Karossdator",
+      "requestId": "750",
+      "responseId": "758",
+      "coding": "00000000",
+      "codingDid": "A000"
+    },
+    {
+      "key": "meter",
+      "name": "Instrument",
+      "requestId": "7C0",
+      "responseId": "7C8",
+      "coding": "00000000",
+      "codingDid": "A000"
+    }
+  ],
+  "features": [
+    {
+      "id": "auto-lock",
+      "name": "Automatisk låsning vid fart",
+      "description": "Dörrarna låses vid ca 20 km/h.",
+      "ecu": "body",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "auto-unlock",
+      "name": "Lås upp i P-läge",
+      "description": "Dörrarna låses upp när växeln går till P.",
+      "ecu": "body",
+      "byte": 0,
+      "bit": 1
+    },
+    {
+      "id": "drl-off-p",
+      "name": "Varselljus av i P",
+      "description": "Varselljuset släcks i P-läge.",
+      "ecu": "body",
+      "byte": 1,
+      "bit": 2
+    },
+    {
+      "id": "eco-display",
+      "name": "Eco-mätare",
+      "description": "Visar eco-mätare i instrumentet.",
+      "ecu": "meter",
+      "byte": 0,
+      "bit": 3
+    }
+  ],
+  "startDtcs": []
+}

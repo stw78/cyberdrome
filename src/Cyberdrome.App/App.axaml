@@ -1,0 +1,89 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Copyright (C) 2026 Jouko Broström -->
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Cyberdrome.App.App"
+             RequestedThemeVariant="Light">
+  <Application.Resources>
+    <SolidColorBrush x:Key="Accent">#2563EB</SolidColorBrush>
+    <SolidColorBrush x:Key="AccentSoft">#EAF1FE</SolidColorBrush>
+    <SolidColorBrush x:Key="Ok">#16A34A</SolidColorBrush>
+    <SolidColorBrush x:Key="OkSoft">#E8F7EE</SolidColorBrush>
+    <SolidColorBrush x:Key="Warn">#B45309</SolidColorBrush>
+    <SolidColorBrush x:Key="WarnSoft">#FEF3E2</SolidColorBrush>
+    <SolidColorBrush x:Key="Page">#F4F6FA</SolidColorBrush>
+    <SolidColorBrush x:Key="Card">#FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="Line">#E3E7EF</SolidColorBrush>
+    <SolidColorBrush x:Key="Muted">#64748B</SolidColorBrush>
+    <SolidColorBrush x:Key="Ink">#0F172A</SolidColorBrush>
+  </Application.Resources>
+  <Application.Styles>
+    <FluentTheme />
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="{StaticResource Card}" />
+      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="14" />
+      <Setter Property="Padding" Value="20" />
+    </Style>
+    <Style Selector="TextBlock.h2">
+      <Setter Property="FontSize" Value="17" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    </Style>
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="{StaticResource Muted}" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="Border.pill">
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="10,3" />
+      <Setter Property="Background" Value="{StaticResource OkSoft}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.pill TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource Ok}" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="Border.pill.off">
+      <Setter Property="Background" Value="{StaticResource WarnSoft}" />
+    </Style>
+    <Style Selector="Border.pill.off TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource Warn}" />
+    </Style>
+    <Style Selector="Button.primary">
+      <Setter Property="Background" Value="{StaticResource Accent}" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="16,9" />
+      <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#1D4ED8" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.plain">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="14,8" />
+    </Style>
+    <Style Selector="ListBox.nav">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem">
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Padding" Value="14,11" />
+      <Setter Property="Margin" Value="0,2" />
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem:selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource AccentSoft}" />
+      <Setter Property="Foreground" Value="{StaticResource Accent}" />
+    </Style>
+  </Application.Styles>
+</Application>

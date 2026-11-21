@@ -1,0 +1,88 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "skoda-octavia4",
+  "make": "Skoda",
+  "model": "Octavia 4",
+  "generation": "NX",
+  "year": 2021,
+  "vin": "TMBZZZNXZMY000002",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "3C5A1E96", "rotateLeft": 11, "add": "0BADF00D" },
+  "ecus": [
+    {
+      "key": "motor",
+      "name": "01 Motor",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "00000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "komfort",
+      "name": "09 Centralelektronik",
+      "requestId": "70E",
+      "responseId": "778",
+      "coding": "00000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "instrument",
+      "name": "17 Instrument",
+      "requestId": "714",
+      "responseId": "77E",
+      "coding": "00000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "info",
+      "name": "5F Infotainment",
+      "requestId": "773",
+      "responseId": "7DD",
+      "coding": "00000000",
+      "codingDid": "0600"
+    }
+  ],
+  "features": [
+    {
+      "id": "needle-sweep",
+      "name": "Nålsvep vid start",
+      "description": "Visarna sveper vid start.",
+      "ecu": "instrument",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "lap-timer",
+      "name": "Varvtidtagare",
+      "description": "Visar en varvtidtagare i instrumentet.",
+      "ecu": "instrument",
+      "byte": 1,
+      "bit": 2
+    },
+    {
+      "id": "comfort-blink",
+      "name": "Komfortblinkers 5 blink",
+      "description": "5 blink i stället för 3.",
+      "ecu": "komfort",
+      "byte": 0,
+      "bit": 1
+    },
+    {
+      "id": "speed-volume",
+      "name": "Volym efter fart",
+      "description": "Volymen följer farten.",
+      "ecu": "info",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "ambient-colors",
+      "name": "Fler färger på stämningsljus",
+      "description": "Låser upp fler färger i menyn.",
+      "ecu": "info",
+      "byte": 1,
+      "bit": 5
+    }
+  ],
+  "startDtcs": []
+}

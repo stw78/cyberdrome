@@ -1,0 +1,88 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "volvo-xc60",
+  "make": "Volvo",
+  "model": "XC60",
+  "generation": "P3",
+  "year": 2019,
+  "vin": "YV1UZ00000A000004",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "69F0A55A", "rotateLeft": 13, "add": "13579BDF" },
+  "ecus": [
+    {
+      "key": "ecm",
+      "name": "ECM Motor",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "cem",
+      "name": "CEM Centralmodul",
+      "requestId": "726",
+      "responseId": "72E",
+      "coding": "00000000",
+      "codingDid": "D000"
+    },
+    {
+      "key": "dim",
+      "name": "DIM Instrument",
+      "requestId": "720",
+      "responseId": "728",
+      "coding": "00000000",
+      "codingDid": "D000"
+    },
+    {
+      "key": "ihu",
+      "name": "IHU Infotainment",
+      "requestId": "7C6",
+      "responseId": "7CE",
+      "coding": "00000000",
+      "codingDid": "D000"
+    }
+  ],
+  "features": [
+    {
+      "id": "fog-cornering",
+      "name": "Kurvljus i dimljus",
+      "description": "Dimljuset lyser i kurvor vid låg fart.",
+      "ecu": "cem",
+      "byte": 0,
+      "bit": 2
+    },
+    {
+      "id": "lock-confirm",
+      "name": "Ljud vid låsning",
+      "description": "Signal när bilen låses.",
+      "ecu": "cem",
+      "byte": 0,
+      "bit": 3
+    },
+    {
+      "id": "drl-dim",
+      "name": "Dimbart varselljus",
+      "description": "Varselljuset dimras när blinkern är på.",
+      "ecu": "cem",
+      "byte": 1,
+      "bit": 0
+    },
+    {
+      "id": "speed-volume",
+      "name": "Volym efter fart",
+      "description": "Volymen följer farten.",
+      "ecu": "ihu",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "theme-extra",
+      "name": "Extra instrumenttema",
+      "description": "Låser upp ett extra tema i instrumentet.",
+      "ecu": "dim",
+      "byte": 0,
+      "bit": 4
+    }
+  ],
+  "startDtcs": []
+}

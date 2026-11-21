@@ -1,0 +1,112 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "vw-golf8",
+  "make": "Volkswagen",
+  "model": "Golf 8",
+  "generation": "5H",
+  "year": 2021,
+  "vin": "WVWZZZCDZMW000001",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "5A3C96E1", "rotateLeft": 7, "add": "1234ABCD" },
+  "ecus": [
+    {
+      "key": "motor",
+      "name": "01 Motor",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "00000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "komfort",
+      "name": "09 Centralelektronik",
+      "requestId": "70E",
+      "responseId": "778",
+      "coding": "12000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "instrument",
+      "name": "17 Instrument",
+      "requestId": "714",
+      "responseId": "77E",
+      "coding": "00000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "info",
+      "name": "5F Infotainment",
+      "requestId": "773",
+      "responseId": "7DD",
+      "coding": "01000000",
+      "codingDid": "0600"
+    }
+  ],
+  "features": [
+    {
+      "id": "needle-sweep",
+      "name": "Nålsvep vid start",
+      "description": "Visarna sveper fram och tillbaka när tändningen slås på.",
+      "ecu": "instrument",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "oil-temp",
+      "name": "Visa oljetemperatur",
+      "description": "Visar oljetemperatur i instrumentets meny.",
+      "ecu": "instrument",
+      "byte": 0,
+      "bit": 1
+    },
+    {
+      "id": "comfort-blink",
+      "name": "Komfortblinkers 5 blink",
+      "description": "Blinkern blinkar 5 gånger i stället för 3 vid kort tryck.",
+      "ecu": "komfort",
+      "byte": 1,
+      "bit": 0
+    },
+    {
+      "id": "remote-windows",
+      "name": "Stäng fönster med fjärrnyckeln",
+      "description": "Håll in låsknappen för att stänga alla fönster.",
+      "ecu": "komfort",
+      "byte": 1,
+      "bit": 1
+    },
+    {
+      "id": "lock-sound",
+      "name": "Ljud vid låsning",
+      "description": "Ett kort pip när bilen låses.",
+      "ecu": "komfort",
+      "byte": 1,
+      "bit": 2
+    },
+    {
+      "id": "coming-home",
+      "name": "Hemkomstljus",
+      "description": "Strålkastarna lyser en stund efter att bilen låsts.",
+      "ecu": "komfort",
+      "byte": 0,
+      "bit": 4
+    },
+    {
+      "id": "speed-volume",
+      "name": "Volym efter fart",
+      "description": "Radion höjer volymen när farten ökar.",
+      "ecu": "info",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "startup-logo",
+      "name": "Startbild R-Line",
+      "description": "Visar R-Line-logga när infotainment startar.",
+      "ecu": "info",
+      "byte": 2,
+      "bit": 3
+    }
+  ],
+  "startDtcs": []
+}

@@ -1,0 +1,15 @@
+{
+  "_info": "Kopiera till signing.json och fyll i. Skriv ALDRIG lösenord, PIN eller nycklar här. mode: none | test | certificate | azure",
+  "mode": "none",
+  "timestampUrl": "http://timestamp.digicert.com",
+
+  "_certificate": "Läge certificate: tumavtrycket (SHA1) för ditt kodsigneringscertifikat i Windows certifikatarkiv (t.ex. på en YubiKey/USB-nyckel från SSL.com, Sectigo eller Certum).",
+  "certificateThumbprint": "",
+  "signtoolExtra": "",
+
+  "_signTemplate": "Läge certificate med molnsignering (t.ex. SSL.com eSigner CodeSignTool): kommando där {{file}} byts mot filen. Inloggning via miljövariabler, inte här.",
+  "signTemplate": "",
+
+  "_azure": "Läge azure: sökväg till metadata.json för Azure Artifact Signing (Endpoint, CodeSigningAccountName, CertificateProfileName).",
+  "azureMetadataFile": ""
+}

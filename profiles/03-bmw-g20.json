@@ -1,0 +1,90 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "bmw-g20",
+  "make": "BMW",
+  "model": "3-serie G20",
+  "generation": "G20",
+  "year": 2020,
+  "vin": "WBA5R1C0XLA000003",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "A5C3E187", "rotateLeft": 5, "add": "00C0FFEE" },
+  "ecus": [
+    {
+      "key": "dme",
+      "name": "DME Motor",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "bdc",
+      "name": "BDC Kaross",
+      "requestId": "6F1",
+      "responseId": "640",
+      "coding": "00000000",
+      "codingDid": "3000"
+    },
+    {
+      "key": "kombi",
+      "name": "KOMBI Instrument",
+      "requestId": "6F2",
+      "responseId": "641",
+      "coding": "00000000",
+      "codingDid": "3000"
+    },
+    {
+      "key": "hu",
+      "name": "HU-MGU Huvudenhet",
+      "requestId": "6F3",
+      "responseId": "642",
+      "coding": "00100000",
+      "codingDid": "3000"
+    }
+  ],
+  "features": [
+    {
+      "id": "sport-displays",
+      "name": "Sportdisplayer",
+      "description": "Visar effekt och vridmoment i huvudenheten.",
+      "ecu": "hu",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "digital-speed",
+      "name": "Digital hastighet",
+      "description": "Visar hastigheten som siffror i instrumentet.",
+      "ecu": "kombi",
+      "byte": 0,
+      "bit": 1
+    },
+    {
+      "id": "mirror-fold",
+      "name": "Fäll speglar vid låsning",
+      "description": "Speglarna fälls in när bilen låses.",
+      "ecu": "bdc",
+      "byte": 1,
+      "bit": 0
+    },
+    {
+      "id": "welcome-light",
+      "name": "Välkomstljus",
+      "description": "Lamporna tänds när bilen låses upp.",
+      "ecu": "bdc",
+      "byte": 1,
+      "bit": 3
+    },
+    {
+      "id": "startup-anim",
+      "name": "M-startanimation",
+      "description": "Visar M-logga vid start.",
+      "ecu": "hu",
+      "byte": 2,
+      "bit": 4
+    }
+  ],
+  "startDtcs": [
+    "P0420"
+  ]
+}

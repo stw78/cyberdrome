@@ -1,0 +1,16 @@
+<Project>
+  <!--
+    Fix för Windows-felet "Type must be a type provided by the runtime" / "required a fallback to
+    out-of-process execution" (MSBuild 18.9+, .NET SDK 10.0.4xx). MSBuild kör annars Avalonias
+    byggsteg i en separat process och kraschar. Här säger vi att stegen ska köras i samma process.
+    Override="true" gör att detta vinner över Avalonias egen UsingTask.
+  -->
+  <UsingTask TaskName="GenerateAvaloniaResourcesTask"
+             AssemblyFile="$(AvaloniaBuildTasksLocation)"
+             Runtime="CurrentRuntime" Architecture="CurrentArchitecture" Override="true"
+             Condition="'$(AvaloniaBuildTasksLocation)' != ''" />
+  <UsingTask TaskName="CompileAvaloniaXamlTask"
+             AssemblyFile="$(AvaloniaBuildTasksLocation)"
+             Runtime="CurrentRuntime" Architecture="CurrentArchitecture" Override="true"
+             Condition="'$(AvaloniaBuildTasksLocation)' != ''" />
+</Project>

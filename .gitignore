@@ -1,0 +1,40 @@
+# Byggutdata
+bin/
+obj/
+publish/
+release/
+TestResults/
+*.nupkg
+
+# IDE
+.vs/
+*.user
+*.suo
+
+# Kodsignering: lokala inställningar, certifikat och nycklar hör aldrig hemma i repot
+signing.json
+*.pfx
+*.p12
+*.cer
+*.snk
+*.jks
+*.keystore
+*.pvk
+metadata.json
+
+# Användardata och loggar (ligger normalt i %AppData%\Cyberdrome och %LocalAppData%\Cyberdrome)
+*.db
+*.db-shm
+*.db-wal
+*.log
+obd-logg*.txt
+korningar/
+testresultat/
+backup/
+obdb/
+
+# Nedladdat från tredje part (hämtas av användaren, sprids aldrig med koden)
+*.img
+*.qcow2
+*.iso
+system-images/

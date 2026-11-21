@@ -1,0 +1,48 @@
+TREDJEPARTSKOMPONENTER OCH DATAKÄLLOR – Cyberdrome Simulator {{VERSION}}
+Cyberdrome © 2026 Jouko Broström – fri programvara under GPL-3.0-or-later (se LICENSE). Programmet använder följande komponenter med öppen källkod.
+Varje komponent omfattas av sin egen licens (se nedan). Listan genereras av build-release.ps1 från paketens metadata.
+
+== Programkomponenter (NuGet) ==
+
+{{PACKAGES}}
+
+.NET Runtime (ingår i den fristående installationen) – MIT, © .NET Foundation och bidragsgivare. https://github.com/dotnet/runtime
+Typsnittet Inter (via Avalonia.Fonts.Inter) – SIL Open Font License 1.1, © The Inter Project Authors. https://rsms.me/inter
+Skia och HarfBuzz (i SkiaSharp och HarfBuzzSharp) – BSD-3-Clause respektive MIT ("Old MIT"), © Google och HarfBuzz-författarna.
+ANGLE (Avalonia.Angle.Windows.Natives) – BSD-3-Clause, © The ANGLE Project Authors.
+SQLite – public domain (https://sqlite.org/copyright.html).
+
+== Datakällor (hämtas av användaren när programmet körs – följer inte med installationen) ==
+
+Kartor: © OpenStreetMap-bidragsgivare. Data under Open Database License (ODbL). https://www.openstreetmap.org/copyright
+  Kartrutor från tile.openstreetmap.org får bara användas måttligt enligt OSMF:s regler. En såld version ska använda en kommersiell kartleverantör.
+OBDb (tillverkarsignaler): Data från OBDb (github.com/OBDb), Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0).
+  Hämtat data sparas separat i %AppData%\Cyberdrome\obdb. Ändrat data ska delas under samma licens.
+Wikidata (bilmodellnamn): Wikidata, CC0 1.0 (fri att använda). https://www.wikidata.org
+NHTSA vPIC (märken, modeller, VIN-avkodning): öppen data från U.S. National Highway Traffic Safety Administration. https://vpic.nhtsa.dot.gov
+
+== Program som användaren kan välja att hämta (följer inte med) ==
+
+Android-emulatorn och Android-avbildningar (Android SDK) – hämtas från Google enligt Android SDK License Agreement.
+  Avbildningar med Google-tjänster (Google Play) får bara användas för utveckling och test.
+AndrOBD (GPL-3.0) och Organic Maps (Apache-2.0) – hämtas från F-Droid om användaren väljer det. De ingår inte i Cyberdrome.
+
+== MIT-licensen (gäller komponenterna märkta MIT) ==
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+== Apache License 2.0 (SQLitePCLRaw) ==
+
+Licensed under the Apache License, Version 2.0. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

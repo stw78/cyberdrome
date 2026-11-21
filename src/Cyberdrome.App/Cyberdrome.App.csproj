@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- På Windows används Windows egna Bluetooth-API (WinRT) för den virtuella Bluetooth OBD-dongeln. -->
+    <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Windows'))">net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::IsOSPlatform('Windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+    <AssemblyName>Cyberdrome</AssemblyName>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\cyberdrome.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.23" Condition="'$(Configuration)' == 'Debug'" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Velopack" Version="1.2.161" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cyberdrome.Core\Cyberdrome.Core.csproj" />
+    <ProjectReference Include="..\Cyberdrome.Obd\Cyberdrome.Obd.csproj" />
+    <ProjectReference Include="..\Cyberdrome.Vm\Cyberdrome.Vm.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\cyberdrome.ico" />
+    <AvaloniaResource Include="Assets\cyberdrome-256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\profiles\*.json" Link="profiles\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Licenstexter och våra egna Android-appar följer med programmet (inga tredjepartsappar eller Google-avbildningar). -->
+    <None Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\legal\DISCLAIMER.md" Link="DISCLAIMER.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\legal\THIRD-PARTY-NOTICES.txt" Link="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk" Link="apps\CyberdromeLauncher.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk')" />
+    <None Include="..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk" Link="apps\CyberdromeRadio.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk')" />
+  </ItemGroup>
+</Project>

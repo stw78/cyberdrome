@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cyberdrome Launcher: egen startskärm med teman per bilmodell. Egen kod och egen grafik (inga logotyper). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="se.cyberdrome.launcher"
+    android:versionCode="2"
+    android:versionName="0.2">
+
+    <uses-sdk android:minSdkVersion="29" android:targetSdkVersion="34" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <uses-feature android:name="android.hardware.type.automotive" android:required="false" />
+
+    <application
+        android:label="Cyberdrome Launcher"
+        android:usesCleartextTraffic="true"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:resumeWhilePausing="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="distractionOptimized" android:value="true" />
+        </activity>
+
+        <!-- Cyberdrome byter tema med: am broadcast -n se.cyberdrome.launcher/.ThemeReceiver -a se.cyberdrome.launcher.SET_THEME -->
+        <receiver android:name=".ThemeReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="se.cyberdrome.launcher.SET_THEME" />
+            </intent-filter>
+        </receiver>
+        <!-- Utvecklarverktyg: OBD-kommandon inifrån Android (svar i logcat, taggen CyberdromeProbe). -->
+        <receiver android:name=".ObdProbeReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="se.cyberdrome.launcher.PROBE" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

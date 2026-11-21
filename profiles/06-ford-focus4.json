@@ -1,0 +1,88 @@
+{
+  "_info": "Exempeldata. Funktionsnamn är publika; byte/bit-platser och CAN-id är påhittade för simulering.",
+  "id": "ford-focus4",
+  "make": "Ford",
+  "model": "Focus Mk4",
+  "generation": "C519",
+  "year": 2019,
+  "vin": "WF0NXXGCHNKA00006",
+  "protocol": "6",
+  "securityAccess": { "_info": "Påhittad testformel för UDS 27, inte en riktig tillverkares algoritm.", "xorMask": "C0DEC0DE", "rotateLeft": 9, "add": "FACE0FF0" },
+  "ecus": [
+    {
+      "key": "pcm",
+      "name": "PCM Motor",
+      "requestId": "7E0",
+      "responseId": "7E8",
+      "coding": "000000",
+      "codingDid": "0600"
+    },
+    {
+      "key": "bcm",
+      "name": "BCM Kaross",
+      "requestId": "726",
+      "responseId": "72E",
+      "coding": "00000000",
+      "codingDid": "DE00"
+    },
+    {
+      "key": "ipc",
+      "name": "IPC Instrument",
+      "requestId": "720",
+      "responseId": "728",
+      "coding": "00000000",
+      "codingDid": "DE00"
+    },
+    {
+      "key": "apim",
+      "name": "APIM Sync 3",
+      "requestId": "7D0",
+      "responseId": "7D8",
+      "coding": "00000000",
+      "codingDid": "DE00"
+    }
+  ],
+  "features": [
+    {
+      "id": "global-windows",
+      "name": "Fönster med fjärrnyckeln",
+      "description": "Öppna/stäng fönster med nyckeln.",
+      "ecu": "bcm",
+      "byte": 0,
+      "bit": 0
+    },
+    {
+      "id": "needle-sweep",
+      "name": "Nålsvep vid start",
+      "description": "Visarna sveper vid start.",
+      "ecu": "ipc",
+      "byte": 0,
+      "bit": 1
+    },
+    {
+      "id": "ambient-menu",
+      "name": "Stämningsljus i meny",
+      "description": "Visar meny för stämningsljus.",
+      "ecu": "apim",
+      "byte": 0,
+      "bit": 2
+    },
+    {
+      "id": "bambi-mode",
+      "name": "Bambi-läge",
+      "description": "Dimljus + varselljus samtidigt.",
+      "ecu": "bcm",
+      "byte": 1,
+      "bit": 4
+    },
+    {
+      "id": "speed-volume",
+      "name": "Volym efter fart",
+      "description": "Volymen följer farten.",
+      "ecu": "apim",
+      "byte": 1,
+      "bit": 0
+    }
+  ],
+  "startDtcs": []
+}

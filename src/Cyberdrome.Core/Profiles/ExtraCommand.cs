@@ -62,7 +62,9 @@ public sealed class ExtraSignal
         for (int i = 0; i < Len; i++)
         {
             int bit = Bix + i;
-            raw = (raw << 1) | ((data[bit / 8] >> (7 - bit % 8)) & 1);
+            // En bit (0 eller 1) som byte: inget teckenutvidgat int-värde blandas in i long (CS0675).
+            byte b = (byte)((data[bit / 8] >> (7 - bit % 8)) & 1);
+            raw = (raw << 1) | b;
         }
         if (Signed && Len < 64 && (raw & (1L << (Len - 1))) != 0) raw -= 1L << Len;
         return raw * Mul / (Div == 0 ? 1 : Div) + Add;

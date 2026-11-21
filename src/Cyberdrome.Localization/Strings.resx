@@ -2124,7 +2124,7 @@ Do you also want to remove my data?
   <data name="TestEvaluator_Set" xml:space="preserve">
     <value>Set</value>
   </data>
-  <data name="TestEvaluator_SpanClassFailFAILEDSpan" xml:space="preserve">
+  <data name="TestEvaluator_BigFailed" xml:space="preserve">
     <value>&lt;span class=fail&gt;FAILED&lt;/span&gt;</value>
   </data>
   <data name="TestEvaluator_SpanClassFailFailedSpan" xml:space="preserve">
@@ -2133,7 +2133,7 @@ Do you also want to remove my data?
   <data name="TestEvaluator_SpanClassNdNotPerformedOptional" xml:space="preserve">
     <value>&lt;span class=nd&gt;– Not performed (optional)&lt;/span&gt;</value>
   </data>
-  <data name="TestEvaluator_SpanClassOkPASSEDSpan" xml:space="preserve">
+  <data name="TestEvaluator_BigPassed" xml:space="preserve">
     <value>&lt;span class=ok&gt;PASSED&lt;/span&gt;</value>
   </data>
   <data name="TestEvaluator_SpanClassOkPassedSpan" xml:space="preserve">
@@ -2184,7 +2184,7 @@ Do you also want to remove my data?
   <data name="Tests_Drive0" xml:space="preserve">
     <value> · drive "{0}"</value>
   </data>
-  <data name="Tests_FAILED" xml:space="preserve">
+  <data name="Tests_ResultFailed" xml:space="preserve">
     <value>FAILED</value>
   </data>
   <data name="Tests_Failed" xml:space="preserve">
@@ -2202,7 +2202,7 @@ Do you also want to remove my data?
   <data name="Tests_NotPerformedOptional" xml:space="preserve">
     <value>– Not performed (optional)</value>
   </data>
-  <data name="Tests_PASSED" xml:space="preserve">
+  <data name="Tests_ResultPassed" xml:space="preserve">
     <value>PASSED</value>
   </data>
   <data name="Tests_Passed" xml:space="preserve">

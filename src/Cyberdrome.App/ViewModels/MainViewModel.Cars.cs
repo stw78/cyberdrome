@@ -79,7 +79,7 @@ public sealed partial class MainViewModel
             ReloadOwnProfiles(p.Id);
             CarStatus = $"Sparad: {p.DisplayName}";
         }
-        catch (Exception ex) { CarEditor.Errors = ex.Message; }
+        catch (Exception ex) { if (CarEditor is { } ed) ed.Errors = ex.Message; else CarStatus = ex.Message; }
     }
 
     [RelayCommand]

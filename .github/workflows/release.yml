@@ -89,7 +89,7 @@ jobs:
           gh release view "v$v" --repo "${{ github.repository }}" --json assets --jq '.assets[].name'
 
       - name: Spara paketen som artefakt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cyberdrome-cockpit-${{ steps.ver.outputs.version }}
           path: out/${{ steps.ver.outputs.version }}/

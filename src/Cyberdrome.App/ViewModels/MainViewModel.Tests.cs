@@ -139,13 +139,13 @@ public sealed partial class MainViewModel
                 c.Status switch { CheckStatus.Passed => L.T("Tests_Passed"), CheckStatus.NotDone => L.T("Tests_NotPerformedOptional"), _ => L.T("Tests_Failed") },
                 Avalonia.Media.Brush.Parse(c.Status switch { CheckStatus.Passed => "#16A34A", CheckStatus.NotDone => "#B45309", _ => "#DC2626" }),
                 c.Detail, string.Join("\n", c.Excerpt)));
-        TestSummary = (aborted ? L.T("Tests_Cancelled") : "") + (result.Passed ? L.T("Tests_PASSED") : L.T("Tests_FAILED"))
+        TestSummary = (aborted ? L.T("Tests_Cancelled") : "") + (result.Passed ? L.T("Tests_ResultPassed") : L.T("Tests_ResultFailed"))
                       + L.F("Tests_0Of1ChecksPassed2", result.PassedCount, result.Checks.Count, result.RequestCount)
                       + (result.Clients.Count > 0 ? L.T("Tests_From") + string.Join(", ", result.Clients) : L.T("Tests_NoAppAsked"));
         TestSummaryColor = Avalonia.Media.Brush.Parse(result.Passed ? "#16A34A" : "#DC2626");
         try { LastReportPath = TestEvaluator.SaveReport(result); }
         catch (Exception ex) { TestSummary += L.T("Tests_TheReportCouldNotBeSaved") + ex.Message; }
-        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, L.F("Tests_TestCaseFinished01", t.Name, (result.Passed ? L.T("Tests_PASSED") : L.T("Tests_FAILED")))));
+        AddLog(new ObdTrafficEntry(DateTime.Now, "program", false, L.F("Tests_TestCaseFinished01", t.Name, (result.Passed ? L.T("Tests_ResultPassed") : L.T("Tests_ResultFailed")))));
     }
 
     [RelayCommand]

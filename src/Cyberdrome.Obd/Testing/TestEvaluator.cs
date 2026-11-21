@@ -214,7 +214,7 @@ public static class TestEvaluator
           .Append("pre{background:#f8fafc;padding:6px;margin:4px 0 0;font-size:12px;white-space:pre-wrap}.big{font-size:20px;font-weight:700}")
           .Append("</style></head><body>");
         sb.Append("<h1>").Append(E(r.TestName)).Append("</h1><div class=muted>").Append(E(r.Description)).Append("</div>");
-        sb.Append("<p class=big>").Append(r.Passed ? L.T("TestEvaluator_SpanClassOkPASSEDSpan") : L.T("TestEvaluator_SpanClassFailFAILEDSpan"))
+        sb.Append("<p class=big>").Append(r.Passed ? L.T("TestEvaluator_BigPassed") : L.T("TestEvaluator_BigFailed"))
           .Append(L.F("TestEvaluator_0Of1ChecksPassedP", r.PassedCount, r.Checks.Count));
         sb.Append(L.F("TestEvaluator_PClassMuted0YyyyMM", r.Start, r.End, r.RequestCount, E(string.Join(", ", r.Clients))));
         sb.Append("<h2>Kontroller</h2><table><tr><th>Kontroll</th><th>Resultat</th><th>Detaljer</th></tr>");

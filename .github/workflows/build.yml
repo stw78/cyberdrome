@@ -58,7 +58,7 @@ jobs:
 
       - name: Ladda upp paketen
         id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cyberdrome-${{ steps.ver.outputs.version }}
           path: out/${{ steps.ver.outputs.version }}/

@@ -4,6 +4,28 @@ Each version has an English and a Swedish part. The release job on GitHub uses t
 release notes (`tools/changelog-section.ps1`). / Varje version har en engelsk och en svensk del. Releasejobbet på GitHub
 använder avsnittet för den taggade versionen som releaseanteckningar.
 
+## 1.3.0
+
+**English**
+
+- **Linux (x64):** Cyberdrome Cockpit now also runs on Linux as an AppImage (`CyberdromeSimulator.AppImage`): the whole
+  program in English and Swedish, OBD over Wi-Fi/TCP and serial ports, and the Android emulator modes with the live
+  screen stream (needs KVM). Updates come from GitHub Releases on a separate Linux channel.
+- **Android tools are downloaded automatically** (Windows and Linux): if the Android command-line tools and Java are
+  missing, the program asks and downloads them (about 350 MB) – no Android SDK has to be installed beforehand.
+- Not yet on Linux: the virtual Bluetooth OBD dongles, Bluetooth for a real adapter, and the Cuttlefish mode (coming
+  later, natively without WSL).
+
+**Svenska**
+
+- **Linux (x64):** Cyberdrome Cockpit körs nu även på Linux som AppImage (`CyberdromeSimulator.AppImage`): hela
+  programmet på svenska och engelska, OBD över Wi-Fi/TCP och seriella portar, och Android-emulatorns lägen med den
+  levande bildströmmen (kräver KVM). Uppdateringar kommer från GitHub Releases i en egen Linux-kanal.
+- **Androids verktyg hämtas automatiskt** (Windows och Linux): saknas Androids kommandoradsverktyg och Java frågar
+  programmet och hämtar dem (cirka 350 MB) – ingen Android SDK behöver vara installerad i förväg.
+- Inte än på Linux: de virtuella Bluetooth OBD-donglarna, Bluetooth för riktig adapter och Cuttlefish-läget (kommer
+  senare, direkt utan WSL).
+
 ## 1.2.0
 
 **English**

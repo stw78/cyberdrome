@@ -465,7 +465,7 @@ kör programmet, uttryckligen ber om det.
 
 Ingen telemetri, ingen statistik och inget konto.
 
-## Linux (pågår, grenen `linux`)
+## Linux
 
 Cyberdrome Cockpit byggs även för **Linux x64**. Hämta `CyberdromeSimulator.AppImage` från releasen, gör den körbar
 (`chmod +x`) och starta den. Uppdateringar kommer från samma GitHub-releaser (Linux-kanalen).

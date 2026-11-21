@@ -558,7 +558,7 @@ the person installing or operating it.
 
 There is no telemetry, analytics or account.
 
-## Linux (in progress, branch `linux`)
+## Linux
 
 Cyberdrome Cockpit also builds for **Linux x64**. Download `CyberdromeSimulator.AppImage` from the release, make it
 executable (`chmod +x`) and run it. Updates come from the same GitHub releases (Linux channel).

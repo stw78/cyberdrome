@@ -8,7 +8,7 @@
     <Authors>Jouko Broström</Authors>
     <Product>Cyberdrome Cockpit</Product>
     <Copyright>Copyright (C) 2026 Jouko Broström. GPL-3.0-or-later.</Copyright>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <!-- Samma produktversion i varje bygge (SignPath): ingen commit-hash i ProductVersion. -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>

@@ -210,14 +210,45 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
             return new ProcessResult(0, "");
         }
 
-        log(L.T("EmulatorVm_StartingTheAndroidEmulator"));
-        Report(null, L.T("Main_StartingAndroid"));
+        // Grafikkortet först (mycket snabbare); startar emulatorn inte med det provas mjukvarugrafik.
+        var gpus = GpuModes(Settings.EmulatorGpu);
+        for (int g = 0; g < gpus.Length; g++)
+        {
+            var r = await LaunchAsync(gpus[g], log, Report, ct);
+            if (r.ExitCode != EarlyExit || g == gpus.Length - 1) return r.ExitCode == EarlyExit ? new ProcessResult(-1, r.Output) : r;
+            log(L.F("EmulatorVm_GpuFallback01", gpus[g], gpus[g + 1]));
+        }
+        return new ProcessResult(-1, "");
+    }
+
+    /// <summary>Kortare animationer (0,5×) så att Android känns snabbare. Kan stängas av i inställningarna.</summary>
+    private async Task ApplyPerformanceAsync(string serial, CancellationToken ct)
+    {
+        var scale = AndroidTuning.AnimationScale(Settings.FastAnimations);
+        foreach (var key in AndroidTuning.AnimationKeys)
+            await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "settings", "put", "global", key, scale], ct: ct);
+    }
+
+    /// <summary>Emulatorn stängdes direkt (t.ex. grafikkortet gick inte att använda).</summary>
+    private const int EarlyExit = -99;
+
+    /// <summary>Grafiklägen att prova i ordning: det valda, och mjukvara som reserv.</summary>
+    public static string[] GpuModes(string? chosen) =>
+        string.IsNullOrWhiteSpace(chosen) || chosen == "swiftshader_indirect" ? ["swiftshader_indirect"] : [chosen, "swiftshader_indirect"];
+
+    /// <summary>Argument till emulatorn (utan -no-window).</summary>
+    public string[] EmulatorArgs(string gpu) =>
+        ["-avd", AvdName, "-gpu", gpu, "-memory", Settings.EmulatorMemoryMb.ToString(),
+         "-cores", Settings.Cpus.ToString(), "-no-boot-anim", "-no-audio", "-netdelay", "none", "-netspeed", "full"];
+
+    private async Task<ProcessResult> LaunchAsync(string gpu, Action<string> log, Action<double?, string, bool> Report, CancellationToken ct)
+    {
+        log(L.T("EmulatorVm_StartingTheAndroidEmulator") + " " + L.F("EmulatorVm_StartDetails012", gpu, Settings.Cpus, Settings.EmulatorMemoryMb));
+        Report(null, L.T("Main_StartingAndroid"), false);
         _serial = null;
         // Arbetsmapp utanför programmappen: emulatorn lever kvar efter programmet och får inte låsa mappen (uppdatering).
         var psi = new ProcessStartInfo(Settings.EmulatorExe) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = ProcessRunner.NeutralDir(Settings.EmulatorExe) };
-        foreach (var a in new[] { "-avd", AvdName, "-gpu", "auto", "-memory", Settings.EmulatorMemoryMb.ToString(),
-                     "-cores", Settings.Cpus.ToString(), "-no-boot-anim", "-netdelay", "none", "-netspeed", "full" })
-            psi.ArgumentList.Add(a);
+        foreach (var a in EmulatorArgs(gpu)) psi.ArgumentList.Add(a);
         // Skärmen visas inne i Cyberdrome, så emulatorns eget fönster behövs inte.
         if (!Settings.ShowEmulatorWindow) psi.ArgumentList.Add("-no-window");
         psi.Environment["ANDROID_SDK_ROOT"] = Settings.SdkRoot;
@@ -234,7 +265,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
             if (proc is { HasExited: true })
             {
                 log(L.F("EmulatorVm_TheEmulatorClosedImmediatelyCode0", proc.ExitCode));
-                return new ProcessResult(proc.ExitCode == 0 ? -1 : proc.ExitCode, "");
+                return new ProcessResult(serial is null ? EarlyExit : (proc.ExitCode == 0 ? -1 : proc.ExitCode), "");
             }
             serial ??= await FindSerialAsync(ct);
             if (serial is not null)
@@ -243,13 +274,14 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
                 if (b.Output.Trim() == "1")
                 {
                     log(L.T("AndroidVm_AndroidIsRunning"));
-                    Report(100, L.T("AndroidVm_AndroidIsRunning"), done: true);
+                    Report(100, L.T("AndroidVm_AndroidIsRunning"), true);
+                    await ApplyPerformanceAsync(serial, ct);
                     OpenScreen(log);
                     return new ProcessResult(0, "");
                 }
             }
             int secs = (int)(DateTime.UtcNow - started).TotalSeconds;
-            Report(null, L.F("EmulatorVm_StartingAndroid0STheFirst", secs));
+            Report(null, L.F("EmulatorVm_StartingAndroid0STheFirst", secs), false);
             await Task.Delay(2000, ct);
         }
         log(L.T("EmulatorVm_AndroidDidNotStartWithinThe"));
@@ -327,6 +359,8 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
         if (serial is null) return false; // gäller vid nästa start
         async Task<bool> Sh(params string[] a) => (await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", .. a], ct: ct)).Ok;
         bool ok = await Sh("wm", "size", $"{width}x{height}");
+        _wmSize = null; // ny storlek: kontrollera konsolbilden igen
+        _consoleFailed = false;
         ok &= await Sh("wm", "density", dpi.ToString());
         // Lås rotationen så att Android inte vänder skärmen själv.
         await Sh("settings", "put", "system", "accelerometer_rotation", "0");
@@ -413,10 +447,35 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
         return _displayId;
     }
 
+    private EmulatorConsole? _console;
+    private bool _consoleFailed;
+    private (int W, int H)? _wmSize;
+
+    /// <summary>Storleken Android ritar i (wm size: override om satt, annars fysisk).</summary>
+    private async Task<(int W, int H)?> WmSizeAsync(string serial, CancellationToken ct)
+    {
+        if (_wmSize is not null) return _wmSize;
+        var r = await ProcessRunner.RunAsync(Settings.AdbExe, ["-s", serial, "shell", "wm", "size"], ct: ct);
+        _wmSize = PngInfo.ParseWmSize(r.Output);
+        return _wmSize;
+    }
+
     public async Task<byte[]?> CaptureScreenAsync(CancellationToken ct = default)
     {
         var serial = await SerialAsync(ct);
         if (serial is null) return null;
+        // Snabb väg: emulatorns konsol tar bilden på datorn (~30 ms). Används bara när bilden har samma storlek som
+        // Android ritar i (annars hamnar tryck fel), och slutar användas om den inte fungerar.
+        if (!_consoleFailed && EmulatorConsole.PortFromSerial(serial) is { } port)
+        {
+            _console ??= new EmulatorConsole(port);
+            var fast = await _console.CaptureAsync(ct);
+            var size = await WmSizeAsync(serial, ct);
+            if (fast is not null && PngInfo.Size(fast) is { } s && size is { } w && s == w) return fast;
+            _consoleFailed = true;
+            _console.Dispose();
+            _console = null;
+        }
         var display = await DisplayIdAsync(serial, ct);
         var args = new List<string> { "-s", serial, "exec-out", "screencap", "-p" };
         if (!string.IsNullOrEmpty(display)) args.AddRange(["-d", display]);
@@ -424,6 +483,8 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
         if (png is null || png.Length < 8 || png[0] != 0x89 || png[1] != (byte)'P')
         {
             _serial = null; // emulatorn kan ha startats om – leta upp den igen nästa gång
+            _consoleFailed = false;
+            _wmSize = null;
             return null;
         }
         return png;

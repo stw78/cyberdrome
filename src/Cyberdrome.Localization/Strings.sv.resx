@@ -3060,4 +3060,10 @@ Vill du även ta bort mina data?
   <data name="Ui_ShowLog" xml:space="preserve">
     <value>Visa logg</value>
   </data>
+  <data name="EmulatorVm_GpuFallback01" xml:space="preserve">
+    <value>Emulatorn kunde inte starta med grafikläget {0}; provar {1} (mjukvara, långsammare).</value>
+  </data>
+  <data name="EmulatorVm_StartDetails012" xml:space="preserve">
+    <value>(grafik {0}, {1} kärnor, {2} MB)</value>
+  </data>
 </root>

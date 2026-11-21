@@ -177,8 +177,18 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
         else log(line);
     };
 
-    public Task<ProcessResult> StartAsync(Action<string> log, IProgress<InstallProgress>? progress = null, CancellationToken ct = default) =>
-        RunScriptAsync("start.sh", root: false, log: log, ct: ct, env: StartEnv(Settings));
+    public async Task<ProcessResult> StartAsync(Action<string> log, IProgress<InstallProgress>? progress = null, CancellationToken ct = default)
+    {
+        _adbConnected = false;
+        _displayId = null;
+        var r = await RunScriptAsync("start.sh", root: false, log: log, ct: ct, env: StartEnv(Settings));
+        if (r.Ok)
+        {
+            var scale = AndroidTuning.AnimationScale(Settings.FastAnimations);
+            foreach (var key in AndroidTuning.AnimationKeys) await ShellAsync(ct, "settings", "put", "global", key, scale);
+        }
+        return r;
+    }
 
     /// <summary>Raden "FEL: …" från startskriptet (den sista), utan "FEL:", eller null.</summary>
     public static string? StartFailureReason(string output) =>
@@ -209,16 +219,31 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
     private bool _adbConnected;
     private string? _displayId;
 
-    private List<string> AdbArgs(params string[] args)
+    /// <summary>
+    /// Windows egen adb (från Android SDK) når Cuttlefish direkt på 127.0.0.1 via WSL2:s portvidarebefordran och är
+    /// mycket snabbare än att starta wsl.exe för varje bild. Finns den inte används adb inne i Linux-miljön.
+    /// </summary>
+    private bool WindowsAdb => !_windowsAdbFailed && File.Exists(Settings.AdbExe);
+    private bool _windowsAdbFailed;
+
+    private (string File, List<string> Args) Adb(params string[] args)
     {
+        if (WindowsAdb) return (Settings.AdbExe, ["-s", Serial, .. args]);
         var a = new List<string> { "-d", Settings.DistroName, "-u", "cvd", "--", CvdAdb, "-s", Serial };
         a.AddRange(args);
-        return a;
+        return (Wsl, a);
     }
 
     private async Task EnsureAdbAsync(CancellationToken ct)
     {
         if (_adbConnected) return;
+        if (WindowsAdb)
+        {
+            var w = await ProcessRunner.RunAsync(Settings.AdbExe, ["connect", Serial], ct: ct);
+            _adbConnected = w.Ok && w.Output.Contains("connected", StringComparison.OrdinalIgnoreCase) && !w.Output.Contains("cannot", StringComparison.OrdinalIgnoreCase);
+            if (_adbConnected) return;
+            _windowsAdbFailed = true;
+        }
         var r = await ProcessRunner.RunAsync(Wsl, ["-d", Settings.DistroName, "-u", "cvd", "--", CvdAdb, "connect", Serial], ct: ct);
         _adbConnected = r.Ok && !r.Output.Contains("failed", StringComparison.OrdinalIgnoreCase);
     }
@@ -226,7 +251,8 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
     private async Task<ProcessResult> ShellAsync(CancellationToken ct, params string[] args)
     {
         await EnsureAdbAsync(ct);
-        return await ProcessRunner.RunAsync(Wsl, AdbArgs(["shell", .. args]), ct: ct);
+        var (file, a) = Adb(["shell", .. args]);
+        return await ProcessRunner.RunAsync(file, a, ct: ct);
     }
 
     public async Task<byte[]?> CaptureScreenAsync(CancellationToken ct = default)
@@ -239,8 +265,8 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
             var m = System.Text.RegularExpressions.Regex.Match(d.Output, @"Display (\d+)");
             _displayId = m.Success ? m.Groups[1].Value : "";
         }
-        var args = _displayId.Length > 0 ? AdbArgs("exec-out", "screencap", "-p", "-d", _displayId) : AdbArgs("exec-out", "screencap", "-p");
-        var png = await ProcessRunner.RunBinaryAsync(Wsl, args, ct);
+        var (file, args) = _displayId.Length > 0 ? Adb("exec-out", "screencap", "-p", "-d", _displayId) : Adb("exec-out", "screencap", "-p");
+        var png = await ProcessRunner.RunBinaryAsync(file, args, ct);
         if (png is null || png.Length < 8 || png[0] != 0x89 || png[1] != (byte)'P')
         {
             _adbConnected = false; // Android kan ha startats om – anslut och leta skärm igen nästa gång

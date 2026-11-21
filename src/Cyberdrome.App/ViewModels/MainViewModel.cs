@@ -763,6 +763,7 @@ public sealed partial class MainViewModel : ObservableObject
         {
             try
             {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
                 var png = await screen.CaptureScreenAsync(ct);
                 if (png is not null)
                 {
@@ -775,7 +776,8 @@ public sealed partial class MainViewModel : ObservableObject
                 {
                     _ = RefreshAndroid(); // Android kan ha stängts
                 }
-                await Task.Delay(png is null ? 1000 : 120, ct);
+                // Sikta på cirka 15 bilder/s: vänta bara det som är kvar av 66 ms efter att bilden hämtats.
+                await Task.Delay(png is null ? 1000 : ScreenPacing.DelayAfter(sw.ElapsedMilliseconds), ct);
             }
             catch (OperationCanceledException) { break; }
             catch (Exception ex)

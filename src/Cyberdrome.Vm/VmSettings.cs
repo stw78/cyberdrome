@@ -54,7 +54,27 @@ public sealed class VmSettings
     /// </summary>
     public long ExpectedDownloadMb { get; set; } = 5000;
 
-    public int Cpus { get; set; } = 4;
+    /// <summary>Kärnor till Android: hälften av datorns trådar, 2–8 (förr alltid 4).</summary>
+    public int Cpus { get; set; } = DefaultCpus();
+
+    public static int DefaultCpus() => DefaultCpusFor(Environment.ProcessorCount);
+    public static int DefaultCpusFor(int threads) => Math.Clamp(threads / 2, 2, 8);
+
+    /// <summary>
+    /// Grafik i emulatorn: "host" = datorns grafikkort (snabbt), "swiftshader_indirect" = mjukvara (långsamt, fungerar alltid).
+    /// Startar inte emulatorn med grafikkortet provas mjukvara automatiskt.
+    /// </summary>
+    public string EmulatorGpu { get; set; } = "host";
+
+    /// <summary>Kortare animationer i Android (0,5×) så att gränssnittet känns snabbare. Standard: på.</summary>
+    public bool FastAnimations { get; set; } = true;
+
+    /// <summary>Vilken version av prestandainställningarna som gäller (för att uppgradera gamla inställningsfiler en gång).</summary>
+    public int PerformanceVersion { get; set; }
+    public const int CurrentPerformanceVersion = 1;
+
+    /// <summary>Satt när en gammal fil uppgraderades vid inläsning (sparas då direkt).</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public bool Migrated { get; private set; }
     public int MemoryMb { get; set; } = 8192;
 
     /// <summary>Adress till Android-skärmen (Cuttlefish WebRTC).</summary>
@@ -154,6 +174,15 @@ public sealed class VmSettings
     {
         var s = JsonSerializer.Deserialize<VmSettings>(json, JsonOptions) ?? new();
         if (RetiredBuilds.Contains(s.AndroidBuild)) s.AndroidBuild = new VmSettings().AndroidBuild;
+        // Version 1.2: gamla filer hade 4 kärnor och mjukvarugrafik som standard – uppgradera en gång.
+        if (s.PerformanceVersion < 1)
+        {
+            if (s.Cpus == 4) s.Cpus = DefaultCpus();
+            s.EmulatorGpu = "host";
+            s.FastAnimations = true;
+            s.PerformanceVersion = CurrentPerformanceVersion;
+            s.Migrated = true;
+        }
         return s;
     }
 
@@ -161,10 +190,16 @@ public sealed class VmSettings
     {
         try
         {
-            if (File.Exists(FilePath)) return FromJson(File.ReadAllText(FilePath));
+            if (File.Exists(FilePath))
+            {
+                var loaded = FromJson(File.ReadAllText(FilePath));
+                if (loaded.Migrated) loaded.Save();
+                return loaded;
+            }
         }
         catch { /* trasig fil: använd standardvärden */ }
         var s = new VmSettings();
+        s.PerformanceVersion = CurrentPerformanceVersion;
         s.Save();
         return s;
     }

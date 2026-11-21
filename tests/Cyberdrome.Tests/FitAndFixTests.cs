@@ -176,3 +176,73 @@ public class WslStartTests
         Assert.Null(AndroidVm.StartFailureReason(">> Android startat\n"));
     }
 }
+
+/// <summary>Prestanda: snabba skärmbilder, grafikkort med reserv, fler kärnor och kortare animationer.</summary>
+public class PerformanceTests
+{
+    [Theory]
+    [InlineData(16, 8)]
+    [InlineData(8, 4)]
+    [InlineData(4, 2)]
+    [InlineData(2, 2)]
+    [InlineData(64, 8)]
+    public void CoresAreHalfTheThreadsWithinLimits(int threads, int cores) => Assert.Equal(cores, VmSettings.DefaultCpusFor(threads));
+
+    [Fact]
+    public void OldSettingsAreUpgradedOnce()
+    {
+        var old = VmSettings.FromJson("""{ "Mode": "GoogleApps", "Cpus": 4, "EmulatorMemoryMb": 4096 }""");
+        Assert.True(old.Migrated);
+        Assert.Equal(VmSettings.DefaultCpus(), old.Cpus);
+        Assert.Equal("host", old.EmulatorGpu);
+        Assert.True(old.FastAnimations);
+        // Egna val efter uppgraderingen ändras inte igen.
+        var mine = VmSettings.FromJson("""{ "Cpus": 3, "EmulatorGpu": "swiftshader_indirect", "FastAnimations": false, "PerformanceVersion": 1 }""");
+        Assert.False(mine.Migrated);
+        Assert.Equal(3, mine.Cpus);
+        Assert.Equal("swiftshader_indirect", mine.EmulatorGpu);
+        Assert.False(mine.FastAnimations);
+    }
+
+    [Fact]
+    public void GpuFallsBackToSoftware()
+    {
+        Assert.Equal(["host", "swiftshader_indirect"], EmulatorVm.GpuModes("host"));
+        Assert.Equal(["swiftshader_indirect"], EmulatorVm.GpuModes("swiftshader_indirect"));
+        Assert.Equal(["swiftshader_indirect"], EmulatorVm.GpuModes(null));
+        var args = new EmulatorVm(new VmSettings { Cpus = 8, EmulatorMemoryMb = 4096 }).EmulatorArgs("host");
+        Assert.Contains("host", args);
+        Assert.Equal("8", args[Array.IndexOf(args, "-cores") + 1]);
+        Assert.Contains("-no-audio", args);
+    }
+
+    [Theory]
+    [InlineData(0, 66)]
+    [InlineData(30, 36)]
+    [InlineData(60, 15)]
+    [InlineData(300, 15)]
+    public void ScreenPacingAimsForAbout15Fps(long captureMs, int delay) => Assert.Equal(delay, ScreenPacing.DelayAfter(captureMs));
+
+    [Fact]
+    public void AnimationScale() { Assert.Equal("0.5", AndroidTuning.AnimationScale(true)); Assert.Equal("1.0", AndroidTuning.AnimationScale(false)); }
+
+    [Fact]
+    public void PngSizeAndWmSize()
+    {
+        var png = new byte[] { 0x89, (byte)'P', (byte)'N', (byte)'G', 13, 10, 26, 10, 0, 0, 0, 13, (byte)'I', (byte)'H', (byte)'D', (byte)'R', 0, 0, 6, 0x18, 0, 0, 2, 0xBC };
+        Assert.Equal((1560, 700), PngInfo.Size(png));
+        Assert.Null(PngInfo.Size([1, 2, 3]));
+        Assert.Equal((1560, 700), PngInfo.ParseWmSize("Physical size: 1560x700\n"));
+        Assert.Equal((1280, 800), PngInfo.ParseWmSize("Physical size: 1560x700\nOverride size: 1280x800\n"));
+        Assert.Null(PngInfo.ParseWmSize("error"));
+    }
+
+    [Fact]
+    public async Task ConsoleRepliesAreRead()
+    {
+        Assert.Equal(5554, EmulatorConsole.PortFromSerial("emulator-5554"));
+        Assert.Null(EmulatorConsole.PortFromSerial("127.0.0.1:6520"));
+        Assert.True(await EmulatorConsole.ReadReplyAsync(new StringReader("Android Console\nOK\n"), default));
+        Assert.False(await EmulatorConsole.ReadReplyAsync(new StringReader("KO: unknown command\n"), default));
+    }
+}

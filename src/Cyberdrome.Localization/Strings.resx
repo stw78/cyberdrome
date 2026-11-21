@@ -3060,4 +3060,10 @@ Do you also want to remove my data?
   <data name="Ui_ShowLog" xml:space="preserve">
     <value>Show log</value>
   </data>
+  <data name="EmulatorVm_GpuFallback01" xml:space="preserve">
+    <value>The emulator could not start with graphics mode {0}; trying {1} (software, slower).</value>
+  </data>
+  <data name="EmulatorVm_StartDetails012" xml:space="preserve">
+    <value>(graphics {0}, {1} cores, {2} MB)</value>
+  </data>
 </root>

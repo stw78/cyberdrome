@@ -20,6 +20,8 @@ public partial class MainWindow : Window
         SkinFrame.ButtonPressed += b => _ = (DataContext as MainViewModel)?.SkinButtonAsync(b);
         // Bildströmmen skriver ny bild i samma bitmapp: rita bara om Android-bilden, inget annat i fönstret.
         DataContextChanged += (_, _) => { if (DataContext is MainViewModel m) m.FrameUpdated += () => AndroidScreen.InvalidateVisual(); };
+        WebScreen.Failed += why => Avalonia.Threading.Dispatcher.UIThread.Post(() => (DataContext as MainViewModel)?.WebScreenFailed(why));
+        WebScreen.Fps += fps => { if (DataContext is MainViewModel m) m.ScreenFpsText = L.F("Screen_VideoFps0", Math.Round(fps)); };
         Opened += OnOpenedCheckEula;
         DataContextChanged += (_, _) =>
         {

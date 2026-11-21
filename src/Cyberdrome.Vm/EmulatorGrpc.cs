@@ -8,7 +8,7 @@ using Grpc.Net.Client;
 namespace Cyberdrome.Vm;
 
 /// <summary>En skärmbild som rå RGBA (4 byte per bildpunkt, rad för rad).</summary>
-public sealed record RawFrame(int Width, int Height, byte[] Rgba);
+public sealed record RawFrame(int Width, int Height, ReadOnlyMemory<byte> Rgba);
 
 /// <summary>
 /// Android-läge som kan strömma skärmen kontinuerligt och ta emot tryck direkt (i stället för skärmdumpar och adb).
@@ -98,7 +98,8 @@ public sealed class EmulatorGrpc : IDisposable
             var img = call.ResponseStream.Current;
             int w = (int)img.Format.Width, h = (int)img.Format.Height;
             if (w <= 0 || h <= 0 || img.Image_.Length < w * h * 4) continue;
-            onFrame(new RawFrame(w, h, img.Image_.ToByteArray()));
+            // Ingen kopia här: bildens bytes används direkt (kopieras en gång, in i skärmens bitmapp).
+            onFrame(new RawFrame(w, h, img.Image_.Memory));
         }
     }
 

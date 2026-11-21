@@ -18,6 +18,8 @@ fi
 echo "@@STEP 0.55 Installerar Cuttlefish"
 echo ">> Installerar Cuttlefish"
 apt-get install -y -q cuttlefish-base cuttlefish-user
+echo "@@STEP 0.80 Installerar grafikstöd (Mesa D3D12 för grafikkortet via WSL2)"
+apt-get install -y -q mesa-vulkan-drivers libegl1 libgles2 libgl1-mesa-dri || echo "VARNING: grafikstödet kunde inte installeras – Android ritar då i mjukvara."
 echo "@@STEP 0.90 Ställer in användare och systemd"
 id cvd >/dev/null 2>&1 || useradd -m -s /bin/bash cvd
 for g in kvm cvdnetwork render; do getent group $g >/dev/null && usermod -aG $g cvd; done

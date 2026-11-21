@@ -190,6 +190,40 @@ public sealed class AndroidVm : IAndroidBackend, IScreenControl
         return r;
     }
 
+    /// <summary>
+    /// Adressen till Cuttlefishs WebRTC-sida för den första virtuella bilen (videoström med tryck), t.ex.
+    /// https://localhost:8443/devices/cvd_1-1-1/files/client.html. Null om Android inte kör eller sidan inte svarar.
+    /// </summary>
+    public async Task<string?> WebScreenUrlAsync(CancellationToken ct = default)
+    {
+        try
+        {
+            using var handler = new HttpClientHandler
+            {
+                // Självsignerat certifikat – godtas bara för den egna datorn.
+                ServerCertificateCustomValidationCallback = (req, _, _, _) => req.RequestUri?.Host is "localhost" or "127.0.0.1",
+            };
+            using var http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(5) };
+            var json = await http.GetStringAsync(Settings.ScreenUrl.TrimEnd('/') + "/devices", ct);
+            return WebScreenUrlFrom(Settings.ScreenUrl, json);
+        }
+        catch { return null; }
+    }
+
+    /// <summary>Bygger sidans adress ur svaret från /devices ([{"device_id":"cvd_1-1-1", …}]).</summary>
+    public static string? WebScreenUrlFrom(string baseUrl, string devicesJson)
+    {
+        try
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(devicesJson);
+            foreach (var d in doc.RootElement.EnumerateArray())
+                if (d.TryGetProperty("device_id", out var id) && id.GetString() is { Length: > 0 } s)
+                    return $"{baseUrl.TrimEnd('/')}/devices/{Uri.EscapeDataString(s)}/files/client.html";
+        }
+        catch { }
+        return null;
+    }
+
     /// <summary>Raden "FEL: …" från startskriptet (den sista), utan "FEL:", eller null.</summary>
     public static string? StartFailureReason(string output) =>
         output.Split('\n').Select(l => l.Trim()).LastOrDefault(l => l.StartsWith("FEL:", StringComparison.Ordinal)) is { } line

@@ -248,7 +248,7 @@
                   </Border>
                 </WrapPanel>
                 <TextBlock Classes="small" Text="{Binding ScreenshotStatus}" IsVisible="{Binding CanControlScreen}" />
-                <TextBlock Classes="small" Text="{Binding ScreenFpsText}" IsVisible="{Binding LiveScreen}" />
+                <TextBlock Classes="small" Text="{Binding ScreenFpsText}" IsVisible="{Binding ScreenFpsText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                 <Border Classes="note" IsVisible="{Binding TestAppHelpVisible}">
                   <TextBlock Text="{Binding TestAppHelp}" TextWrapping="Wrap" FontSize="12" />
                 </Border>
@@ -259,6 +259,8 @@
               <Grid>
                 <views:SkinHost x:Name="SkinFrame" Skin="{Binding ActiveSkin}">
                   <Grid>
+                    <!-- WSL2: Cuttlefishs WebRTC-ström (video + tryck) i stället för skärmdumpar -->
+                    <views:WebScreenHost x:Name="WebScreen" Url="{Binding WebScreenUrl}" IsVisible="{Binding HasWebScreen}" />
                     <Image x:Name="AndroidScreen" Source="{Binding ScreenFrame}" Stretch="Uniform" Cursor="Hand"
                            IsVisible="{Binding HasScreenFrame}"
                            PointerPressed="ScreenPointerPressed" PointerMoved="ScreenPointerMoved" PointerReleased="ScreenPointerReleased"

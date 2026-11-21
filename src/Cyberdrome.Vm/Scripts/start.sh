@@ -15,15 +15,25 @@ if [ ! -e /dev/kvm ]; then
 fi
 # Rester från en tidigare start som inte gick hela vägen.
 HOME=$CF cvd stop >/dev/null 2>&1 || HOME=$CF ./bin/stop_cvd >/dev/null 2>&1 || true
-echo ">> Startar Android (${X_RES:-?}x${Y_RES:-?}, ${CPUS} kärnor, ${MEM} MB)"
 # --enable_sandbox=false: crosvm:s sandlåda (minijail) fungerar inte i WSL2 – utan den kraschar crosvm direkt med
 #   "failed to create a PCI root hub: failed to create proxy device".
-# --gpu_mode=guest_swiftshader: ingen GPU-genomföring i WSL2; Android ritar i mjukvara.
+# Grafik: gfxstream ritar med datorns grafikkort via WSL2:s /dev/dxg och Mesa D3D12 (GALLIUM_DRIVER=d3d12).
+#   Går det inte används guest_swiftshader (mjukvara, långsamt men fungerar alltid).
 EXTRA=""
 [ -n "${X_RES:-}" ] && EXTRA="$EXTRA --x_res=$X_RES --y_res=$Y_RES --dpi=$DPI"
-HOME=$CF timeout "${BOOT_TIMEOUT:-300}" ./bin/launch_cvd --daemon --start_webrtc=true --cpus="$CPUS" --memory_mb="$MEM" \
-  --enable_sandbox=false --gpu_mode=guest_swiftshader --report_anonymous_usage_stats=n $EXTRA
-code=$?
+MODES="guest_swiftshader"
+if [ -e /dev/dxg ] && [ "${GPU:-host}" != "software" ]; then MODES="gfxstream guest_swiftshader"; fi
+code=1
+for MODE in $MODES; do
+  echo ">> Startar Android (${X_RES:-?}x${Y_RES:-?}, ${CPUS} kärnor, ${MEM} MB, grafik $MODE)"
+  GALLIUM_DRIVER=d3d12 HOME=$CF timeout "${BOOT_TIMEOUT:-300}" ./bin/launch_cvd --daemon --start_webrtc=true --cpus="$CPUS" --memory_mb="$MEM" \
+    --enable_sandbox=false --gpu_mode=$MODE --report_anonymous_usage_stats=n $EXTRA
+  code=$?
+  [ $code -eq 0 ] && break
+  [ $code -eq 124 ] && break
+  echo ">> Grafikläget $MODE fungerade inte (kod $code) – provar nästa."
+  HOME=$CF cvd stop >/dev/null 2>&1 || HOME=$CF ./bin/stop_cvd >/dev/null 2>&1 || true
+done
 LOG=$CF/cuttlefish_runtime/launcher.log
 if [ $code -eq 124 ]; then
   echo "FEL: Android startade inte inom ${BOOT_TIMEOUT:-300} sekunder."

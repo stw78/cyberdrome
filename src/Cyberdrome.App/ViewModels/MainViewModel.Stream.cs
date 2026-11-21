@@ -24,6 +24,8 @@ public sealed partial class MainViewModel
     private DateTime _fpsWindow = DateTime.UtcNow;
 
     /// <summary>Skärmen strömmas (direkt pekinmatning finns).</summary>
+    private readonly Avalonia.Threading.DispatcherTimer? _androidWatch;
+
     [ObservableProperty] private bool _liveScreen;
 
     /// <summary>Uppmätt bildtakt, t.ex. "58 bilder/s" (visas under skärmen).</summary>
@@ -58,12 +60,16 @@ public sealed partial class MainViewModel
         CountFrame();
     }
 
-    private static void CopyInto(WriteableBitmap wb, RawFrame f)
+    private static unsafe void CopyInto(WriteableBitmap wb, RawFrame f)
     {
         using var fb = wb.Lock();
         int row = f.Width * 4;
-        if (fb.RowBytes == row) Marshal.Copy(f.Rgba, 0, fb.Address, row * f.Height);
-        else for (int y = 0; y < f.Height; y++) Marshal.Copy(f.Rgba, y * row, fb.Address + y * fb.RowBytes, row);
+        var src = f.Rgba.Span;
+        if (fb.RowBytes == row)
+            src[..(row * f.Height)].CopyTo(new Span<byte>((void*)fb.Address, row * f.Height));
+        else
+            for (int y = 0; y < f.Height; y++)
+                src.Slice(y * row, row).CopyTo(new Span<byte>((void*)(fb.Address + y * fb.RowBytes), row));
     }
 
     private void CountFrame()
@@ -83,5 +89,35 @@ public sealed partial class MainViewModel
     {
         if (!LiveScreen || _android is not IScreenStream s || !AndroidRunning) return false;
         return await s.PointerAsync(x, y, down);
+    }
+}
+
+/// <summary>WSL2 + Cuttlefish: Androids WebRTC-videoström i en inbäddad WebView2 i stället för skärmdumpar.</summary>
+public sealed partial class MainViewModel
+{
+    /// <summary>Adress till WebRTC-sidan när Android kör i WSL2 (annars null).</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasWebScreen), nameof(ShowScreenPlaceholder))]
+    private string? _webScreenUrl;
+
+    public bool HasWebScreen => WebScreenUrl is not null;
+
+    /// <summary>WebView2 gick inte att starta: använd skärmdumpar.</summary>
+    public void WebScreenFailed(string why)
+    {
+        AndroidLogLine(L.F("Screen_WebFailed0", why));
+        _webScreenBroken = true;
+        WebScreenUrl = null;
+        UpdateScreenLoop();
+    }
+
+    private bool _webScreenBroken;
+
+    private async Task UpdateWebScreenAsync()
+    {
+        if (_webScreenBroken || _android is not AndroidVm vm || !AndroidRunning) { WebScreenUrl = null; return; }
+        var url = await vm.WebScreenUrlAsync();
+        WebScreenUrl = AndroidRunning ? url : null;
+        UpdateScreenLoop();
     }
 }

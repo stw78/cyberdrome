@@ -145,7 +145,8 @@ public class WslStartTests
     {
         var s = AndroidVm.ReadScript("start.sh");
         Assert.Contains("--enable_sandbox=false", s);          // crosvm-sandlådan kraschar i WSL2
-        Assert.Contains("--gpu_mode=guest_swiftshader", s);
+        Assert.Contains("gfxstream guest_swiftshader", s);        // grafikkortet via /dev/dxg, mjukvara som reserv
+        Assert.Contains("GALLIUM_DRIVER=d3d12", s);
         Assert.Contains("timeout \"${BOOT_TIMEOUT:-300}\"", s); // väntar aldrig för evigt
         Assert.Contains("cvd stop", s);                        // städar en tidigare halvstartad instans
         Assert.Contains("FEL: Android startade inte inom", s);
@@ -277,4 +278,20 @@ public class StreamTests
         Assert.False(await vm.StreamScreenAsync(_ => { }, default)); // då används skärmdumpar som förut
         Assert.False(await vm.PointerAsync(1, 1, true));
     }
+}
+
+/// <summary>WSL2: WebRTC-strömmens adress och grafikstöd i installationen.</summary>
+public class WslVideoTests
+{
+    [Fact]
+    public void WebScreenUrlComesFromTheDeviceList()
+    {
+        Assert.Equal("https://localhost:8443/devices/cvd_1-1-1/files/client.html",
+            AndroidVm.WebScreenUrlFrom("https://localhost:8443/", """[{"device_id":"cvd_1-1-1","group_name":"cvd_1","adb_port":6520}]"""));
+        Assert.Null(AndroidVm.WebScreenUrlFrom("https://localhost:8443", "[]"));
+        Assert.Null(AndroidVm.WebScreenUrlFrom("https://localhost:8443", "inte json"));
+    }
+
+    [Fact]
+    public void SetupInstallsGpuSupport() => Assert.Contains("mesa-vulkan-drivers", AndroidVm.ReadScript("setup.sh"));
 }

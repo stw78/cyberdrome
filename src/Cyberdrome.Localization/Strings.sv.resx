@@ -3069,4 +3069,10 @@ Vill du även ta bort mina data?
   <data name="Screen_Fps0" xml:space="preserve">
     <value>{0} bilder/s (direkt)</value>
   </data>
+  <data name="Screen_WebFailed0" xml:space="preserve">
+    <value>Videoströmmen från Android i WSL2 kunde inte visas ({0}); skärmdumpar används i stället.</value>
+  </data>
+  <data name="Screen_VideoFps0" xml:space="preserve">
+    <value>{0} bilder/s (videoström)</value>
+  </data>
 </root>

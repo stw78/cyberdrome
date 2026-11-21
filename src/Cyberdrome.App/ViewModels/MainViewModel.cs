@@ -72,6 +72,10 @@ public sealed partial class MainViewModel : ObservableObject
         // Uppdatera "för x sekunder sedan" en gång per sekund.
         _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, (_, _) => UpdateObdStatus());
         _timer.Start();
+
+        // Android kan startas eller stängas utanför programmet (eller adb var inte redo vid start): kontrollera var 5:e sekund.
+        _androidWatch = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.Background, (_, _) => _ = WatchAndroidAsync());
+        _androidWatch.Start();
     }
 
     public ObservableCollection<CarProfile> Profiles { get; } = new();
@@ -556,6 +560,26 @@ public sealed partial class MainViewModel : ObservableObject
         AndroidStatus = _android.Describe(AndroidState);
     }
 
+    private bool _watching;
+
+    /// <summary>
+    /// Bakgrundskontroll (emulatorlägena): märker när Android startas eller stängs utanför programmet. Ändrar bara
+    /// statustexten när läget faktiskt ändras, så att felmeddelanden inte skrivs över. WSL2 kontrolleras inte här
+    /// (wsl.exe var 5:e sekund skulle hålla Linux-miljön vaken).
+    /// </summary>
+    private async Task WatchAndroidAsync()
+    {
+        if (_watching || AndroidBusy || _android is not EmulatorVm) return;
+        _watching = true;
+        try
+        {
+            var s = await _android.GetStateAsync();
+            if (s != AndroidState && !AndroidBusy) { AndroidState = s; AndroidStatus = _android.Describe(s); }
+        }
+        catch { /* nästa gång */ }
+        finally { _watching = false; }
+    }
+
     // ----- Förloppsstapel för installationen -----
 
     /// <summary>Syns medan installationen pågår och ligger kvar som "Klart" efteråt.</summary>
@@ -718,7 +742,7 @@ public sealed partial class MainViewModel : ObservableObject
     private Avalonia.Media.Imaging.Bitmap? _screenFrame;
 
     public bool HasScreenFrame => ScreenFrame is not null;
-    public bool ShowScreenPlaceholder => ScreenFrame is null;
+    public bool ShowScreenPlaceholder => ScreenFrame is null && !HasWebScreen;
 
     /// <summary>True när skärmen kan visas och styras inne i programmet (emulatorläget, Android igång).</summary>
     public bool CanControlScreen => _android is IScreenControl && AndroidRunning;
@@ -726,6 +750,7 @@ public sealed partial class MainViewModel : ObservableObject
     partial void OnAndroidStateChanged(AndroidState oldValue, AndroidState newValue)
     {
         OnPropertyChanged(nameof(CanControlScreen));
+        _ = UpdateWebScreenAsync();
         UpdateScreenLoop();
         // När Android just har startat: sätt vald skärmstorlek.
         if (newValue == AndroidState.Running && oldValue != AndroidState.Running) _ = ApplyCarLookAsync();
@@ -734,7 +759,7 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Startar eller stoppar skärmströmmen beroende på läge och sida.</summary>
     private void UpdateScreenLoop()
     {
-        bool want = CanControlScreen && IsOverview;
+        bool want = CanControlScreen && IsOverview && !HasWebScreen; // WebRTC-strömmen ersätter skärmdumparna
         if (want && _screenCts is null)
         {
             _screenCts = new CancellationTokenSource();

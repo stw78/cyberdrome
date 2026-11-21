@@ -6,6 +6,7 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::IsOSPlatform('Windows'))">10.0.17763.0</SupportedOSPlatformVersion>
     <AssemblyName>Cyberdrome</AssemblyName>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\cyberdrome.ico</ApplicationIcon>
   </PropertyGroup>
@@ -17,6 +18,8 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="11.3.23" Condition="'$(Configuration)' == 'Debug'" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Velopack" Version="1.2.161" />
+    <!-- WSL2 + Cuttlefish: Androids WebRTC-ström visas i en inbäddad WebView2 (Edge, finns i Windows 10/11). -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3485.44" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cyberdrome.Core\Cyberdrome.Core.csproj" />
@@ -38,4 +41,10 @@
     <None Include="..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk" Link="apps\CyberdromeLauncher.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeLauncher\bin\CyberdromeLauncher.apk')" />
     <None Include="..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk" Link="apps\CyberdromeRadio.apk" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\android\CyberdromeRadio\bin\CyberdromeRadio.apk')" />
   </ItemGroup>
+  <!-- WebView2-paketet lägger till WPF- och WinForms-delar som vi inte använder (de ger varningen MSB3277). -->
+  <Target Name="DropUnusedWebView2Ui" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <Reference Remove="@(Reference)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Wpf' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
+    </ItemGroup>
+  </Target>
 </Project>

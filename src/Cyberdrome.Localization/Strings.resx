@@ -3069,4 +3069,10 @@ Do you also want to remove my data?
   <data name="Screen_Fps0" xml:space="preserve">
     <value>{0} frames/s (live)</value>
   </data>
+  <data name="Screen_WebFailed0" xml:space="preserve">
+    <value>The video stream from Android in WSL2 could not be shown ({0}); using screenshots instead.</value>
+  </data>
+  <data name="Screen_VideoFps0" xml:space="preserve">
+    <value>{0} frames/s (video stream)</value>
+  </data>
 </root>

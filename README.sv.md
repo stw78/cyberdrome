@@ -464,3 +464,18 @@ kör programmet, uttryckligen ber om det.
   Ubuntu för WSL2 + Cuttlefish).
 
 Ingen telemetri, ingen statistik och inget konto.
+
+## Linux (pågår, grenen `linux`)
+
+Cyberdrome Cockpit byggs även för **Linux x64**. Hämta `CyberdromeSimulator.AppImage` från releasen, gör den körbar
+(`chmod +x`) och starta den. Uppdateringar kommer från samma GitHub-releaser (Linux-kanalen).
+
+- Fungerar: hela gränssnittet, bilmodeller, OBD över Wi-Fi/TCP och seriella portar (`/dev/ttyUSB*`, `/dev/rfcomm*`),
+  testfall, körningar, karta, bildatabas, båda språken och Android-emulatorns lägen (Snabbstart och Med Google-appar)
+  med den levande bildströmmen.
+- Android på Linux kräver KVM: `/dev/kvm` och att din användare är med i gruppen `kvm` (`sudo usermod -aG kvm $USER`,
+  logga sedan ut och in). Första gången hämtar programmet Googles Android-kommandoradsverktyg och Java 17 till
+  `~/CyberdromeSDK` efter att ha frågat dig.
+- Inte än på Linux: de virtuella Bluetooth OBD-donglarna och Bluetooth för riktig adapter (bara Windows än så länge),
+  samt Cuttlefish-läget (på Linux körs det i en senare version direkt utan WSL).
+- Bygg själv på Linux: `tools/build-linux.sh` (tester, fristående publicering och AppImage via Velopack).

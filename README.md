@@ -557,3 +557,18 @@ the person installing or operating it.
   for WSL2 + Cuttlefish).
 
 There is no telemetry, analytics or account.
+
+## Linux (in progress, branch `linux`)
+
+Cyberdrome Cockpit also builds for **Linux x64**. Download `CyberdromeSimulator.AppImage` from the release, make it
+executable (`chmod +x`) and run it. Updates come from the same GitHub releases (Linux channel).
+
+- Works: the whole user interface, car models, OBD over Wi-Fi/TCP and serial ports (`/dev/ttyUSB*`, `/dev/rfcomm*`),
+  test cases, drives, map, car database, both languages, and the Android emulator modes (Quick start and With Google
+  apps) with the live screen stream.
+- Android on Linux needs KVM: `/dev/kvm` and your user in the `kvm` group (`sudo usermod -aG kvm $USER`, then log out and
+  in). The first time, the program downloads Google's Android command-line tools and Java 17 into `~/CyberdromeSDK`
+  after asking you.
+- Not yet on Linux: the virtual Bluetooth OBD dongles and Bluetooth for a real adapter (Windows only for now), and the
+  Cuttlefish mode (on Linux it will run natively without WSL in a later version).
+- Build it yourself on Linux: `tools/build-linux.sh` (tests, self-contained publish and AppImage via Velopack).

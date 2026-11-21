@@ -94,3 +94,37 @@ jobs:
           name: cyberdrome-cockpit-${{ steps.ver.outputs.version }}
           path: out/${{ steps.ver.outputs.version }}/
           if-no-files-found: error
+
+  # Linux: samma version som AppImage och uppdateringspaket (kanalen "linux") i samma GitHub-release.
+  release-linux:
+    needs: release
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      REPO_URL: https://github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Velopack (vpk)
+        run: dotnet tool install -g vpk --version 1.2.161
+
+      - name: Releaseanteckningar och tidigare Linux-releaser
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+          pwsh -NoProfile -File tools/changelog-section.ps1 -Version "$v" -Out "$PWD/release-notes.md"
+          mkdir -p out/uppdateringar-linux
+          vpk download github --repoUrl "$REPO_URL" --token "${{ secrets.GITHUB_TOKEN }}" --channel linux -o out/uppdateringar-linux || echo "Inga tidigare Linux-releaser."
+
+      - name: Bygg och paketera
+        run: RELEASE_NOTES="$PWD/release-notes.md" bash tools/build-linux.sh "$VERSION" "$PWD/out"
+
+      - name: Lägg till i GitHub-releasen
+        run: |
+          vpk upload github --repoUrl "$REPO_URL" --token "${{ secrets.GITHUB_TOKEN }}" -o out/uppdateringar-linux \
+            --channel linux --publish --merge --releaseName "Cyberdrome Cockpit $VERSION" --tag "v$VERSION"

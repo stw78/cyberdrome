@@ -4,6 +4,36 @@ Each version has an English and a Swedish part. The release job on GitHub uses t
 release notes (`tools/changelog-section.ps1`). / Varje version har en engelsk och en svensk del. Releasejobbet på GitHub
 använder avsnittet för den taggade versionen som releaseanteckningar.
 
+## 1.2.0
+
+**English**
+
+- **Live Android screen:** the emulator modes stream the screen continuously (gRPC) at up to ~60 frames per second
+  instead of about 3, drawn straight into the program without PNG decoding. Tap, drag and swipe go to Android in real
+  time (~1 ms).
+- **WSL2 + Cuttlefish is now usable:** Android draws on the graphics card (gfxstream via WSL2 /dev/dxg and Mesa D3D12,
+  software as a fallback), and the program shows Cuttlefish's WebRTC video stream (~50–60 frames per second) instead
+  of screenshots. The screen size follows Settings, and the car theme (Cyberdrome Launcher) is used here too.
+- **Fast start:** after the first start the emulator resumes from a saved state in a few seconds (quickboot).
+- **No black borders:** the picture always fills the skin's screen, also after changing the screen size while running.
+- **Back button:** ← Back and ⌂ Home in the toolbar, Back on every skin and in fullscreen; right-click or the mouse
+  back button = Back, middle-click = Home, Backspace = Back.
+- The car home screen gets the right OBD address in every mode, and the program notices when Android is started or
+  stopped outside it.
+
+**Svenska**
+
+- **Levande Android-skärm:** emulatorlägena strömmar skärmen kontinuerligt (gRPC) med upp till cirka 60 bilder per
+  sekund i stället för cirka 3, direkt till programmet utan PNG-avkodning. Tryck, dra och svep går i realtid (~1 ms).
+- **WSL2 + Cuttlefish är nu användbart:** Android ritar på grafikkortet (gfxstream via WSL2:s /dev/dxg och Mesa D3D12,
+  mjukvara som reserv), och programmet visar Cuttlefishs WebRTC-videoström (cirka 50–60 bilder per sekund) i stället
+  för skärmdumpar. Skärmstorleken följer Inställningar, och bilens tema (Cyberdrome Launcher) används även här.
+- **Snabbstart:** efter första starten fortsätter emulatorn från ett sparat läge på några sekunder (quickboot).
+- **Inga svarta kanter:** bilden fyller alltid skalets skärm, även när skärmstorleken ändrats under körning.
+- **Tillbaka-knapp:** ← Tillbaka och ⌂ Hem i verktygsraden, Tillbaka på alla skal och i helskärm; högerklick eller
+  musens bakåtknapp = Tillbaka, mittenklick = Hem, Backspace = Tillbaka.
+- Bilens startskärm får rätt OBD-adress i alla lägen, och programmet märker när Android startas eller stängs utanför det.
+
 ## 1.1.2
 
 **English**

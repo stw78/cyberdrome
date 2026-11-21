@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <string name="stations">Stationer</string>
+    <string name="previous">⏮  Föregående</string>
+    <string name="play">▶  Spela</string>
+    <string name="next">Nästa  ⏭</string>
+    <string name="pause">⏸  Pausa</string>
+    <string name="playing">Spelar</string>
+    <string name="paused">Pausad</string>
+    <string name="gala_switch">Volym efter fart</string>
+    <string name="gala_off">Volym efter fart: av</string>
+    <string name="obd_address">OBD-adress:</string>
+    <string name="connect">Anslut</string>
+    <string name="obd_starting">OBD startar …</string>
+    <string name="audio_failed">Kunde inte starta ljudet</string>
+    <string name="obd_off">OBD avstängd</string>
+    <string name="gala_on" formatted="true">Volym efter fart: +%1$d</string>
+    <string name="connecting_to" formatted="true">Ansluter till %1$s …</string>
+    <string name="connected_to" formatted="true">Ansluten till %1$s</string>
+    <string name="no_obd_retry" formatted="true">Ingen OBD-anslutning (%1$s) – försöker igen …</string>
+</resources>

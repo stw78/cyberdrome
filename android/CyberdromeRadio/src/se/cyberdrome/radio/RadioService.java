@@ -21,6 +21,7 @@ public final class RadioService extends MediaBrowserService {
     @Override
     public void onCreate() {
         super.onCreate();
+        S.init(this);
         setSessionToken(RadioEngine.get(this).token());
     }
 

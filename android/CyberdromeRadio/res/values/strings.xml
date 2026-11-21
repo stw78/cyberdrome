@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <string name="stations">Stations</string>
+    <string name="previous">⏮  Previous</string>
+    <string name="play">▶  Play</string>
+    <string name="next">Next  ⏭</string>
+    <string name="pause">⏸  Pause</string>
+    <string name="playing">Playing</string>
+    <string name="paused">Paused</string>
+    <string name="gala_switch">Speed-dependent volume</string>
+    <string name="gala_off">Speed-dependent volume: off</string>
+    <string name="obd_address">OBD address:</string>
+    <string name="connect">Connect</string>
+    <string name="obd_starting">OBD starting …</string>
+    <string name="audio_failed">Could not start the audio</string>
+    <string name="obd_off">OBD turned off</string>
+    <string name="gala_on" formatted="true">Speed-dependent volume: +%1$d</string>
+    <string name="connecting_to" formatted="true">Connecting to %1$s …</string>
+    <string name="connected_to" formatted="true">Connected to %1$s</string>
+    <string name="no_obd_retry" formatted="true">No OBD connection (%1$s) – retrying …</string>
+</resources>

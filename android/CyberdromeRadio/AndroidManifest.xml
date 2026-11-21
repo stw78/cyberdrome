@@ -2,8 +2,8 @@
 <!-- Cyberdrome Radio: exempelapp för Android Automotive. Egen kod, se README. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="se.cyberdrome.radio"
-    android:versionCode="1"
-    android:versionName="0.1">
+    android:versionCode="3"
+    android:versionName="1.0">
 
     <uses-sdk android:minSdkVersion="29" android:targetSdkVersion="34" />
 
@@ -13,6 +13,8 @@
     <uses-feature android:name="android.hardware.type.automotive" android:required="false" />
 
     <application
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:label="Cyberdrome Radio"
         android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">

@@ -23,9 +23,7 @@
     <Border DockPanel.Dock="Top" Background="White" BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="20,12">
       <Grid ColumnDefinitions="Auto,*,Auto">
         <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-          <Border Width="34" Height="34" CornerRadius="9" Background="{StaticResource Accent}">
-            <TextBlock Text="C" Foreground="White" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
-          </Border>
+          <Image Source="/Assets/cyberdrome-256.png" Width="36" Height="36" RenderOptions.BitmapInterpolationMode="HighQuality" />
           <TextBlock Text="Cyberdrome Simulator" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
           <TextBlock Text="{Binding VersionText}" Classes="muted" VerticalAlignment="Center" />
         </StackPanel>

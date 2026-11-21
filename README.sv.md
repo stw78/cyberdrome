@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo-128.png" width="128" alt="Cyberdrome"></p>
+
 # Cyberdrome Simulator
 
 [English](README.md) · **Svenska**
@@ -10,6 +12,8 @@ och GPS, och kan även ansluta en riktig OBD-adapter.
   [ansvarsfriskrivningen](legal/DISCLAIMER.md).
 - **Stöd utvecklingen:** Cyberdrome är gratis och drivs av donationer – [donera via PayPal](https://www.paypal.me/stw78).
 - **Bidra:** se [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Språk:** programmet finns på svenska och engelska (Inställningar → Språk).
+
 ## Kom igång (Windows + VS Code)
 
 1. Hämta koden (`git clone`) och öppna mappen i VS Code (Arkiv → Öppna mapp). Du behöver .NET 10 SDK på Windows 10/11.
@@ -23,8 +27,8 @@ Kör testerna: `dotnet test`
 
 **Installera:** kör `CyberdromeSimulator-win-Setup.exe`. Den installerar per användare i
 `%LocalAppData%\CyberdromeSimulator`, utan administratörsbehörighet, och skapar genvägar på skrivbordet och i Start-menyn.
-Licensavtalet visas och måste godkännas vid första starten. Alternativt finns `CyberdromeSimulator-win.msi`, som visar
-licensavtalet i installationsguiden. MSI-varianten installerar för hela datorn och kräver administratör.
+Ansvarsfriskrivningen visas vid första starten. Alternativt finns `CyberdromeSimulator-win.msi`, som visar
+GPL-licensen i installationsguiden. MSI-varianten installerar för hela datorn och kräver administratör.
 
 **Avinstallera:** via Inställningar → Appar i Windows. Programmet frågar då **"Vill du även ta bort mina data?"**.
 Standardsvaret är **Nej**: egna bilmodeller, teman, skal, körningar, testfall, säkerhetskopior och inställningar i
@@ -44,7 +48,7 @@ installerar och startar igen. Dina data påverkas inte.
 - packar med Velopack (`vpk`, MIT).
 
 Resultat: `..\release\<version>` (bredvid kodmappen) (Setup.exe, MSI, portabel zip, licenser) och flödet
-`release\uppdateringar`. Flaggor: `-SkipTests`, `-NoMsi`. Ikonen ritas med `tools\make-icon.ps1`.
+`release\uppdateringar`. Flaggor: `-SkipTests`, `-NoMsi`. Logotypen finns i `assets\logo.svg`; ikoner, .ico, Android-ikoner och `assets\social-preview.png` skapas med `tools\make-logo.ps1`.
 
 **Kodsignering.** Utan signatur varnar Windows SmartScreen ("Okänd utgivare"). Byggskriptet kan signera allt (programmet,
 egna DLL:er, Setup.exe och MSI) med tidsstämpel. Läget väljs i `signing.json` (mall: `signing.example.json`, filen
@@ -89,6 +93,9 @@ src/Cyberdrome.Core   Bilens värden, bilprofiler, kodning
 src/Cyberdrome.Obd    ELM327-emulatorn och TCP-servern
 src/Cyberdrome.Vm     Android i virtuell maskin (WSL2 + Cuttlefish)
 src/Cyberdrome.App    Programfönstret (Avalonia)
+src/Cyberdrome.Localization  Texter: Strings.resx (engelska) och Strings.sv.resx (svenska)
+android/               Våra Android-appar (Cyberdrome Launcher och Cyberdrome Radio)
+assets/                Logotyp (SVG) och bilder
 tests/                Automatiska tester (xUnit)
 profiles/             Bilmodellerna (JSON) – lägg till fler här
 ```
@@ -102,7 +109,7 @@ Funktioner som stänger av säkerhetsvarningar ska inte läggas in.
 ## Viktigt
 
 Alla bilmodeller, CAN-id och kodningsdata är påhittade exempel för test och motsvarar inte riktiga bilar.
-Koden är egen (proprietär). Avalonia (MIT) och CommunityToolkit.Mvvm (MIT) används som paket.
+Koden är fri programvara under GPL-3.0-or-later. Tredjepartskomponenter och deras licenser finns i `legal\THIRD-PARTY-NOTICES.txt`.
 
 ## Android-skärmen i programmet (läget Utan omstart)
 
@@ -355,8 +362,8 @@ med `adb emu geo fix <lon> <lat> <höjd> <satelliter> <fart i knop>`, så Androi
 (kursen räknar Android själv). Platstjänster i emulatorn slås på automatiskt.
 
 **Kartrutor:** standard är OpenStreetMaps egna rutor, som enligt deras regler bara får användas måttligt.
-Adressen går att ändra på sidan Karta (`MapTileUrl` i `%AppData%\Cyberdrome\app.json`). **Den sålda produkten
-behöver en kommersiell kartleverantör.** Rutorna cachas i `%LocalAppData%\Cyberdrome\tiles`.
+Adressen går att ändra på sidan Karta (`MapTileUrl` i `%AppData%\Cyberdrome\app.json`). **Vid mer än måttlig användning
+behövs en kommersiell eller egen kartserver.** Rutorna cachas i `%LocalAppData%\Cyberdrome\tiles`.
 Kartdata © OpenStreetMap-bidragsgivare (ODbL).
 
 **Kartapp i Android:** knappen **Installera kartapp (Organic Maps)** laddar ner Organic Maps (Apache-2.0) från
@@ -409,7 +416,7 @@ Under **Inställningar** väljer du hur Android körs. Valet sparas i `%AppData%
   Installera Android laddar ner Android Automotive-avbilden (`SystemImage`) med förloppsstapel,
   skapar den virtuella bilen och startar den direkt. Appar inne i emulatorn når den virtuella
   OBD-porten på **10.0.2.2:35000**.
-  **OBS:** Googles emulatoravbilder har licensvillkor som gör att de inte får följa med i den sålda produkten.
+  **OBS:** Googles emulatoravbilder hämtas av användaren och får inte spridas tillsammans med Cyberdrome.
 - **Snabbt – WSL2 + Cuttlefish (riktig AOSP)** – se nedan. Kräver en omstart första gången om
   Virtual Machine Platform inte är påslaget; programmet frågar först (Fortsätt/Avbryt).
 
@@ -424,7 +431,6 @@ Sidan **Android** i programmet gör allt i ordning:
 Inställningar (t.ex. vilket Android-bygge som hämtas, antal CPU och minne) finns i
 `%AppData%\Cyberdrome\android.json`.
 
-Under utveckling används Googles färdiga Cuttlefish-bygge. Det får inte följa med säljversionen;
-där byts det mot vår egen AOSP-avbild.
+Googles färdiga Cuttlefish-bygge hämtas av användaren och sprids inte med Cyberdrome.
 
 Om Windows **Smart App Control** är på blockeras nybyggda filer. Stäng av den på utvecklingsdatorn.

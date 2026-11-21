@@ -115,7 +115,7 @@ final class RadioEngine implements ObdClient.Listener {
             synth.play(station());
         } catch (RuntimeException e) {
             // Ljudfel ska aldrig krascha appen.
-            android.util.Log.e("CyberdromeRadio", "Kunde inte starta ljudet", e);
+            android.util.Log.e("CyberdromeRadio", S.d("Kunde inte starta ljudet"), e);
             audio.abandonAudioFocusRequest(focus);
             return;
         }

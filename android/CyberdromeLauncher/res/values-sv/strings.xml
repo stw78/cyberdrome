@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <string name="navigation">Navigation</string>
+    <string name="media">Media</string>
+    <string name="phone">Telefon</string>
+    <string name="vehicle">Fordon</string>
+    <string name="apps">Appar</string>
+    <string name="open_map">Öppna kartan</string>
+    <string name="no_phone">Ingen telefon ansluten</string>
+    <string name="all_apps">Alla appar</string>
+    <string name="map_nav">Karta och vägvisning</string>
+    <string name="vehicle_status">Fordonsstatus</string>
+    <string name="tap_open_map">Tryck för att öppna kartan</string>
+    <string name="recent_app">Senaste app</string>
+    <string name="open_nav">Öppna navigationen</string>
+    <string name="home">Hem</string>
+    <string name="map">Karta</string>
+    <string name="audio">Ljud</string>
+    <string name="climate">Klimat</string>
+    <string name="car">Bil</string>
+    <string name="settings_short">Inställn.</string>
+    <string name="coolant_none">Kylv. –</string>
+    <string name="fuel_none">Bränsle –</string>
+    <string name="vehicle_obd">Fordon (OBD)</string>
+    <string name="close">Stäng</string>
+    <string name="no_map_app">Ingen kartapp installerad – installera Organic Maps från Cyberdrome.</string>
+    <string name="radio_missing">Cyberdrome Radio är inte installerad.</string>
+    <string name="dtc_prefix">⚠ Felkod: </string>
+    <string name="obd_connected">● OBD ansluten</string>
+    <string name="obd_connecting">OBD ansluter …</string>
+    <string name="obd_off">OBD avstängd</string>
+    <string name="coolant_value" formatted="true">Kylv. %1$d °C</string>
+    <string name="fuel_value" formatted="true">Bränsle %1$d %%</string>
+    <string name="vehicle_text" formatted="true">Hastighet: %1$s\nVarvtal: %2$s\nKylvätska: %3$s\nBränsle: %4$s</string>
+    <string name="connecting_to" formatted="true">Ansluter till %1$s …</string>
+    <string name="connected_to" formatted="true">Ansluten till %1$s</string>
+    <string name="no_obd_retry" formatted="true">Ingen OBD-anslutning (%1$s) – försöker igen …</string>
+</resources>

@@ -34,10 +34,17 @@ function Invoke-Tool($exe, [string[]]$toolArgs) {
 }
 
 Write-Host ">> 1/5 Manifest (aapt2)"
-Invoke-Tool (Join-Path $bt "aapt2.exe") @("link", "-o", "$tmp\base.apk", "--manifest", "$here\AndroidManifest.xml", "-I", $androidJar)
+# Resurser (ikoner, texter på flera språk) i res\ kompileras och länkas; R.java hamnar i gen\.
+$linkArgs = @("link", "-o", "$tmp\base.apk", "--manifest", "$here\AndroidManifest.xml", "-I", $androidJar)
+if (Test-Path "$here\res") {
+    Invoke-Tool (Join-Path $bt "aapt2.exe") @("compile", "--dir", "$here\res", "-o", "$tmp\res.zip")
+    New-Item -ItemType Directory -Force "$tmp\gen" | Out-Null
+    $linkArgs += @("-R", "$tmp\res.zip", "--java", "$tmp\gen", "--auto-add-overlay")
+}
+Invoke-Tool (Join-Path $bt "aapt2.exe") $linkArgs
 
 Write-Host ">> 2/5 Kompilerar Java (javac)"
-$sources = Get-ChildItem "$here\src" -Recurse -Filter *.java | ForEach-Object { $_.FullName }
+$sources = @(Get-ChildItem "$here\src", "$tmp\gen" -Recurse -Filter *.java -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
 # core-lambda-stubs.jar (från build-tools) behövs för lambda-uttryck när android.jar är bootclasspath.
 $boot = "$androidJar;$(Join-Path $bt 'core-lambda-stubs.jar')"
 Invoke-Tool $javac (@("-encoding", "UTF-8", "-source", "8", "-target", "8", "-Xlint:-options", "-bootclasspath", $boot, "-d", "$tmp\classes") + $sources)

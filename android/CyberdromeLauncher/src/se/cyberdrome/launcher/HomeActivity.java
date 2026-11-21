@@ -69,6 +69,8 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
+        S.init(this);
+        obdStatus = S.d("OBD ansluter …");
         instance = new WeakReference<>(this);
         obd = new ObdClient(this);
         obd.start();
@@ -139,7 +141,7 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
 
     private TextView text(String s, float sp, int color, boolean bold) {
         TextView t = new TextView(this);
-        t.setText(s);
+        t.setText(S.d(s));
         t.setTextSize(sp);
         t.setTextColor(color);
         t.setTypeface(face, bold ? Typeface.BOLD : Typeface.NORMAL);
@@ -377,7 +379,7 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
         LinearLayout buttons = row();
         String[][] items = {{"⌂", "Hem"}, {"🧭", "Karta"}, {"♫", "Ljud"}, {"☎", "Telefon"}, {"▦", "Appar"}};
         for (String[] it : items) {
-            TextView b = text(it[0] + "  " + it[1], 14, Color.WHITE, true);
+            TextView b = text(it[0] + "  " + S.d(it[1]), 14, Color.WHITE, true);
             b.setGravity(Gravity.CENTER);
             b.setBackground(box(alpha(theme.accent, 200), theme.corner));
             final String what = it[1];
@@ -451,11 +453,11 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
         return true;
     }
 
-    private void toast(String s) { android.widget.Toast.makeText(this, s, android.widget.Toast.LENGTH_SHORT).show(); }
+    private void toast(String s) { android.widget.Toast.makeText(this, S.d(s), android.widget.Toast.LENGTH_SHORT).show(); }
 
     private void showVehicle() {
         new AlertDialog.Builder(this)
-                .setTitle("Fordon (OBD)")
+                .setTitle(S.d("Fordon (OBD)"))
                 .setMessage(vehicleText())
                 .setPositiveButton("OK", null)
                 .show();
@@ -482,26 +484,26 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
         }
         ScrollView sv = new ScrollView(this);
         sv.addView(list);
-        dlg[0] = new AlertDialog.Builder(this).setTitle("Appar").setView(sv).setNegativeButton("Stäng", null).show();
+        dlg[0] = new AlertDialog.Builder(this).setTitle(S.d("Appar")).setView(sv).setNegativeButton(S.d("Stäng"), null).show();
     }
 
     // ---------------- OBD ----------------
 
     private String vehicleText() {
-        return "Hastighet: " + (speed < 0 ? "–" : speed + " km/h")
-                + "\nVarvtal: " + (rpm < 0 ? "–" : rpm + " rpm")
-                + "\nKylvätska: " + (coolant == Integer.MIN_VALUE ? "–" : coolant + " °C")
-                + "\nBränsle: " + (fuel < 0 ? "–" : fuel + " %")
+        return S.f(R.string.vehicle_text, (speed < 0 ? "–" : speed + " km/h")
+                , (rpm < 0 ? "–" : rpm + " rpm")
+                , (coolant == Integer.MIN_VALUE ? "–" : coolant + " °C")
+                , (fuel < 0 ? "–" : fuel + " %"))
                 + "\n\n" + obdStatus;
     }
 
     private void updateValues() {
         for (TextView t : speedViews) t.setText(speed < 0 ? "– km/h" : speed + " km/h");
         for (TextView t : rpmViews) t.setText(rpm < 0 ? "– rpm" : rpm + " rpm");
-        for (TextView t : coolantViews) t.setText(coolant == Integer.MIN_VALUE ? "Kylv. –" : "Kylv. " + coolant + " °C");
-        for (TextView t : fuelViews) t.setText(fuel < 0 ? "Bränsle –" : "Bränsle " + fuel + " %");
+        for (TextView t : coolantViews) t.setText(coolant == Integer.MIN_VALUE ? S.d("Kylv. –") : S.f(R.string.coolant_value, coolant));
+        for (TextView t : fuelViews) t.setText(fuel < 0 ? S.d("Bränsle –") : S.f(R.string.fuel_value, fuel));
         for (TextView t : obdStatusViews) t.setText(obdStatus);
-        String dt = dtcs.length == 0 ? "" : "⚠ Felkod: " + android.text.TextUtils.join(", ", dtcs);
+        String dt = dtcs.length == 0 ? "" : S.d("⚠ Felkod: ") + android.text.TextUtils.join(", ", dtcs);
         for (TextView t : dtcViews) { t.setText(dt); t.setVisibility(dt.isEmpty() ? View.GONE : View.VISIBLE); }
     }
 
@@ -521,7 +523,7 @@ public final class HomeActivity extends Activity implements ObdClient.Listener {
     @Override
     public void onStatus(String text, boolean connected) {
         MAIN.post(() -> {
-            obdStatus = connected ? "● OBD ansluten" : text;
+            obdStatus = connected ? S.d("● OBD ansluten") : text;
             if (!connected) { speed = -1; rpm = -1; coolant = Integer.MIN_VALUE; fuel = -1; }
             updateValues();
         });

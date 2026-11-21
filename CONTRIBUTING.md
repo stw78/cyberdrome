@@ -22,8 +22,16 @@ Tack för att du vill hjälpa till! / Thank you for helping!
    bekräftelse per skrivning) får inte försvagas.
 6. **Bilmodeller.** Nya inbyggda bilmodeller ska ha påhittade värden. Signaler från OBDb hämtas vid körning och läggs
    inte i repot (CC BY-SA 4.0).
-7. **Språk.** Användargränssnittet ska bli flerspråkigt (svenska och engelska). Ny text ska läggas i resursfilerna när de
-   finns, inte hårdkodas.
+7. **Språk.** Alla texter som användaren ser finns i `src/Cyberdrome.Localization/Strings.resx` (engelska, reserv) och
+   `Strings.sv.resx` (svenska). I koden: `L.T("Nyckel")` eller `L.F("Nyckel", värde)`; i XAML: `{l:T Nyckel}`.
+   Skriv aldrig text direkt i koden – testerna (`LocalizationTests`) stoppar svenska texter och hårdkodade texter i
+   gränssnittet. Android-apparna har sina texter i `android/*/res/values/strings.xml` och `values-sv/strings.xml`.
+   **Lägga till ett språk** (t.ex. tyska):
+   1. Kopiera `Strings.resx` till `Strings.de.resx` och översätt värdena (behåll nycklar och `{0}`-platser).
+   2. Lägg till filen i `Cyberdrome.Localization.csproj` (som `Strings.sv.resx`) och språket i `L.Languages`
+      (`["de"] = "Deutsch"`).
+   3. För Android-apparna: kopiera `res/values-sv` till `res/values-de` och översätt.
+   4. Kör `dotnet test` – testet kontrollerar att alla nycklar och platser finns i det nya språket.
 8. **PowerShell-skript** sparas som UTF-8 med BOM (Windows PowerShell 5.1 läser annars å/ä/ö fel).
 
 ## English
@@ -43,6 +51,14 @@ Tack för att du vill hjälpa till! / Thank you for helping!
    write, voltage check and confirmation of every write.
 6. **Car models.** Built-in car models use made-up values. OBDb signals are downloaded at runtime and are not stored
    in the repo (CC BY-SA 4.0).
-7. **Languages.** The UI is becoming multilingual (Swedish and English). Put new text in the resource files once they
-   exist, instead of hard-coding it.
+7. **Languages.** All user-visible text is in `src/Cyberdrome.Localization/Strings.resx` (English, fallback) and
+   `Strings.sv.resx` (Swedish). In code: `L.T("Key")` or `L.F("Key", value)`; in XAML: `{l:T Key}`. Never
+   hard-code text; the tests (`LocalizationTests`) fail on Swedish literals and hard-coded UI text. The Android apps
+   keep their texts in `android/*/res/values/strings.xml` and `values-sv/strings.xml`.
+   **Adding a language** (e.g. German):
+   1. Copy `Strings.resx` to `Strings.de.resx` and translate the values (keep the keys and the `{0}` placeholders).
+   2. Add the file to `Cyberdrome.Localization.csproj` (like `Strings.sv.resx`) and the language to `L.Languages`
+      (`["de"] = "Deutsch"`).
+   3. For the Android apps: copy `res/values-sv` to `res/values-de` and translate.
+   4. Run `dotnet test` – the test checks that every key and placeholder exists in the new language.
 8. **PowerShell scripts** are saved as UTF-8 with BOM (Windows PowerShell 5.1 otherwise misreads non-ASCII text).

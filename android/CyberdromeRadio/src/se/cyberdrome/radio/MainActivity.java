@@ -37,6 +37,7 @@ public final class MainActivity extends Activity implements RadioEngine.Listener
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
+        S.init(this);
         engine = RadioEngine.get(this);
         startService(new Intent(this, RadioService.class));
         setContentView(build());
@@ -63,7 +64,7 @@ public final class MainActivity extends Activity implements RadioEngine.Listener
 
     private TextView text(String s, int sp, int color, boolean bold) {
         TextView t = new TextView(this);
-        t.setText(s);
+        t.setText(S.d(s));
         t.setTextSize(sp);
         t.setTextColor(color);
         if (bold) t.setTypeface(Typeface.DEFAULT_BOLD);
@@ -72,7 +73,7 @@ public final class MainActivity extends Activity implements RadioEngine.Listener
 
     private Button button(String s, View.OnClickListener click) {
         Button b = new Button(this);
-        b.setText(s);
+        b.setText(S.d(s));
         b.setAllCaps(false);
         b.setTextSize(18);
         b.setTextColor(TEXT);
@@ -157,7 +158,7 @@ public final class MainActivity extends Activity implements RadioEngine.Listener
         galaRow.setOrientation(LinearLayout.HORIZONTAL);
         galaRow.setGravity(Gravity.CENTER_VERTICAL);
         galaSwitch = new Switch(this);
-        galaSwitch.setText("Volym efter fart");
+        galaSwitch.setText(S.d("Volym efter fart"));
         galaSwitch.setTextColor(TEXT);
         galaSwitch.setTextSize(16);
         galaSwitch.setOnCheckedChangeListener((b, on) -> { if (on != engine.galaEnabled()) engine.setGalaEnabled(on); });
@@ -196,15 +197,15 @@ public final class MainActivity extends Activity implements RadioEngine.Listener
         Station s = engine.station();
         title.setText(s.name);
         freq.setText(s.frequency);
-        state.setText(engine.isPlaying() ? "Spelar" : "Pausad");
-        playButton.setText(engine.isPlaying() ? "⏸  Pausa" : "▶  Spela");
+        state.setText(S.d(engine.isPlaying() ? "Spelar" : "Pausad"));
+        playButton.setText(S.d(engine.isPlaying() ? "⏸  Pausa" : "▶  Spela"));
         for (int i = 0; i < stationButtons.length; i++)
             stationButtons[i].setBackground(box(i == engine.index() ? ACCENT : CARD, 12));
 
         speed.setText(engine.speed() < 0 ? "– km/h" : engine.speed() + " km/h");
         rpm.setText(engine.rpm() < 0 ? "– rpm" : engine.rpm() + " rpm");
-        obdStatus.setText(engine.obdStatus());
+        obdStatus.setText(S.d(engine.obdStatus()));
         if (galaSwitch.isChecked() != engine.galaEnabled()) galaSwitch.setChecked(engine.galaEnabled());
-        gala.setText(engine.galaEnabled() ? "Volym efter fart: +" + engine.galaSteps() : "Volym efter fart: av");
+        gala.setText(engine.galaEnabled() ? S.f(R.string.gala_on, engine.galaSteps()) : S.d("Volym efter fart: av"));
     }
 }

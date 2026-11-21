@@ -61,7 +61,7 @@ final class ObdClient {
     private void loop() {
         while (running) {
             try (Socket s = new Socket()) {
-                listener.onStatus("Ansluter till " + address() + " …", false);
+                listener.onStatus(S.f(R.string.connecting_to, address()), false);
                 s.connect(new InetSocketAddress(host, port), 3000);
                 s.setSoTimeout(3000);
                 socket = s;
@@ -73,7 +73,7 @@ final class ObdClient {
                 command(in, out, "ATE0");
                 command(in, out, "ATH0");
                 command(in, out, "ATS1");
-                listener.onStatus("Ansluten till " + address(), true);
+                listener.onStatus(S.f(R.string.connected_to, address()), true);
 
                 int loops = 0;
                 while (running) {
@@ -88,11 +88,11 @@ final class ObdClient {
             } catch (Exception e) {
                 socket = null;
                 if (!running) break;
-                listener.onStatus("Ingen OBD-anslutning (" + address() + ") – försöker igen …", false);
+                listener.onStatus(S.f(R.string.no_obd_retry, address()), false);
                 try { Thread.sleep(2000); } catch (InterruptedException ignored) { }
             }
         }
-        listener.onStatus("OBD avstängd", false);
+        listener.onStatus(S.d("OBD avstängd"), false);
     }
 
     /** Skickar ett kommando och läser svaret fram till prompten '>'. */

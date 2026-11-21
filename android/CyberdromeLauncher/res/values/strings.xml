@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <string name="navigation">Navigation</string>
+    <string name="media">Media</string>
+    <string name="phone">Phone</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="apps">Apps</string>
+    <string name="open_map">Open the map</string>
+    <string name="no_phone">No phone connected</string>
+    <string name="all_apps">All apps</string>
+    <string name="map_nav">Map and navigation</string>
+    <string name="vehicle_status">Vehicle status</string>
+    <string name="tap_open_map">Tap to open the map</string>
+    <string name="recent_app">Recent app</string>
+    <string name="open_nav">Open navigation</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="audio">Audio</string>
+    <string name="climate">Climate</string>
+    <string name="car">Car</string>
+    <string name="settings_short">Settings</string>
+    <string name="coolant_none">Coolant –</string>
+    <string name="fuel_none">Fuel –</string>
+    <string name="vehicle_obd">Vehicle (OBD)</string>
+    <string name="close">Close</string>
+    <string name="no_map_app">No map app installed – install Organic Maps from Cyberdrome.</string>
+    <string name="radio_missing">Cyberdrome Radio is not installed.</string>
+    <string name="dtc_prefix">⚠ Trouble code: </string>
+    <string name="obd_connected">● OBD connected</string>
+    <string name="obd_connecting">OBD connecting …</string>
+    <string name="obd_off">OBD turned off</string>
+    <string name="coolant_value" formatted="true">Coolant %1$d °C</string>
+    <string name="fuel_value" formatted="true">Fuel %1$d %%</string>
+    <string name="vehicle_text" formatted="true">Speed: %1$s\nEngine speed: %2$s\nCoolant: %3$s\nFuel: %4$s</string>
+    <string name="connecting_to" formatted="true">Connecting to %1$s …</string>
+    <string name="connected_to" formatted="true">Connected to %1$s</string>
+    <string name="no_obd_retry" formatted="true">No OBD connection (%1$s) – retrying …</string>
+</resources>

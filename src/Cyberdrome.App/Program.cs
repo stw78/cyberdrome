@@ -15,9 +15,10 @@ internal static class Program
         // Velopack måste köras först: hanterar installation, uppdatering och avinstallation (och avslutar då direkt).
         // Språket väljs först, så att även avinstallationens frågor visas på rätt språk.
         L.SetLanguage(AppSettings.Load().Language);
-        VelopackApp.Build()
-            .OnBeforeUninstallFastCallback(_ => AskRemoveUserData())
-            .Run();
+        var velopack = VelopackApp.Build();
+        // Frågan om att ta bort egna data vid avinstallation finns bara på Windows (Linux: AppImage tas bort som en fil).
+        if (OperatingSystem.IsWindows()) velopack = velopack.OnBeforeUninstallFastCallback(_ => AskRemoveUserData());
+        velopack.Run();
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 

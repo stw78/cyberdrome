@@ -85,7 +85,7 @@ public sealed class VmSettings
     // ================= Läge "Utan omstart": Android-emulatorn =================
 
     /// <summary>Var Android SDK (emulator, sdkmanager, adb, Java) finns.</summary>
-    public string SdkRoot { get; set; } = @"C:\CyberdromeSDK";
+    public string SdkRoot { get; set; } = Platform.DefaultSdkRoot;
 
     /// <summary>Vilken Android Automotive-avbild som laddas ner (sdkmanager-paket).</summary>
     public string SystemImage { get; set; } = "system-images;android-34-ext9;android-automotive;x86_64";
@@ -141,10 +141,10 @@ public sealed class VmSettings
     /// <summary>Hur länge vi väntar på att Android ska starta klart.</summary>
     public int BootTimeoutSeconds { get; set; } = 300;
 
-    [JsonIgnore] public string EmulatorExe => Path.Combine(SdkRoot, "emulator", "emulator.exe");
-    [JsonIgnore] public string AdbExe => Path.Combine(SdkRoot, "platform-tools", "adb.exe");
-    [JsonIgnore] public string SdkManager => Path.Combine(SdkRoot, "cmdline-tools", "latest", "bin", "sdkmanager.bat");
-    [JsonIgnore] public string AvdManager => Path.Combine(SdkRoot, "cmdline-tools", "latest", "bin", "avdmanager.bat");
+    [JsonIgnore] public string EmulatorExe => Path.Combine(SdkRoot, "emulator", Platform.Exe("emulator"));
+    [JsonIgnore] public string AdbExe => Path.Combine(SdkRoot, "platform-tools", Platform.Exe("adb"));
+    [JsonIgnore] public string SdkManager => Path.Combine(SdkRoot, "cmdline-tools", "latest", "bin", Platform.Script("sdkmanager"));
+    [JsonIgnore] public string AvdManager => Path.Combine(SdkRoot, "cmdline-tools", "latest", "bin", Platform.Script("avdmanager"));
 
     /// <summary>Mappen där avbilden hamnar, t.ex. system-images\android-34-ext9\android-automotive\x86_64.</summary>
     [JsonIgnore] public string SystemImageDir => Path.Combine([SdkRoot, .. SystemImage.Split(';')]);
@@ -161,8 +161,8 @@ public sealed class VmSettings
         {
             var jdk = Path.Combine(SdkRoot, "jdk");
             if (!Directory.Exists(jdk)) return null;
-            if (File.Exists(Path.Combine(jdk, "bin", "java.exe"))) return jdk;
-            return Directory.GetDirectories(jdk).FirstOrDefault(d => File.Exists(Path.Combine(d, "bin", "java.exe")));
+            if (File.Exists(Path.Combine(jdk, "bin", Platform.Exe("java")))) return jdk;
+            return Directory.GetDirectories(jdk).FirstOrDefault(d => File.Exists(Path.Combine(d, "bin", Platform.Exe("java"))));
         }
     }
 

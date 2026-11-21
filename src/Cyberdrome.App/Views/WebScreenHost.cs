@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 Jouko Broström
+#if WINDOWS
 
 using Avalonia;
 using Avalonia.Controls;
@@ -153,3 +154,30 @@ public sealed class WebScreenHost : NativeControlHost
         _controller.IsVisible = Bounds.Width > 1 && Bounds.Height > 1;
     }
 }
+#else
+using Avalonia;
+using Avalonia.Controls;
+
+namespace Cyberdrome.App.Views;
+
+/// <summary>
+/// Linux: ingen WebView2. Kontrollen finns för att gränssnittet ska vara likadant, men visar inget och säger direkt
+/// att den inte kan användas – då visas skärmdumpar i stället.
+/// </summary>
+public sealed class WebScreenHost : Control
+{
+    public static readonly StyledProperty<string?> UrlProperty = AvaloniaProperty.Register<WebScreenHost, string?>(nameof(Url));
+    public string? Url { get => GetValue(UrlProperty); set => SetValue(UrlProperty, value); }
+    public event Action<string>? Failed;
+#pragma warning disable CS0067 // händelserna används bara i Windows-versionen
+    public event Action<double>? Fps;
+    public event Action<int>? KeyRequested;
+#pragma warning restore CS0067
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == UrlProperty && Url is not null) Failed?.Invoke("WebView2 is only available on Windows");
+    }
+}
+#endif

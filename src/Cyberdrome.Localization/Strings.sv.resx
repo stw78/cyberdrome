@@ -647,7 +647,7 @@ Ignorerat (stöds inte av simulatorn): </value>
     <value>Android SDK (sdkmanager och Java) hittades inte i {0}. Ändra SdkRoot i {1}.</value>
   </data>
   <data name="EmulatorVm_AndroidSDKWasNotFoundIn" xml:space="preserve">
-    <value>Android SDK hittades inte i {0}.</value>
+    <value>Androids verktyg (sdkmanager och Java) är inte installerade än i {0}. Tryck Installera Android så hämtas de (cirka 350 MB).</value>
   </data>
   <data name="EmulatorVm_CouldNotChangeTheScreenSize" xml:space="preserve">
     <value>Kunde inte byta skärmstorlek.</value>
@@ -3083,5 +3083,23 @@ Vill du även ta bort mina data?
   </data>
   <data name="Ui_HomeTip" xml:space="preserve">
     <value>Hem (mittenklick på skärmen)</value>
+  </data>
+  <data name="Sdk_ConfirmDownload0" xml:space="preserve">
+    <value>För att installera Android hämtar programmet Googles Android-kommandoradsverktyg och Java 17 (Eclipse Temurin), cirka 350 MB, till {0}. Sedan hämtas emulatorn och Android Automotive (flera GB). Genom att fortsätta godkänner du licensvillkoren för Android SDK (developer.android.com/studio/terms). Inget installeras någon annanstans på datorn.</value>
+  </data>
+  <data name="Sdk_DownloadingCmdlineTools0" xml:space="preserve">
+    <value>Hämtar Androids kommandoradsverktyg: {0}</value>
+  </data>
+  <data name="Sdk_DownloadingTools0" xml:space="preserve">
+    <value>Hämtar Androids verktyg … {0} %</value>
+  </data>
+  <data name="Sdk_DownloadingJava0" xml:space="preserve">
+    <value>Hämtar Java 17: {0}</value>
+  </data>
+  <data name="Sdk_DownloadingJava" xml:space="preserve">
+    <value>Hämtar Java … {0} %</value>
+  </data>
+  <data name="EmulatorVm_NoKvmLinux" xml:space="preserve">
+    <value>Hårdvaruvirtualisering (KVM) kan inte användas. Kontrollera att virtualisering är på i BIOS/UEFI, att /dev/kvm finns och att din användare är med i gruppen kvm: sudo usermod -aG kvm $USER (logga sedan ut och in).</value>
   </data>
 </root>

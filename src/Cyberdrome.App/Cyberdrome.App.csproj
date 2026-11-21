@@ -2,8 +2,10 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <!-- På Windows används Windows egna Bluetooth-API (WinRT) för den virtuella Bluetooth OBD-dongeln. -->
-    <TargetFramework Condition="$([MSBuild]::IsOSPlatform('Windows'))">net10.0-windows10.0.19041.0</TargetFramework>
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::IsOSPlatform('Windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+    <!-- Linux-bygge: dotnet publish -r linux-x64 (eller bygge på Linux) ger net10.0 utan Windows-delarna. -->
+    <CyberdromeWindows Condition="$([MSBuild]::IsOSPlatform('Windows')) And !$(RuntimeIdentifier.StartsWith('linux'))">true</CyberdromeWindows>
+    <TargetFramework Condition="'$(CyberdromeWindows)' == 'true'">net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion Condition="'$(CyberdromeWindows)' == 'true'">10.0.17763.0</SupportedOSPlatformVersion>
     <AssemblyName>Cyberdrome</AssemblyName>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -19,7 +21,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Velopack" Version="1.2.161" />
     <!-- WSL2 + Cuttlefish: Androids WebRTC-ström visas i en inbäddad WebView2 (Edge, finns i Windows 10/11). -->
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3485.44" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3485.44" Condition="'$(CyberdromeWindows)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cyberdrome.Core\Cyberdrome.Core.csproj" />

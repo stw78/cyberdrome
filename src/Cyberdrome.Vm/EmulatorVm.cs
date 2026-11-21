@@ -54,7 +54,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
 
     public async Task<AndroidState> GetStateAsync(CancellationToken ct = default)
     {
-        if (!OperatingSystem.IsWindows()) return AndroidState.NotWindows;
+        if (!Platform.IsWindows && !Platform.IsLinux) return AndroidState.NotWindows; // Windows och Linux stöds
         if (!File.Exists(Settings.SdkManager) || Settings.JavaHome is null) return AndroidState.SdkMissing;
         if (!File.Exists(Settings.EmulatorExe) || !File.Exists(Settings.AdbExe)) return AndroidState.ToolsMissing;
         if (!_accelOk)
@@ -82,12 +82,23 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
 
         if (state == AndroidState.SdkMissing)
         {
-            log(L.F("EmulatorVm_AndroidSDKSdkmanagerAndJavaWas", Settings.SdkRoot, VmSettings.FilePath));
-            return state;
+            // Hämta Androids kommandoradsverktyg och Java (efter att användaren godkänt Googles SDK-licens).
+            if (confirm is not null && !await confirm(L.F("Sdk_ConfirmDownload0", Settings.SdkRoot)))
+            {
+                log(L.T("AndroidVm_CancelledNothingWasChanged"));
+                return state;
+            }
+            try
+            {
+                var ok = await SdkBootstrap.EnsureAsync(Settings, log, (p, t) => Report(p * PctToolsEnd / 100, t), ct);
+                if (!ok) { log(L.F("EmulatorVm_AndroidSDKSdkmanagerAndJavaWas", Settings.SdkRoot, VmSettings.FilePath)); return state; }
+            }
+            catch (Exception ex) { log(L.T("Main_ErrorPrefix") + ex.Message); Report(0, L.T("Main_ErrorPrefix") + ex.Message); return state; }
+            state = await GetStateAsync(ct);
         }
         if (state == AndroidState.NoAcceleration)
         {
-            log(L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed"));
+            log(Platform.IsLinux ? L.T("EmulatorVm_NoKvmLinux") : L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed"));
             return state;
         }
 
@@ -609,7 +620,7 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScree
         AndroidState.NotWindows => L.T("AndroidVm_TheAndroidPartOnlyWorksOn"),
         AndroidState.SdkMissing => L.F("EmulatorVm_AndroidSDKWasNotFoundIn", Settings.SdkRoot),
         AndroidState.ToolsMissing => L.T("EmulatorVm_TheEmulatorIsNotInstalledPress"),
-        AndroidState.NoAcceleration => L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed2"),
+        AndroidState.NoAcceleration => Platform.IsLinux ? L.T("EmulatorVm_NoKvmLinux") : L.T("EmulatorVm_WindowsHypervisorPlatformCannotBeUsed2"),
         AndroidState.ImageMissing => L.T("EmulatorVm_AndroidIsNotDownloadedYetPress"),
         AndroidState.AvdMissing => L.T("EmulatorVm_AndroidIsDownloadedButTheVirtual"),
         AndroidState.Stopped => L.T("AndroidVm_AndroidIsInstalledAndStopped"),

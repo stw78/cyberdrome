@@ -86,6 +86,9 @@ public sealed class EmulatorGrpc : IDisposable
         var local = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
         yield return Path.Combine(local, "Temp", "avd", "running");
         yield return Path.Combine(Path.GetTempPath(), "avd", "running");
+        // Linux: $XDG_RUNTIME_DIR/avd/running, annars /tmp/android-<användare>/avd/running.
+        if (System.Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR") is { Length: > 0 } xdg) yield return Path.Combine(xdg, "avd", "running");
+        yield return Path.Combine("/tmp", "android-" + System.Environment.UserName, "avd", "running");
     }
 
     /// <summary>Läser grpc.port, grpc.token och cmdline ur en upptäcktsfil.</summary>

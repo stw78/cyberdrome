@@ -758,6 +758,19 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Hämtar skärmbilder i en slinga (ca 4–6 bilder/s) och visar dem.</summary>
     private async Task ScreenLoopAsync(IScreenControl screen, CancellationToken ct)
     {
+        // Bäst: en kontinuerlig bildström (emulatorns gRPC, ~60 bilder/s). Annars skärmdumpar som förut.
+        if (screen is IScreenStream stream)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                LiveScreen = true;
+                bool ok = await stream.StreamScreenAsync(OnRawFrame, ct);
+                LiveScreen = false;
+                if (!ok || ct.IsCancellationRequested) break;
+                try { await Task.Delay(1000, ct); } catch { return; } // strömmen bröts (Android startades om) – försök igen
+            }
+            if (ct.IsCancellationRequested) return;
+        }
         int failures = 0;
         while (!ct.IsCancellationRequested)
         {

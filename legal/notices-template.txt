@@ -11,6 +11,7 @@ Typsnittet Inter (via Avalonia.Fonts.Inter) – SIL Open Font License 1.1, © Th
 Skia och HarfBuzz (i SkiaSharp och HarfBuzzSharp) – BSD-3-Clause respektive MIT ("Old MIT"), © Google och HarfBuzz-författarna.
 ANGLE (Avalonia.Angle.Windows.Natives) – BSD-3-Clause, © The ANGLE Project Authors.
 SQLite – public domain (https://sqlite.org/copyright.html).
+emulator_controller.proto (Android-emulatorns gRPC-gränssnitt, src/Cyberdrome.Vm/Protos) – Apache License 2.0, © The Android Open Source Project.
 Lucide-ikoner (linjeikonerna i programmet, omgjorda till geometrier av tools/lucide-to-axaml.pl) – ISC, © Lucide Contributors (delar © Cole Bemis, Feather, MIT). https://lucide.dev
 
 == Datakällor (hämtas av användaren när programmet körs – följer inte med installationen) ==

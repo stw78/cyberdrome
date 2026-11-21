@@ -246,3 +246,35 @@ public class PerformanceTests
         Assert.False(await EmulatorConsole.ReadReplyAsync(new StringReader("KO: unknown command\n"), default));
     }
 }
+
+/// <summary>Bildström och pekare via emulatorns gRPC-API.</summary>
+public class StreamTests
+{
+    [Fact]
+    public void DiscoveryFileIsParsed()
+    {
+        var ini = "port.serial=5554\r\nport.adb=5555\r\ncmdline=\"C:\\emu\\qemu.exe\" \"-avd\" \"Cyberdrome_Automotive_Google\" \"-grpc\" \"8554\"\r\ngrpc.token=abc123\r\ngrpc.port=8554\r\n";
+        var (port, token, cmd) = EmulatorGrpc.ParseDiscovery(ini);
+        Assert.Equal(8554, port);
+        Assert.Equal("abc123", token);
+        Assert.Contains("\"Cyberdrome_Automotive_Google\"", cmd);
+        Assert.Null(EmulatorGrpc.ParseDiscovery("port.serial=5554").Port);
+        Assert.Null(EmulatorGrpc.Discover("Finns_Inte_" + Guid.NewGuid()));
+    }
+
+    [Fact]
+    public void EmulatorStartsWithProtectedGrpc()
+    {
+        var args = new EmulatorVm(new VmSettings { EmulatorGrpcPort = 8600 }).EmulatorArgs("host");
+        Assert.Equal("8600", args[Array.IndexOf(args, "-grpc") + 1]);
+        Assert.Contains("-grpc-use-token", args); // ingen oskyddad port på nätverket
+    }
+
+    [Fact]
+    public async Task NoStreamWithoutAnEmulator()
+    {
+        var vm = new EmulatorVm(new VmSettings { AvdName = "Finns_Inte_" + Guid.NewGuid() });
+        Assert.False(await vm.StreamScreenAsync(_ => { }, default)); // då används skärmdumpar som förut
+        Assert.False(await vm.PointerAsync(1, 1, true));
+    }
+}

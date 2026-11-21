@@ -3066,4 +3066,7 @@ Vill du även ta bort mina data?
   <data name="EmulatorVm_StartDetails012" xml:space="preserve">
     <value>(grafik {0}, {1} kärnor, {2} MB)</value>
   </data>
+  <data name="Screen_Fps0" xml:space="preserve">
+    <value>{0} bilder/s (direkt)</value>
+  </data>
 </root>

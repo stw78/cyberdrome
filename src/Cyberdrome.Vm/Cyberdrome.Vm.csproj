@@ -5,4 +5,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Cyberdrome.Localization\Cyberdrome.Localization.csproj" />
   </ItemGroup>
+  <!-- Emulatorns gRPC-API (bildström ~60 bilder/s och direkt pekinmatning). Protot kommer från Android-emulatorn (Apache-2.0). -->
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.31.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.72.0" PrivateAssets="All" />
+    <Protobuf Include="Protos\emulator_controller.proto" GrpcServices="Client" />
+  </ItemGroup>
 </Project>

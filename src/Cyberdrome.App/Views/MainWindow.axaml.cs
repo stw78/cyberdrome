@@ -18,6 +18,8 @@ public partial class MainWindow : Window
         InitializeComponent();
         Map.MapClicked += p => (DataContext as MainViewModel)?.MapClick(p);
         SkinFrame.ButtonPressed += b => _ = (DataContext as MainViewModel)?.SkinButtonAsync(b);
+        // Bildströmmen skriver ny bild i samma bitmapp: rita bara om Android-bilden, inget annat i fönstret.
+        DataContextChanged += (_, _) => { if (DataContext is MainViewModel m) m.FrameUpdated += () => AndroidScreen.InvalidateVisual(); };
         Opened += OnOpenedCheckEula;
         DataContextChanged += (_, _) =>
         {
@@ -245,11 +247,25 @@ public partial class MainWindow : Window
         return ScreenMapping.ToDevice(p.X, p.Y, size.Width, size.Height, bmp.PixelSize.Width, bmp.PixelSize.Height);
     }
 
-    private void ScreenPointerPressed(object? sender, PointerPressedEventArgs e)
+    private bool _livePress;
+    private (int X, int Y)? _lastLive;
+
+    private async void ScreenPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _pressAt = ToDevice(e.GetPosition(AndroidScreen));
         _pressTime = DateTime.UtcNow;
         e.Pointer.Capture(AndroidScreen);
+        // Direkt pekare (bildström): tryck, dra och släpp skickas i realtid, som på en riktig pekskärm.
+        _livePress = _pressAt is { } p && DataContext is MainViewModel vm && await vm.LivePointerAsync(p.X, p.Y, down: true);
+        _lastLive = _livePress ? _pressAt : null;
+    }
+
+    private async void ScreenPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (!_livePress || DataContext is not MainViewModel vm) return;
+        if (ToDevice(e.GetPosition(AndroidScreen)) is not { } p || p == _lastLive) return;
+        _lastLive = p;
+        await vm.LivePointerAsync(p.X, p.Y, down: true);
     }
 
     private async void ScreenPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -257,7 +273,13 @@ public partial class MainWindow : Window
         e.Pointer.Capture(null);
         if (_pressAt is not { } start || DataContext is not MainViewModel vm) return;
         _pressAt = null;
-        var end = ToDevice(e.GetPosition(AndroidScreen)) ?? start;
+        var end = ToDevice(e.GetPosition(AndroidScreen)) ?? _lastLive ?? start;
+        if (_livePress)
+        {
+            _livePress = false;
+            await vm.LivePointerAsync(end.X, end.Y, down: false);
+            return;
+        }
         await vm.ScreenPointerAsync(start.X, start.Y, end.X, end.Y, DateTime.UtcNow - _pressTime);
     }
 

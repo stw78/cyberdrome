@@ -248,6 +248,7 @@
                   </Border>
                 </WrapPanel>
                 <TextBlock Classes="small" Text="{Binding ScreenshotStatus}" IsVisible="{Binding CanControlScreen}" />
+                <TextBlock Classes="small" Text="{Binding ScreenFpsText}" IsVisible="{Binding LiveScreen}" />
                 <Border Classes="note" IsVisible="{Binding TestAppHelpVisible}">
                   <TextBlock Text="{Binding TestAppHelp}" TextWrapping="Wrap" FontSize="12" />
                 </Border>
@@ -260,7 +261,8 @@
                   <Grid>
                     <Image x:Name="AndroidScreen" Source="{Binding ScreenFrame}" Stretch="Uniform" Cursor="Hand"
                            IsVisible="{Binding HasScreenFrame}"
-                           PointerPressed="ScreenPointerPressed" PointerReleased="ScreenPointerReleased" />
+                           PointerPressed="ScreenPointerPressed" PointerMoved="ScreenPointerMoved" PointerReleased="ScreenPointerReleased"
+                           RenderOptions.BitmapInterpolationMode="MediumQuality" />
                     <Border Background="#F5F6F8" IsVisible="{Binding ShowScreenPlaceholder}">
                       <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="460" Margin="18,14">

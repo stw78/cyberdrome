@@ -12,7 +12,7 @@ namespace Cyberdrome.Vm;
 /// Använder Windows Hypervisor Platform (WHPX) som redan finns, så ingen omstart behövs.
 /// OBS: Googles emulatoravbilder får inte följa med i den sålda produkten – bara för utveckling.
 /// </summary>
-public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
+public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl, IScreenStream
 {
     private bool _accelOk;
     private string? _serial;     // t.ex. emulator-5554, sparas mellan anropen
@@ -239,7 +239,40 @@ public sealed partial class EmulatorVm : IAndroidBackend, IScreenControl
     /// <summary>Argument till emulatorn (utan -no-window).</summary>
     public string[] EmulatorArgs(string gpu) =>
         ["-avd", AvdName, "-gpu", gpu, "-memory", Settings.EmulatorMemoryMb.ToString(),
-         "-cores", Settings.Cpus.ToString(), "-no-boot-anim", "-no-audio", "-netdelay", "none", "-netspeed", "full"];
+         "-cores", Settings.Cpus.ToString(), "-no-boot-anim", "-no-audio", "-netdelay", "none", "-netspeed", "full",
+         // gRPC med nyckel: bildström och tryck direkt till emulatorn (nyckeln skyddar porten mot andra på nätverket).
+         "-grpc", Settings.EmulatorGrpcPort.ToString(), "-grpc-use-token"];
+
+    // ---------------- Bildström och pekare via gRPC ----------------
+
+    private EmulatorGrpc? _grpc;
+
+    public async Task<bool> StreamScreenAsync(Action<RawFrame> onFrame, CancellationToken ct)
+    {
+        if (EmulatorGrpc.Discover(AvdName) is not { } ep) return false;
+        _grpc?.Dispose();
+        var g = new EmulatorGrpc(ep.Port, ep.Token);
+        _grpc = g;
+        try { await g.StreamAsync(onFrame, ct); return true; }
+        catch (OperationCanceledException) { return true; }
+        catch (Grpc.Core.RpcException ex) when (ex.StatusCode == Grpc.Core.StatusCode.Cancelled) { return true; }
+        catch { if (_grpc == g) _grpc = null; g.Dispose(); return false; }
+    }
+
+    private readonly SemaphoreSlim _pointerOrder = new(1, 1);
+    private string? _lastPointerError;
+
+    /// <summary>Senaste felet från pekaren via gRPC (för felsökning och tester).</summary>
+    public string? LastPointerError => _lastPointerError;
+
+    public async Task<bool> PointerAsync(int x, int y, bool down, CancellationToken ct = default)
+    {
+        if (_grpc is not { } g) return false;
+        await _pointerOrder.WaitAsync(ct); // ned, flytta och upp måste komma fram i rätt ordning
+        try { await g.MouseAsync(x, y, down, ct); return true; }
+        catch (Exception ex) { _lastPointerError = ex.Message; return false; }
+        finally { _pointerOrder.Release(); }
+    }
 
     private async Task<ProcessResult> LaunchAsync(string gpu, Action<string> log, Action<double?, string, bool> Report, CancellationToken ct)
     {

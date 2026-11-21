@@ -98,6 +98,9 @@ public sealed class VmSettings
 
     public int EmulatorMemoryMb { get; set; } = 4096;
 
+    /// <summary>Port för emulatorns gRPC-API (bildström och tryck). Skyddas med en nyckel som bara finns på datorn.</summary>
+    public int EmulatorGrpcPort { get; set; } = 8554;
+
     // ----- Läge "Android med Google-appar" (Play Store, Google Maps) – bara för utveckling -----
 
     /// <summary>Avbild med Googles appar. Googles licens: bara för utveckling, får inte följa med produkten.</summary>

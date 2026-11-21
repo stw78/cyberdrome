@@ -3066,4 +3066,7 @@ Do you also want to remove my data?
   <data name="EmulatorVm_StartDetails012" xml:space="preserve">
     <value>(graphics {0}, {1} cores, {2} MB)</value>
   </data>
+  <data name="Screen_Fps0" xml:space="preserve">
+    <value>{0} frames/s (live)</value>
+  </data>
 </root>

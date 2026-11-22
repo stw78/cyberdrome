@@ -67,9 +67,8 @@ everything (the program, our own DLLs, Setup.exe and the MSI) with a timestamp. 
 - `certificate`: your own purchased certificate (thumbprint, e.g. on a USB key) or a cloud signing command (`signTemplate`).
 - `azure`: Azure Artifact Signing (`metadata.json`).
 
-The plan for the open-source builds is **SignPath Foundation**, which signs open-source projects for free. It needs a
-public GitHub repository and a build in GitHub Actions. The workflow is in `.github/workflows/build.yml`, with a
-prepared signing step.
+The released builds on GitHub are **not signed yet** (see [Code signing policy](#code-signing-policy)). The workflow in
+`.github/workflows/build.yml` has a prepared, commented-out signing step for when a trusted certificate is available.
 
 **Licences:** the **About** and **Licence** buttons in the top bar show the version, a description, the disclaimer,
 the GPL-3.0 and the third-party licences.
@@ -533,13 +532,17 @@ If Windows **Smart App Control** is on, newly built files are blocked. Turn it o
 
 ## Code signing policy
 
-Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+The Windows builds are **not code-signed** yet. Windows SmartScreen may therefore warn ("Windows protected your PC" /
+"Unknown publisher"); choose **More info → Run anyway**. The Linux AppImage is not signed either (that is normal for
+AppImages).
 
 - Committers and reviewers: [stw78](https://github.com/stw78)
 - Approvers: [stw78](https://github.com/stw78)
 
-Every release is built from this repository by GitHub Actions (`.github/workflows/release.yml`) and each signing request
-is approved by hand. All signed binaries carry the product name "Cyberdrome Cockpit" and the release version.
+Every release is built openly from a tagged commit in this repository by GitHub Actions
+(`.github/workflows/release.yml`); the build log for each release is public under *Actions*. All binaries carry the
+product name "Cyberdrome Cockpit" and the release version. The build script already supports signing (see
+**Code signing** above), and a signing step is prepared in the workflow for when a trusted certificate is available.
 
 ## Privacy policy
 

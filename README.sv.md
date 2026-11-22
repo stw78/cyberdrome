@@ -59,9 +59,8 @@ checkas aldrig in):
 - `certificate`: eget köpt certifikat (tumavtryck, t.ex. på USB-nyckel) eller ett molnsigneringskommando (`signTemplate`).
 - `azure`: Azure Artifact Signing (`metadata.json`).
 
-För den öppna versionen är planen **SignPath Foundation**, som signerar gratis för öppen källkod. Det kräver ett publikt
-GitHub-repo och ett bygge i GitHub Actions; arbetsflödet finns i `.github/workflows/build.yml` med ett förberett
-signeringssteg.
+Versionerna som släpps på GitHub är **inte signerade än** (se [Code signing policy](#code-signing-policy)). Arbetsflödet
+`.github/workflows/build.yml` har ett förberett, utkommenterat signeringssteg för när ett betrott certifikat finns.
 
 **Licenser:** knapparna **Om** och **Licens** i toppfältet visar version, beskrivning, ansvarsfriskrivningen, GPL-3.0 och
 tredjepartslicenserna. Ansvarsfriskrivningen visas också vid första starten.
@@ -439,14 +438,18 @@ Om Windows **Smart App Control** är på blockeras nybyggda filer. Stäng av den
 
 ## Code signing policy
 
-Gratis kodsignering från [SignPath.io](https://about.signpath.io), certifikat från [SignPath Foundation](https://signpath.org).
-(Free code signing provided by SignPath.io, certificate by SignPath Foundation.)
+Windows-versionerna är **inte kodsignerade** än. Windows SmartScreen kan därför varna ("Windows skyddade datorn" /
+"Okänd utgivare"); välj **Mer information → Kör ändå**. Linux-versionen (AppImage) är inte heller signerad (det är
+vanligt för AppImage).
+(The Windows builds are not code-signed yet; SmartScreen may warn – choose More info → Run anyway.)
 
 - Committers och granskare (committers and reviewers): [stw78](https://github.com/stw78)
 - Godkännare (approvers): [stw78](https://github.com/stw78)
 
-Varje release byggs från det här repot av GitHub Actions (`.github/workflows/release.yml`), och varje signering
-godkänns för hand. Alla signerade filer har produktnamnet "Cyberdrome Cockpit" och releasens version.
+Varje release byggs öppet från en taggad commit i det här repot av GitHub Actions (`.github/workflows/release.yml`);
+bygglogg för varje release är publik under *Actions*. Alla filer har produktnamnet "Cyberdrome Cockpit" och releasens
+version. Byggskriptet kan redan signera (se **Kodsignering** ovan), och ett signeringssteg är förberett i arbetsflödet
+för när ett betrott certifikat finns.
 
 ## Integritetspolicy (Privacy policy)
 

@@ -544,6 +544,11 @@ Every release is built openly from a tagged commit in this repository by GitHub 
 product name "Cyberdrome Cockpit" and the release version. The build script already supports signing (see
 **Code signing** above), and a signing step is prepared in the workflow for when a trusted certificate is available.
 
+**Check a download.** Every release after 1.3.0 has a `SHA256SUMS.txt` with the SHA-256 checksum of each file. Compare
+it with the file you downloaded:
+- Windows (PowerShell): `Get-FileHash -Algorithm SHA256 CyberdromeSimulator-win-Setup.exe` in the download folder
+- Linux: `sha256sum -c SHA256SUMS.txt --ignore-missing` in the folder with the downloaded files.
+
 ## Privacy policy
 
 This program will not transfer any information to other networked systems unless specifically requested by the user or

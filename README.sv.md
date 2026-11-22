@@ -451,6 +451,11 @@ bygglogg för varje release är publik under *Actions*. Alla filer har produktna
 version. Byggskriptet kan redan signera (se **Kodsignering** ovan), och ett signeringssteg är förberett i arbetsflödet
 för när ett betrott certifikat finns.
 
+**Kontrollera en nedladdning.** Varje release efter 1.3.0 har filen `SHA256SUMS.txt` med SHA-256-kontrollsumman för
+varje fil. Jämför med filen du laddade ner:
+- Windows (PowerShell): `Get-FileHash -Algorithm SHA256 CyberdromeSimulator-win-Setup.exe` i mappen med nedladdningen
+- Linux: `sha256sum -c SHA256SUMS.txt --ignore-missing` i mappen med de nedladdade filerna.
+
 ## Integritetspolicy (Privacy policy)
 
 Programmet skickar ingen information till andra system i nätverket om inte användaren, eller den som installerar eller

@@ -128,3 +128,16 @@ jobs:
         run: |
           vpk upload github --repoUrl "$REPO_URL" --token "${{ secrets.GITHUB_TOKEN }}" -o out/uppdateringar-linux \
             --channel linux --publish --merge --releaseName "Cyberdrome Cockpit $VERSION" --tag "v$VERSION"
+
+      # SHA-256-kontrollsummor för alla filer i releasen (Windows och Linux), så att den som laddar ner kan kontrollera
+      # filerna: Get-FileHash -Algorithm SHA256 <fil> (Windows) eller sha256sum -c SHA256SUMS.txt --ignore-missing (Linux).
+      - name: SHA256SUMS.txt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p out/sums && cd out/sums
+          gh release download "v$VERSION" --repo "${{ github.repository }}" --pattern '*' --skip-existing
+          rm -f SHA256SUMS.txt
+          sha256sum -- * | sort -k2 > ../SHA256SUMS.txt
+          cat ../SHA256SUMS.txt
+          gh release upload "v$VERSION" ../SHA256SUMS.txt --clobber --repo "${{ github.repository }}"
